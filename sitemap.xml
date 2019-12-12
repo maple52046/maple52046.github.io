@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://maple52046.github.io/all-archives/index.html</loc>
+    
+    <lastmod>2019-12-12T19:26:21.122Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://maple52046.github.io/all-tags/index.html</loc>
+    
+    <lastmod>2019-12-12T19:25:50.161Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://maple52046.github.io/all-categories/index.html</loc>
+    
+    <lastmod>2019-12-12T19:25:21.130Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://maple52046.github.io/2015/03/18/Configure-Open-vSwitch-in-OpenWRT/</loc>
     
     <lastmod>2019-12-12T18:17:56.467Z</lastmod>
@@ -72,14 +93,14 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io/2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/</loc>
+    <loc>https://maple52046.github.io/2015/12/17/Ceph-PG-stuck-stuck-in-degraded-and-undersized/</loc>
     
     <lastmod>2019-12-12T18:17:56.459Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://maple52046.github.io/2015/12/17/Ceph-PG-stuck-stuck-in-degraded-and-undersized/</loc>
+    <loc>https://maple52046.github.io/2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/</loc>
     
     <lastmod>2019-12-12T18:17:56.459Z</lastmod>
     
@@ -107,14 +128,14 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/</loc>
+    <loc>https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/</loc>
     
     <lastmod>2019-12-12T18:17:56.455Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/</loc>
+    <loc>https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/</loc>
     
     <lastmod>2019-12-12T18:17:56.455Z</lastmod>
     
