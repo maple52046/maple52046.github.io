@@ -1,0 +1,737 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="世界的盡頭">
+    <title>IPv6 Neighbour table overflow - 世界的盡頭</title>
+    <meta name="author" content="古振浩 Chen-Hao Ku">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"},"articleBody":"這兩天一直在 syslog 上看到 Neighbour table overflow \n/var/log/syslog12Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressedApr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow\n\n每兩分鐘就出現6~7筆,數量非常的多如果不處理他，放任它繼續增長，過一兩天後系統就會 kernel panic。\n\n\nGoogle 一番之後大概得知，neighbour table 基本上就是 arp table。所以簡單來說就是 arp table 爆了。問題是我已經把 IPv6 都關了，還能衝爆 neighbour table 實在無法理解。\nIncrease the size of neighbour table這大概是搜尋到最多的解法，簡單來說就是直接增加 neighbour table 的大小。\n設定 /etc/sysctl.conf :\n/etc/sysctl.conf123net.ipv6.neigh.default.gc_thresh1 = 4096net.ipv6.neigh.default.gc_thresh2 = 8192net.ipv6.neigh.default.gc_thresh3 = 8192\n\n然後在執行 sysctl -p 讓設定值生效。\n在網路上搜尋到的範例大多都是設定成 512, 1024, 2048。這些設定對我的平台一點效果都沒有，必須要設定到 4096, 8192 才夠用。\nDisable IPv6原本我是在 /etc/sysctl.conf 中加入以下設定來關閉 IPv6：\n/etc/sysctl.conf123net.ipv6.conf.all.disable_ipv6 = 1net.ipv6.conf.default.disable_ipv6 = 1net.ipv6.conf.lo.disable_ipv6 = 1\n\n但是很顯然的，這並沒有真正的關閉 IPv6。到比較像是單純隱藏 IPv6 的感覺。最好的證明就是：\n\nnetstat -tnlup 可以看到部分 service 依然監聽 IPv6\nNeighbour table overflow 的狀況出現\n\n因此我嘗試了一下用 grub 的方式關閉，沒想到效果不錯。\n\n編輯 /etc/default/grub, 並且在 GRUB_CMDLINE_LINUX 的設定中加入 ipv6.disable=1/etc/default/grub1GRUB_CMDLINE_LINUX=\"ipv6.disable=1\"\n更新 grub update-grub\nReboot\n\n設定完之後發現:\n\nnetstat -tnlup 再也看不到有 service listen on IPv6 address\n先前加的 sysctl 參數，不論是 disable IPv6 還是 increase neighbour table size 都直接失效。1234567root@localhost:~ # sysctl -perror: &quot;net.ipv6.conf.all.disable_ipv6&quot; is an unknown keyerror: &quot;net.ipv6.conf.default.disable_ipv6&quot; is an unknown keyerror: &quot;net.ipv6.conf.lo.disable_ipv6&quot; is an unknown keyerror: &quot;net.ipv6.neigh.default.gc_thresh1&quot; is an unknown keyerror: &quot;net.ipv6.neigh.default.gc_thresh2&quot; is an unknown keyerror: &quot;net.ipv6.neigh.default.gc_thresh3&quot; is an unknown key\n即使將 disable_ipv6 都設定為 0 ，也無法啟用 IPv6。\n\n現況與採取方案一開始先採用了第一個方案，但是數值設太小了，沒多久系統又爆出一樣的 error；於是採取的第二個方案，在 grub 的參數上增加 ipv6.disable=1。結果 syslog 終於沒有在看到這個 error，但是 syslog 中出現另外一個錯誤：\n123456Apr 28 06:50:52 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as &#x2F;usr&#x2F;bin&#x2F;ovs-vsctl --timeout&#x3D;2 add-port br-tun gre-10Apr 28 06:50:52 host-42 ovs-vsctl: 00002|vsctl|ERR|cannot create a port named gre-10 because a port named gre-10 already exists on bridge br-tunApr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as &#x2F;usr&#x2F;bin&#x2F;ovs-vsctl --timeout&#x3D;2 set Interface gre-10 type&#x3D;greApr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as &#x2F;usr&#x2F;bin&#x2F;ovs-vsctl --timeout&#x3D;2 set Interface gre-10 options:remote_ip&#x3D;192.168.91.93Apr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as &#x2F;usr&#x2F;bin&#x2F;ovs-vsctl --timeout&#x3D;2 set Interface gre-10 options:in_key&#x3D;flowApr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as &#x2F;usr&#x2F;bin&#x2F;ovs-vsctl --timeout&#x3D;2 set Interface gre-10 options:out_key&#x3D;flow\n\n這個問題很久以前就看過，但是以前都不影響 OpenStack 的運作；而這次 syslog 中每一秒都出現這個 error，OpenStack virtual network 也跟著一起掛了。嘗試將 IPv6 打開，這個 error 就消除了。這讓我感到非常莫名其妙，目前也還不太清楚發生的原因。\n最後還是回到第一個方案，並起將參數調大至 4096 與 8192，最後才讓系統恢復正常運作。但我心中認為這是個治標不治本的方案。看來只能多花點時間研究一下 IPv6 的機制了。\nReference\nNeighbour table overflow – debug – IPv4 and IPv6\nneighbour table overflow 问题解决(Important)\n\n","dateCreated":"2015-05-01T12:07:00+08:00","dateModified":"2019-12-13T02:17:56+08:00","datePublished":"2015-05-01T12:07:00+08:00","description":"這兩天一直在 syslog 上看到 Neighbour table overflow \n/var/log/syslog12Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressedApr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow\n\n每兩分鐘就出現6~7筆,數量非常的多如果不處理他，放任它繼續增長，過一兩天後系統就會 kernel panic。","headline":"IPv6 Neighbour table overflow","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/"},"publisher":{"@type":"Organization","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"}},"url":"https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/","keywords":"Ubuntu, IPv6, Grub, OpenStack"}</script>
+    <meta name="description" content="這兩天一直在 syslog 上看到 Neighbour table overflow  &#x2F;var&#x2F;log&#x2F;syslog12Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressedApr 30 06:27:03 host-42 kernel: [72924.290269] IPv6:">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="IPv6 Neighbour table overflow">
+<meta property="og:url" content="https:&#x2F;&#x2F;maple52046.github.io&#x2F;2015&#x2F;05&#x2F;01&#x2F;IPv6-Neighbour-table-overflow&#x2F;index.html">
+<meta property="og:site_name" content="世界的盡頭">
+<meta property="og:description" content="這兩天一直在 syslog 上看到 Neighbour table overflow  &#x2F;var&#x2F;log&#x2F;syslog12Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressedApr 30 06:27:03 host-42 kernel: [72924.290269] IPv6:">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2015-05-01T04:07:00.000Z">
+<meta property="article:modified_time" content="2019-12-12T18:17:56.455Z">
+<meta property="article:author" content="古振浩 Chen-Hao Ku">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="IPv6">
+<meta property="article:tag" content="Grub">
+<meta property="article:tag" content="OpenStack">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@titan1782">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-7yv7uj2hjiyfxjpniqemlgo6xmfv4x3o4kblstx6a7uhun0eclzenhgguigr.min.css">
+
+    <!--STYLES END-->
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79529428-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-79529428-1');
+    </script>
+
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/%20"
+            aria-label=""
+        >
+            世界的盡頭
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Öffne den Link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Kategorien"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Kategorien</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archiv"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archiv</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Suche"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Suche</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="Über"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Über</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/maple52046" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/maple52046" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/kuchenhao/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="E-Mail">
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">E-Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            IPv6 Neighbour table overflow
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2015-05-01T12:07:00+08:00">
+	
+		    01 5月 2015
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Network/">Network</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>這兩天一直在 syslog 上看到 <code>Neighbour table overflow</code> </p>
+<figure class="highlight plain"><figcaption><span>/var/log/syslog</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressed</span><br><span class="line">Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow</span><br></pre></td></tr></table></figure>
+
+<p>每兩分鐘就出現6~7筆,數量非常的多<br>如果不處理他，放任它繼續增長，過一兩天後系統就會 kernel panic。</p>
+<a id="more"></a>
+
+<p>Google 一番之後大概得知，neighbour table 基本上就是 arp table。所以簡單來說就是 arp table 爆了。<br>問題是我已經把 IPv6 都關了，還能衝爆 neighbour table 實在無法理解。</p>
+<h2 id="Increase-the-size-of-neighbour-table"><a href="#Increase-the-size-of-neighbour-table" class="headerlink" title="Increase the size of neighbour table"></a>Increase the size of neighbour table</h2><p>這大概是搜尋到最多的解法，簡單來說就是直接增加 neighbour table 的大小。</p>
+<p>設定 <code>/etc/sysctl.conf</code> :</p>
+<figure class="highlight python"><figcaption><span>/etc/sysctl.conf</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net.ipv6.neigh.default.gc_thresh1 = <span class="number">4096</span></span><br><span class="line">net.ipv6.neigh.default.gc_thresh2 = <span class="number">8192</span></span><br><span class="line">net.ipv6.neigh.default.gc_thresh3 = <span class="number">8192</span></span><br></pre></td></tr></table></figure>
+
+<p>然後在執行 <code>sysctl -p</code> 讓設定值生效。</p>
+<p>在網路上搜尋到的範例大多都是設定成 512, 1024, 2048。這些設定對我的平台一點效果都沒有，必須要設定到 4096, 8192 才夠用。</p>
+<h2 id="Disable-IPv6"><a href="#Disable-IPv6" class="headerlink" title="Disable IPv6"></a>Disable IPv6</h2><p>原本我是在 <code>/etc/sysctl.conf</code> 中加入以下設定來關閉 IPv6：</p>
+<figure class="highlight python"><figcaption><span>/etc/sysctl.conf</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net.ipv6.conf.all.disable_ipv6 = <span class="number">1</span></span><br><span class="line">net.ipv6.conf.default.disable_ipv6 = <span class="number">1</span></span><br><span class="line">net.ipv6.conf.lo.disable_ipv6 = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>但是很顯然的，這並沒有真正的關閉 IPv6。到比較像是單純隱藏 IPv6 的感覺。最好的證明就是：</p>
+<ol>
+<li><code>netstat -tnlup</code> 可以看到部分 service 依然監聽 IPv6</li>
+<li>Neighbour table overflow 的狀況出現</li>
+</ol>
+<p>因此我嘗試了一下用 grub 的方式關閉，沒想到效果不錯。</p>
+<ol>
+<li>編輯 <code>/etc/default/grub</code>, 並且在 <code>GRUB_CMDLINE_LINUX</code> 的設定中加入 <code>ipv6.disable=1</code><figure class="highlight bash"><figcaption><span>/etc/default/grub</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRUB_CMDLINE_LINUX=<span class="string">"ipv6.disable=1"</span></span><br></pre></td></tr></table></figure></li>
+<li>更新 grub <code>update-grub</code></li>
+<li>Reboot</li>
+</ol>
+<p>設定完之後發現:</p>
+<ul>
+<li><code>netstat -tnlup</code> 再也看不到有 service listen on IPv6 address</li>
+<li>先前加的 sysctl 參數，不論是 disable IPv6 還是 increase neighbour table size 都直接失效。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@localhost:~ # sysctl -p</span><br><span class="line">error: &quot;net.ipv6.conf.all.disable_ipv6&quot; is an unknown key</span><br><span class="line">error: &quot;net.ipv6.conf.default.disable_ipv6&quot; is an unknown key</span><br><span class="line">error: &quot;net.ipv6.conf.lo.disable_ipv6&quot; is an unknown key</span><br><span class="line">error: &quot;net.ipv6.neigh.default.gc_thresh1&quot; is an unknown key</span><br><span class="line">error: &quot;net.ipv6.neigh.default.gc_thresh2&quot; is an unknown key</span><br><span class="line">error: &quot;net.ipv6.neigh.default.gc_thresh3&quot; is an unknown key</span><br></pre></td></tr></table></figure>
+即使將 disable_ipv6 都設定為 0 ，也無法啟用 IPv6。</li>
+</ul>
+<h2 id="現況與採取方案"><a href="#現況與採取方案" class="headerlink" title="現況與採取方案"></a>現況與採取方案</h2><p>一開始先採用了第一個方案，但是數值設太小了，沒多久系統又爆出一樣的 error；於是採取的第二個方案，在 grub 的參數上增加 <code>ipv6.disable=1</code>。結果 syslog 終於沒有在看到這個 error，但是 syslog 中出現另外一個錯誤：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Apr 28 06:50:52 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as &#x2F;usr&#x2F;bin&#x2F;ovs-vsctl --timeout&#x3D;2 add-port br-tun gre-10</span><br><span class="line">Apr 28 06:50:52 host-42 ovs-vsctl: 00002|vsctl|ERR|cannot create a port named gre-10 because a port named gre-10 already exists on bridge br-tun</span><br><span class="line">Apr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as &#x2F;usr&#x2F;bin&#x2F;ovs-vsctl --timeout&#x3D;2 set Interface gre-10 type&#x3D;gre</span><br><span class="line">Apr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as &#x2F;usr&#x2F;bin&#x2F;ovs-vsctl --timeout&#x3D;2 set Interface gre-10 options:remote_ip&#x3D;192.168.91.93</span><br><span class="line">Apr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as &#x2F;usr&#x2F;bin&#x2F;ovs-vsctl --timeout&#x3D;2 set Interface gre-10 options:in_key&#x3D;flow</span><br><span class="line">Apr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as &#x2F;usr&#x2F;bin&#x2F;ovs-vsctl --timeout&#x3D;2 set Interface gre-10 options:out_key&#x3D;flow</span><br></pre></td></tr></table></figure>
+
+<p>這個問題很久以前就看過，但是以前都不影響 OpenStack 的運作；而這次 syslog 中每一秒都出現這個 error，OpenStack virtual network 也跟著一起掛了。嘗試將 IPv6 打開，這個 error 就消除了。這讓我感到非常莫名其妙，目前也還不太清楚發生的原因。</p>
+<p>最後還是回到第一個方案，並起將參數調大至 4096 與 8192，最後才讓系統恢復正常運作。但我心中認為這是個治標不治本的方案。看來只能多花點時間研究一下 IPv6 的機制了。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="http://www.arcweb.ro/blog/2011/12/13/neighbour-table-overflow-debug-ipv4-and-ipv6/" target="_blank" rel="noopener">Neighbour table overflow – debug – IPv4 and IPv6</a></li>
+<li><a href="http://blog.csdn.net/reyleon/article/details/24981581" target="_blank" rel="noopener">neighbour table overflow 问题解决</a><strong>(Important)</strong></li>
+</ul>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">GETAGGT IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Grub/" rel="tag">Grub</a> <a class="tag tag--primary tag--small t-link" href="/tags/IPv6/" rel="tag">IPv6</a> <a class="tag tag--primary tag--small t-link" href="/tags/OpenStack/" rel="tag">OpenStack</a> <a class="tag tag--primary tag--small t-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/05/07/Compile-OpenWRT-x86-KVM-guest/"
+                    data-tooltip="Compile OpenWRT x86 (KVM guest, VirtualBox)"
+                    aria-label="FRÜHER: Compile OpenWRT x86 (KVM guest, VirtualBox)"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/04/08/OpenStack-Glance-image-list-401/"
+                    data-tooltip="OpenStack Glance Image-list 401"
+                    aria-label="NÄCHSTER: OpenStack Glance Image-list 401"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/"
+                    title="Teilen auf Facebook"
+                    aria-label="Teilen auf Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/"
+                    title="Teilen auf Twitter"
+                    aria-label="Teilen auf Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/"
+                    title="Share on Weibo"
+                    aria-label="Share on Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/&amp;title=IPv6 Neighbour table overflow"
+                    title="Share on QQ"
+                    aria-label="Share on QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 古振浩 Chen-Hao Ku. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/05/07/Compile-OpenWRT-x86-KVM-guest/"
+                    data-tooltip="Compile OpenWRT x86 (KVM guest, VirtualBox)"
+                    aria-label="FRÜHER: Compile OpenWRT x86 (KVM guest, VirtualBox)"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/04/08/OpenStack-Glance-image-list-401/"
+                    data-tooltip="OpenStack Glance Image-list 401"
+                    aria-label="NÄCHSTER: OpenStack Glance Image-list 401"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/"
+                    title="Teilen auf Facebook"
+                    aria-label="Teilen auf Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/"
+                    title="Teilen auf Twitter"
+                    aria-label="Teilen auf Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/"
+                    title="Share on Weibo"
+                    aria-label="Share on Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/&amp;title=IPv6 Neighbour table overflow"
+                    title="Share on QQ"
+                    aria-label="Share on QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/"
+                        aria-label="Teilen auf Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Teilen auf Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/"
+                        aria-label="Teilen auf Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Teilen auf Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/"
+                        aria-label="Share on Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>Share on Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/&amp;title=IPv6 Neighbour table overflow"
+                        aria-label="Share on QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>Share on QQ</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <h4 id="about-card-name">古振浩 Chen-Hao Ku</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Taipei, Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-yiemftmhqtwsxw4kjhvylvl77bvrkmkesswxwy8fiscgeiqtailhn40nft4k.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/';
+              
+            this.page.identifier = '2015/05/01/IPv6-Neighbour-table-overflow/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'maple52046-githubio';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+    </body>
+</html>

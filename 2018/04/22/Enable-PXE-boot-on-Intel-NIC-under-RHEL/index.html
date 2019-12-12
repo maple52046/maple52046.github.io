@@ -1,0 +1,728 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="世界的盡頭">
+    <title>Enable PXE boot on Intel NIC under RHEL - 世界的盡頭</title>
+    <meta name="author" content="古振浩 Chen-Hao Ku">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"},"articleBody":"Target problem在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡; 進入到 OS 之後，網卡就出現了並且能正常運作。\nEnvironment\n\n\nItem\nValue/Settings\n\n\n\nOS\nRHEL 7.4\n\n\nNIC\nIntel xv520\n\n\nSolution\nStep 1: \n\n從 Intel 官網中, 下載 BootUtil:\n然後上傳至 RHEL 中並解壓縮：\n\nStep 2:\n\n安裝 Kernel Source:\n1sudo yum install kernel-devel\n\n\nStep 3:\n\n執行 ./bootutil64e 可以先列出當前的網卡狀態：\n123456Port Network Address Location Series  WOL Flash Firmware                Version&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;  1   90E2BAB1EF88   218:00.0 10GbE   N&#x2F;A FLASH Disabled  2   90E2BAB1EF89   218:00.1 10GbE   N&#x2F;A FLASH Disabled  3   90E2BAB1F154    28:00.0 10GbE   N&#x2F;A FLASH Disabled  4   90E2BAB1F155    28:00.1 10GbE   N&#x2F;A FLASH Disabled\n\n\n在上述例子中, NIC 的 firmware 是設定成不能 flash, 這時候必須要先開啟 flash 功能。執行 ./bootutil64e -NIC=3 -FLASHENABLE：\n12345678910111213141516Connection to QV driver failed - please reinstall it!Intel(R) Ethernet Flash Firmware UtilityBootUtil version 1.6.57.0Copyright (C) 2003-2017 Intel CorporationEnabling boot ROM on port 3...SuccessReboot the system to enable the boot ROM on this portPort Network Address Location Series  WOL Flash Firmware                Version&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;  1   90E2BAB1EF88   218:00.0 10GbE   N&#x2F;A FLASH Disabled  2   90E2BAB1EF89   218:00.1 10GbE   N&#x2F;A FLASH Disabled  3   90E2BAB1F154    28:00.0 10GbE   N&#x2F;A Reboot Required  4   90E2BAB1F155    28:00.1 10GbE   N&#x2F;A FLASH Disabled\n\n接下來執行 ./bootutil64e -NIC=3 -BOOTENABLE=PXE，就可以打開網卡的 PXE 功能了：\n12345678910111213141516Connection to QV driver failed - please reinstall it!Intel(R) Ethernet Flash Firmware UtilityBootUtil version 1.6.57.0Copyright (C) 2003-2017 Intel CorporationEnabling boot ROM on port 1...SuccessReboot the system to enable the boot ROM on this portPort Network Address Location Series  WOL Flash Firmware                Version&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;  1   90E2BAB1EF88   218:00.0 10GbE   N&#x2F;A FLASH Disabled  2   90E2BAB1EF89   218:00.1 10GbE   N&#x2F;A FLASH Disabled  3   90E2BAB1F154    28:00.0 10GbE   N&#x2F;A PXE                           2.1.40  4   90E2BAB1F155    28:00.1 10GbE   N&#x2F;A FLASH Disabled\n\n完成, 並重開機驗證 PXE 是否正常啟動。\n","dateCreated":"2018-04-22T14:45:10+08:00","dateModified":"2019-12-13T02:17:56+08:00","datePublished":"2018-04-22T14:45:10+08:00","description":"","headline":"Enable PXE boot on Intel NIC under RHEL","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"},"publisher":{"@type":"Organization","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"}},"url":"https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/","keywords":"PXE, RHEL,"}</script>
+    <meta name="description" content="Target problem在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡; 進入到 OS 之後，網卡就出現了並且能正常運作。 Environment   Item Value&#x2F;Settings    OS RHEL 7.4   NIC Intel xv520   Solution Step 1:   從 Intel 官網中, 下載 BootUtil: 然後">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Enable PXE boot on Intel NIC under RHEL">
+<meta property="og:url" content="https:&#x2F;&#x2F;maple52046.github.io&#x2F;2018&#x2F;04&#x2F;22&#x2F;Enable-PXE-boot-on-Intel-NIC-under-RHEL&#x2F;index.html">
+<meta property="og:site_name" content="世界的盡頭">
+<meta property="og:description" content="Target problem在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡; 進入到 OS 之後，網卡就出現了並且能正常運作。 Environment   Item Value&#x2F;Settings    OS RHEL 7.4   NIC Intel xv520   Solution Step 1:   從 Intel 官網中, 下載 BootUtil: 然後">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2018-04-22T06:45:10.000Z">
+<meta property="article:modified_time" content="2019-12-12T18:17:56.466Z">
+<meta property="article:author" content="古振浩 Chen-Hao Ku">
+<meta property="article:tag" content="PXE, RHEL,">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@titan1782">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-7yv7uj2hjiyfxjpniqemlgo6xmfv4x3o4kblstx6a7uhun0eclzenhgguigr.min.css">
+
+    <!--STYLES END-->
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79529428-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-79529428-1');
+    </script>
+
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/%20"
+            aria-label=""
+        >
+            世界的盡頭
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Öffne den Link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Kategorien"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Kategorien</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archiv"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archiv</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Suche"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Suche</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="Über"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Über</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/maple52046" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/maple52046" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/kuchenhao/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="E-Mail">
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">E-Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Enable PXE boot on Intel NIC under RHEL
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-04-22T14:45:10+08:00">
+	
+		    22 4月 2018
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Linux/">Linux</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <h1 id="Target-problem"><a href="#Target-problem" class="headerlink" title="Target problem"></a>Target problem</h1><p>在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡; 進入到 OS 之後，網卡就出現了並且能正常運作。</p>
+<h2 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h2><table>
+<thead>
+<tr>
+<th align="center">Item</th>
+<th align="center">Value/Settings</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">OS</td>
+<td align="center">RHEL 7.4</td>
+</tr>
+<tr>
+<td align="center">NIC</td>
+<td align="center">Intel xv520</td>
+</tr>
+</tbody></table>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><ul>
+<li>Step 1: </li>
+</ul>
+<p>從 Intel 官網中, 下載 BootUtil:</p>
+<p>然後上傳至 RHEL 中並解壓縮：</p>
+<ul>
+<li>Step 2:</li>
+</ul>
+<p>安裝 Kernel Source:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install kernel-devel</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Step 3:</li>
+</ul>
+<p>執行 <code>./bootutil64e</code> 可以先列出當前的網卡狀態：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Port Network Address Location Series  WOL Flash Firmware                Version</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">  1   90E2BAB1EF88   218:00.0 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  2   90E2BAB1EF89   218:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  3   90E2BAB1F154    28:00.0 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  4   90E2BAB1F155    28:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在上述例子中, NIC 的 firmware 是設定成不能 flash, 這時候必須要先開啟 flash 功能。<br>執行 <code>./bootutil64e -NIC=3 -FLASHENABLE</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Connection to QV driver failed - please reinstall it!</span><br><span class="line"></span><br><span class="line">Intel(R) Ethernet Flash Firmware Utility</span><br><span class="line">BootUtil version 1.6.57.0</span><br><span class="line">Copyright (C) 2003-2017 Intel Corporation</span><br><span class="line"></span><br><span class="line">Enabling boot ROM on port 3...Success</span><br><span class="line"></span><br><span class="line">Reboot the system to enable the boot ROM on this port</span><br><span class="line"></span><br><span class="line">Port Network Address Location Series  WOL Flash Firmware                Version</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">  1   90E2BAB1EF88   218:00.0 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  2   90E2BAB1EF89   218:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  3   90E2BAB1F154    28:00.0 10GbE   N&#x2F;A Reboot Required</span><br><span class="line">  4   90E2BAB1F155    28:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>接下來執行 <code>./bootutil64e -NIC=3 -BOOTENABLE=PXE</code>，就可以打開網卡的 PXE 功能了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Connection to QV driver failed - please reinstall it!</span><br><span class="line"></span><br><span class="line">Intel(R) Ethernet Flash Firmware Utility</span><br><span class="line">BootUtil version 1.6.57.0</span><br><span class="line">Copyright (C) 2003-2017 Intel Corporation</span><br><span class="line"></span><br><span class="line">Enabling boot ROM on port 1...Success</span><br><span class="line"></span><br><span class="line">Reboot the system to enable the boot ROM on this port</span><br><span class="line"></span><br><span class="line">Port Network Address Location Series  WOL Flash Firmware                Version</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">  1   90E2BAB1EF88   218:00.0 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  2   90E2BAB1EF89   218:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  3   90E2BAB1F154    28:00.0 10GbE   N&#x2F;A PXE                           2.1.40</span><br><span class="line">  4   90E2BAB1F155    28:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br></pre></td></tr></table></figure>
+
+<p>完成, 並重開機驗證 PXE 是否正常啟動。</p>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">GETAGGT IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/PXE-RHEL/" rel="tag">PXE, RHEL,</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
+                    data-tooltip="Install Ubuntu in UEFI mode with debootstrap"
+                    aria-label="NÄCHSTER: Install Ubuntu in UEFI mode with debootstrap"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
+                    title="Teilen auf Facebook"
+                    aria-label="Teilen auf Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
+                    title="Teilen auf Twitter"
+                    aria-label="Teilen auf Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
+                    title="Share on Weibo"
+                    aria-label="Share on Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/&amp;title=Enable PXE boot on Intel NIC under RHEL"
+                    title="Share on QQ"
+                    aria-label="Share on QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 古振浩 Chen-Hao Ku. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
+                    data-tooltip="Install Ubuntu in UEFI mode with debootstrap"
+                    aria-label="NÄCHSTER: Install Ubuntu in UEFI mode with debootstrap"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
+                    title="Teilen auf Facebook"
+                    aria-label="Teilen auf Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
+                    title="Teilen auf Twitter"
+                    aria-label="Teilen auf Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
+                    title="Share on Weibo"
+                    aria-label="Share on Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/&amp;title=Enable PXE boot on Intel NIC under RHEL"
+                    title="Share on QQ"
+                    aria-label="Share on QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
+                        aria-label="Teilen auf Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Teilen auf Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
+                        aria-label="Teilen auf Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Teilen auf Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
+                        aria-label="Share on Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>Share on Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/&amp;title=Enable PXE boot on Intel NIC under RHEL"
+                        aria-label="Share on QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>Share on QQ</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <h4 id="about-card-name">古振浩 Chen-Hao Ku</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Taipei, Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-yiemftmhqtwsxw4kjhvylvl77bvrkmkesswxwy8fiscgeiqtailhn40nft4k.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/';
+              
+            this.page.identifier = '2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'maple52046-githubio';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+    </body>
+</html>

@@ -1,0 +1,714 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="世界的盡頭">
+    <title>OpenStack Nova error: libVirt cannot get CPU affinity of process 30619 - 世界的盡頭</title>
+    <meta name="author" content="古振浩 Chen-Hao Ku">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"},"articleBody":"Nova-compute 開不起來，在 log 中發現:\n123456789102015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;eventlet&#x2F;tpool.py&quot;, line 187, in doit2015-02-11 15:34:05.511 30827 TRACE nova     result &#x3D; proxy_call(self._autowrap, f, *args, **kwargs)2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;eventlet&#x2F;tpool.py&quot;, line 147, in proxy_call2015-02-11 15:34:05.511 30827 TRACE nova     rv &#x3D; execute(f,*args,**kwargs)2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;eventlet&#x2F;tpool.py&quot;, line 76, in tworker2015-02-11 15:34:05.511 30827 TRACE nova     rv &#x3D; meth(*args,**kwargs)2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;libvirt.py&quot;, line 2096, in vcpus2015-02-11 15:34:05.511 30827 TRACE nova     if ret &#x3D;&#x3D; -1: raise libvirtError (&#39;virDomainGetVcpus() failed&#39;, dom&#x3D;self)2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process2015-02-11 15:34:05.511 30827 TRACE nova\n\n\n\n雖然看不太懂為什麼會出現這種錯誤，不過猜測大概與早上將 compute node 強制重開機有關。\n看一下 virsh list 結果一大堆 VM 卡在 running 或 shutdown 的狀態。但是並沒有任何 KVM process 在 running。\n雖然不知道為什麼，但是我的直覺告訴我，只要解決 libVirt 這個狀態，就能解決 nova-compute 的問題\nSolution找了一下，發現在 /var/run/libvirt/qemu/ 這個資料夾中，有很多 instance-XXXXX.pid 與 instance-XXXXX.xml\n12345678root@compute-02: &#x2F;var&#x2F;run&#x2F;libvirt&#x2F;qemu# lsinstance-00000093.pid  instance-000002bb.xml  instance-00000307.pid  instance-00000327.xml  instance-00000340.pidinstance-00000093.xml  instance-000002be.pid  instance-00000307.xml  instance-0000032b.pid  instance-00000340.xmlinstance-000000ac.pid  instance-000002be.xml  instance-00000322.pid  instance-0000032b.xml  instance-00000348.pidinstance-000000ac.xml  instance-000002c5.pid  instance-00000322.xml  instance-00000333.pid  instance-00000348.xmlinstance-00000271.pid  instance-000002c5.xml  instance-00000325.pid  instance-00000333.xml  instance-00000357.pidinstance-00000271.xml  instance-000002c8.pid  instance-00000325.xml  instance-0000033d.pid  instance-00000357.xmlinstance-000002bb.pid  instance-000002c8.xml  instance-00000327.pid  instance-0000033d.xml\n\n這些檔案應該是要 instance running 時，libVirt 自己產生。我猜測 virsh list 應該是會來這個目錄讀取檔案。反正現在也沒有 VM 正在 running，乾脆把他們全部砍掉。\n1root@compute-02: &#x2F;var&#x2F;run&#x2F;libvirt&#x2F;qemu# rm -rf *\n\n接下來重啟 libVirt ，然後就發現 virsh list 恢復到原本的狀態。\n12345678root@compute-02:~# service libvirt-bin restartlibvirt-bin stop&#x2F;waitinglibvirt-bin start&#x2F;running, process 29451root@compute-02:~# virsh list Id    Name                           State----------------------------------------------------root@compute-02:~#\n\n接著啟動 nova-compute 就可以恢復運作囉。\n1234root@compute-02:~# service nova-compute startnova-compute start&#x2F;running, process 32664root@compute-02:~# service nova-compute statusnova-compute start&#x2F;running, process 32664\n\n\n","dateCreated":"2015-02-11T15:55:00+08:00","dateModified":"2019-12-13T02:17:56+08:00","datePublished":"2015-02-11T15:55:00+08:00","description":"Nova-compute 開不起來，在 log 中發現:\n123456789102015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;eventlet&#x2F;tpool.py&quot;, line 187, in doit2015-02-11 15:34:05.511 30827 TRACE nova     result &#x3D; proxy_call(self._autowrap, f, *args, **kwargs)2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;eventlet&#x2F;tpool.py&quot;, line 147, in proxy_call2015-02-11 15:34:05.511 30827 TRACE nova     rv &#x3D; execute(f,*args,**kwargs)2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;eventlet&#x2F;tpool.py&quot;, line 76, in tworker2015-02-11 15:34:05.511 30827 TRACE nova     rv &#x3D; meth(*args,**kwargs)2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;libvirt.py&quot;, line 2096, in vcpus2015-02-11 15:34:05.511 30827 TRACE nova     if ret &#x3D;&#x3D; -1: raise libvirtError (&#39;virDomainGetVcpus() failed&#39;, dom&#x3D;self)2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process2015-02-11 15:34:05.511 30827 TRACE nova","headline":"OpenStack Nova error: libVirt cannot get CPU affinity of process 30619","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/"},"publisher":{"@type":"Organization","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"}},"url":"https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/","keywords":"OpenStack, libVirt"}</script>
+    <meta name="description" content="Nova-compute 開不起來，在 log 中發現: 123456789102015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;eventlet&#x2F;tpool.py&quot;, line 187, in doit2">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="OpenStack Nova error: libVirt cannot get CPU affinity of process 30619">
+<meta property="og:url" content="https:&#x2F;&#x2F;maple52046.github.io&#x2F;2015&#x2F;02&#x2F;11&#x2F;OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process&#x2F;index.html">
+<meta property="og:site_name" content="世界的盡頭">
+<meta property="og:description" content="Nova-compute 開不起來，在 log 中發現: 123456789102015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;eventlet&#x2F;tpool.py&quot;, line 187, in doit2">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2015-02-11T07:55:00.000Z">
+<meta property="article:modified_time" content="2019-12-12T18:17:56.455Z">
+<meta property="article:author" content="古振浩 Chen-Hao Ku">
+<meta property="article:tag" content="OpenStack">
+<meta property="article:tag" content="libVirt">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@titan1782">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-7yv7uj2hjiyfxjpniqemlgo6xmfv4x3o4kblstx6a7uhun0eclzenhgguigr.min.css">
+
+    <!--STYLES END-->
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79529428-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-79529428-1');
+    </script>
+
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/%20"
+            aria-label=""
+        >
+            世界的盡頭
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Öffne den Link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Kategorien"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Kategorien</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archiv"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archiv</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Suche"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Suche</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="Über"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Über</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/maple52046" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/maple52046" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/kuchenhao/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="E-Mail">
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">E-Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            OpenStack Nova error: libVirt cannot get CPU affinity of process 30619
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2015-02-11T15:55:00+08:00">
+	
+		    11 2月 2015
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/OpenStack/">OpenStack</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>Nova-compute 開不起來，在 log 中發現:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;eventlet&#x2F;tpool.py&quot;, line 187, in doit</span><br><span class="line">2015-02-11 15:34:05.511 30827 TRACE nova     result &#x3D; proxy_call(self._autowrap, f, *args, **kwargs)</span><br><span class="line">2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;eventlet&#x2F;tpool.py&quot;, line 147, in proxy_call</span><br><span class="line">2015-02-11 15:34:05.511 30827 TRACE nova     rv &#x3D; execute(f,*args,**kwargs)</span><br><span class="line">2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;eventlet&#x2F;tpool.py&quot;, line 76, in tworker</span><br><span class="line">2015-02-11 15:34:05.511 30827 TRACE nova     rv &#x3D; meth(*args,**kwargs)</span><br><span class="line">2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;&#x2F;usr&#x2F;lib&#x2F;python2.7&#x2F;dist-packages&#x2F;libvirt.py&quot;, line 2096, in vcpus</span><br><span class="line">2015-02-11 15:34:05.511 30827 TRACE nova     if ret &#x3D;&#x3D; -1: raise libvirtError (&#39;virDomainGetVcpus() failed&#39;, dom&#x3D;self)</span><br><span class="line">2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process</span><br><span class="line">2015-02-11 15:34:05.511 30827 TRACE nova</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>雖然看不太懂為什麼會出現這種錯誤，不過猜測大概與早上將 compute node 強制重開機有關。</p>
+<p>看一下 <code>virsh list</code> 結果一大堆 VM 卡在 <em>running</em> 或 <em>shutdown</em> 的狀態。<br>但是並沒有任何 KVM process 在 running。</p>
+<p>雖然不知道為什麼，但是我的直覺告訴我，只要解決 libVirt 這個狀態，就能解決 nova-compute 的問題</p>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p>找了一下，發現在 <strong>/var/run/libvirt/qemu/</strong> 這個資料夾中，有很多 instance-XXXXX.pid 與 instance-XXXXX.xml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@compute-02: &#x2F;var&#x2F;run&#x2F;libvirt&#x2F;qemu# ls</span><br><span class="line">instance-00000093.pid  instance-000002bb.xml  instance-00000307.pid  instance-00000327.xml  instance-00000340.pid</span><br><span class="line">instance-00000093.xml  instance-000002be.pid  instance-00000307.xml  instance-0000032b.pid  instance-00000340.xml</span><br><span class="line">instance-000000ac.pid  instance-000002be.xml  instance-00000322.pid  instance-0000032b.xml  instance-00000348.pid</span><br><span class="line">instance-000000ac.xml  instance-000002c5.pid  instance-00000322.xml  instance-00000333.pid  instance-00000348.xml</span><br><span class="line">instance-00000271.pid  instance-000002c5.xml  instance-00000325.pid  instance-00000333.xml  instance-00000357.pid</span><br><span class="line">instance-00000271.xml  instance-000002c8.pid  instance-00000325.xml  instance-0000033d.pid  instance-00000357.xml</span><br><span class="line">instance-000002bb.pid  instance-000002c8.xml  instance-00000327.pid  instance-0000033d.xml</span><br></pre></td></tr></table></figure>
+
+<p>這些檔案應該是要 instance running 時，libVirt 自己產生。我猜測 <code>virsh list</code> 應該是會來這個目錄讀取檔案。反正現在也沒有 VM 正在 running，乾脆把他們全部砍掉。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@compute-02: &#x2F;var&#x2F;run&#x2F;libvirt&#x2F;qemu# rm -rf *</span><br></pre></td></tr></table></figure>
+
+<p>接下來重啟 libVirt ，然後就發現 <code>virsh list</code> 恢復到原本的狀態。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@compute-02:~# service libvirt-bin restart</span><br><span class="line">libvirt-bin stop&#x2F;waiting</span><br><span class="line">libvirt-bin start&#x2F;running, process 29451</span><br><span class="line">root@compute-02:~# virsh list</span><br><span class="line"> Id    Name                           State</span><br><span class="line">----------------------------------------------------</span><br><span class="line"></span><br><span class="line">root@compute-02:~#</span><br></pre></td></tr></table></figure>
+
+<p>接著啟動 nova-compute 就可以恢復運作囉。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@compute-02:~# service nova-compute start</span><br><span class="line">nova-compute start&#x2F;running, process 32664</span><br><span class="line">root@compute-02:~# service nova-compute status</span><br><span class="line">nova-compute start&#x2F;running, process 32664</span><br></pre></td></tr></table></figure>
+
+
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">GETAGGT IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/OpenStack/" rel="tag">OpenStack</a> <a class="tag tag--primary tag--small t-link" href="/tags/libVirt/" rel="tag">libVirt</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/"
+                    data-tooltip="OpenStack Nova cannot reboot instance - Unable to create tap device"
+                    aria-label="FRÜHER: OpenStack Nova cannot reboot instance - Unable to create tap device"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/01/19/Ceph-OSD-stuck-in-an-existing-executable-needed-to-interrupt/"
+                    data-tooltip="Ceph OSD stuck in an existing executable needed to interrupt."
+                    aria-label="NÄCHSTER: Ceph OSD stuck in an existing executable needed to interrupt."
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/"
+                    title="Teilen auf Facebook"
+                    aria-label="Teilen auf Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/"
+                    title="Teilen auf Twitter"
+                    aria-label="Teilen auf Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/"
+                    title="Share on Weibo"
+                    aria-label="Share on Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/&amp;title=OpenStack Nova error: libVirt cannot get CPU affinity of process 30619"
+                    title="Share on QQ"
+                    aria-label="Share on QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 古振浩 Chen-Hao Ku. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/"
+                    data-tooltip="OpenStack Nova cannot reboot instance - Unable to create tap device"
+                    aria-label="FRÜHER: OpenStack Nova cannot reboot instance - Unable to create tap device"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/01/19/Ceph-OSD-stuck-in-an-existing-executable-needed-to-interrupt/"
+                    data-tooltip="Ceph OSD stuck in an existing executable needed to interrupt."
+                    aria-label="NÄCHSTER: Ceph OSD stuck in an existing executable needed to interrupt."
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/"
+                    title="Teilen auf Facebook"
+                    aria-label="Teilen auf Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/"
+                    title="Teilen auf Twitter"
+                    aria-label="Teilen auf Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/"
+                    title="Share on Weibo"
+                    aria-label="Share on Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/&amp;title=OpenStack Nova error: libVirt cannot get CPU affinity of process 30619"
+                    title="Share on QQ"
+                    aria-label="Share on QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/"
+                        aria-label="Teilen auf Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Teilen auf Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/"
+                        aria-label="Teilen auf Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Teilen auf Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/"
+                        aria-label="Share on Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>Share on Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/&amp;title=OpenStack Nova error: libVirt cannot get CPU affinity of process 30619"
+                        aria-label="Share on QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>Share on QQ</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <h4 id="about-card-name">古振浩 Chen-Hao Ku</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Taipei, Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-yiemftmhqtwsxw4kjhvylvl77bvrkmkesswxwy8fiscgeiqtailhn40nft4k.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/';
+              
+            this.page.identifier = '2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'maple52046-githubio';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+    </body>
+</html>

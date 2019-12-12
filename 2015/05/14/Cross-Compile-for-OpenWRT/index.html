@@ -1,0 +1,798 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="世界的盡頭">
+    <title>Cross-compile for OpenWRT - 世界的盡頭</title>
+    <meta name="author" content="古振浩 Chen-Hao Ku">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"},"articleBody":"雖然不是很懂自己在幹嘛，不過至少是參考並修改別人的方式，完成了幾個簡單的範例。\n\n編譯環境：\nOperating System: Ubuntu 14.04 x64\nOpenWRT version: 14.07\n\n\n\n\n\nDownload OpenWRT source code123cd ~mkdir ~&#x2F;crosscompilegit clone git:&#x2F;&#x2F;git.openwrt.org&#x2F;14.07&#x2F;openwrt.git\n\nBuild OpenWRT12cd openwrtmake menuconfig\n\n\nChoice “Target System” and “Target Profile”\n“Advanced configuration options (for developers)” -&gt; “Target Options”\n“Advanced configuration options (for developers)” -&gt; “Toolchain Options” -&gt; “Binutils Version” -&gt; “Linaro binutils 2.24”\n\nSave configuration, then:\n12make defconfgmake\n\n如果嫌 make 不夠快，可以再加上 -j N 開啟其他 cpu core 來編譯。 EX： make -j 3(for 雙核心)。\nGenerate environment configuration\nCreate configuration\n\nCreate a new file:\n12cd ~&#x2F;crosscompilevi env.sh\n\nContent:\n~/crosscompile/env.sh12345export STAGING_DIR=/home/maple/crosscompile/openwrt/staging_direxport TOOLCHAIN_DIR=$STAGING_DIR/toolchain-mips_34kc_gcc-4.8-linaro_uClibc-0.9.33.2export LDCFLAGS=$TOOLCHAIN_DIR/usr/libexport LD_LIBRARY_PATH=$TOOLCHAIN_DIR/usr/libexport PATH=$TOOLCHAIN_DIR/bin:$PATH\n\nChange value of STAGING_DIR by the path of OpenWRT source code\n\nSource environment\n\n1source env.sh\n\n每一次 login 都要作這個步驟，因此有兩種(懶人)方法可以簡化這個步驟\n\necho &#39;source ~/crosscompile/env.sh&#39; &gt;&gt; ~/.bashrc\ncat ~/crosscompile/env.sh | sudo tee -a /etc/profile or sudo mv ~/crosscompile/env.sh /etc/profile.d/\n\n之後登入就會自動讀取 env.sh 裡面的環境變數了\nCross compileCompile a software packageYou need activate environment parameter before this step\n123456cd ~&#x2F;crosscompilewget -O- http:&#x2F;&#x2F;downloads.openwrt.org&#x2F;sources&#x2F;bluez-libs-3.36.tar.gz | tar zxf -cd bluez-libs-3.36.&#x2F;configure --prefix&#x3D;$TOOLCHAIN_DIR --build&#x3D;mips-openwrt-linux-gnu --host&#x3D;mips-openwrt-linux-uclibc makemake install\n\nHello world123cd ~&#x2F;crosscompilemkdir helloworldcd helloworld\n\n\nGenerate source code\n\n1vi helloworld.c\n\nhelloworld.c123456#include &lt;stdio.h&gt;int main() &#123;    printf(\"Hello World!\\n\");    return 0;&#125;\n\nCompile single source code1mips-openwrt-linux-gcc -o helloworld helloworld.c\n\nCompile with Makefile\nGenerate Makefile\n\n~/crosscompile/helloworld/Makefile1234567891011121314151617181920212223INCLUDE_DIR=$(TOOLCHAIN_DIR)/usr/includeCC=mips-openwrt-linux-gccCFLAGS= -std=gnu99LDFLAGS=-lbluetoothSOURCES=helloworld.cOBJS=$(SOURCES:.c=.o)all: helloworldhelloworld.o: helloworld.c\t$(CC) -c $(CFLAGS) -I $(INCLUDE_DIR) -o $@ $&lt;%.o: %.c %.h\t$(CC) -c $(CFLAGS) -I $(INCLUDE_DIR) -o $@ $&lt;helloworld: $(OBJS)\t$(CC) $(LDFLAGS) $(CFLAGS) -o helloworld $(OBJS)clean:\trm *.o helloworld\n\n縮排必須是一格 tab，不能是空白鍵，否則會產生 Makefile:17: *** missing separator.  Stop. 錯誤。\n\nExecute make command (You need activate environment parameter before this step)\n\n完成\nSniffexInstall libpcapYou need activate environment parameter before this step\n123456cd ~&#x2F;crosscompilewget -O- http:&#x2F;&#x2F;downloads.openwrt.org&#x2F;sources&#x2F;libpcap-1.5.3.tar.gz | tar zxf -cd libpcap-1.5.3.&#x2F;configure --prefix&#x3D;$TOOLCHAIN_DIR --build&#x3D;mips-openwrt-linux-gnu --host&#x3D;mips-openwrt-linux-uclibc --with-pcap&#x3D;nullmakemake install\n\nCompile sniffex\nInstall packages\n\n1sudo apt-get install m4 flex bison\n\n\nCreate source code directory\n\n12cd ~&#x2F;crosscompilemkdir sniffex\n\n\nGet source code\n\n1wget http:&#x2F;&#x2F;www.tcpdump.org&#x2F;sniffex.c\n\n\nGenerate Makefile\n\n~/crosscompile/sniffex/Makefile1234567891011121314151617181920212223INCLUDE_DIR=$(TOOLCHAIN_DIR)/usr/includeCC=mips-openwrt-linux-gccCFLAGS= -WallLDFLAGS=-lpcapSOURCES=sniffex.cOBJS=$(SOURCES:.c=.o)all: sniffexsniffex.o: sniffex.c\t$(CC) -c $(CFLAGS) -I $(INCLUDE_DIR) -o $@ $&lt;%.o: %.c %.h\t$(CC) -c $(CFLAGS) -I $(INCLUDE_DIR) -o $@ $&lt;sniffex: $(OBJS)\t$(CC) $(LDFLAGS) $(CFLAGS) -o sniffex $(OBJS)clean:\trm *.o sniffex\n\n\nExecute make command (You need source environment parameter before this step)\n\nDone\nReference\nCross Compiling For OpenWRT On Linux\nmissing separator. Stop.\n[Embedded] How to Cross Compile tcpdump\n如何將tcpdump移植到arm嵌入式系統\n\n相關文章\nOpenwrt 缺少libpcap.so.xx文件 can’t load library libpcap.so.1.0\n\n","dateCreated":"2015-05-14T09:55:00+08:00","dateModified":"2019-12-13T02:17:56+08:00","datePublished":"2015-05-14T09:55:00+08:00","description":"雖然不是很懂自己在幹嘛，不過至少是參考並修改別人的方式，完成了幾個簡單的範例。\n\n編譯環境：\nOperating System: Ubuntu 14.04 x64\nOpenWRT version: 14.07\n\n\n","headline":"Cross-compile for OpenWRT","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/"},"publisher":{"@type":"Organization","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"}},"url":"https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/","keywords":"OpenWRT, Cross Compile, Sniffex"}</script>
+    <meta name="description" content="雖然不是很懂自己在幹嘛，不過至少是參考並修改別人的方式，完成了幾個簡單的範例。  編譯環境： Operating System: Ubuntu 14.04 x64 OpenWRT version: 14.07">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Cross-compile for OpenWRT">
+<meta property="og:url" content="https:&#x2F;&#x2F;maple52046.github.io&#x2F;2015&#x2F;05&#x2F;14&#x2F;Cross-Compile-for-OpenWRT&#x2F;index.html">
+<meta property="og:site_name" content="世界的盡頭">
+<meta property="og:description" content="雖然不是很懂自己在幹嘛，不過至少是參考並修改別人的方式，完成了幾個簡單的範例。  編譯環境： Operating System: Ubuntu 14.04 x64 OpenWRT version: 14.07">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2015-05-14T01:55:00.000Z">
+<meta property="article:modified_time" content="2019-12-12T18:17:56.454Z">
+<meta property="article:author" content="古振浩 Chen-Hao Ku">
+<meta property="article:tag" content="OpenWRT">
+<meta property="article:tag" content="Cross Compile">
+<meta property="article:tag" content="Sniffex">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="@titan1782">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-7yv7uj2hjiyfxjpniqemlgo6xmfv4x3o4kblstx6a7uhun0eclzenhgguigr.min.css">
+
+    <!--STYLES END-->
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79529428-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-79529428-1');
+    </script>
+
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/%20"
+            aria-label=""
+        >
+            世界的盡頭
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Öffne den Link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Kategorien"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Kategorien</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archiv"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archiv</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Suche"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Suche</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="Über"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Über</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/maple52046" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/maple52046" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/kuchenhao/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="E-Mail">
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">E-Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Cross-compile for OpenWRT
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2015-05-14T09:55:00+08:00">
+	
+		    14 5月 2015
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Programming/">Programming</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>雖然不是很懂自己在幹嘛，不過至少是參考並修改別人的方式，完成了幾個簡單的範例。</p>
+<ul>
+<li>編譯環境：<ul>
+<li>Operating System: Ubuntu 14.04 x64</li>
+<li>OpenWRT version: 14.07</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+
+<h1 id="Download-OpenWRT-source-code"><a href="#Download-OpenWRT-source-code" class="headerlink" title="Download OpenWRT source code"></a>Download OpenWRT source code</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">mkdir ~&#x2F;crosscompile</span><br><span class="line">git clone git:&#x2F;&#x2F;git.openwrt.org&#x2F;14.07&#x2F;openwrt.git</span><br></pre></td></tr></table></figure>
+
+<h1 id="Build-OpenWRT"><a href="#Build-OpenWRT" class="headerlink" title="Build OpenWRT"></a>Build OpenWRT</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd openwrt</span><br><span class="line">make menuconfig</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>Choice “Target System” and “Target Profile”</li>
+<li>“Advanced configuration options (for developers)” -&gt; “Target Options”</li>
+<li>“Advanced configuration options (for developers)” -&gt; “Toolchain Options” -&gt; “Binutils Version” -&gt; “Linaro binutils 2.24”</li>
+</ol>
+<p>Save configuration, then:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make defconfg</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>如果嫌 <code>make</code> 不夠快，可以再加上 <code>-j N</code> 開啟其他 cpu core 來編譯。 EX： <code>make -j 3</code>(for 雙核心)。</p>
+<h1 id="Generate-environment-configuration"><a href="#Generate-environment-configuration" class="headerlink" title="Generate environment configuration"></a>Generate environment configuration</h1><ul>
+<li>Create configuration</li>
+</ul>
+<p>Create a new file:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;crosscompile</span><br><span class="line">vi env.sh</span><br></pre></td></tr></table></figure>
+
+<p>Content:</p>
+<figure class="highlight bash"><figcaption><span>~/crosscompile/env.sh</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> STAGING_DIR=/home/maple/crosscompile/openwrt/staging_dir</span><br><span class="line"><span class="built_in">export</span> TOOLCHAIN_DIR=<span class="variable">$STAGING_DIR</span>/toolchain-mips_34kc_gcc-4.8-linaro_uClibc-0.9.33.2</span><br><span class="line"><span class="built_in">export</span> LDCFLAGS=<span class="variable">$TOOLCHAIN_DIR</span>/usr/lib</span><br><span class="line"><span class="built_in">export</span> LD_LIBRARY_PATH=<span class="variable">$TOOLCHAIN_DIR</span>/usr/lib</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$TOOLCHAIN_DIR</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+
+<p>Change value of <strong>STAGING_DIR</strong> by the path of OpenWRT source code</p>
+<ul>
+<li>Source environment</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source env.sh</span><br></pre></td></tr></table></figure>
+
+<p>每一次 login 都要作這個步驟，因此有兩種(懶人)方法可以簡化這個步驟</p>
+<ol>
+<li><code>echo &#39;source ~/crosscompile/env.sh&#39; &gt;&gt; ~/.bashrc</code></li>
+<li><code>cat ~/crosscompile/env.sh | sudo tee -a /etc/profile</code> or <code>sudo mv ~/crosscompile/env.sh /etc/profile.d/</code></li>
+</ol>
+<p>之後登入就會自動讀取 env.sh 裡面的環境變數了</p>
+<h1 id="Cross-compile"><a href="#Cross-compile" class="headerlink" title="Cross compile"></a>Cross compile</h1><h2 id="Compile-a-software-package"><a href="#Compile-a-software-package" class="headerlink" title="Compile a software package"></a>Compile a software package</h2><p><em>You need activate environment parameter before this step</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;crosscompile</span><br><span class="line">wget -O- http:&#x2F;&#x2F;downloads.openwrt.org&#x2F;sources&#x2F;bluez-libs-3.36.tar.gz | tar zxf -</span><br><span class="line">cd bluez-libs-3.36</span><br><span class="line">.&#x2F;configure --prefix&#x3D;$TOOLCHAIN_DIR --build&#x3D;mips-openwrt-linux-gnu --host&#x3D;mips-openwrt-linux-uclibc </span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="Hello-world"><a href="#Hello-world" class="headerlink" title="Hello world"></a>Hello world</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;crosscompile</span><br><span class="line">mkdir helloworld</span><br><span class="line">cd helloworld</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Generate source code</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi helloworld.c</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><figcaption><span>helloworld.c</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"Hello World!\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Compile-single-source-code"><a href="#Compile-single-source-code" class="headerlink" title="Compile single source code"></a>Compile single source code</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mips-openwrt-linux-gcc -o helloworld helloworld.c</span><br></pre></td></tr></table></figure>
+
+<h3 id="Compile-with-Makefile"><a href="#Compile-with-Makefile" class="headerlink" title="Compile with Makefile"></a>Compile with Makefile</h3><ul>
+<li>Generate <code>Makefile</code></li>
+</ul>
+<figure class="highlight makefile"><figcaption><span>~/crosscompile/helloworld/Makefile</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">INCLUDE_DIR=<span class="variable">$(TOOLCHAIN_DIR)</span>/usr/<span class="keyword">include</span></span><br><span class="line"></span><br><span class="line">CC=mips-openwrt-linux-gcc</span><br><span class="line"></span><br><span class="line">CFLAGS= -std=gnu99</span><br><span class="line">LDFLAGS=-lbluetooth</span><br><span class="line"></span><br><span class="line">SOURCES=helloworld.c</span><br><span class="line">OBJS=$(SOURCES:.c=.o)</span><br><span class="line"></span><br><span class="line"><span class="section">all: helloworld</span></span><br><span class="line"></span><br><span class="line"><span class="section">helloworld.o: helloworld.c</span></span><br><span class="line">	<span class="variable">$(CC)</span> -c <span class="variable">$(CFLAGS)</span> -I <span class="variable">$(INCLUDE_DIR)</span> -o <span class="variable">$@</span> <span class="variable">$&lt;</span></span><br><span class="line"></span><br><span class="line"><span class="section">%.o: %.c %.h</span></span><br><span class="line">	<span class="variable">$(CC)</span> -c <span class="variable">$(CFLAGS)</span> -I <span class="variable">$(INCLUDE_DIR)</span> -o <span class="variable">$@</span> <span class="variable">$&lt;</span></span><br><span class="line"></span><br><span class="line"><span class="section">helloworld: <span class="variable">$(OBJS)</span></span></span><br><span class="line">	<span class="variable">$(CC)</span> <span class="variable">$(LDFLAGS)</span> <span class="variable">$(CFLAGS)</span> -o helloworld <span class="variable">$(OBJS)</span></span><br><span class="line"></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm *.o helloworld</span><br></pre></td></tr></table></figure>
+
+<p>縮排必須是一格 tab，不能是空白鍵，否則會產生 <code>Makefile:17: *** missing separator.  Stop.</code> 錯誤。</p>
+<ul>
+<li>Execute <code>make</code> command <em>(You need activate environment parameter before this step)</em></li>
+</ul>
+<p>完成</p>
+<h2 id="Sniffex"><a href="#Sniffex" class="headerlink" title="Sniffex"></a>Sniffex</h2><h3 id="Install-libpcap"><a href="#Install-libpcap" class="headerlink" title="Install libpcap"></a>Install libpcap</h3><p><em>You need activate environment parameter before this step</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;crosscompile</span><br><span class="line">wget -O- http:&#x2F;&#x2F;downloads.openwrt.org&#x2F;sources&#x2F;libpcap-1.5.3.tar.gz | tar zxf -</span><br><span class="line">cd libpcap-1.5.3</span><br><span class="line">.&#x2F;configure --prefix&#x3D;$TOOLCHAIN_DIR --build&#x3D;mips-openwrt-linux-gnu --host&#x3D;mips-openwrt-linux-uclibc --with-pcap&#x3D;null</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h3 id="Compile-sniffex"><a href="#Compile-sniffex" class="headerlink" title="Compile sniffex"></a>Compile sniffex</h3><ul>
+<li>Install packages</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install m4 flex bison</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Create source code directory</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;crosscompile</span><br><span class="line">mkdir sniffex</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Get source code</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http:&#x2F;&#x2F;www.tcpdump.org&#x2F;sniffex.c</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Generate <code>Makefile</code></li>
+</ul>
+<figure class="highlight makefile"><figcaption><span>~/crosscompile/sniffex/Makefile</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">INCLUDE_DIR=<span class="variable">$(TOOLCHAIN_DIR)</span>/usr/<span class="keyword">include</span></span><br><span class="line"></span><br><span class="line">CC=mips-openwrt-linux-gcc</span><br><span class="line"></span><br><span class="line">CFLAGS= -Wall</span><br><span class="line">LDFLAGS=-lpcap</span><br><span class="line"></span><br><span class="line">SOURCES=sniffex.c</span><br><span class="line">OBJS=$(SOURCES:.c=.o)</span><br><span class="line"></span><br><span class="line"><span class="section">all: sniffex</span></span><br><span class="line"></span><br><span class="line"><span class="section">sniffex.o: sniffex.c</span></span><br><span class="line">	<span class="variable">$(CC)</span> -c <span class="variable">$(CFLAGS)</span> -I <span class="variable">$(INCLUDE_DIR)</span> -o <span class="variable">$@</span> <span class="variable">$&lt;</span></span><br><span class="line"></span><br><span class="line"><span class="section">%.o: %.c %.h</span></span><br><span class="line">	<span class="variable">$(CC)</span> -c <span class="variable">$(CFLAGS)</span> -I <span class="variable">$(INCLUDE_DIR)</span> -o <span class="variable">$@</span> <span class="variable">$&lt;</span></span><br><span class="line"></span><br><span class="line"><span class="section">sniffex: <span class="variable">$(OBJS)</span></span></span><br><span class="line">	<span class="variable">$(CC)</span> <span class="variable">$(LDFLAGS)</span> <span class="variable">$(CFLAGS)</span> -o sniffex <span class="variable">$(OBJS)</span></span><br><span class="line"></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	rm *.o sniffex</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Execute <code>make</code> command <em>(You need source environment parameter before this step)</em></li>
+</ul>
+<p>Done</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="http://telecnatron.com/articles/Cross-Compiling-For-OpenWRT-On-Linux/" target="_blank" rel="noopener">Cross Compiling For OpenWRT On Linux</a></li>
+<li><a href="http://ccchiu.pixnet.net/blog/post/28376950" target="_blank" rel="noopener">missing separator. Stop.</a></li>
+<li><a href="http://owen-hsu.blogspot.tw/2011/03/embedded-porting-tcpdump-to-arm-emedded.html" target="_blank" rel="noopener">[Embedded] How to Cross Compile tcpdump</a></li>
+<li><a href="http://read-and-thinking.blogspot.tw/2009/06/tcpdumparm.html" target="_blank" rel="noopener">如何將tcpdump移植到arm嵌入式系統</a></li>
+</ul>
+<h1 id="相關文章"><a href="#相關文章" class="headerlink" title="相關文章"></a>相關文章</h1><ul>
+<li><a href="http://e2dick.com/index.php/archives/17/" target="_blank" rel="noopener">Openwrt 缺少libpcap.so.xx文件 can’t load library libpcap.so.1.0</a></li>
+</ul>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">GETAGGT IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/Cross-Compile/" rel="tag">Cross Compile</a> <a class="tag tag--primary tag--small t-link" href="/tags/OpenWRT/" rel="tag">OpenWRT</a> <a class="tag tag--primary tag--small t-link" href="/tags/Sniffex/" rel="tag">Sniffex</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/11/19/Setup-Squid-Transparent-Proxy-with-Docker/"
+                    data-tooltip="Setup Squid Transparent Proxy with Docker"
+                    aria-label="FRÜHER: Setup Squid Transparent Proxy with Docker"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/05/07/Compile-OpenWRT-x86-KVM-guest/"
+                    data-tooltip="Compile OpenWRT x86 (KVM guest, VirtualBox)"
+                    aria-label="NÄCHSTER: Compile OpenWRT x86 (KVM guest, VirtualBox)"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/"
+                    title="Teilen auf Facebook"
+                    aria-label="Teilen auf Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/"
+                    title="Teilen auf Twitter"
+                    aria-label="Teilen auf Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/"
+                    title="Share on Weibo"
+                    aria-label="Share on Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/&amp;title=Cross-compile for OpenWRT"
+                    title="Share on QQ"
+                    aria-label="Share on QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 古振浩 Chen-Hao Ku. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/11/19/Setup-Squid-Transparent-Proxy-with-Docker/"
+                    data-tooltip="Setup Squid Transparent Proxy with Docker"
+                    aria-label="FRÜHER: Setup Squid Transparent Proxy with Docker"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2015/05/07/Compile-OpenWRT-x86-KVM-guest/"
+                    data-tooltip="Compile OpenWRT x86 (KVM guest, VirtualBox)"
+                    aria-label="NÄCHSTER: Compile OpenWRT x86 (KVM guest, VirtualBox)"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/"
+                    title="Teilen auf Facebook"
+                    aria-label="Teilen auf Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/"
+                    title="Teilen auf Twitter"
+                    aria-label="Teilen auf Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/"
+                    title="Share on Weibo"
+                    aria-label="Share on Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/&amp;title=Cross-compile for OpenWRT"
+                    title="Share on QQ"
+                    aria-label="Share on QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/"
+                        aria-label="Teilen auf Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Teilen auf Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/"
+                        aria-label="Teilen auf Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Teilen auf Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/"
+                        aria-label="Share on Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>Share on Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/&amp;title=Cross-compile for OpenWRT"
+                        aria-label="Share on QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>Share on QQ</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <h4 id="about-card-name">古振浩 Chen-Hao Ku</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Taipei, Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-yiemftmhqtwsxw4kjhvylvl77bvrkmkesswxwy8fiscgeiqtailhn40nft4k.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/';
+              
+            this.page.identifier = '2015/05/14/Cross-Compile-for-OpenWRT/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'maple52046-githubio';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+    </body>
+</html>

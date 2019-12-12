@@ -1,0 +1,732 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="世界的盡頭">
+    <title>Install Ubuntu in UEFI mode with debootstrap - 世界的盡頭</title>
+    <meta name="author" content="古振浩 Chen-Hao Ku">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"},"articleBody":"在 UEFI 模式下想要安裝 Ubuntu 卻總是失敗：\n\n於是決定改採用全手動安裝的方式。\n\n\nInstallationBoot your PC/server from Ubuntu live CDBoot your PC/server from Ubuntu live CD, configure network to connect to Internet.\nPrepare the partitionCreate partitions on the system disk, the first one is for EFI system; the other is for system.\n12345678910sudo parted /dev/sda(parted) mklabel gpt(parted) mkpart ESP fat32 1MiB 128MiB(parted) mkpart primary xfs 128MiB 100%(parted) set 1 boot on(parted) quitsudo partprobe /dev/sdasudo mkfs.vfat -F 32 /dev/sda1sudo mkfs.xfs -f /dev/sda2\n\nMount root file system:\n1sudo mount /dev/sda2 /mnt\n\nInstall Ubuntu core with debootstrapFirst, you need to install debootstrap:\n1sudo apt install debootstrap\n\nThen, you can install ubuntu to the /mnt with debootstrap command:\n1sudo debootstrap --arch amd64 xenial /mnt http://tw.archive.ubuntu.com/ubuntu\n\nCopy the apt repository configuration to new file system:\n1sudo cp /etc/apt/sources.list /mnt/etc/apt/sources.list\n\n\nMount other file system1234567sudo mkdir -p /mnt/boot/efisudo mount /dev/sda1 /mnt/boot/efisudo mount --bind /dev /mnt/devsudo mount -t devpts /dev/pts /mnt/dev/ptssudo mount -t proc proc /mnt/procsudo mount -t sysfs sysfs /mnt/syssudo mount -t tmpfs tmpfs /mnt/tmp\n\nThen, chroot to /mnt:\n12sudo chroot /mnt /bin/bashexport HOME=/root\n\nInstall Linux kernel, grub and other packages12apt updateapt install linux-image-generic linux-headers-generic grub-efi\n\nConfigure grub12grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ubuntu --recheck --debugupdate-grub\n\n\nThe reboot system.\nReference\nGNU Parted - ArchWiki\nGRUB - ArchWiki\n\n","dateCreated":"2017-11-03T15:28:19+08:00","dateModified":"2019-12-13T02:17:56+08:00","datePublished":"2017-11-03T15:28:19+08:00","description":"在 UEFI 模式下想要安裝 Ubuntu 卻總是失敗：\n\n於是決定改採用全手動安裝的方式。","headline":"Install Ubuntu in UEFI mode with debootstrap","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"},"publisher":{"@type":"Organization","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"}},"url":"https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/","keywords":"Ubuntu, UEFI"}</script>
+    <meta name="description" content="在 UEFI 模式下想要安裝 Ubuntu 卻總是失敗：  於是決定改採用全手動安裝的方式。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Install Ubuntu in UEFI mode with debootstrap">
+<meta property="og:url" content="https:&#x2F;&#x2F;maple52046.github.io&#x2F;2017&#x2F;11&#x2F;03&#x2F;Install-Ubuntu-in-UEFI-mode-with-debootstrap&#x2F;index.html">
+<meta property="og:site_name" content="世界的盡頭">
+<meta property="og:description" content="在 UEFI 模式下想要安裝 Ubuntu 卻總是失敗：  於是決定改採用全手動安裝的方式。">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.imgur.com&#x2F;E9j9j2p.png">
+<meta property="article:published_time" content="2017-11-03T07:28:19.000Z">
+<meta property="article:modified_time" content="2019-12-12T18:17:56.458Z">
+<meta property="article:author" content="古振浩 Chen-Hao Ku">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="UEFI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.imgur.com&#x2F;E9j9j2p.png">
+<meta name="twitter:creator" content="@titan1782">
+    
+    
+        
+    
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-7yv7uj2hjiyfxjpniqemlgo6xmfv4x3o4kblstx6a7uhun0eclzenhgguigr.min.css">
+
+    <!--STYLES END-->
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79529428-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-79529428-1');
+    </script>
+
+
+    
+
+    
+        
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/%20"
+            aria-label=""
+        >
+            世界的盡頭
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Öffne den Link: /#about"
+            >
+        
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/%20"
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Kategorien"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Kategorien</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archiv"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archiv</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="Suche"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Suche</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="Über"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Über</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/maple52046" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank" rel="noopener" title="Twitter">
+                    
+                        <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Twitter</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.facebook.com/maple52046" target="_blank" rel="noopener" title="Facebook">
+                    
+                        <i class="sidebar-button-icon fab fa-facebook" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Facebook</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/kuchenhao/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="E-Mail">
+                    
+                        <i class="sidebar-button-icon fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">E-Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Install Ubuntu in UEFI mode with debootstrap
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2017-11-03T15:28:19+08:00">
+	
+		    03 11月 2017
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Linux/">Linux</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>在 UEFI 模式下想要安裝 Ubuntu 卻總是失敗：</p>
+<p><img src="https://i.imgur.com/E9j9j2p.png" alt="Ubuntu boot failed"></p>
+<p>於是決定改採用全手動安裝的方式。</p>
+<a id="more"></a>
+
+<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><h3 id="Boot-your-PC-server-from-Ubuntu-live-CD"><a href="#Boot-your-PC-server-from-Ubuntu-live-CD" class="headerlink" title="Boot your PC/server from Ubuntu live CD"></a>Boot your PC/server from Ubuntu live CD</h3><p>Boot your PC/server from Ubuntu live CD, configure network to connect to Internet.</p>
+<h3 id="Prepare-the-partition"><a href="#Prepare-the-partition" class="headerlink" title="Prepare the partition"></a>Prepare the partition</h3><p>Create partitions on the system disk, the first one is for EFI system; the other is for system.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo parted /dev/sda</span><br><span class="line">(parted) mklabel gpt</span><br><span class="line">(parted) mkpart ESP fat32 1MiB 128MiB</span><br><span class="line">(parted) mkpart primary xfs 128MiB 100%</span><br><span class="line">(parted) <span class="built_in">set</span> 1 boot on</span><br><span class="line">(parted) quit</span><br><span class="line"></span><br><span class="line">sudo partprobe /dev/sda</span><br><span class="line">sudo mkfs.vfat -F 32 /dev/sda1</span><br><span class="line">sudo mkfs.xfs -f /dev/sda2</span><br></pre></td></tr></table></figure>
+
+<p>Mount root file system:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount /dev/sda2 /mnt</span><br></pre></td></tr></table></figure>
+
+<h3 id="Install-Ubuntu-core-with-debootstrap"><a href="#Install-Ubuntu-core-with-debootstrap" class="headerlink" title="Install Ubuntu core with debootstrap"></a>Install Ubuntu core with debootstrap</h3><p>First, you need to install debootstrap:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install debootstrap</span><br></pre></td></tr></table></figure>
+
+<p>Then, you can install ubuntu to the <code>/mnt</code> with <code>debootstrap</code> command:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo debootstrap --arch amd64 xenial /mnt http://tw.archive.ubuntu.com/ubuntu</span><br></pre></td></tr></table></figure>
+
+<p>Copy the apt repository configuration to new file system:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp /etc/apt/sources.list /mnt/etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Mount-other-file-system"><a href="#Mount-other-file-system" class="headerlink" title="Mount other file system"></a>Mount other file system</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /mnt/boot/efi</span><br><span class="line">sudo mount /dev/sda1 /mnt/boot/efi</span><br><span class="line">sudo mount --<span class="built_in">bind</span> /dev /mnt/dev</span><br><span class="line">sudo mount -t devpts /dev/pts /mnt/dev/pts</span><br><span class="line">sudo mount -t proc proc /mnt/proc</span><br><span class="line">sudo mount -t sysfs sysfs /mnt/sys</span><br><span class="line">sudo mount -t tmpfs tmpfs /mnt/tmp</span><br></pre></td></tr></table></figure>
+
+<p>Then, chroot to <code>/mnt</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chroot /mnt /bin/bash</span><br><span class="line"><span class="built_in">export</span> HOME=/root</span><br></pre></td></tr></table></figure>
+
+<h3 id="Install-Linux-kernel-grub-and-other-packages"><a href="#Install-Linux-kernel-grub-and-other-packages" class="headerlink" title="Install Linux kernel, grub and other packages"></a>Install Linux kernel, grub and other packages</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install linux-image-generic linux-headers-generic grub-efi</span><br></pre></td></tr></table></figure>
+
+<h3 id="Configure-grub"><a href="#Configure-grub" class="headerlink" title="Configure grub"></a>Configure grub</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=ubuntu --recheck --debug</span><br><span class="line">update-grub</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>The reboot system.</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a href="https://wiki.archlinux.org/index.php/GNU_Parted#UEFI.2FGPT_examples" target="_blank" rel="noopener">GNU Parted - ArchWiki</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/GRUB_(正體中文)#UEFI.E7.B3.BB.E7.B5.B1.28UEFI_systems.29" target="_blank" rel="noopener">GRUB - ArchWiki</a></li>
+</ol>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">GETAGGT IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/UEFI/" rel="tag">UEFI</a> <a class="tag tag--primary tag--small t-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
+                    data-tooltip="Enable PXE boot on Intel NIC under RHEL"
+                    aria-label="FRÜHER: Enable PXE boot on Intel NIC under RHEL"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2017/10/19/Fix-the-Oracle-Java-installation-on-Ubuntu-16-04/"
+                    data-tooltip="Fix the Oracle Java installation on Ubuntu 16.04"
+                    aria-label="NÄCHSTER: Fix the Oracle Java installation on Ubuntu 16.04"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
+                    title="Teilen auf Facebook"
+                    aria-label="Teilen auf Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
+                    title="Teilen auf Twitter"
+                    aria-label="Teilen auf Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
+                    title="Share on Weibo"
+                    aria-label="Share on Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/&amp;title=Install Ubuntu in UEFI mode with debootstrap"
+                    title="Share on QQ"
+                    aria-label="Share on QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a></noscript>
+</div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 古振浩 Chen-Hao Ku. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
+                    data-tooltip="Enable PXE boot on Intel NIC under RHEL"
+                    aria-label="FRÜHER: Enable PXE boot on Intel NIC under RHEL"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">FRÜHER</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2017/10/19/Fix-the-Oracle-Java-installation-on-Ubuntu-16-04/"
+                    data-tooltip="Fix the Oracle Java installation on Ubuntu 16.04"
+                    aria-label="NÄCHSTER: Fix the Oracle Java installation on Ubuntu 16.04"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NÄCHSTER</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Diesen Beitrag teilen"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
+                    title="Teilen auf Facebook"
+                    aria-label="Teilen auf Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
+                    title="Teilen auf Twitter"
+                    aria-label="Teilen auf Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
+                    title="Share on Weibo"
+                    aria-label="Share on Weibo"
+                >
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/&amp;title=Install Ubuntu in UEFI mode with debootstrap"
+                    title="Share on QQ"
+                    aria-label="Share on QQ"
+                >
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a
+                        class="post-action-btn btn btn--default"
+                        href="#disqus_thread"
+                        aria-label="Kommentieren"
+                    >
+                        <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
+                        aria-label="Teilen auf Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Teilen auf Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
+                        aria-label="Teilen auf Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Teilen auf Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://service.weibo.com/share/share.php?&amp;title=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
+                        aria-label="Share on Weibo"
+                    >
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>Share on Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="http://connect.qq.com/widget/shareqq/index.html?url=https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/&amp;title=Install Ubuntu in UEFI mode with debootstrap"
+                        aria-label="Share on QQ"
+                    >
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>Share on QQ</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <h4 id="about-card-name">古振浩 Chen-Hao Ku</h4>
+        
+            <div id="about-card-bio"><p>author.bio</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>author.job</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Taipei, Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-yiemftmhqtwsxw4kjhvylvl77bvrkmkesswxwy8fiscgeiqtailhn40nft4k.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+        <script>
+          var disqus_config = function() {
+            this.page.url = 'https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/';
+              
+            this.page.identifier = '2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/';
+              
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            var disqus_shortname = 'maple52046-githubio';
+            s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+    
+
+
+
+
+    </body>
+</html>
