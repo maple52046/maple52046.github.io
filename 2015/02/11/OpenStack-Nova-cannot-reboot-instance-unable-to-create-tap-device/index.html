@@ -11,7 +11,9 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"},"articleBody":"早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 nova reboot --hard &lt;server&gt; 的方式，想要開啟instance 卻失敗，在 /var/log/nova/nova-compute.log 中看到以下錯誤訊息:\n12015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy\n\n\n\n用 ifconfig 與 ip 指令都可以看到該 tap 存在\n1234567root@compute-14:~# ifconfigtape10b9639-d8 Link encap:Ethernet  HWaddr fe:16:3e:cb:8f:29            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1          RX packets:513131 errors:0 dropped:0 overruns:0 frame:0          TX packets:691944 errors:0 dropped:9397 overruns:0 carrier:0          collisions:0 txqueuelen:500           RX bytes:94571524 (94.5 MB)  TX bytes:206871945 (206.8 MB)\n\n12root@compute-14:~# ip a | grep tape10b9639-d877: tape10b9639-d8: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc pfifo_fast state DOWN qlen 500\n\n不過 ovs-vsctl show 倒是沒有看到這個 tap device\n\n直接使用 ifconfig &lt;tap name&gt; down 是沒有辦法讓這張網卡消失，在 StackOverflow 上看到一篇參考文章\n試了一下文章中提到 ip link set 的方式，結果沒效\n123root@compute-14:~# ip link set tape10b9639-d8 down root@compute-14:~# ip a | grep tape10b9639-d877: tape10b9639-d8: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc pfifo_fast state DOWN qlen 500\n\n不過倒是讓我發現 ip link delete &lt;tap name&gt; 可以達成\nSolution12root@compute-14:~# ip link delete tape10b9639-d8root@compute-14:~# ip a | grep tape10b9639-d8\n\n之後再次使用 nova reboot 指令就沒有問題囉\n","dateCreated":"2015-02-11T16:36:00+08:00","dateModified":"2019-12-13T02:17:56+08:00","datePublished":"2015-02-11T16:36:00+08:00","description":"早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 nova reboot --hard &lt;server&gt; 的方式，想要開啟instance 卻失敗，在 /var/log/nova/nova-compute.log 中看到以下錯誤訊息:\n12015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy","headline":"OpenStack Nova cannot reboot instance - Unable to create tap device","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://maple52046.github.io/2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/"},"publisher":{"@type":"Organization","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"}},"url":"https://maple52046.github.io/2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/","keywords":"OpenStack, Nova"}</script>
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/titan1782","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"},"articleBody":"早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 nova reboot --hard &lt;server&gt; 的方式，想要開啟instance 卻失敗，在 /var/log/nova/nova-compute.log 中看到以下錯誤訊息:\n12015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy\n\n\n\n用 ifconfig 與 ip 指令都可以看到該 tap 存在\n1234567root@compute-14:~# ifconfigtape10b9639-d8 Link encap:Ethernet  HWaddr fe:16:3e:cb:8f:29            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1          RX packets:513131 errors:0 dropped:0 overruns:0 frame:0          TX packets:691944 errors:0 dropped:9397 overruns:0 carrier:0          collisions:0 txqueuelen:500           RX bytes:94571524 (94.5 MB)  TX bytes:206871945 (206.8 MB)\n\n12root@compute-14:~# ip a | grep tape10b9639-d877: tape10b9639-d8: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc pfifo_fast state DOWN qlen 500\n\n不過 ovs-vsctl show 倒是沒有看到這個 tap device\n\n直接使用 ifconfig &lt;tap name&gt; down 是沒有辦法讓這張網卡消失，在 StackOverflow 上看到一篇參考文章\n試了一下文章中提到 ip link set 的方式，結果沒效\n123root@compute-14:~# ip link set tape10b9639-d8 down root@compute-14:~# ip a | grep tape10b9639-d877: tape10b9639-d8: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc pfifo_fast state DOWN qlen 500\n\n不過倒是讓我發現 ip link delete &lt;tap name&gt; 可以達成\nSolution12root@compute-14:~# ip link delete tape10b9639-d8root@compute-14:~# ip a | grep tape10b9639-d8\n\n之後再次使用 nova reboot 指令就沒有問題囉\n","dateCreated":"2015-02-11T16:36:00+08:00","dateModified":"2019-12-13T02:17:56+08:00","datePublished":"2015-02-11T16:36:00+08:00","description":"早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 nova reboot --hard &lt;server&gt; 的方式，想要開啟instance 卻失敗，在 /var/log/nova/nova-compute.log 中看到以下錯誤訊息:\n12015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy","headline":"OpenStack Nova cannot reboot instance - Unable to create tap device","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://maple52046.github.io/2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/"},"publisher":{"@type":"Organization","name":"古振浩 Chen-Hao Ku","sameAs":["https://github.com/maple52046","https://twitter.com/titan1782","https://www.facebook.com/maple52046","https://www.linkedin.com/in/kuchenhao/","mailto:maple52046@gmail.com"],"image":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/79384e4270ffd7a2d23fc41b7533db73"}},"url":"https://maple52046.github.io/2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/","keywords":"OpenStack, Nova"}</script>
     <meta name="description" content="早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 nova reboot --hard &lt;server&gt; 的方式，想要開啟instance 卻失敗，在 &#x2F;var&#x2F;log&#x2F;nova&#x2F;nova-compute.log 中看到以下錯誤訊息: 12015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="OpenStack Nova cannot reboot instance - Unable to create tap device">
@@ -177,7 +179,7 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://twitter.com/" target="_blank" rel="noopener" title="Twitter">
+                        <a  class="sidebar-button-link " href="https://twitter.com/titan1782" target="_blank" rel="noopener" title="Twitter">
                     
                         <i class="sidebar-button-icon fab fa-twitter" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Twitter</span>
@@ -643,14 +645,14 @@
         
             <h4 id="about-card-name">古振浩 Chen-Hao Ku</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>Taiwanese working in ShangHai</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>Backend Develop Engineer, UCloud</p>
 
             </div>
         
@@ -658,7 +660,7 @@
             <div id="about-card-location">
                 <i class="fa fa-map-marker-alt"></i>
                 <br/>
-                Taipei, Taiwan
+                ShangHai, China
             </div>
         
     </div>

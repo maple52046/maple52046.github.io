@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>世界的盡頭</title>
+  <icon>https://maple52046.github.io/icon.png</icon>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://maple52046.github.io/"/>
+  <updated>2019-12-12T18:17:56.466Z</updated>
+  <id>https://maple52046.github.io/</id>
+  
+  <author>
+    <name>古振浩 Chen-Hao Ku</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Enable PXE boot on Intel NIC under RHEL</title>
+    <link href="https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"/>
+    <id>https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/</id>
+    <published>2018-04-22T06:45:10.000Z</published>
+    <updated>2019-12-12T18:17:56.466Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Target-problem&quot;&gt;&lt;a href=&quot;#Target-problem&quot; class=&quot;headerlink&quot; title=&quot;Target problem&quot;&gt;&lt;/a&gt;Target problem&lt;/h1&gt;&lt;p&gt;在 BIOS 中的 Boot order
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://maple52046.github.io/categories/Linux/"/>
+    
+    
+      <category term="PXE, RHEL," scheme="https://maple52046.github.io/tags/PXE-RHEL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Install Ubuntu in UEFI mode with debootstrap</title>
+    <link href="https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"/>
+    <id>https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/</id>
+    <published>2017-11-03T07:28:19.000Z</published>
+    <updated>2019-12-12T18:17:56.458Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在 UEFI 模式下想要安裝 Ubuntu 卻總是失敗：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/E9j9j2p.png&quot; alt=&quot;Ubuntu boot failed&quot;&gt;&lt;/p&gt;
+&lt;p&gt;於是決定改採用全手動安裝的方式。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://maple52046.github.io/categories/Linux/"/>
+    
+    
+      <category term="Ubuntu" scheme="https://maple52046.github.io/tags/Ubuntu/"/>
+    
+      <category term="UEFI" scheme="https://maple52046.github.io/tags/UEFI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Fix the Oracle Java installation on Ubuntu 16.04</title>
+    <link href="https://maple52046.github.io/2017/10/19/Fix-the-Oracle-Java-installation-on-Ubuntu-16-04/"/>
+    <id>https://maple52046.github.io/2017/10/19/Fix-the-Oracle-Java-installation-on-Ubuntu-16-04/</id>
+    <published>2017-10-19T00:38:53.000Z</published>
+    <updated>2019-12-12T18:17:56.456Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在 Ubuntu 透過 &lt;a href=&quot;https://launchpad.net/~webupd8team/+archive/ubuntu/java&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;WebUpd8 team ppa&lt;/a&gt; 安裝 Java：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo add-apt-repository ppa:webupd8team&amp;#x2F;java&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt install oracle-java9-installer&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;安裝的過程中發生 404 Not found：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Downloading Oracle Java 9...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;--2017-10-19 08:41:59--  http:&amp;#x2F;&amp;#x2F;download.oracle.com&amp;#x2F;otn-pub&amp;#x2F;java&amp;#x2F;jdk&amp;#x2F;9+181&amp;#x2F;jdk-9_linux-x64_bin.tar.gz&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Resolving download.oracle.com (download.oracle.com)... 210.61.248.163, 210.61.248.216&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Connecting to download.oracle.com (download.oracle.com)|210.61.248.163|:80... connected.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;HTTP request sent, awaiting response... 302 Moved Temporarily&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Location: https:&amp;#x2F;&amp;#x2F;edelivery.oracle.com&amp;#x2F;otn-pub&amp;#x2F;java&amp;#x2F;jdk&amp;#x2F;9+181&amp;#x2F;jdk-9_linux-x64_bin.tar.gz [following]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;--2017-10-19 08:41:59--  https:&amp;#x2F;&amp;#x2F;edelivery.oracle.com&amp;#x2F;otn-pub&amp;#x2F;java&amp;#x2F;jdk&amp;#x2F;9+181&amp;#x2F;jdk-9_linux-x64_bin.tar.gz&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Resolving edelivery.oracle.com (edelivery.oracle.com)... 104.116.18.92, 2600:1417:1b:188::2d3e, 2600:1417:1b:184::2d3e&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Connecting to edelivery.oracle.com (edelivery.oracle.com)|104.116.18.92|:443... connected.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;HTTP request sent, awaiting response... 302 Moved Temporarily&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Location: http:&amp;#x2F;&amp;#x2F;download.oracle.com&amp;#x2F;otn-pub&amp;#x2F;java&amp;#x2F;jdk&amp;#x2F;9+181&amp;#x2F;jdk-9_linux-x64_bin.tar.gz?AuthParam&amp;#x3D;1508373839_4021b0b2a88845635225f537490b9b5a [following]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;--2017-10-19 08:42:00--  http:&amp;#x2F;&amp;#x2F;download.oracle.com&amp;#x2F;otn-pub&amp;#x2F;java&amp;#x2F;jdk&amp;#x2F;9+181&amp;#x2F;jdk-9_linux-x64_bin.tar.gz?AuthParam&amp;#x3D;1508373839_4021b0b2a88845635225f537490b9b5a&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Connecting to download.oracle.com (download.oracle.com)|210.61.248.163|:80... connected.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;HTTP request sent, awaiting response... 404 Not Found&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2017-10-19 08:42:01 ERROR 404: Not Found.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;download failed&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Oracle JDK 9 is NOT installed.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dpkg: error processing package oracle-java9-installer (--configure):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; subprocess installed post-installation script returned error exit status 1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;E: Sub-process &amp;#x2F;usr&amp;#x2F;bin&amp;#x2F;dpkg returned an error code (1)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;在等待官方之餘，嘗試先自己修改 deb 來解決這個問題。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://maple52046.github.io/categories/Linux/"/>
+    
+    
+      <category term="Ubuntu" scheme="https://maple52046.github.io/tags/Ubuntu/"/>
+    
+      <category term="Java" scheme="https://maple52046.github.io/tags/Java/"/>
+    
+      <category term="apt" scheme="https://maple52046.github.io/tags/apt/"/>
+    
+      <category term="deb" scheme="https://maple52046.github.io/tags/deb/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Build OpenCV 3.2 with CUDA 8.0 and Matlab on Ubuntu 16.04/14.04</title>
+    <link href="https://maple52046.github.io/2017/08/02/Build-OpenCV-3-2-with-CUDA-8-0-and-Matlab/"/>
+    <id>https://maple52046.github.io/2017/08/02/Build-OpenCV-3-2-with-CUDA-8-0-and-Matlab/</id>
+    <published>2017-08-02T11:14:45.000Z</published>
+    <updated>2019-12-12T18:17:56.463Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本文記錄如何在 Ubuntu 16.04 (14.04) 上搭建 Cuda, Matlab 與 OpenCV 的開發環境。&lt;/p&gt;
+&lt;h1 id=&quot;Troubleshooting&quot;&gt;&lt;a href=&quot;#Troubleshooting&quot; class=&quot;headerlink&quot; title=&quot;Troubleshooting&quot;&gt;&lt;/a&gt;Troubleshooting&lt;/h1&gt;&lt;p&gt;先把 troubleshooting 放前面是因為本來就是為了解決第一個 error 才有了這一篇紀錄XD。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Error 1 與 error 2 都是發生在 Matlab R2015b 已經安裝好的情況下才產生。更準確來說是&lt;strong&gt;程式讀取到 Matlab 自帶的 libtiff.h&lt;/strong&gt; 才產生的 error。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;Error-1&quot;&gt;&lt;a href=&quot;#Error-1&quot; class=&quot;headerlink&quot; title=&quot;Error 1&quot;&gt;&lt;/a&gt;Error 1&lt;/h2&gt;&lt;p&gt;某人開發的程式，在 &lt;strong&gt;Matlab&lt;/strong&gt; 安裝完畢後，編譯時 include Matlab library 與 header 然後出現錯誤：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/KGOpOlE.png&quot; alt=&quot;Compile error&quot;&gt;&lt;/p&gt;
+&lt;p&gt;如果編譯時不引用到 Matlab 的東西，就不會有事情。但是這道程式就是必須要同時使用 Matlab 與 OpenCV。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/BVLC/caffe/issues/4436&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;根據 google 來的資料，應該是 OpenCV 編譯時沒有啟用 TIFF (?)&lt;/a&gt;。&lt;br&gt;所以解決方法就是重新編譯 OpenCV 並且啟用 TIFF。&lt;/p&gt;
+&lt;h2 id=&quot;Error-2&quot;&gt;&lt;a href=&quot;#Error-2&quot; class=&quot;headerlink&quot; title=&quot;Error 2&quot;&gt;&lt;/a&gt;Error 2&lt;/h2&gt;&lt;p&gt;重新編譯 OpenCV 時，出現錯誤:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadDirectory@LIBTIFF_4.0&amp;#39; &amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFWriteEncodedStrip@LIBTIFF_4.0&amp;#39;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFIsTiled@LIBTIFF_4.0&amp;#39; &amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFOpen@LIBTIFF_4.0&amp;#39;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadEncodedStrip@LIBTIFF_4.0&amp;#39; &amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFSetField@LIBTIFF_4.0&amp;#39;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFWriteScanline@LIBTIFF_4.0&amp;#39; &amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFGetField@LIBTIFF_4.0&amp;#39;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFScanlineSize@LIBTIFF_4.0&amp;#39; &amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFNumberOfStrips@LIBTIFF_4.0&amp;#39;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFSetWarningHandler@LIBTIFF_4.0&amp;#39; &amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFSetErrorHandler@LIBTIFF_4.0&amp;#39;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadEncodedTile@LIBTIFF_4.0&amp;#39; &amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFReadRGBATile@LIBTIFF_4.0&amp;#39;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFClose@LIBTIFF_4.0&amp;#39; &amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFRGBAImageOK@LIBTIFF_4.0&amp;#39;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;usr&amp;#x2F;local&amp;#x2F;lib&amp;#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to &amp;#96;TIFFReadRGBAStrip@LIBTIFF_4.0&amp;#39;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;collect2: error: ld returned 1 exit status&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;tools&amp;#x2F;CMakeFiles&amp;#x2F;compute_image_mean.dir&amp;#x2F;build.make:134: recipe for target &amp;#39;tools&amp;#x2F;compute_image_mean&amp;#39; failed&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;make[2]: *** [tools&amp;#x2F;compute_image_mean] Error 1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;CMakeFiles&amp;#x2F;Makefile2:473: recipe for target &amp;#39;tools&amp;#x2F;CMakeFiles&amp;#x2F;compute_image_mean.dir&amp;#x2F;all&amp;#39; failed&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;make[1]: *** [tools&amp;#x2F;CMakeFiles&amp;#x2F;compute_image_mean.dir&amp;#x2F;all] Error 2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Makefile:127: recipe for target &amp;#39;all&amp;#39; failed&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;make: *** [all] Error 2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;同樣根據 error 1 的參考資料：&lt;a href=&quot;https://github.com/BVLC/caffe/issues/4436。&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/BVLC/caffe/issues/4436。&lt;/a&gt;&lt;br&gt;在 &lt;code&gt;CMakeCache.txt&lt;/code&gt; 裡面發現：&lt;code&gt;WITH_TIFF=ON&lt;/code&gt;, &lt;code&gt;BUILD_TIFF=OFF&lt;/code&gt;。&lt;br&gt;看起來原本 &lt;code&gt;cmake&lt;/code&gt; 就有偵測到系統的 libtiff，因此預設不編譯 tiff。&lt;br&gt;既然這樣，所以解決方法就是在 &lt;code&gt;cmake&lt;/code&gt; 時，增加參數 &lt;code&gt;-D BUILD_TIFF=ON&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&quot;Error-3&quot;&gt;&lt;a href=&quot;#Error-3&quot; class=&quot;headerlink&quot; title=&quot;Error 3&quot;&gt;&lt;/a&gt;Error 3&lt;/h2&gt;&lt;p&gt;OpenCV 已經編譯完成，但原本的程式重新編譯時出現:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&amp;#x2F;usr&amp;#x2F;bin&amp;#x2F;ld: cannot find -lippicv&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://stackoverflow.com/questions/34401117/compiling-code-with-opencv-usr-bin-ld-cannot-find-lippicv&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;根據查到的資料&lt;/a&gt;，解決方法就是在編譯 OpenCV 時，&lt;code&gt;cmake&lt;/code&gt; 階段增加 &lt;code&gt;-D WITH_IPP=ON&lt;/code&gt;。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&quot;System-environment&quot;&gt;&lt;a href=&quot;#System-environment&quot; class=&quot;headerlink&quot; title=&quot;System environment&quot;&gt;&lt;/a&gt;System environment&lt;/h1&gt;&lt;p&gt;兩套環境：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Ubuntu 16.04 with Nvidia GeForce GTX 970 &lt;/li&gt;
+&lt;li&gt;Ubuntu 14.04 with Nvidia GeForce GT 620 OEM&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;第一套環境是從 OS 開始安裝;&lt;br&gt;第二套是一個已經存在的環境，只是再重新編譯 OpenCV (為了解決 TIFF 問題)。&lt;/p&gt;
+&lt;p&gt;其他的系統資訊：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OpenCV: 3.2&lt;/li&gt;
+&lt;li&gt;CUDA: 8.0&lt;/li&gt;
+&lt;li&gt;Matlab: R2015b (or Octave 4.2)&lt;/li&gt;
+&lt;li&gt;Nvidia driver: &lt;strong&gt;375&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Java:&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Oracla Java 8&lt;/strong&gt; (on site 1)&lt;/li&gt;
+&lt;li&gt;Oracle Java 7 (on site 2)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://maple52046.github.io/categories/Linux/"/>
+    
+    
+      <category term="OpenCV" scheme="https://maple52046.github.io/tags/OpenCV/"/>
+    
+      <category term="CUDA" scheme="https://maple52046.github.io/tags/CUDA/"/>
+    
+      <category term="Matlab" scheme="https://maple52046.github.io/tags/Matlab/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OpenStack Heat 使用筆記</title>
+    <link href="https://maple52046.github.io/2016/06/30/Notes-OpenStack-Heat-Usage/"/>
+    <id>https://maple52046.github.io/2016/06/30/Notes-OpenStack-Heat-Usage/</id>
+    <published>2016-06-30T07:48:16.000Z</published>
+    <updated>2019-12-12T18:17:56.461Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。&lt;/p&gt;
+&lt;p&gt;Heat 用 &lt;strong&gt;resource&lt;/strong&gt; 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 &lt;code&gt;default&lt;/code&gt;。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 &lt;code&gt;default&lt;/code&gt; 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。&lt;/p&gt;
+&lt;p&gt;Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 &lt;code&gt;block_device_mapping&lt;/code&gt; 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。&lt;/p&gt;
+&lt;p&gt;這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 &lt;strong&gt;resource&lt;/strong&gt;，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 &lt;strong&gt;state&lt;/strong&gt; 來配置 Linux。&lt;/p&gt;
+&lt;p&gt;在開始之前，你必須要先準備：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;一個 OpenStack Account。同時你必須要確定該 platform 有安裝 Heat 服務。本文是使用 &lt;a href=&quot;https://www.unicloud.org.tw/services/sscloud&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;SSCloud&lt;/a&gt; 做 demo。&lt;/li&gt;
+&lt;li&gt;熟悉 OpenStack 的基本操作：使用 OpenStack dashboard 或是使用 OpenStack command client。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&quot;Template&quot;&gt;&lt;a href=&quot;#Template&quot; class=&quot;headerlink&quot; title=&quot;Template&quot;&gt;&lt;/a&gt;Template&lt;/h1&gt;&lt;p&gt;先前已經提過 Heat Resource 。在 Heat 中，由眾多 resource 所組合而成的檔案/物件就是樣版(template)。&lt;br&gt;你可以使用 &lt;code&gt;heat&lt;/code&gt; 指令來查詢你的 OpenStack platform 支援哪些 template。&lt;/p&gt;
+&lt;p&gt;執行 &lt;code&gt;heat template-version-list&lt;/code&gt; 會得到：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/OM80xOF.png&quot; alt=&quot;Imgur&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="OpenStack" scheme="https://maple52046.github.io/categories/OpenStack/"/>
+    
+    
+      <category term="OpenStack" scheme="https://maple52046.github.io/tags/OpenStack/"/>
+    
+      <category term="Heat" scheme="https://maple52046.github.io/tags/Heat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>調整 vim 註解顏色</title>
+    <link href="https://maple52046.github.io/2016/06/29/Change-Comment-Color-in-VIM/"/>
+    <id>https://maple52046.github.io/2016/06/29/Change-Comment-Color-in-VIM/</id>
+    <published>2016-06-29T04:04:20.000Z</published>
+    <updated>2019-12-12T18:17:56.460Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;VIM 在純 terminal 的環境下, 如果你設定 &lt;code&gt;bg=light&lt;/code&gt; (預設)，註解的顏色真是令人看到眼睛都快瞎了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/ZzWbavl.png&quot; alt=&quot;VIM Color (set bg=light)&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Solution&quot;&gt;&lt;a href=&quot;#Solution&quot; class=&quot;headerlink&quot; title=&quot;Solution&quot;&gt;&lt;/a&gt;Solution&lt;/h2&gt;&lt;p&gt;一般來說，解決的方法通常有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;設定 &lt;code&gt;bg=dark&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;在 &lt;code&gt;~/.vimrc&lt;/code&gt; or &lt;code&gt;/etc/vimrc&lt;/code&gt; 中設定:  &lt;code&gt;set bg=dark&lt;/code&gt;&lt;br&gt;這樣整個配色都會調整成：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://i.imgur.com/2rucoO9.png&quot; alt=&quot;VIM Color (set bg=dark)&quot;&gt;&lt;/p&gt;
+&lt;p&gt;但是這種配色又不合我的胃口。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;套用別人寫好的 color scheme 或是自己寫 color scheme&lt;/p&gt;
+&lt;p&gt;網路上已經有不少人寫好了 scheme，如果想要套用別人的 scheme，可以參考 Tsung’s Blog  的&lt;a href=&quot;https://blog.longwin.com.tw/2009/03/choose-vim-color-scheme-2009/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;挑選 Vim 顏色(Color Scheme)&lt;/a&gt;這篇做設定；自己編輯的話，嗯，自己 google 吧XD&lt;/p&gt;
+&lt;p&gt;不過對於我這種懶到不行的人來說，套用別人的 scheme 還是太麻煩惹&lt;del&gt;~&lt;/del&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://maple52046.github.io/categories/Linux/"/>
+    
+    
+      <category term="vim" scheme="https://maple52046.github.io/tags/vim/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu 上使用 ffmpeg 將 DVD 轉成 mp4</title>
+    <link href="https://maple52046.github.io/2016/01/23/Convert-DVD-to-MP4-with-ffmpeg-on-Ubuntu/"/>
+    <id>https://maple52046.github.io/2016/01/23/Convert-DVD-to-MP4-with-ffmpeg-on-Ubuntu/</id>
+    <published>2016-01-22T16:14:00.000Z</published>
+    <updated>2019-12-12T18:17:56.462Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://www.ffmpeg.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;FFmpeg&lt;/a&gt; 是一套跨平臺開發原始碼的影音轉換軟體。&lt;br&gt;利用 FFmpeg 我們可以在 Linux 上將 DVD 轉換成 mp4 或是其他格式。&lt;/p&gt;
+&lt;p&gt;Ubuntu 15.04 以上可以直接以 apt-get 安裝。不過我的平臺是 Ubuntu 14.04。&lt;br&gt;因此只能通過兩種方式安裝: ppa、手動編譯。&lt;/p&gt;
+&lt;p&gt;如果要從 PPA 安裝，請參考： &lt;a href=&quot;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;不過我是採用編譯的方式：&lt;a href=&quot;https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Linux" scheme="https://maple52046.github.io/categories/Linux/"/>
+    
+    
+      <category term="FFmpeg" scheme="https://maple52046.github.io/tags/FFmpeg/"/>
+    
+      <category term="Ubuntu" scheme="https://maple52046.github.io/tags/Ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ceph PG stuck in degraded + undersized</title>
+    <link href="https://maple52046.github.io/2015/12/17/Ceph-PG-stuck-stuck-in-degraded-and-undersized/"/>
+    <id>https://maple52046.github.io/2015/12/17/Ceph-PG-stuck-stuck-in-degraded-and-undersized/</id>
+    <published>2015-12-17T09:08:53.000Z</published>
+    <updated>2019-12-12T18:17:56.459Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;執行 &lt;code&gt;ceph -s&lt;/code&gt; 出現：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;cluster 1a1d374a-c6e9-48cb-9b45-525a6fdaa91e&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; health HEALTH_WARN&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        64 pgs degraded&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        64 pgs stale&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        64 pgs stuck degraded&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        64 pgs stuck stale&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        64 pgs stuck unclean&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        64 pgs stuck undersized&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        64 pgs undersized&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; monmap e1: 1 mons at &amp;#123;twin-storage-01&amp;#x3D;172.16.91.1:6789&amp;#x2F;0&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        election epoch 2, quorum 0 twin-storage-01&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; mdsmap e5: 1&amp;#x2F;1&amp;#x2F;1 up &amp;#123;0&amp;#x3D;twin-storage-01&amp;#x3D;up:active&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; osdmap e92: 7 osds: 7 up, 7 in&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  pgmap v685: 832 pgs, 7 pools, 43573 kB data, 38 objects&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        7491 MB used, 14889 GB &amp;#x2F; 14896 GB avail&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;             769 active+clean&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              37 stale+active+undersized+degraded+remapped&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              26 stale+active+undersized+degraded&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;很多 pg 卡在 &lt;code&gt;degraded&lt;/code&gt; + &lt;code&gt;undersized&lt;/code&gt; 狀態。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Storage" scheme="https://maple52046.github.io/categories/Storage/"/>
+    
+    
+      <category term="Ceph" scheme="https://maple52046.github.io/tags/Ceph/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Setup Squid Transparent Proxy with Docker</title>
+    <link href="https://maple52046.github.io/2015/11/19/Setup-Squid-Transparent-Proxy-with-Docker/"/>
+    <id>https://maple52046.github.io/2015/11/19/Setup-Squid-Transparent-Proxy-with-Docker/</id>
+    <published>2015-11-19T09:09:00.000Z</published>
+    <updated>2019-12-12T18:17:56.465Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Squid 作為 Transparent proxy 時，不但可以加快區域網絡內的速度、降低網路流量&lt;br&gt;還可以控管區網內是否要開放/封鎖網站&lt;del&gt;(監看區網內誰在玩FB或是看色情網站XD)&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;通常 Transparent proxy 都會放在區網對外的那台 server 上，例如下圖：&lt;/p&gt;
+&lt;img class=&quot;center&quot; src=&quot;http://user-image.logdown.io/user/10779/blog/10403/post/314634/N4mq1E37S767W0ZY5S3U_%E6%9C%AA%E5%91%BD%E5%90%8D.001.jpeg&quot; alt=&quot;Squid-transparent-proxy.jpeg&quot;&gt;
+
+&lt;p&gt;對於 Proxy , Transparent proxy 沒有概念的人，可以先看&lt;a href=&quot;http://linux.vbird.org/linux_server/0420squid.php&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;鳥哥的文章&lt;/a&gt;，這邊就很不負責的說不再贅述了((懶~&lt;/p&gt;
+&lt;h1 id=&quot;實驗環境&quot;&gt;&lt;a href=&quot;#實驗環境&quot; class=&quot;headerlink&quot; title=&quot;實驗環境&quot;&gt;&lt;/a&gt;實驗環境&lt;/h1&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&quot;center&quot;&gt;Item&lt;/th&gt;
+&lt;th align=&quot;center&quot;&gt;Value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;OS&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;Gentoo&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;Docker version&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;1.7.9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td align=&quot;center&quot;&gt;Docker image&lt;/td&gt;
+&lt;td align=&quot;center&quot;&gt;&lt;a href=&quot;https://github.com/sameersbn/docker-squid&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;sameersbn/squid:3.3.8-4&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;只要能跑 Docker, 實體機的 OS 是什麼都不重要 :D&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Container" scheme="https://maple52046.github.io/categories/Container/"/>
+    
+    
+      <category term="Docker" scheme="https://maple52046.github.io/tags/Docker/"/>
+    
+      <category term="Squid" scheme="https://maple52046.github.io/tags/Squid/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Cross-compile for OpenWRT</title>
+    <link href="https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/"/>
+    <id>https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/</id>
+    <published>2015-05-14T01:55:00.000Z</published>
+    <updated>2019-12-12T18:17:56.454Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;雖然不是很懂自己在幹嘛，不過至少是參考並修改別人的方式，完成了幾個簡單的範例。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;編譯環境：&lt;ul&gt;
+&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;
+&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="Programming" scheme="https://maple52046.github.io/categories/Programming/"/>
+    
+    
+      <category term="OpenWRT" scheme="https://maple52046.github.io/tags/OpenWRT/"/>
+    
+      <category term="Cross Compile" scheme="https://maple52046.github.io/tags/Cross-Compile/"/>
+    
+      <category term="Sniffex" scheme="https://maple52046.github.io/tags/Sniffex/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Compile OpenWRT x86 (KVM guest, VirtualBox)</title>
+    <link href="https://maple52046.github.io/2015/05/07/Compile-OpenWRT-x86-KVM-guest/"/>
+    <id>https://maple52046.github.io/2015/05/07/Compile-OpenWRT-x86-KVM-guest/</id>
+    <published>2015-05-07T03:45:00.000Z</published>
+    <updated>2019-12-12T18:17:56.452Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;編譯 x86 版的 OpenWRT 與之前的方式雷同，基本上差別的就在於 &lt;code&gt;make menuconfig&lt;/code&gt; 的時候要作一些額外的修改。&lt;/p&gt;
+&lt;p&gt;詳細的 OpenWRT 編譯流程請參考：&lt;a href=&quot;http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Compile OpenWRT with Open vSwitch&lt;/a&gt;，本篇不再贅述。&lt;/p&gt;
+&lt;h1 id=&quot;實驗環境&quot;&gt;&lt;a href=&quot;#實驗環境&quot; class=&quot;headerlink&quot; title=&quot;實驗環境&quot;&gt;&lt;/a&gt;實驗環境&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;OS: Ubuntu 14.04 x64&lt;/li&gt;
+&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="Network" scheme="https://maple52046.github.io/categories/Network/"/>
+    
+      <category term="Virtualization" scheme="https://maple52046.github.io/categories/Network/Virtualization/"/>
+    
+    
+      <category term="OpenWRT" scheme="https://maple52046.github.io/tags/OpenWRT/"/>
+    
+      <category term="KVM" scheme="https://maple52046.github.io/tags/KVM/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>IPv6 Neighbour table overflow</title>
+    <link href="https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/"/>
+    <id>https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/</id>
+    <published>2015-05-01T04:07:00.000Z</published>
+    <updated>2019-12-12T18:17:56.455Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;這兩天一直在 syslog 上看到 &lt;code&gt;Neighbour table overflow&lt;/code&gt; &lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;figcaption&gt;&lt;span&gt;/var/log/syslog&lt;/span&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressed&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;每兩分鐘就出現6~7筆,數量非常的多&lt;br&gt;如果不處理他，放任它繼續增長，過一兩天後系統就會 kernel panic。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Network" scheme="https://maple52046.github.io/categories/Network/"/>
+    
+    
+      <category term="Ubuntu" scheme="https://maple52046.github.io/tags/Ubuntu/"/>
+    
+      <category term="IPv6" scheme="https://maple52046.github.io/tags/IPv6/"/>
+    
+      <category term="Grub" scheme="https://maple52046.github.io/tags/Grub/"/>
+    
+      <category term="OpenStack" scheme="https://maple52046.github.io/tags/OpenStack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OpenStack Glance Image-list 401</title>
+    <link href="https://maple52046.github.io/2015/04/08/OpenStack-Glance-image-list-401/"/>
+    <id>https://maple52046.github.io/2015/04/08/OpenStack-Glance-image-list-401/</id>
+    <published>2015-04-08T08:12:00.000Z</published>
+    <updated>2019-12-12T18:17:56.453Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;root@localhost:~# glance --debug image-list&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;curl -i -X GET -H &amp;#39;User-Agent: python-glanceclient&amp;#39; -H &amp;#39;Content-Type: application&amp;#x2F;octet-stream&amp;#39; -H &amp;#39;Accept-Encoding: gzip, deflate, compress&amp;#39; -H &amp;#39;Accept: *&amp;#x2F;*&amp;#39; -H &amp;#39;X-Auth-Token: ***&amp;#39; http:&amp;#x2F;&amp;#x2F;140.114.91.220:9292&amp;#x2F;v1&amp;#x2F;images&amp;#x2F;detail?sort_key&amp;#x3D;name&amp;amp;sort_dir&amp;#x3D;asc&amp;amp;limit&amp;#x3D;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Request returned failure status 401.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Invalid OpenStack Identity credentials.&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="OpenStack" scheme="https://maple52046.github.io/categories/OpenStack/"/>
+    
+    
+      <category term="OpenStack" scheme="https://maple52046.github.io/tags/OpenStack/"/>
+    
+      <category term="Juno" scheme="https://maple52046.github.io/tags/Juno/"/>
+    
+      <category term="Glance" scheme="https://maple52046.github.io/tags/Glance/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Configure Open vSwitch in OpenWRT</title>
+    <link href="https://maple52046.github.io/2015/03/18/Configure-Open-vSwitch-in-OpenWRT/"/>
+    <id>https://maple52046.github.io/2015/03/18/Configure-Open-vSwitch-in-OpenWRT/</id>
+    <published>2015-03-18T09:04:00.000Z</published>
+    <updated>2019-12-12T18:17:56.467Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;當你安裝完 Open vSwitch 或是燒了一個&lt;a href=&quot;http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;內建 Open vSwitch 的 OpenWRT&lt;/a&gt; 後，接下來要將網卡綁到 Open vSwitch 上。&lt;/p&gt;
+&lt;h1 id=&quot;實驗環境&quot;&gt;&lt;a href=&quot;#實驗環境&quot; class=&quot;headerlink&quot; title=&quot;實驗環境&quot;&gt;&lt;/a&gt;&lt;strong&gt;實驗環境&lt;/strong&gt;&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;路由器: &lt;a href=&quot;http://www.tp-link.tw/products/details/?model=TL-WR1043ND&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TP-Link TL-WR1043ND&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;Wan port x 1&lt;/li&gt;
+&lt;li&gt;Lan port x 4&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="Network" scheme="https://maple52046.github.io/categories/Network/"/>
+    
+    
+      <category term="OpenWRT" scheme="https://maple52046.github.io/tags/OpenWRT/"/>
+    
+      <category term="Open vSwitch" scheme="https://maple52046.github.io/tags/Open-vSwitch/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Compile OpenWRT with Open vSwitch</title>
+    <link href="https://maple52046.github.io/2015/03/05/Compile-OpenWRT-with-Open-vSwitch/"/>
+    <id>https://maple52046.github.io/2015/03/05/Compile-OpenWRT-with-Open-vSwitch/</id>
+    <published>2015-03-05T09:05:00.000Z</published>
+    <updated>2019-12-12T18:17:56.461Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 &lt;a href=&quot;https://github.com/openwrt/packages/tree/master/net/openvswitch&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Open vSwitch&lt;/a&gt; 的身影。但是實際上，在官方的 &lt;a href=&quot;https://downloads.openwrt.org/barrier_breaker/14.07/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;repository&lt;/a&gt; 中並沒有 Open vSwitch。因此決定自行編譯。&lt;/p&gt;
+&lt;h1 id=&quot;實驗環境&quot;&gt;&lt;a href=&quot;#實驗環境&quot; class=&quot;headerlink&quot; title=&quot;實驗環境&quot;&gt;&lt;/a&gt;&lt;strong&gt;實驗環境&lt;/strong&gt;&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;編譯環境&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;
+&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;
+&lt;li&gt;Open vSwitch version: 2.3.1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;路由器&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.tp-link.tw/products/details/?model=TL-WR1043ND&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;TP-Link TL-WR1043ND&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+    
+      <category term="Network" scheme="https://maple52046.github.io/categories/Network/"/>
+    
+    
+      <category term="OpenWRT" scheme="https://maple52046.github.io/tags/OpenWRT/"/>
+    
+      <category term="Open vSwitch" scheme="https://maple52046.github.io/tags/Open-vSwitch/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Install Rally 筆記 (OpenStack benchmark)</title>
+    <link href="https://maple52046.github.io/2015/02/24/Rally-Installation/"/>
+    <id>https://maple52046.github.io/2015/02/24/Rally-Installation/</id>
+    <published>2015-02-24T08:45:00.000Z</published>
+    <updated>2019-12-12T18:17:56.462Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;http://rally.readthedocs.org/en/latest/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Rally&lt;/a&gt; 是一套 OpenStack benchmark tool。關於 Rally 的介紹本文就不再贅述。本篇安裝時是以 &lt;a href=&quot;https://wiki.openstack.org/wiki/Rally#How_To&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;OpenStack 官方 Wiki&lt;/a&gt; 的教學為參考內容，紀錄安裝與使用 Rally 的筆記。&lt;/p&gt;
+&lt;h2 id=&quot;實驗環境&quot;&gt;&lt;a href=&quot;#實驗環境&quot; class=&quot;headerlink&quot; title=&quot;實驗環境&quot;&gt;&lt;/a&gt;實驗環境&lt;/h2&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Item&lt;/th&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td&gt;Operating System&lt;/td&gt;
+&lt;td&gt;Ubuntu 12.04 x64&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Python version&lt;/td&gt;
+&lt;td&gt;Python 2.7&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OpenStack version&lt;/td&gt;
+&lt;td&gt;Grizzly (2013)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;h2 id=&quot;Install-Rally&quot;&gt;&lt;a href=&quot;#Install-Rally&quot; class=&quot;headerlink&quot; title=&quot;Install Rally&quot;&gt;&lt;/a&gt;Install Rally&lt;/h2&gt;&lt;p&gt;一開始我是想要安裝在 OpenStack controller node 上，但是一直裝不起來，看起來似乎是 python module 的版本問題，不過我沒有仔細研究到底是哪個 module 的哪個版本卡住。&lt;/p&gt;
+&lt;p&gt;直接在 OpenStack 上開了一個新的 VM，一樣是選擇 Ubuntu 12.04，就可以直接安裝。&lt;em&gt;(不過現在回想起來，應該要用 virtualenv 來裝就可以解決，也不會影響原本的系統。)&lt;/em&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="OpenStack" scheme="https://maple52046.github.io/categories/OpenStack/"/>
+    
+    
+      <category term="OpenStack" scheme="https://maple52046.github.io/tags/OpenStack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ceph pgs stuck in &#39;incomplete&#39; state ,ops blocked</title>
+    <link href="https://maple52046.github.io/2015/02/11/Ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/"/>
+    <id>https://maple52046.github.io/2015/02/11/Ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/</id>
+    <published>2015-02-11T09:46:53.000Z</published>
+    <updated>2019-12-12T18:17:56.457Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Ceph OSD 又再次發生 &lt;a href=&quot;http://worldend.logdown.com/posts/251761-ceph-osd-a-copy-of-the-executable-or-objdump-rds-executable-is-needed-to-interpret-this&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;disk failure&lt;/a&gt;，結果在手動修復硬碟時操作不當，整個 disk partition table 都消失了&lt;br&gt;即使把備份的 disk patition table 寫回去之後，依然無法解決問題。&lt;/p&gt;
+&lt;p&gt;無奈之下，硬是將 Ceph cluster 開啟 (少一個 OSD)&lt;/p&gt;
+&lt;p&gt;執行 &lt;code&gt;ceph health detail&lt;/code&gt; 得到以下狀態:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;pg 0.1f is stuck inactive since forever, current state incomplete, last acting [3]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;pg 0.1f is stuck unclean since forever, current state incomplete, last acting [3]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;pg 0.1f is incomplete, acting [3]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32 ops are blocked &amp;gt; 32.768 sec on osd.3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32 ops are blocked &amp;gt; 32.768 sec on osd.3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;1 osds have slow requests&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="Storage" scheme="https://maple52046.github.io/categories/Storage/"/>
+    
+    
+      <category term="Ceph" scheme="https://maple52046.github.io/tags/Ceph/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OpenStack Nova cannot reboot instance - Unable to create tap device</title>
+    <link href="https://maple52046.github.io/2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/"/>
+    <id>https://maple52046.github.io/2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/</id>
+    <published>2015-02-11T08:36:00.000Z</published>
+    <updated>2019-12-12T18:17:56.459Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 &lt;code&gt;nova reboot --hard &amp;lt;server&amp;gt;&lt;/code&gt; 的方式，想要開啟instance 卻失敗，在 &lt;code&gt;/var/log/nova/nova-compute.log&lt;/code&gt; 中看到以下錯誤訊息:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="OpenStack" scheme="https://maple52046.github.io/categories/OpenStack/"/>
+    
+    
+      <category term="OpenStack" scheme="https://maple52046.github.io/tags/OpenStack/"/>
+    
+      <category term="Nova" scheme="https://maple52046.github.io/tags/Nova/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>OpenStack Nova error: libVirt cannot get CPU affinity of process 30619</title>
+    <link href="https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/"/>
+    <id>https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/</id>
+    <published>2015-02-11T07:55:00.000Z</published>
+    <updated>2019-12-12T18:17:56.455Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Nova-compute 開不起來，在 log 中發現:&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;quot;&amp;#x2F;usr&amp;#x2F;lib&amp;#x2F;python2.7&amp;#x2F;dist-packages&amp;#x2F;eventlet&amp;#x2F;tpool.py&amp;quot;, line 187, in doit&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2015-02-11 15:34:05.511 30827 TRACE nova     result &amp;#x3D; proxy_call(self._autowrap, f, *args, **kwargs)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;quot;&amp;#x2F;usr&amp;#x2F;lib&amp;#x2F;python2.7&amp;#x2F;dist-packages&amp;#x2F;eventlet&amp;#x2F;tpool.py&amp;quot;, line 147, in proxy_call&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2015-02-11 15:34:05.511 30827 TRACE nova     rv &amp;#x3D; execute(f,*args,**kwargs)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;quot;&amp;#x2F;usr&amp;#x2F;lib&amp;#x2F;python2.7&amp;#x2F;dist-packages&amp;#x2F;eventlet&amp;#x2F;tpool.py&amp;quot;, line 76, in tworker&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2015-02-11 15:34:05.511 30827 TRACE nova     rv &amp;#x3D; meth(*args,**kwargs)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;quot;&amp;#x2F;usr&amp;#x2F;lib&amp;#x2F;python2.7&amp;#x2F;dist-packages&amp;#x2F;libvirt.py&amp;quot;, line 2096, in vcpus&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2015-02-11 15:34:05.511 30827 TRACE nova     if ret &amp;#x3D;&amp;#x3D; -1: raise libvirtError (&amp;#39;virDomainGetVcpus() failed&amp;#39;, dom&amp;#x3D;self)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2015-02-11 15:34:05.511 30827 TRACE nova&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="OpenStack" scheme="https://maple52046.github.io/categories/OpenStack/"/>
+    
+    
+      <category term="OpenStack" scheme="https://maple52046.github.io/tags/OpenStack/"/>
+    
+      <category term="libVirt" scheme="https://maple52046.github.io/tags/libVirt/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ceph OSD stuck in an existing executable needed to interrupt.</title>
+    <link href="https://maple52046.github.io/2015/01/19/Ceph-OSD-stuck-in-an-existing-executable-needed-to-interrupt/"/>
+    <id>https://maple52046.github.io/2015/01/19/Ceph-OSD-stuck-in-an-existing-executable-needed-to-interrupt/</id>
+    <published>2015-01-19T03:39:36.000Z</published>
+    <updated>2019-12-12T18:17:56.464Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;上週 Ceph cluster 掛掉，結果是某個 OSD 一直起不來。&lt;br&gt;在 &lt;code&gt;/var/log/ceph/ceph-osd.X.log&lt;/code&gt; 裡面看到了以下錯誤訊息&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;ceph version 0.80.5 (38b73c67d375a2552d8ed67843c8a65c2c0feba6)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;1: (FileStore::lfn_open(coll_t, ghobject_t const&amp;amp;, bool, std::tr1::shared_ptr&amp;lt;FDCache::FD&amp;gt;*, std::tr1::shared_ptr&amp;lt;CollectionIndex::Path&amp;gt;*, std::tr1::shared_ptr&amp;lt;CollectionIndex&amp;gt;*)+0x4e6) [0x888926]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2: (FileStore::_touch(coll_t, ghobject_t const&amp;amp;)+0x18b) [0x88effb]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3: (FileStore::_do_transaction(ObjectStore::Transaction&amp;amp;, unsigned long, int, ThreadPool::TPHandle*)+0x48f6) [0x899856]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4: (FileStore::_do_transactions(std::list&amp;lt;ObjectStore::Transaction*, std::allocator&amp;lt;ObjectStore::Transaction*&amp;gt; &amp;gt;&amp;amp;, unsigned long, ThreadPool::TPHandle*)+0x74) [0x89b204]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5: (JournalingObjectStore::journal_replay(unsigned long)+0x886) [0x8af6e6]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6: (FileStore::mount()+0x30c2) [0x883052]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7: (OSD::do_convertfs(ObjectStore*)+0x1a) [0x61a11a]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8: (main()+0x1d88) [0x602f98]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9: (__libc_start_main()+0xed) [0x7f70e698276d]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10: &amp;#x2F;usr&amp;#x2F;bin&amp;#x2F;ceph-osd() [0x607229]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;NOTE: a copy of the executable, or &amp;#96;objdump -rdS &amp;lt;executable&amp;gt;&amp;#96; is needed to interpret this.&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="Storage" scheme="https://maple52046.github.io/categories/Storage/"/>
+    
+    
+      <category term="Ceph" scheme="https://maple52046.github.io/tags/Ceph/"/>
+    
+  </entry>
+  
+</feed>
