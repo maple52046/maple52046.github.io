@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://maple52046.github.io/"/>
-  <updated>2020-04-25T11:45:13.707Z</updated>
+  <updated>2020-04-25T11:46:31.898Z</updated>
   <id>https://maple52046.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://maple52046.github.io/2020/04/25/Mujoco-Installation/"/>
     <id>https://maple52046.github.io/2020/04/25/Mujoco-Installation/</id>
     <published>2020-04-25T11:20:05.000Z</published>
-    <updated>2020-04-25T11:45:13.707Z</updated>
+    <updated>2020-04-25T11:46:31.898Z</updated>
     
     <summary type="html">
     
@@ -29,7 +29,11 @@
       
         
         
-          &lt;h1 id=&quot;MuJoco-and-mujoco-py-Installation&quot;&gt;&lt;a href=&quot;#MuJoco-and-mujoco-py-Installation&quot; class=&quot;headerlink&quot; title=&quot;MuJoco and mujoco_py
+          &lt;p&gt;安裝步驟：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;建立目錄: &lt;code&gt;mkdir -p ~/.mujoco&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;從 email 中下載授權認證，並存到
         
       
     
