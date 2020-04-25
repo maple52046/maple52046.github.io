@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://maple52046.github.io/"/>
-  <updated>2019-12-12T18:17:56.466Z</updated>
+  <updated>2020-04-25T11:35:50.465Z</updated>
   <id>https://maple52046.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MuJoco and mujoco_py Installation</title>
+    <link href="https://maple52046.github.io/2020/04/25/Mujoco-Installation/"/>
+    <id>https://maple52046.github.io/2020/04/25/Mujoco-Installation/</id>
+    <published>2020-04-25T11:20:05.000Z</published>
+    <updated>2020-04-25T11:35:50.465Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;MuJoco-and-mujoco-py-Installation&quot;&gt;&lt;a href=&quot;#MuJoco-and-mujoco-py-Installation&quot; class=&quot;headerlink&quot; title=&quot;MuJoco and mujoco_py
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="Python" scheme="https://maple52046.github.io/tags/Python/"/>
+    
+  </entry>
   
   <entry>
     <title>Enable PXE boot on Intel NIC under RHEL</title>
@@ -624,28 +649,6 @@
       <category term="OpenStack" scheme="https://maple52046.github.io/tags/OpenStack/"/>
     
       <category term="libVirt" scheme="https://maple52046.github.io/tags/libVirt/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ceph OSD stuck in an existing executable needed to interrupt.</title>
-    <link href="https://maple52046.github.io/2015/01/19/Ceph-OSD-stuck-in-an-existing-executable-needed-to-interrupt/"/>
-    <id>https://maple52046.github.io/2015/01/19/Ceph-OSD-stuck-in-an-existing-executable-needed-to-interrupt/</id>
-    <published>2015-01-19T03:39:36.000Z</published>
-    <updated>2019-12-12T18:17:56.464Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;上週 Ceph cluster 掛掉，結果是某個 OSD 一直起不來。&lt;br&gt;在 &lt;code&gt;/var/log/ceph/ceph-osd.X.log&lt;/code&gt; 裡面看到了以下錯誤訊息&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;ceph version 0.80.5 (38b73c67d375a2552d8ed67843c8a65c2c0feba6)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;1: (FileStore::lfn_open(coll_t, ghobject_t const&amp;amp;, bool, std::tr1::shared_ptr&amp;lt;FDCache::FD&amp;gt;*, std::tr1::shared_ptr&amp;lt;CollectionIndex::Path&amp;gt;*, std::tr1::shared_ptr&amp;lt;CollectionIndex&amp;gt;*)+0x4e6) [0x888926]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2: (FileStore::_touch(coll_t, ghobject_t const&amp;amp;)+0x18b) [0x88effb]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3: (FileStore::_do_transaction(ObjectStore::Transaction&amp;amp;, unsigned long, int, ThreadPool::TPHandle*)+0x48f6) [0x899856]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4: (FileStore::_do_transactions(std::list&amp;lt;ObjectStore::Transaction*, std::allocator&amp;lt;ObjectStore::Transaction*&amp;gt; &amp;gt;&amp;amp;, unsigned long, ThreadPool::TPHandle*)+0x74) [0x89b204]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5: (JournalingObjectStore::journal_replay(unsigned long)+0x886) [0x8af6e6]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6: (FileStore::mount()+0x30c2) [0x883052]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7: (OSD::do_convertfs(ObjectStore*)+0x1a) [0x61a11a]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8: (main()+0x1d88) [0x602f98]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9: (__libc_start_main()+0xed) [0x7f70e698276d]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10: &amp;#x2F;usr&amp;#x2F;bin&amp;#x2F;ceph-osd() [0x607229]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;NOTE: a copy of the executable, or &amp;#96;objdump -rdS &amp;lt;executable&amp;gt;&amp;#96; is needed to interpret this.&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-    
-      <category term="Storage" scheme="https://maple52046.github.io/categories/Storage/"/>
-    
-    
-      <category term="Ceph" scheme="https://maple52046.github.io/tags/Ceph/"/>
     
   </entry>
   

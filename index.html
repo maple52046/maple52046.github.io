@@ -243,73 +243,55 @@
                     
                         <a
                             class="link-unstyled"
-                            href="/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
-                            aria-label=": Enable PXE boot on Intel NIC under RHEL"
+                            href="/2020/04/25/Mujoco-Installation/"
+                            aria-label=": MuJoco and mujoco_py Installation"
                         >
-                            Enable PXE boot on Intel NIC under RHEL
+                            MuJoco and mujoco_py Installation
                         </a>
                     
                 </h1>
                 <div class="postShorten-meta">
-    <time datetime="2018-04-22T14:45:10+08:00">
+    <time datetime="2020-04-25T19:20:05+08:00">
 	
-		    Apr 22, 2018
+		    Apr 25, 2020
     	
     </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Linux/">Linux</a>
-
-
     
 </div>
 
             </div>
             
                 <div class="postShorten-content">
-                    <h1 id="Target-problem"><a href="#Target-problem" class="headerlink" title="Target problem"></a>Target problem</h1><p>在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡; 進入到 OS 之後，網卡就出現了並且能正常運作。</p>
-<h2 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h2><table>
-<thead>
-<tr>
-<th align="center">Item</th>
-<th align="center">Value/Settings</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">OS</td>
-<td align="center">RHEL 7.4</td>
-</tr>
-<tr>
-<td align="center">NIC</td>
-<td align="center">Intel xv520</td>
-</tr>
-</tbody></table>
-<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><ul>
-<li>Step 1: </li>
-</ul>
-<p>從 Intel 官網中, 下載 BootUtil:</p>
-<p>然後上傳至 RHEL 中並解壓縮：</p>
-<ul>
-<li>Step 2:</li>
-</ul>
-<p>安裝 Kernel Source:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install kernel-devel</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>Step 3:</li>
-</ul>
-<p>執行 <code>./bootutil64e</code> 可以先列出當前的網卡狀態：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Port Network Address Location Series  WOL Flash Firmware                Version</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">  1   90E2BAB1EF88   218:00.0 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  2   90E2BAB1EF89   218:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  3   90E2BAB1F154    28:00.0 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  4   90E2BAB1F155    28:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br></pre></td></tr></table></figure>
+                    <h1 id="MuJoco-and-mujoco-py-Installation"><a href="#MuJoco-and-mujoco-py-Installation" class="headerlink" title="MuJoco and mujoco_py Installation"></a>MuJoco and mujoco_py Installation</h1><p>安裝步驟：</p>
+<ol>
+<li><p>建立目錄: <code>mkdir -p ~/.mujoco</code></p>
+</li>
+<li><p>從 email 中下載授權認證，並存到 <code>~/.mujoco/mjkey.txt</code></p>
+</li>
+<li><p>下載安裝 MoJuCo:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.roboti.us/download/mujoco200_linux.zip</span><br><span class="line">unzip mujoco200_linux.zip</span><br><span class="line">mv mujoco200_linux ~/.mojuco/mojuco200</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>設定 bash 環境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'export LD_LIBRARY_PATH=$HOME/.mujoco/mujoco200/bin:$LD_LIBRARY_PATH'</span> &gt;&gt; ~/.bashrc</span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>在上述例子中, NIC 的 firmware 是設定成不能 flash, 這時候必須要先開啟 flash 功能。<br>執行 <code>./bootutil64e -NIC=3 -FLASHENABLE</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Connection to QV driver failed - please reinstall it!</span><br><span class="line"></span><br><span class="line">Intel(R) Ethernet Flash Firmware Utility</span><br><span class="line">BootUtil version 1.6.57.0</span><br><span class="line">Copyright (C) 2003-2017 Intel Corporation</span><br><span class="line"></span><br><span class="line">Enabling boot ROM on port 3...Success</span><br><span class="line"></span><br><span class="line">Reboot the system to enable the boot ROM on this port</span><br><span class="line"></span><br><span class="line">Port Network Address Location Series  WOL Flash Firmware                Version</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">  1   90E2BAB1EF88   218:00.0 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  2   90E2BAB1EF89   218:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  3   90E2BAB1F154    28:00.0 10GbE   N&#x2F;A Reboot Required</span><br><span class="line">  4   90E2BAB1F155    28:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br></pre></td></tr></table></figure>
+<p>MuJoCo 安裝是步驟 1 ~ 4，接下來是 mujoco_py 安裝</p>
 </blockquote>
-<p>接下來執行 <code>./bootutil64e -NIC=3 -BOOTENABLE=PXE</code>，就可以打開網卡的 PXE 功能了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Connection to QV driver failed - please reinstall it!</span><br><span class="line"></span><br><span class="line">Intel(R) Ethernet Flash Firmware Utility</span><br><span class="line">BootUtil version 1.6.57.0</span><br><span class="line">Copyright (C) 2003-2017 Intel Corporation</span><br><span class="line"></span><br><span class="line">Enabling boot ROM on port 1...Success</span><br><span class="line"></span><br><span class="line">Reboot the system to enable the boot ROM on this port</span><br><span class="line"></span><br><span class="line">Port Network Address Location Series  WOL Flash Firmware                Version</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">  1   90E2BAB1EF88   218:00.0 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  2   90E2BAB1EF89   218:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br><span class="line">  3   90E2BAB1F154    28:00.0 10GbE   N&#x2F;A PXE                           2.1.40</span><br><span class="line">  4   90E2BAB1F155    28:00.1 10GbE   N&#x2F;A FLASH Disabled</span><br></pre></td></tr></table></figure>
-
-<p>完成, 並重開機驗證 PXE 是否正常啟動。</p>
+</li>
+<li><p>安装相依性</p>
+<ul>
+<li><p>Debian/Ubuntu:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gcc patchelf libglu1-mesa-dev mesa-common-dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>CentOS:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install gcc mesa*</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>安裝 <code>mujoco_py</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -U <span class="string">'mujoco-py&lt;2.1,&gt;=2.0'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 
                     
                         
@@ -319,577 +301,13 @@
                     
                         <p>
                             <a
-                                href="/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/#post-footer"
+                                href="/2020/04/25/Mujoco-Installation/#post-footer"
                                 class="postShorten-excerpt_link link"
                                 aria-label=""
                             >
                                 Comment and share
                             </a>
                         </p>
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
-                            aria-label=": Install Ubuntu in UEFI mode with debootstrap"
-                        >
-                            Install Ubuntu in UEFI mode with debootstrap
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-11-03T15:28:19+08:00">
-	
-		    Nov 03, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Linux/">Linux</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>在 UEFI 模式下想要安裝 Ubuntu 卻總是失敗：</p>
-<p><img src="https://i.imgur.com/E9j9j2p.png" alt="Ubuntu boot failed"></p>
-<p>於是決定改採用全手動安裝的方式。</p>
-                    
-                        <a
-                            href="/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": Install Ubuntu in UEFI mode with debootstrap"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2017/10/19/Fix-the-Oracle-Java-installation-on-Ubuntu-16-04/"
-                            aria-label=": Fix the Oracle Java installation on Ubuntu 16.04"
-                        >
-                            Fix the Oracle Java installation on Ubuntu 16.04
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-10-19T08:38:53+08:00">
-	
-		    Oct 19, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Linux/">Linux</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>在 Ubuntu 透過 <a href="https://launchpad.net/~webupd8team/+archive/ubuntu/java" target="_blank" rel="noopener">WebUpd8 team ppa</a> 安裝 Java：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:webupd8team&#x2F;java</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install oracle-java9-installer</span><br></pre></td></tr></table></figure>
-
-<p>安裝的過程中發生 404 Not found：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Downloading Oracle Java 9...</span><br><span class="line">--2017-10-19 08:41:59--  http:&#x2F;&#x2F;download.oracle.com&#x2F;otn-pub&#x2F;java&#x2F;jdk&#x2F;9+181&#x2F;jdk-9_linux-x64_bin.tar.gz</span><br><span class="line">Resolving download.oracle.com (download.oracle.com)... 210.61.248.163, 210.61.248.216</span><br><span class="line">Connecting to download.oracle.com (download.oracle.com)|210.61.248.163|:80... connected.</span><br><span class="line">HTTP request sent, awaiting response... 302 Moved Temporarily</span><br><span class="line">Location: https:&#x2F;&#x2F;edelivery.oracle.com&#x2F;otn-pub&#x2F;java&#x2F;jdk&#x2F;9+181&#x2F;jdk-9_linux-x64_bin.tar.gz [following]</span><br><span class="line">--2017-10-19 08:41:59--  https:&#x2F;&#x2F;edelivery.oracle.com&#x2F;otn-pub&#x2F;java&#x2F;jdk&#x2F;9+181&#x2F;jdk-9_linux-x64_bin.tar.gz</span><br><span class="line">Resolving edelivery.oracle.com (edelivery.oracle.com)... 104.116.18.92, 2600:1417:1b:188::2d3e, 2600:1417:1b:184::2d3e</span><br><span class="line">Connecting to edelivery.oracle.com (edelivery.oracle.com)|104.116.18.92|:443... connected.</span><br><span class="line">HTTP request sent, awaiting response... 302 Moved Temporarily</span><br><span class="line">Location: http:&#x2F;&#x2F;download.oracle.com&#x2F;otn-pub&#x2F;java&#x2F;jdk&#x2F;9+181&#x2F;jdk-9_linux-x64_bin.tar.gz?AuthParam&#x3D;1508373839_4021b0b2a88845635225f537490b9b5a [following]</span><br><span class="line">--2017-10-19 08:42:00--  http:&#x2F;&#x2F;download.oracle.com&#x2F;otn-pub&#x2F;java&#x2F;jdk&#x2F;9+181&#x2F;jdk-9_linux-x64_bin.tar.gz?AuthParam&#x3D;1508373839_4021b0b2a88845635225f537490b9b5a</span><br><span class="line">Connecting to download.oracle.com (download.oracle.com)|210.61.248.163|:80... connected.</span><br><span class="line">HTTP request sent, awaiting response... 404 Not Found</span><br><span class="line">2017-10-19 08:42:01 ERROR 404: Not Found.</span><br><span class="line"></span><br><span class="line">download failed</span><br><span class="line">Oracle JDK 9 is NOT installed.</span><br><span class="line">dpkg: error processing package oracle-java9-installer (--configure):</span><br><span class="line"> subprocess installed post-installation script returned error exit status 1</span><br><span class="line">E: Sub-process &#x2F;usr&#x2F;bin&#x2F;dpkg returned an error code (1)</span><br></pre></td></tr></table></figure>
-
-<p>在等待官方之餘，嘗試先自己修改 deb 來解決這個問題。</p>
-                    
-                        <a
-                            href="/2017/10/19/Fix-the-Oracle-Java-installation-on-Ubuntu-16-04/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": Fix the Oracle Java installation on Ubuntu 16.04"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2017/08/02/Build-OpenCV-3-2-with-CUDA-8-0-and-Matlab/"
-                            aria-label=": Build OpenCV 3.2 with CUDA 8.0 and Matlab on Ubuntu 16.04/14.04"
-                        >
-                            Build OpenCV 3.2 with CUDA 8.0 and Matlab on Ubuntu 16.04/14.04
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2017-08-02T19:14:45+08:00">
-	
-		    Aug 02, 2017
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Linux/">Linux</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>本文記錄如何在 Ubuntu 16.04 (14.04) 上搭建 Cuda, Matlab 與 OpenCV 的開發環境。</p>
-<h1 id="Troubleshooting"><a href="#Troubleshooting" class="headerlink" title="Troubleshooting"></a>Troubleshooting</h1><p>先把 troubleshooting 放前面是因為本來就是為了解決第一個 error 才有了這一篇紀錄XD。</p>
-<blockquote>
-<p>Error 1 與 error 2 都是發生在 Matlab R2015b 已經安裝好的情況下才產生。更準確來說是<strong>程式讀取到 Matlab 自帶的 libtiff.h</strong> 才產生的 error。</p>
-</blockquote>
-<h2 id="Error-1"><a href="#Error-1" class="headerlink" title="Error 1"></a>Error 1</h2><p>某人開發的程式，在 <strong>Matlab</strong> 安裝完畢後，編譯時 include Matlab library 與 header 然後出現錯誤：</p>
-<p><img src="http://i.imgur.com/KGOpOlE.png" alt="Compile error"></p>
-<p>如果編譯時不引用到 Matlab 的東西，就不會有事情。但是這道程式就是必須要同時使用 Matlab 與 OpenCV。</p>
-<p><a href="https://github.com/BVLC/caffe/issues/4436" target="_blank" rel="noopener">根據 google 來的資料，應該是 OpenCV 編譯時沒有啟用 TIFF (?)</a>。<br>所以解決方法就是重新編譯 OpenCV 並且啟用 TIFF。</p>
-<h2 id="Error-2"><a href="#Error-2" class="headerlink" title="Error 2"></a>Error 2</h2><p>重新編譯 OpenCV 時，出現錯誤:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadDirectory@LIBTIFF_4.0&#39; &#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFWriteEncodedStrip@LIBTIFF_4.0&#39;</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFIsTiled@LIBTIFF_4.0&#39; &#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFOpen@LIBTIFF_4.0&#39;</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadEncodedStrip@LIBTIFF_4.0&#39; &#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFSetField@LIBTIFF_4.0&#39;</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFWriteScanline@LIBTIFF_4.0&#39; &#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFGetField@LIBTIFF_4.0&#39;</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFScanlineSize@LIBTIFF_4.0&#39; &#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFNumberOfStrips@LIBTIFF_4.0&#39;</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFSetWarningHandler@LIBTIFF_4.0&#39; &#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFSetErrorHandler@LIBTIFF_4.0&#39;</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadEncodedTile@LIBTIFF_4.0&#39; &#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFReadRGBATile@LIBTIFF_4.0&#39;</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFClose@LIBTIFF_4.0&#39; &#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFRGBAImageOK@LIBTIFF_4.0&#39;</span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libopencv_imgcodecs.so.3.1.0: undefined reference to &#96;TIFFReadRGBAStrip@LIBTIFF_4.0&#39;</span><br><span class="line">collect2: error: ld returned 1 exit status</span><br><span class="line">tools&#x2F;CMakeFiles&#x2F;compute_image_mean.dir&#x2F;build.make:134: recipe for target &#39;tools&#x2F;compute_image_mean&#39; failed</span><br><span class="line">make[2]: *** [tools&#x2F;compute_image_mean] Error 1</span><br><span class="line">CMakeFiles&#x2F;Makefile2:473: recipe for target &#39;tools&#x2F;CMakeFiles&#x2F;compute_image_mean.dir&#x2F;all&#39; failed</span><br><span class="line">make[1]: *** [tools&#x2F;CMakeFiles&#x2F;compute_image_mean.dir&#x2F;all] Error 2</span><br><span class="line">Makefile:127: recipe for target &#39;all&#39; failed</span><br><span class="line">make: *** [all] Error 2</span><br></pre></td></tr></table></figure>
-
-<p>同樣根據 error 1 的參考資料：<a href="https://github.com/BVLC/caffe/issues/4436。" target="_blank" rel="noopener">https://github.com/BVLC/caffe/issues/4436。</a><br>在 <code>CMakeCache.txt</code> 裡面發現：<code>WITH_TIFF=ON</code>, <code>BUILD_TIFF=OFF</code>。<br>看起來原本 <code>cmake</code> 就有偵測到系統的 libtiff，因此預設不編譯 tiff。<br>既然這樣，所以解決方法就是在 <code>cmake</code> 時，增加參數 <code>-D BUILD_TIFF=ON</code>。</p>
-<h2 id="Error-3"><a href="#Error-3" class="headerlink" title="Error 3"></a>Error 3</h2><p>OpenCV 已經編譯完成，但原本的程式重新編譯時出現:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;bin&#x2F;ld: cannot find -lippicv</span><br></pre></td></tr></table></figure>
-
-<p><a href="https://stackoverflow.com/questions/34401117/compiling-code-with-opencv-usr-bin-ld-cannot-find-lippicv" target="_blank" rel="noopener">根據查到的資料</a>，解決方法就是在編譯 OpenCV 時，<code>cmake</code> 階段增加 <code>-D WITH_IPP=ON</code>。</p>
-<hr>
-<h1 id="System-environment"><a href="#System-environment" class="headerlink" title="System environment"></a>System environment</h1><p>兩套環境：</p>
-<ol>
-<li>Ubuntu 16.04 with Nvidia GeForce GTX 970 </li>
-<li>Ubuntu 14.04 with Nvidia GeForce GT 620 OEM</li>
-</ol>
-<p>第一套環境是從 OS 開始安裝;<br>第二套是一個已經存在的環境，只是再重新編譯 OpenCV (為了解決 TIFF 問題)。</p>
-<p>其他的系統資訊：</p>
-<ul>
-<li>OpenCV: 3.2</li>
-<li>CUDA: 8.0</li>
-<li>Matlab: R2015b (or Octave 4.2)</li>
-<li>Nvidia driver: <strong>375</strong></li>
-<li>Java:<ul>
-<li><strong>Oracla Java 8</strong> (on site 1)</li>
-<li>Oracle Java 7 (on site 2)</li>
-</ul>
-</li>
-</ul>
-                    
-                        <a
-                            href="/2017/08/02/Build-OpenCV-3-2-with-CUDA-8-0-and-Matlab/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": Build OpenCV 3.2 with CUDA 8.0 and Matlab on Ubuntu 16.04/14.04"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2016/06/30/Notes-OpenStack-Heat-Usage/"
-                            aria-label=": OpenStack Heat 使用筆記"
-                        >
-                            OpenStack Heat 使用筆記
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2016-06-30T15:48:16+08:00">
-	
-		    Jun 30, 2016
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/OpenStack/">OpenStack</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。</p>
-<p>Heat 用 <strong>resource</strong> 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 <code>default</code>。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 <code>default</code> 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。</p>
-<p>Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 <code>block_device_mapping</code> 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。</p>
-<p>這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 <strong>resource</strong>，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 <strong>state</strong> 來配置 Linux。</p>
-<p>在開始之前，你必須要先準備：</p>
-<ol>
-<li>一個 OpenStack Account。同時你必須要確定該 platform 有安裝 Heat 服務。本文是使用 <a href="https://www.unicloud.org.tw/services/sscloud" target="_blank" rel="noopener">SSCloud</a> 做 demo。</li>
-<li>熟悉 OpenStack 的基本操作：使用 OpenStack dashboard 或是使用 OpenStack command client。</li>
-</ol>
-<h1 id="Template"><a href="#Template" class="headerlink" title="Template"></a>Template</h1><p>先前已經提過 Heat Resource 。在 Heat 中，由眾多 resource 所組合而成的檔案/物件就是樣版(template)。<br>你可以使用 <code>heat</code> 指令來查詢你的 OpenStack platform 支援哪些 template。</p>
-<p>執行 <code>heat template-version-list</code> 會得到：</p>
-<p><img src="http://i.imgur.com/OM80xOF.png" alt="Imgur"></p>
-                    
-                        <a
-                            href="/2016/06/30/Notes-OpenStack-Heat-Usage/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": OpenStack Heat 使用筆記"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2016/06/29/Change-Comment-Color-in-VIM/"
-                            aria-label=": 調整 vim 註解顏色"
-                        >
-                            調整 vim 註解顏色
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2016-06-29T12:04:20+08:00">
-	
-		    Jun 29, 2016
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Linux/">Linux</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>VIM 在純 terminal 的環境下, 如果你設定 <code>bg=light</code> (預設)，註解的顏色真是令人看到眼睛都快瞎了。</p>
-<p><img src="http://i.imgur.com/ZzWbavl.png" alt="VIM Color (set bg=light)"></p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>一般來說，解決的方法通常有：</p>
-<ul>
-<li><p>設定 <code>bg=dark</code></p>
-<p>在 <code>~/.vimrc</code> or <code>/etc/vimrc</code> 中設定:  <code>set bg=dark</code><br>這樣整個配色都會調整成：</p>
-<p><img src="http://i.imgur.com/2rucoO9.png" alt="VIM Color (set bg=dark)"></p>
-<p>但是這種配色又不合我的胃口。</p>
-</li>
-<li><p>套用別人寫好的 color scheme 或是自己寫 color scheme</p>
-<p>網路上已經有不少人寫好了 scheme，如果想要套用別人的 scheme，可以參考 Tsung’s Blog  的<a href="https://blog.longwin.com.tw/2009/03/choose-vim-color-scheme-2009/" target="_blank" rel="noopener">挑選 Vim 顏色(Color Scheme)</a>這篇做設定；自己編輯的話，嗯，自己 google 吧XD</p>
-<p>不過對於我這種懶到不行的人來說，套用別人的 scheme 還是太麻煩惹<del>~</del></p>
-</li>
-</ul>
-                    
-                        <a
-                            href="/2016/06/29/Change-Comment-Color-in-VIM/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": 調整 vim 註解顏色"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2016/01/23/Convert-DVD-to-MP4-with-ffmpeg-on-Ubuntu/"
-                            aria-label=": Ubuntu 上使用 ffmpeg 將 DVD 轉成 mp4"
-                        >
-                            Ubuntu 上使用 ffmpeg 將 DVD 轉成 mp4
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2016-01-23T00:14:00+08:00">
-	
-		    Jan 23, 2016
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Linux/">Linux</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p><a href="https://www.ffmpeg.org/" target="_blank" rel="noopener">FFmpeg</a> 是一套跨平臺開發原始碼的影音轉換軟體。<br>利用 FFmpeg 我們可以在 Linux 上將 DVD 轉換成 mp4 或是其他格式。</p>
-<p>Ubuntu 15.04 以上可以直接以 apt-get 安裝。不過我的平臺是 Ubuntu 14.04。<br>因此只能通過兩種方式安裝: ppa、手動編譯。</p>
-<p>如果要從 PPA 安裝，請參考： <a href="https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media" target="_blank" rel="noopener">https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media</a></p>
-<p>不過我是採用編譯的方式：<a href="https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu" target="_blank" rel="noopener">https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu</a></p>
-                    
-                        <a
-                            href="/2016/01/23/Convert-DVD-to-MP4-with-ffmpeg-on-Ubuntu/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": Ubuntu 上使用 ffmpeg 將 DVD 轉成 mp4"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2015/12/17/Ceph-PG-stuck-stuck-in-degraded-and-undersized/"
-                            aria-label=": Ceph PG stuck in degraded + undersized"
-                        >
-                            Ceph PG stuck in degraded + undersized
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2015-12-17T17:08:53+08:00">
-	
-		    Dec 17, 2015
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Storage/">Storage</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>執行 <code>ceph -s</code> 出現：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">cluster 1a1d374a-c6e9-48cb-9b45-525a6fdaa91e</span><br><span class="line"> health HEALTH_WARN</span><br><span class="line">        64 pgs degraded</span><br><span class="line">        64 pgs stale</span><br><span class="line">        64 pgs stuck degraded</span><br><span class="line">        64 pgs stuck stale</span><br><span class="line">        64 pgs stuck unclean</span><br><span class="line">        64 pgs stuck undersized</span><br><span class="line">        64 pgs undersized</span><br><span class="line"> monmap e1: 1 mons at &#123;twin-storage-01&#x3D;172.16.91.1:6789&#x2F;0&#125;</span><br><span class="line">        election epoch 2, quorum 0 twin-storage-01</span><br><span class="line"> mdsmap e5: 1&#x2F;1&#x2F;1 up &#123;0&#x3D;twin-storage-01&#x3D;up:active&#125;</span><br><span class="line"> osdmap e92: 7 osds: 7 up, 7 in</span><br><span class="line">  pgmap v685: 832 pgs, 7 pools, 43573 kB data, 38 objects</span><br><span class="line">        7491 MB used, 14889 GB &#x2F; 14896 GB avail</span><br><span class="line">             769 active+clean</span><br><span class="line">              37 stale+active+undersized+degraded+remapped</span><br><span class="line">              26 stale+active+undersized+degraded</span><br></pre></td></tr></table></figure>
-
-<p>很多 pg 卡在 <code>degraded</code> + <code>undersized</code> 狀態。</p>
-                    
-                        <a
-                            href="/2015/12/17/Ceph-PG-stuck-stuck-in-degraded-and-undersized/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": Ceph PG stuck in degraded + undersized"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2015/11/19/Setup-Squid-Transparent-Proxy-with-Docker/"
-                            aria-label=": Setup Squid Transparent Proxy with Docker"
-                        >
-                            Setup Squid Transparent Proxy with Docker
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2015-11-19T17:09:00+08:00">
-	
-		    Nov 19, 2015
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Container/">Container</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>Squid 作為 Transparent proxy 時，不但可以加快區域網絡內的速度、降低網路流量<br>還可以控管區網內是否要開放/封鎖網站<del>(監看區網內誰在玩FB或是看色情網站XD)</del></p>
-<p>通常 Transparent proxy 都會放在區網對外的那台 server 上，例如下圖：</p>
-<img class="center" src="http://user-image.logdown.io/user/10779/blog/10403/post/314634/N4mq1E37S767W0ZY5S3U_%E6%9C%AA%E5%91%BD%E5%90%8D.001.jpeg" alt="Squid-transparent-proxy.jpeg">
-
-<p>對於 Proxy , Transparent proxy 沒有概念的人，可以先看<a href="http://linux.vbird.org/linux_server/0420squid.php" target="_blank" rel="noopener">鳥哥的文章</a>，這邊就很不負責的說不再贅述了((懶~</p>
-<h1 id="實驗環境"><a href="#實驗環境" class="headerlink" title="實驗環境"></a>實驗環境</h1><table>
-<thead>
-<tr>
-<th align="center">Item</th>
-<th align="center">Value</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">OS</td>
-<td align="center">Gentoo</td>
-</tr>
-<tr>
-<td align="center">Docker version</td>
-<td align="center">1.7.9</td>
-</tr>
-<tr>
-<td align="center">Docker image</td>
-<td align="center"><a href="https://github.com/sameersbn/docker-squid" target="_blank" rel="noopener">sameersbn/squid:3.3.8-4</a></td>
-</tr>
-</tbody></table>
-<p>只要能跑 Docker, 實體機的 OS 是什麼都不重要 :D</p>
-                    
-                        <a
-                            href="/2015/11/19/Setup-Squid-Transparent-Proxy-with-Docker/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": Setup Squid Transparent Proxy with Docker"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2015/05/14/Cross-Compile-for-OpenWRT/"
-                            aria-label=": Cross-compile for OpenWRT"
-                        >
-                            Cross-compile for OpenWRT
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2015-05-14T09:55:00+08:00">
-	
-		    May 14, 2015
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Programming/">Programming</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>雖然不是很懂自己在幹嘛，不過至少是參考並修改別人的方式，完成了幾個簡單的範例。</p>
-<ul>
-<li>編譯環境：<ul>
-<li>Operating System: Ubuntu 14.04 x64</li>
-<li>OpenWRT version: 14.07</li>
-</ul>
-</li>
-</ul>
-                    
-                        <a
-                            href="/2015/05/14/Cross-Compile-for-OpenWRT/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": Cross-compile for OpenWRT"
-                        >
-                            Continue reading
-                        </a>
-                        
                     
                 </div>
             
@@ -912,7 +330,7 @@
             </a>
           </li>
         
-        <li class="pagination-number">page 1 of 2</li>
+        <li class="pagination-number">page 1 of 21</li>
     </ul>
 </div>
 
@@ -921,7 +339,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 古振浩 Chen-Hao Ku. All Rights Reserved.
+        Copyrights &copy; 2020 古振浩 Chen-Hao Ku. All Rights Reserved.
     </span>
 </footer>
 

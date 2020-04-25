@@ -244,6 +244,87 @@
                     
                         <a
                             class="link-unstyled"
+                            href="/2020/04/25/Mujoco-Installation/"
+                            aria-label=": MuJoco and mujoco_py Installation"
+                        >
+                            MuJoco and mujoco_py Installation
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time datetime="2020-04-25T19:20:05+08:00">
+	
+		    Apr 25, 2020
+    	
+    </time>
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content">
+                    <h1 id="MuJoco-and-mujoco-py-Installation"><a href="#MuJoco-and-mujoco-py-Installation" class="headerlink" title="MuJoco and mujoco_py Installation"></a>MuJoco and mujoco_py Installation</h1><p>安裝步驟：</p>
+<ol>
+<li><p>建立目錄: <code>mkdir -p ~/.mujoco</code></p>
+</li>
+<li><p>從 email 中下載授權認證，並存到 <code>~/.mujoco/mjkey.txt</code></p>
+</li>
+<li><p>下載安裝 MoJuCo:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.roboti.us/download/mujoco200_linux.zip</span><br><span class="line">unzip mujoco200_linux.zip</span><br><span class="line">mv mujoco200_linux ~/.mojuco/mojuco200</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>設定 bash 環境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">'export LD_LIBRARY_PATH=$HOME/.mujoco/mujoco200/bin:$LD_LIBRARY_PATH'</span> &gt;&gt; ~/.bashrc</span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>MuJoCo 安裝是步驟 1 ~ 4，接下來是 mujoco_py 安裝</p>
+</blockquote>
+</li>
+<li><p>安装相依性</p>
+<ul>
+<li><p>Debian/Ubuntu:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gcc patchelf libglu1-mesa-dev mesa-common-dev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>CentOS:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install gcc mesa*</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>安裝 <code>mujoco_py</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install -U <span class="string">'mujoco-py&lt;2.1,&gt;=2.0'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+                    
+                        
+
+
+                    
+                    
+                        <p>
+                            <a
+                                href="/2020/04/25/Mujoco-Installation/#post-footer"
+                                class="postShorten-excerpt_link link"
+                                aria-label=""
+                            >
+                                Comment and share
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title">
+                    
+                        <a
+                            class="link-unstyled"
                             href="/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/"
                             aria-label=": Enable PXE boot on Intel NIC under RHEL"
                         >
@@ -840,64 +921,6 @@
         
     </article>
     
-    
-    <article class="postShorten postShorten--thumbnailimg-left">
-        <div class="postShorten-wrap">
-            
-            <div class="postShorten-header">
-                <h1 class="postShorten-title">
-                    
-                        <a
-                            class="link-unstyled"
-                            href="/2015/05/14/Cross-Compile-for-OpenWRT/"
-                            aria-label=": Cross-compile for OpenWRT"
-                        >
-                            Cross-compile for OpenWRT
-                        </a>
-                    
-                </h1>
-                <div class="postShorten-meta">
-    <time datetime="2015-05-14T09:55:00+08:00">
-	
-		    May 14, 2015
-    	
-    </time>
-    
-        <span>in </span>
-        
-    <a class="category-link" href="/categories/Programming/">Programming</a>
-
-
-    
-</div>
-
-            </div>
-            
-                <div class="postShorten-excerpt">
-                    <p>雖然不是很懂自己在幹嘛，不過至少是參考並修改別人的方式，完成了幾個簡單的範例。</p>
-<ul>
-<li>編譯環境：<ul>
-<li>Operating System: Ubuntu 14.04 x64</li>
-<li>OpenWRT version: 14.07</li>
-</ul>
-</li>
-</ul>
-                    
-                        <a
-                            href="/2015/05/14/Cross-Compile-for-OpenWRT/"
-                            class="postShorten-excerpt_link link"
-                            aria-label=": Cross-compile for OpenWRT"
-                        >
-                            Continue reading
-                        </a>
-                        
-                    
-                </div>
-            
-        </div>
-        
-    </article>
-    
     <div class="pagination-bar">
     <ul class="pagination">
         
@@ -913,7 +936,7 @@
             </a>
           </li>
         
-        <li class="pagination-number">page 1 of 2</li>
+        <li class="pagination-number">page 1 of 3</li>
     </ul>
 </div>
 
@@ -923,7 +946,7 @@
 
                 <footer id="footer" class="main-content-wrap">
     <span class="copyrights">
-        Copyrights &copy; 2019 古振浩 Chen-Hao Ku. All Rights Reserved.
+        Copyrights &copy; 2020 古振浩 Chen-Hao Ku. All Rights Reserved.
     </span>
 </footer>
 
