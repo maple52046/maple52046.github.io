@@ -1,0 +1,2517 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="zh-tw">
+  <title>世界的盡頭</title>
+  <subtitle></subtitle>
+  <id>https://maple52046.github.io/</id>
+  <author>
+    <name>世界的盡頭</name>
+    <uri>https://maple52046.github.io/</uri>
+  </author>
+  <updated>2020-08-04T06:26:04Z</updated>
+  <link rel="self" type="application/atom+xml" href="https://maple52046.github.io/feed.atom" hreflang="zh-tw"/>
+  <link rel="alternate" type="text/html" href="https://maple52046.github.io/" hreflang="zh-tw"/>
+  <entry>
+    <title>MuJoco and mujoco_py Installation</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/mujoco-installation/</id>
+    <updated>2020-04-25T19:20:05Z</updated>
+    <published>2020-04-25T19:20:05Z</published>
+    <content type="html"><![CDATA[<p>安裝步驟：</p>
+<ol>
+<li>建立目錄: <code>mkdir -p ~/.mujoco</code></li>
+<li>從 email 中下載授權認證，並存到 <code>~/.mujoco/mjkey.txt</code></li>
+<li>下載安裝 MoJuCo:</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">wget https://www.roboti.us/download/mujoco200_linux.zip
+unzip mujoco200_linux.zip
+mv mujoco200_linux ~/.mojuco/mojuco200
+</code></pre></div><ol start="4">
+<li>設定 bash 環境</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="s1">&#39;export LD_LIBRARY_PATH=$HOME/.mujoco/mujoco200/bin:$LD_LIBRARY_PATH&#39;</span> &gt;&gt; ~/.bashrc
+<span class="nb">source</span> ~/.bashrc
+</code></pre></div><blockquote>
+<p>MuJoCo 安裝是步驟 1 ~ 4，接下來是 mujoco_py 安裝</p>
+</blockquote>
+<ol start="5">
+<li>安装相依性</li>
+</ol>
+<ul>
+<li>
+<p>Debian/Ubuntu:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo apt-get install gcc patchelf libglu1-mesa-dev mesa-common-dev
+</code></pre></div></li>
+<li>
+<p>CentOS:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo yum install gcc mesa*
+</code></pre></div></li>
+</ul>
+<ol start="6">
+<li>安裝 <code>mujoco_py</code>:</li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">pip3 install -U <span class="s1">&#39;mujoco-py&lt;2.1,&gt;=2.0&#39;</span>
+</code></pre></div><p>安裝完成</p>
+<h2 id="reference">Reference</h2>
+<ol>
+<li><a href="https://github.com/openai/mujoco-py">Mujoco-py</a> - Github</li>
+<li><a href="https://github.com/openai/mujoco-py/issues/492">ERROR: Could not build wheels for mujoco-py which use PEP 517 and cannot be installed directly</a></li>
+</ol>]]></content>
+  </entry>
+  <entry>
+    <title>Enable PXE boot on Intel NIC under RHEL</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/enable-pxe-boot-on-intel-nic-under-rhel/</id>
+    <updated>2018-04-22T14:45:10Z</updated>
+    <published>2018-04-22T14:45:10Z</published>
+    <content type="html"><![CDATA[<h1 id="target-problem">Target problem</h1>
+<p>在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡; 進入到 OS 之後，網卡就出現了並且能正常運作。</p>
+<h2 id="environment">Environment</h2>
+<table>
+<thead>
+<tr>
+<th align="center">Item</th>
+<th align="center">Value/Settings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">OS</td>
+<td align="center">RHEL 7.4</td>
+</tr>
+<tr>
+<td align="center">NIC</td>
+<td align="center">Intel xv520</td>
+</tr>
+</tbody>
+</table>
+<h1 id="solution">Solution</h1>
+<ul>
+<li>Step 1:</li>
+</ul>
+<p>從 Intel 官網中, 下載 BootUtil:</p>
+<p>然後上傳至 RHEL 中並解壓縮：</p>
+<ul>
+<li>Step 2:</li>
+</ul>
+<p>安裝 Kernel Source:</p>
+<pre><code>sudo yum install kernel-devel
+</code></pre><ul>
+<li>Step 3:</li>
+</ul>
+<p>執行 <code>./bootutil64e</code> 可以先列出當前的網卡狀態：</p>
+<pre><code>Port Network Address Location Series  WOL Flash Firmware                Version
+==== =============== ======== ======= === ============================= =======
+  1   90E2BAB1EF88   218:00.0 10GbE   N/A FLASH Disabled
+  2   90E2BAB1EF89   218:00.1 10GbE   N/A FLASH Disabled
+  3   90E2BAB1F154    28:00.0 10GbE   N/A FLASH Disabled
+  4   90E2BAB1F155    28:00.1 10GbE   N/A FLASH Disabled
+</code></pre><blockquote>
+<p>在上述例子中, NIC 的 firmware 是設定成不能 flash, 這時候必須要先開啟 flash 功能。
+執行 <code>./bootutil64e -NIC=3 -FLASHENABLE</code>：</p>
+<pre><code>Connection to QV driver failed - please reinstall it!
+
+Intel(R) Ethernet Flash Firmware Utility
+BootUtil version 1.6.57.0
+Copyright (C) 2003-2017 Intel Corporation
+
+Enabling boot ROM on port 3...Success
+
+Reboot the system to enable the boot ROM on this port
+
+Port Network Address Location Series  WOL Flash Firmware                Version
+==== =============== ======== ======= === ============================= =======
+  1   90E2BAB1EF88   218:00.0 10GbE   N/A FLASH Disabled
+  2   90E2BAB1EF89   218:00.1 10GbE   N/A FLASH Disabled
+  3   90E2BAB1F154    28:00.0 10GbE   N/A Reboot Required
+  4   90E2BAB1F155    28:00.1 10GbE   N/A FLASH Disabled
+</code></pre></blockquote>
+<p>接下來執行 <code>./bootutil64e -NIC=3 -BOOTENABLE=PXE</code>，就可以打開網卡的 PXE 功能了：</p>
+<pre><code>Connection to QV driver failed - please reinstall it!
+
+Intel(R) Ethernet Flash Firmware Utility
+BootUtil version 1.6.57.0
+Copyright (C) 2003-2017 Intel Corporation
+
+Enabling boot ROM on port 1...Success
+
+Reboot the system to enable the boot ROM on this port
+
+Port Network Address Location Series  WOL Flash Firmware                Version
+==== =============== ======== ======= === ============================= =======
+  1   90E2BAB1EF88   218:00.0 10GbE   N/A FLASH Disabled
+  2   90E2BAB1EF89   218:00.1 10GbE   N/A FLASH Disabled
+  3   90E2BAB1F154    28:00.0 10GbE   N/A PXE                           2.1.40
+  4   90E2BAB1F155    28:00.1 10GbE   N/A FLASH Disabled
+</code></pre><p>完成, 並重開機驗證 PXE 是否正常啟動。</p>]]></content>
+  </entry>
+  <entry>
+    <title>Install Ubuntu in UEFI mode with debootstrap</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/install-ubuntu-in-uefi-mode-with-debootstrap/</id>
+    <updated>2017-11-03T15:28:19Z</updated>
+    <published>2017-11-03T15:28:19Z</published>
+    <content type="html"><![CDATA[<p>在 UEFI 模式下想要安裝 Ubuntu 卻總是失敗：</p>
+<p><img src="https://i.imgur.com/E9j9j2p.png" alt="Ubuntu boot failed"></p>
+<p>於是決定改採用全手動安裝的方式。</p>
+<h2 id="installation">Installation</h2>
+<h3 id="boot-your-pcserver-from-ubuntu-live-cd">Boot your PC/server from Ubuntu live CD</h3>
+<p>Boot your PC/server from Ubuntu live CD, configure network to connect to Internet.</p>
+<h3 id="prepare-the-partition">Prepare the partition</h3>
+<p>Create partitions on the system disk, the first one is for EFI system; the other is for system.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo parted /dev/sda
+<span class="o">(</span>parted<span class="o">)</span> mklabel gpt
+<span class="o">(</span>parted<span class="o">)</span> mkpart ESP fat32 1MiB 128MiB
+<span class="o">(</span>parted<span class="o">)</span> mkpart primary xfs 128MiB 100%
+<span class="o">(</span>parted<span class="o">)</span> <span class="nb">set</span> <span class="m">1</span> boot on
+<span class="o">(</span>parted<span class="o">)</span> quit
+
+sudo partprobe /dev/sda
+sudo mkfs.vfat -F <span class="m">32</span> /dev/sda1
+sudo mkfs.xfs -f /dev/sda2
+</code></pre></div><p>Mount root file system:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo mount /dev/sda2 /mnt
+</code></pre></div><h3 id="install-ubuntu-core-with-debootstrap">Install Ubuntu core with debootstrap</h3>
+<p>First, you need to install debootstrap:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo apt install debootstrap
+</code></pre></div><p>Then, you can install ubuntu to the <code>/mnt</code> with <code>debootstrap</code> command:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo debootstrap --arch amd64 xenial /mnt http://tw.archive.ubuntu.com/ubuntu
+</code></pre></div><p>Copy the apt repository configuration to new file system:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo cp /etc/apt/sources.list /mnt/etc/apt/sources.list
+</code></pre></div><h3 id="mount-other-file-system">Mount other file system</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo mkdir -p /mnt/boot/efi
+sudo mount /dev/sda1 /mnt/boot/efi
+sudo mount --bind /dev /mnt/dev
+sudo mount -t devpts /dev/pts /mnt/dev/pts
+sudo mount -t proc proc /mnt/proc
+sudo mount -t sysfs sysfs /mnt/sys
+sudo mount -t tmpfs tmpfs /mnt/tmp
+</code></pre></div><p>Then, chroot to <code>/mnt</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo chroot /mnt /bin/bash
+<span class="nb">export</span> <span class="nv">HOME</span><span class="o">=</span>/root
+</code></pre></div><h3 id="install-linux-kernel-grub-and-other-packages">Install Linux kernel, grub and other packages</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apt update
+apt install linux-image-generic linux-headers-generic grub-efi
+</code></pre></div><h3 id="configure-grub">Configure grub</h3>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">grub-install --target<span class="o">=</span>x86_64-efi --efi-directory<span class="o">=</span>/boot/efi --bootloader-id<span class="o">=</span>ubuntu --recheck --debug
+update-grub
+</code></pre></div><hr>
+<p>The reboot system.</p>
+<h2 id="reference">Reference</h2>
+<ol>
+<li><a href="https://wiki.archlinux.org/index.php/GNU_Parted#UEFI.2FGPT_examples">GNU Parted - ArchWiki</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/GRUB_(%E6%AD%A3%E9%AB%94%E4%B8%AD%E6%96%87)#UEFI.E7.B3.BB.E7.B5.B1.28UEFI_systems.29">GRUB - ArchWiki</a></li>
+</ol>]]></content>
+  </entry>
+  <entry>
+    <title>Fix the Oracle Java installation on Ubuntu 16.04</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/fix-the-oracle-java-installation-on-ubuntu-16-04/</id>
+    <updated>2017-10-19T08:38:53Z</updated>
+    <published>2017-10-19T08:38:53Z</published>
+    <content type="html"><![CDATA[<p>在 Ubuntu 透過 <a href="https://launchpad.net/~webupd8team/+archive/ubuntu/java">WebUpd8 team ppa</a> 安裝 Java：</p>
+<pre><code>sudo add-apt-repository ppa:webupd8team/java
+sudo apt update
+sudo apt install oracle-java9-installer
+</code></pre><p>安裝的過程中發生 404 Not found：</p>
+<pre><code>Downloading Oracle Java 9...
+--2017-10-19 08:41:59--  http://download.oracle.com/otn-pub/java/jdk/9+181/jdk-9_linux-x64_bin.tar.gz
+Resolving download.oracle.com (download.oracle.com)... 210.61.248.163, 210.61.248.216
+Connecting to download.oracle.com (download.oracle.com)|210.61.248.163|:80... connected.
+HTTP request sent, awaiting response... 302 Moved Temporarily
+Location: https://edelivery.oracle.com/otn-pub/java/jdk/9+181/jdk-9_linux-x64_bin.tar.gz [following]
+--2017-10-19 08:41:59--  https://edelivery.oracle.com/otn-pub/java/jdk/9+181/jdk-9_linux-x64_bin.tar.gz
+Resolving edelivery.oracle.com (edelivery.oracle.com)... 104.116.18.92, 2600:1417:1b:188::2d3e, 2600:1417:1b:184::2d3e
+Connecting to edelivery.oracle.com (edelivery.oracle.com)|104.116.18.92|:443... connected.
+HTTP request sent, awaiting response... 302 Moved Temporarily
+Location: http://download.oracle.com/otn-pub/java/jdk/9+181/jdk-9_linux-x64_bin.tar.gz?AuthParam=1508373839_4021b0b2a88845635225f537490b9b5a [following]
+--2017-10-19 08:42:00--  http://download.oracle.com/otn-pub/java/jdk/9+181/jdk-9_linux-x64_bin.tar.gz?AuthParam=1508373839_4021b0b2a88845635225f537490b9b5a
+Connecting to download.oracle.com (download.oracle.com)|210.61.248.163|:80... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2017-10-19 08:42:01 ERROR 404: Not Found.
+
+download failed
+Oracle JDK 9 is NOT installed.
+dpkg: error processing package oracle-java9-installer (--configure):
+ subprocess installed post-installation script returned error exit status 1
+E: Sub-process /usr/bin/dpkg returned an error code (1)
+</code></pre><p>在等待官方之餘，嘗試先自己修改 deb 來解決這個問題。</p>
+<hr>
+<h1 id="solution">Solution</h1>
+<h2 id="install-tools">Install tools</h2>
+<p>先安裝 tool：</p>
+<pre><code>sudo apt install apt-src
+</code></pre><p>接下來，修改 <code>/etc/apt/sources.list.d/webupd8team-ubuntu-java-xenial.list</code>，取消 deb-src 的註解：</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main
+deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main
+</code></pre></div><p>然後更新 apt-src 的資料庫：</p>
+<pre><code>sudo apt-src update
+</code></pre><h2 id="download-deb-source">Download deb source</h2>
+<p>下載 oracle-java9-installer 的 deb source：</p>
+<pre><code>mkdir ~/oracle-java
+cd ~/oracle-java
+sudo apt-src install oracle-java9-installer
+</code></pre><p>這邊還是會再出現一次錯誤，不過可以忽略。</p>
+<p><img src="https://i.imgur.com/k8hI5n8.png" alt=""></p>
+<h2 id="modify-deb-file">Modify deb file</h2>
+<ul>
+<li>Step 1:</li>
+</ul>
+<p>先到 <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html">Oracle 官網</a> 去確認安裝檔的路徑：</p>
+<p><img src="https://i.imgur.com/YN0S4mp.png" alt=""></p>
+<p>(安裝檔 <code>jdk-9.0.1_linux-x64_bin.tar.gz</code> 的下載位址為：http://download.oracle.com/otn-pub/java/jdk/9.0.1+11/jdk-9.0.1_linux-x64_bin.tar.gz)</p>
+<p>編輯 ~/oracle-java/oracle-java9-installer-9b181/debian/oracle-java9-installer.postinst:</p>
+<ul>
+<li>將 <code>JAVA_VERSION_MAJOR</code> (line 68) 修改成 <strong><code>9.0.1</code></strong></li>
+<li>將 <code>J_DIR</code> (line 71) 修改成 <strong><code>jdk-9.0.1</code></strong></li>
+<li>將 <code>JAVA_VERSION_MINOR</code> (line 69) 修改成 <strong><code>11</code></strong></li>
+</ul>
+<p>Ex:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="k">if</span> <span class="o">[</span> ! <span class="nv">$arch</span> <span class="o">=</span> <span class="s2">&#34;arm&#34;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nv">JAVA_VERSION_MAJOR</span><span class="o">=</span><span class="m">9</span> #
+  <span class="nv">JAVA_VERSION_MINOR</span><span class="o">=</span><span class="m">181</span> <span class="c1">#must be modified for each release</span>
+  <span class="nv">JAVA_VERSION_DATE</span><span class="o">=</span><span class="s2">&#34;04_nov_2015&#34;</span> <span class="c1">#no longer needed with b95</span>
+  <span class="nv">J_DIR</span><span class="o">=</span>jdk-9 <span class="c1">#must be modified for each release</span>
+  <span class="nv">FILENAME</span><span class="o">=</span>jdk-<span class="si">${</span><span class="nv">JAVA_VERSION_MAJOR</span><span class="si">}</span>_linux-<span class="si">${</span><span class="nv">dld</span><span class="si">}</span>_bin.tar.gz <span class="c1"># jdk-9_linux-x64_bin.tar.gz</span>
+  <span class="nv">PARTNER_URL</span><span class="o">=</span>http://download.oracle.com/otn-pub/java/jdk/<span class="si">${</span><span class="nv">JAVA_VERSION_MAJOR</span><span class="si">}</span>+<span class="si">${</span><span class="nv">JAVA_VERSION_MINOR</span><span class="si">}</span>/<span class="nv">$FILENAME</span>
+<span class="k">else</span>
+  <span class="nv">JAVA_VERSION_MAJOR</span><span class="o">=</span>9.0.1 #
+  <span class="nv">JAVA_VERSION_MINOR</span><span class="o">=</span><span class="m">11</span> <span class="c1">#must be modified for each release</span>
+  <span class="nv">JAVA_VERSION_DATE</span><span class="o">=</span><span class="s2">&#34;04_nov_2015&#34;</span> <span class="c1">#no longer needed with b95</span>
+  <span class="nv">J_DIR</span><span class="o">=</span>jdk-9.0.1 <span class="c1">#must be modified for each release</span>
+  <span class="nv">FILENAME</span><span class="o">=</span>jdk-<span class="si">${</span><span class="nv">JAVA_VERSION_MAJOR</span><span class="si">}</span>_linux-<span class="si">${</span><span class="nv">dld</span><span class="si">}</span>_bin.tar.gz <span class="c1"># jdk-9+109_linux-arm64-vfp-hflt_bin.tar.gz</span>
+  <span class="nv">PARTNER_URL</span><span class="o">=</span>http://download.oracle.com/otn-pub/java/jdk/<span class="si">${</span><span class="nv">JAVA_VERSION_MAJOR</span><span class="si">}</span>+<span class="si">${</span><span class="nv">JAVA_VERSION_MINOR</span><span class="si">}</span>/<span class="nv">$FILENAME</span>
+<span class="k">fi</span>
+</code></pre></div><ul>
+<li>Step 2:</li>
+</ul>
+<p>根據 <a href="">Oracle 官網</a> 的 checksum 表：</p>
+<p><img src="https://i.imgur.com/K2ReH3E.png" alt=""></p>
+<p>修改 <strong>SHA256SUM_TGZ</strong> (line 24) 的值：</p>
+<p>Ex:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="k">case</span> <span class="k">$(</span>dpkg --print-architecture<span class="k">)</span> in
+<span class="s1">&#39;i386&#39;</span><span class="p">|</span><span class="s1">&#39;i586&#39;</span><span class="p">|</span><span class="s1">&#39;i686&#39;</span><span class="o">)</span>
+  <span class="c1">#arch=i386; dld=x86;</span>
+  <span class="c1">#SHA256SUM_TGZ=&#34;ba0c77644ece024cdb933571d79f0f035e91a9c9ab70de9c82446c9fbd000c97&#34; #must be modified for each release</span>
+  <span class="nb">echo</span> <span class="s2">&#34;Error. Oracle Java 9 does not support 32bit.&#34;</span>
+  <span class="p">;;</span>
+<span class="s1">&#39;amd64&#39;</span>  <span class="o">)</span> <span class="nv">arch</span><span class="o">=</span>amd64<span class="p">;</span> <span class="nv">dld</span><span class="o">=</span>x64<span class="p">;</span>
+  <span class="nv">SHA256SUM_TGZ</span><span class="o">=</span><span class="s2">&#34;2cdaf0ff92d0829b510edd883a4ac8322c02f2fc1beae95d048b6716076bc014&#34;</span> <span class="c1">#must be modified for each release</span>
+  <span class="p">;;</span>
+</code></pre></div><h2 id="build-deb">Build deb</h2>
+<p>接下來開始 build deb 檔：</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apt-src build oracle-java9-installer
+</code></pre></div><p>完成之後，會在目錄下看到三個 deb 檔：</p>
+<ul>
+<li>oracle-java9-installer_9b181-1~webupd8~2_amd64.deb</li>
+<li>oracle-java9-unlimited-jce-policy_9b181-1~webupd8~2_amd64.deb</li>
+<li>oracle-java9-set-default_9b181-1~webupd8~2_amd64.deb</li>
+</ul>
+<h2 id="install-oracle-java">Install Oracle Java</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">sudo dpkg -i oracle-java9-installer_9b181-1~webupd8~2_amd64.deb
+sudo apt install oracle-java9-set-default
+</code></pre></div>]]></content>
+  </entry>
+  <entry>
+    <title>Build OpenCV 3.2 with CUDA 8.0 and Matlab on Ubuntu 16.04/14.04</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/build-opencv-3-2-with-cuda-8-0-and-matlab/</id>
+    <updated>2017-08-02T19:14:45Z</updated>
+    <published>2017-08-02T19:14:45Z</published>
+    <content type="html"><![CDATA[<p>本文記錄如何在 Ubuntu 16.04 (14.04) 上搭建 Cuda, Matlab 與 OpenCV 的開發環境。</p>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<p>先把 troubleshooting 放前面是因為本來就是為了解決第一個 error 才有了這一篇紀錄XD。</p>
+<blockquote>
+<p>Error 1 與 error 2 都是發生在 Matlab R2015b 已經安裝好的情況下才產生。更準確來說是<strong>程式讀取到 Matlab 自帶的 libtiff.h</strong> 才產生的 error。</p>
+</blockquote>
+<h2 id="error-1">Error 1</h2>
+<p>某人開發的程式，在 <strong>Matlab</strong> 安裝完畢後，編譯時 include Matlab library 與 header 然後出現錯誤：</p>
+<p><img src="http://i.imgur.com/KGOpOlE.png" alt="Compile error"></p>
+<p>如果編譯時不引用到 Matlab 的東西，就不會有事情。但是這道程式就是必須要同時使用 Matlab 與 OpenCV。</p>
+<p><a href="https://github.com/BVLC/caffe/issues/4436">根據 google 來的資料，應該是 OpenCV 編譯時沒有啟用 TIFF (?)</a>。
+所以解決方法就是重新編譯 OpenCV 並且啟用 TIFF。</p>
+<h2 id="error-2">Error 2</h2>
+<p>重新編譯 OpenCV 時，出現錯誤:</p>
+<pre><code>/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadDirectory@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFWriteEncodedStrip@LIBTIFF_4.0'
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFIsTiled@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFOpen@LIBTIFF_4.0'
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadEncodedStrip@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFSetField@LIBTIFF_4.0'
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFWriteScanline@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFGetField@LIBTIFF_4.0'
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFScanlineSize@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFNumberOfStrips@LIBTIFF_4.0'
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFSetWarningHandler@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFSetErrorHandler@LIBTIFF_4.0'
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadEncodedTile@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFReadRGBATile@LIBTIFF_4.0'
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFClose@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFRGBAImageOK@LIBTIFF_4.0'
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to `TIFFReadRGBAStrip@LIBTIFF_4.0'
+collect2: error: ld returned 1 exit status
+tools/CMakeFiles/compute_image_mean.dir/build.make:134: recipe for target 'tools/compute_image_mean' failed
+make[2]: *** [tools/compute_image_mean] Error 1
+CMakeFiles/Makefile2:473: recipe for target 'tools/CMakeFiles/compute_image_mean.dir/all' failed
+make[1]: *** [tools/CMakeFiles/compute_image_mean.dir/all] Error 2
+Makefile:127: recipe for target 'all' failed
+make: *** [all] Error 2
+</code></pre><p>同樣根據 error 1 的參考資料：https://github.com/BVLC/caffe/issues/4436。
+在 <code>CMakeCache.txt</code> 裡面發現：<code>WITH_TIFF=ON</code>, <code>BUILD_TIFF=OFF</code>。
+看起來原本 <code>cmake</code> 就有偵測到系統的 libtiff，因此預設不編譯 tiff。
+既然這樣，所以解決方法就是在 <code>cmake</code> 時，增加參數 <code>-D BUILD_TIFF=ON</code>。</p>
+<h2 id="error-3">Error 3</h2>
+<p>OpenCV 已經編譯完成，但原本的程式重新編譯時出現:</p>
+<pre><code>/usr/bin/ld: cannot find -lippicv
+</code></pre><p><a href="https://stackoverflow.com/questions/34401117/compiling-code-with-opencv-usr-bin-ld-cannot-find-lippicv">根據查到的資料</a>，解決方法就是在編譯 OpenCV 時，<code>cmake</code> 階段增加 <code>-D WITH_IPP=ON</code>。</p>
+<hr>
+<h1 id="system-environment">System environment</h1>
+<p>兩套環境：</p>
+<ol>
+<li>Ubuntu 16.04 with Nvidia GeForce GTX 970</li>
+<li>Ubuntu 14.04 with Nvidia GeForce GT 620 OEM</li>
+</ol>
+<p>第一套環境是從 OS 開始安裝;
+第二套是一個已經存在的環境，只是再重新編譯 OpenCV (為了解決 TIFF 問題)。</p>
+<p>其他的系統資訊：</p>
+<ul>
+<li>OpenCV: 3.2</li>
+<li>CUDA: 8.0</li>
+<li>Matlab: R2015b (or Octave 4.2)</li>
+<li>Nvidia driver: <strong>375</strong></li>
+<li>Java:
+<ul>
+<li><strong>Oracla Java 8</strong> (on site 1)</li>
+<li>Oracle Java 7 (on site 2)</li>
+</ul>
+</li>
+</ul>
+<!-- more -->
+<hr>
+<h1 id="installation">Installation</h1>
+<p>以下安裝步驟是以 site 1 為主 (Ubuntu 16.04)。</p>
+<h2 id="install-nvidia-driver-and-cuda">Install Nvidia driver and Cuda</h2>
+<h3 id="install-nvidia-driver">Install Nvidia driver</h3>
+<pre><code>sudo add-apt-repository ppa:graphics-drivers/ppa
+sudo apt update
+sudo apt install nvidia-375
+</code></pre><h3 id="install-cuda-80">Install Cuda 8.0</h3>
+<p>根據你的平台，按照<a href="https://developer.nvidia.com/cuda-downloads">官方</a>的指示選擇：</p>
+<p><img src="http://i.imgur.com/NxpvipW.png" alt="Cuda Installation"></p>
+<p>然後下載 deb 安裝檔並依照指示進行安裝：</p>
+<pre><code>wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
+sudo apt update
+sudo apt install cuda
+</code></pre><h2 id="install-java-optional">Install Java (Optional)</h2>
+<p>安裝步驟：</p>
+<pre><code>sudo add-apt-repository ppa:webupd8team/java
+sudo apt update
+sudo apt install oracle-java8-installer ant
+export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+</code></pre><h2 id="install-matlab">Install Matlab</h2>
+<p>Matlab 是要版權的，因此這裡不再贅述。
+本文是安裝 Matlab R2015b。裝完之後，將 Matlab 的環境設定到 <code>~/.bashrc</code> 中。
+例如：</p>
+<pre><code>export PATH=&quot;$PATH:/usr/local/MATLAB/R2015b/bin&quot;
+export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:/usr/local/MATLAB/R2015b/bin/glnxa64&quot;
+export C_INCLUDE_PATH=&quot;$C_INCLUDE_PATH:/usr/local/MATLAB/R2015b/extern/include&quot;
+export LIBRARY_PATH=&quot;$LIBRARY_PATH:/usr/local/MATLAB/R2015b/bin/glnxa64&quot;
+</code></pre><p>然後套用新的設定:</p>
+<pre><code>source ~/.bashrc
+</code></pre><h2 id="compile-and-install-opencv-32">Compile and Install OpenCV 3.2</h2>
+<h3 id="準備編譯環境">準備編譯環境</h3>
+<ul>
+<li>安裝相依性軟體：</li>
+</ul>
+<pre><code>sudo apt install build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
+</code></pre><ul>
+<li>下載原始碼：</li>
+</ul>
+<pre><code>cd ~
+git clone https://github.com/opencv/opencv.git
+cd opencv/
+git checkout 3.2.0
+</code></pre><h3 id="編譯-opencv">編譯 OpenCV</h3>
+<pre><code>mkdir ~/opencv/build
+cd ~/opencv/build
+cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local -DWITH_IPP=ON -BUILD_TIFF=ON ..
+make -j4 1&gt; /dev/null
+</code></pre><p>編譯完成後，接下來要進行安裝。個人習慣是產生 deb 檔，然後利用 dpkg 安裝 opencv，好處是 package 上的管理方便 (升級/移除...等)。
+不喜歡這種方式的人，可以直接下指令 <code>sudo make install</code> 就安裝完畢了</p>
+<h3 id="安裝-opencv-with-dpkg">安裝 OpenCV (with dpkg)</h3>
+<p>使用 checkinstall 產生 deb 檔，以方便日後的管理：</p>
+<p><em>(under ~/opencv/build directory)</em></p>
+<pre><code>sudo checkinstall --install=no
+</code></pre><blockquote>
+<p><code>checkinstall</code> 預設在產生 deb 檔之後會順便安裝。不過，個人習慣是先加上 <code>--install=no</code>，然後在 deb 檔產生之後再手動安裝。</p>
+</blockquote>
+<p><img src="http://i.imgur.com/ejD4hRc.png" alt="Make OPENCV deb with checkinstall (圖片忘了加上 --install=no)"></p>
+<p>一開始先輸入 package 的介紹。
+接下來會跳出一個列表，輸入 0 ~ 13 的數字去修改資訊：</p>
+<p><img src="http://i.imgur.com/WDTNhr1.png" alt="Make OPENCV deb with checkinstall"></p>
+<p>然後按下 ENTER 開始建立 deb 檔。
+完成之後，在 <code>~/opencv/build</code> 會看到 deb 檔，例如: <code>opencv_3.2.0-1_amd64.deb</code> (名稱會依據你在 checkinstall 時輸入的資訊而不同)。
+執行 <code>dpkg</code> 指令進行安裝:</p>
+<pre><code>sudo dpkg -i opencv_3.2.0-1_amd64.deb
+</code></pre><hr>
+<p align="center"><strong>大功告成啦!</strong></p>
+<hr>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://askubuntu.com/questions/760934/graphics-issues-after-while-installing-ubuntu-16-04-16-10-with-nvidia-graphics">Graphics issues after/while installing Ubuntu 16.04/16.10 with NVIDIA graphics</a> - AskUbuntu</li>
+<li><a href="https://developer.nvidia.com/cuda-downloads">CUDA Toolkit Download</a> - Nvidia</li>
+<li><a href="https://stackoverflow.com/questions/34401117/compiling-code-with-opencv-usr-bin-ld-cannot-find-lippicv">compiling code with opencv - /usr/bin/ld: cannot find -lippicv</a> - Stack Overflow</li>
+<li><a href="http://docs.opencv.org/3.2.0/d7/d9f/tutorial_linux_install.html">Installation in Linux</a> - OpenCV 3.2.0</li>
+<li><a href="https://github.com/BVLC/caffe/issues/4436">Error in installing Caffe with OpenCV 3.1.0 on Ubuntu 16.04</a> - Github</li>
+</ul>]]></content>
+  </entry>
+  <entry>
+    <title>OpenStack Heat 使用筆記</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/notes-openstack-heat-usage/</id>
+    <updated>2016-06-30T15:48:16Z</updated>
+    <published>2016-06-30T15:48:16Z</published>
+    <content type="html"><![CDATA[<p>Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。</p>
+<p>Heat 用 <strong>resource</strong> 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 <code>default</code>。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 <code>default</code> 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。</p>
+<p>Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 <code>block_device_mapping</code> 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。</p>
+<p>這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 <strong>resource</strong>，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 <strong>state</strong> 來配置 Linux。</p>
+<p>在開始之前，你必須要先準備：</p>
+<ol>
+<li>一個 OpenStack Account。同時你必須要確定該 platform 有安裝 Heat 服務。本文是使用 <a href="https://www.unicloud.org.tw/services/sscloud">SSCloud</a> 做 demo。</li>
+<li>熟悉 OpenStack 的基本操作：使用 OpenStack dashboard 或是使用 OpenStack command client。</li>
+</ol>
+<h1 id="template">Template</h1>
+<p>先前已經提過 Heat Resource 。在 Heat 中，由眾多 resource 所組合而成的檔案/物件就是樣版(template)。
+你可以使用 <code>heat</code> 指令來查詢你的 OpenStack platform 支援哪些 template。</p>
+<p>執行 <code>heat template-version-list</code> 會得到：</p>
+<p><img src="http://i.imgur.com/OM80xOF.png" alt="Imgur"></p>
+<!-- more -->
+<p>從上圖中可以看到 Template type 有兩種：</p>
+<ol>
+<li>cfn: 是 AWS CloudFormation 的縮寫。這套 template 支援 AWS 也支援 OpenStack Heat。CFN 是採用 Json 作為檔案格式。</li>
+<li>hot: 是 Heat Orchestration Template 的縮寫。這套 template 只能使用於 OpenStack Heat，並不支援 AWS。一般來說，HOT 是採用 YAML 作為檔案格式。</li>
+</ol>
+<p>在撰寫你的 template 的時候，一開始就必須要先指定 template 的版本。
+例如：</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;AWSTemplateFormatVersion&#34;</span> <span class="p">:</span> <span class="s2">&#34;2010-09-09&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;Description&#34;</span> <span class="p">:</span> <span class="s2">&#34;Sample Heat template that spins up multiple instances and a private network (JSON)&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;Resources&#34;</span> <span class="p">:</span> <span class="p">{</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>這是一個 CFN 的 template，所以是以 Json 為檔案格式。一開始先定義這個 template 是採用哪個版本，這個設定可以從 <code>heat template-version-list</code> 中取得；而 <code>Description</code> 則是 user 可以增加的自訂描述。</p>
+<p>最後 Resouces 則是一個 Json object，裡面則是由多個 resource 所組成。</p>
+<h1 id="resource">Resource</h1>
+<p>先前已經提過，resource 就是基本描述/操作 OpenStack(AWS) 的物件。與 template 一樣，我們可以透過 heat 的指令來取得所支援的 resource 列表。</p>
+<p>你可以執行 <code>heat resource-type-list</code>，將會得到以下結果：</p>
+<p><img src="http://i.imgur.com/xKObLA4.png" alt="List of Heat resource type"></p>
+<p>或者是你也可以從 Horizon 上面看到 resource type list：</p>
+<p><img src="http://i.imgur.com/4aEEzh8.png" alt="List of Heat resource type on Horizon"></p>
+<p>得到 resource type list 後，接下來你需要取得 resource 的設定參數。
+使用 <code>heat resource-type-template &quot;TemplateName&quot;</code> 以及 <code>heat resource-type-show &quot;TemplateName&quot;</code> 來取得 resource 的詳細內容。</p>
+<p><img src="http://i.imgur.com/hlFCCT8.png" alt="Heat resource-type-template"></p>
+<p><img src="http://i.imgur.com/dn8xbUR.png" alt="Heat resource-type-show"></p>
+<p>在 Template 中，我們可以給 Resource 設定的選項，是該 Resource 的 properties 裡面包含的參數。
+以下我們以 Network 為例：</p>
+<p>首先，先看 <code>OS::Neutron::Net</code> 有什麼參數可以設定：</p>
+<p><img src="http://i.imgur.com/xmUOcFJ.png" alt="The result of show Net resource"></p>
+<p><code>dhcp_agent_ids</code>、<code>name</code>、<code>admin_state_up</code>、...等是 <code>OS::Neutron::Net</code> 這個 resource 可以設定的參數。而每個參數下面，會有這個參數的 type、description、default、required 等屬性。</p>
+<p>接下來，我們建立一個 resource object:</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;heat_net1&#34;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&#34;Type&#34;</span> <span class="p">:</span> <span class="s2">&#34;OS::Neutron::Net&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;Properties&#34;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;my_heat_net1&#34;</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p><code>heat_net1</code> 是這個 resource object 的名稱，只會在這個 Template 中被使用。<code>my_heat_net1</code> 則是實際會在 OpenStack 中建立的網路名稱。</p>
+<p>那如果接下來，我們要在這個 <code>my_heat_net1</code> 再建立一個 subnet，要怎麼做呢？</p>
+<p>首先，先執行 <code>heat resource-type-show OS::Neutron::Subnet</code> 取得參數列表。接下來根據參數列表，建立 Subnet 的 resource object:</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;heat_subnet1&#34;</span> <span class="err">:</span> <span class="p">{</span>
+  <span class="nt">&#34;Type&#34;</span> <span class="p">:</span> <span class="s2">&#34;OS::Neutron::Subnet&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;Properties&#34;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;my_heat_subnet1&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;cidr&#34;</span> <span class="p">:</span> <span class="s2">&#34;192.168.0.0/24&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;dns_nameservers&#34;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&#34;8.8.8.8&#34;</span><span class="p">,</span> <span class="s2">&#34;8.8.8.4&#34;</span><span class="p">],</span>
+    <span class="nt">&#34;network_id&#34;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;Ref&#34;</span><span class="p">:</span> <span class="s2">&#34;heat_net1&#34;</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><ul>
+<li><code>cidr</code> 是 <code>OS::Neutron::Subnet</code> required 的參數，型態是 string，value 則是該 subnet 的 CIDR。</li>
+<li><code>dns_nameservers</code> 雖然不是 required 參數，但是一般我們在建立 subnet 的時候，都還是需要設定這個參數，這樣 instance 取得 DHCP IP 之後，才能一併設定 DNS server。透過查詢得知，<code>dns_nameservers</code> 的 value 必須要是 list 型態。</li>
+<li><code>network_id</code> 與 <code>dns_nameservers</code> 雷同，他也不是 required 參數。但是在 OpenStack Neutron 中，subnet 是必須要歸屬在某個 network 底下。先前我們已經建立了一個 net resource objetct，利用 <code>Ref</code> 我們可以將這兩個 resource 中建立關連性，讓 Heat 讀取到 <code>heat_subnet1</code> 這個 resource object 時，會自動將 <code>heat_net1</code> 裡面，network ID 帶入到 <code>network_id</code> 這個參數中。</li>
+</ul>
+<p>瞭解了 resource object 是如何設定之後，接下來我們將這些 resource 放到 template 中：</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+  <span class="nt">&#34;AWSTemplateFormatVersion&#34;</span> <span class="p">:</span> <span class="s2">&#34;2010-09-09&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;Description&#34;</span> <span class="p">:</span> <span class="s2">&#34;Sample Heat template that spins up multiple instances and a private network (JSON)&#34;</span><span class="p">,</span>
+  <span class="nt">&#34;Resources&#34;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&#34;heat_net1&#34;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;Type&#34;</span> <span class="p">:</span> <span class="s2">&#34;OS::Neutron::Net&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;Properties&#34;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;my_heat_net1&#34;</span><span class="p">,</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="nt">&#34;heat_subnet1&#34;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&#34;Type&#34;</span> <span class="p">:</span> <span class="s2">&#34;OS::Neutron::Subnet&#34;</span><span class="p">,</span>
+      <span class="nt">&#34;Properties&#34;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;name&#34;</span> <span class="p">:</span> <span class="s2">&#34;my_heat_subnet1&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;cidr&#34;</span> <span class="p">:</span> <span class="s2">&#34;192.168.0.0/24&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;dns_nameservers&#34;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&#34;8.8.8.8&#34;</span><span class="p">,</span> <span class="s2">&#34;8.8.8.4&#34;</span><span class="p">],</span>
+        <span class="nt">&#34;network_id&#34;</span> <span class="p">:</span> <span class="p">{</span> <span class="nt">&#34;Ref&#34;</span><span class="p">:</span> <span class="s2">&#34;heat_net1&#34;</span> <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>以上就是一個完整的 template。</p>
+<h1 id="stack">Stack</h1>
+<p>Template 只是一個設定檔，用來告訴 Heat 如何去配置你的 project。而在 Heat 中，真正擁有這些 resource 的就是 stack。
+將 Template 轉成 Stack 有兩種方式：</p>
+<ol>
+<li>透過 Horizon 設定</li>
+<li>透過 heat command line 設定</li>
+</ol>
+<h2 id="launch-a-stack-on-horizon">Launch a Stack on Horizon</h2>
+<p>步驟：</p>
+<ol start="0">
+<li>先準備好你的 Template</li>
+<li>登入你的 OpenStack Dashboard，並選擇 <code>Orchestration</code> 然後再切換到 <code>Stacks</code> 分頁。</li>
+<li>點選 <code>Launch Stack</code>，接下來會跳出設定視窗。
+<img src="http://i.imgur.com/5SgFMYz.png" alt="Launch Stack in Horizon (1)">
+這裡選擇 Template 的輸入方式，如果你已經準備好了 Template file，則你可以 upload 這個檔案到 dashboard 上。</li>
+<li>點選 <code>Next</code> 之後，接下來必須要設定 Stack 的名稱，以及密碼。
+<img src="http://i.imgur.com/mBQ2eNi.png" alt="Launch Stack in Horizon (2)"></li>
+<li>點選 <code>Launch</code> 之後，接下來就會回到 Stack 列表，並且新的 Stack 就會出現在列表中。
+<img src="http://imgur.com/2vcv4Oq.png" alt="Heat Stack List"></li>
+</ol>
+<p>接下來只要稍微等一段時間，直到 Stack 的狀態為: <code>Create Complete </code>。就完成工作囉!!~</p>
+<h2 id="launch-a-stack-with-heat-command-client">Launch a Stack with Heat command client</h2>
+<p>步驟：</p>
+<ol>
+<li>先準備好你的 Template</li>
+<li>使用 <code>heat stack-create</code> 來建立一個新的 Stack
+<img src="http://i.imgur.com/1HOe2Qu.png" alt="Help message of Heat command to create stack"></li>
+</ol>
+<p>執行 <code>heat stack-create -f MyTemplate.json --poll 5 MyStackName</code>
+<img src="http://i.imgur.com/a9qbRcv.png" alt="Launch Stack with Heat Command (1)"></p>
+<p>接下來，Heat 就會開始建立 Stack。</p>
+<p>完成之後，會出現 <strong>Stack</strong> <code>MyStackName</code> <strong>CREATE_COMPLETE</strong>。
+<img src="http://i.imgur.com/r3RRcPl.png" alt="Launch Stack with Heat Command (2)"></p>
+<p>你可以執行 <code>heat stack-list</code> 來察看你的 stack 列表。</p>
+<h1 id="reference">Reference</h1>
+<ol>
+<li><a href="http://blog.scottlowe.org/2014/05/01/an-introduction-to-openstack-heat/">An Introduction to OpenStack Heat</a></li>
+</ol>]]></content>
+  </entry>
+  <entry>
+    <title>調整 vim 註解顏色</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/change-comment-color-in-vim/</id>
+    <updated>2016-06-29T12:04:20Z</updated>
+    <published>2016-06-29T12:04:20Z</published>
+    <content type="html"><![CDATA[<p>VIM 在純 terminal 的環境下, 如果你設定 <code>bg=light</code> (預設)，註解的顏色真是令人看到眼睛都快瞎了。</p>
+<p><img src="http://i.imgur.com/ZzWbavl.png" alt="VIM Color (set bg=light)"></p>
+<h2 id="solution">Solution</h2>
+<p>一般來說，解決的方法通常有：</p>
+<ul>
+<li>
+<p>設定 <code>bg=dark</code></p>
+<p>在 <code>~/.vimrc</code> or <code>/etc/vimrc</code> 中設定:  <code>set bg=dark</code>
+這樣整個配色都會調整成：</p>
+<p><img src="http://i.imgur.com/2rucoO9.png" alt="VIM Color (set bg=dark)"></p>
+<p>但是這種配色又不合我的胃口。</p>
+</li>
+<li>
+<p>套用別人寫好的 color scheme 或是自己寫 color scheme</p>
+<p>網路上已經有不少人寫好了 scheme，如果想要套用別人的 scheme，可以參考 Tsung's Blog  的<a href="https://blog.longwin.com.tw/2009/03/choose-vim-color-scheme-2009/">挑選 Vim 顏色(Color Scheme)</a>這篇做設定；自己編輯的話，嗯，自己 google 吧XD</p>
+<p>不過對於我這種懶到不行的人來說，套用別人的 scheme 還是太麻煩惹~~~</p>
+</li>
+</ul>
+<!-- more -->
+<ul>
+<li>
+<p>單純修改 comment 的顏色</p>
+<p>在下面第二個 <a href="http://shazi.info/centos-vim-%e5%b0%87%e7%9c%8b%e5%88%b0%e8%84%ab%e7%aa%97%e7%9a%84%e8%a8%bb%e8%a7%a3%e6%96%87%e5%ad%97-%e6%b7%b1%e8%97%8d%e8%89%b2-%e6%94%b9%e8%ae%8a%e9%a1%8f%e8%89%b2/">Reference</a> 中，看到直接可以設定 <code>hi Comment ctermfg=&lt;&lt; color&gt;&gt;</code>。
+這種方式對於我來說，真是一大福音阿～～。</p>
+<p>那麼接下來的問題就是要挑選什麼顏色了。</p>
+</li>
+</ul>
+<h2 id="select-and-set-color">Select and set color</h2>
+<p>步驟：</p>
+<ol>
+<li>編輯 <code>~/.vimrc</code> 或是 <code>/etc/vimrc</code>，加入 <code>set t_Co=256</code>，然後存檔離開。</li>
+<li>接下來開啟 <code>vim</code> ，然後執行：<code>:runtime syntax/colortest.vim</code>
+<img src="http://i.imgur.com/ttgTpic.png" alt="VIM Color Name">
+這邊我打算挑選 <strong>lightblue</strong>。</li>
+<li>執行 <code>:q!</code> 離開 Vim。</li>
+<li>再次編輯 <code>~/.vimrc</code> 或是 <code>/etc/vimrc</code>，加入 <code>hi Comment ctermfg=lightblue</code>，然後存檔離開。</li>
+</ol>
+<p>接下來就可以看到註解顏色的改變：</p>
+<p><img src="http://i.imgur.com/2Xa9DpE.png" alt="VIM set Comment color is lightblue"></p>
+<h3 id="進階設定">進階設定</h3>
+<p>如果上述的顏色還是不滿意，那可以這樣設定：</p>
+<ol>
+<li>設定 Bash 環境，開啟 256 色。</li>
+</ol>
+<pre><code>export TERM=xterm-256color
+</code></pre><ol start="2">
+<li>下載並執行 <a href="https://github.com/gawin/bash-colors-256/blob/master/256-xterm-colors">256-xterm-colors</a>:</li>
+</ol>
+<pre><code>wget https://raw.githubusercontent.com/gawin/bash-colors-256/master/256-xterm-colors
+ruby 256-xterm-colors
+</code></pre><p>(記得要先安裝 <code>ruby</code>)。
+執行後會得到以下的顏色表：
+<img src="https://raw.githubusercontent.com/gawin/bash-colors-256/master/bash_256_colors_iterm_screenshot.png" alt="Bash 256 color"></p>
+<ol start="3">
+<li>選擇一個顏色，例如: <code>033</code>。然後像之前一樣設定 <code>~/.vimrc</code> 或是 <code>/etc/vimrc</code>:</li>
+</ol>
+<pre><code>hi Comment ctermfg=033
+</code></pre><p>接下來就可以看到新的註解顏色:</p>
+<p><img src="http://i.imgur.com/DTnSPq5.png" alt="VIM set Comment color is 033"></p>
+<h2 id="reference">Reference</h2>
+<ol>
+<li><a href="https://blog.longwin.com.tw/2009/03/choose-vim-color-scheme-2009/">挑選 Vim 顏色(Color Scheme)</a></li>
+<li><a href="http://shazi.info/centos-vim-%e5%b0%87%e7%9c%8b%e5%88%b0%e8%84%ab%e7%aa%97%e7%9a%84%e8%a8%bb%e8%a7%a3%e6%96%87%e5%ad%97-%e6%b7%b1%e8%97%8d%e8%89%b2-%e6%94%b9%e8%ae%8a%e9%a1%8f%e8%89%b2/">CentOS vim 將看到脫窗的註解文字 深藍色 改變顏色</a></li>
+<li><a href="http://aknow-work.blogspot.tw/2013/05/vim-color.html">誤打誤撞研究了 Vim 的顏色設定</a></li>
+<li><a href="https://github.com/gawin/bash-colors-256">256 xterm colors</a> - Github</li>
+</ol>]]></content>
+  </entry>
+  <entry>
+    <title>Ubuntu 上使用 ffmpeg 將 DVD 轉成 mp4</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/convert-dvd-to-mp4-with-ffmpeg-on-ubuntu/</id>
+    <updated>2016-01-23T00:14:00Z</updated>
+    <published>2016-01-23T00:14:00Z</published>
+    <content type="html"><![CDATA[<p><a href="https://www.ffmpeg.org/">FFmpeg</a> 是一套跨平臺開發原始碼的影音轉換軟體。
+利用 FFmpeg 我們可以在 Linux 上將 DVD 轉換成 mp4 或是其他格式。</p>
+<p>Ubuntu 15.04 以上可以直接以 apt-get 安裝。不過我的平臺是 Ubuntu 14.04。
+因此只能通過兩種方式安裝: ppa、手動編譯。</p>
+<p>如果要從 PPA 安裝，請參考： https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media</p>
+<p>不過我是採用編譯的方式：https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu</p>
+<!-- more -->
+<hr>
+<h1 id="install-ffmpeg">Install FFmpeg</h1>
+<p>建立資料夾 <code>~/ffmpeg_sources</code> 用來編譯 ffmpeg 與其他相依性軟體</p>
+<pre><code>mkdir -p ~/ffmpeg_sources
+</code></pre><p>由於我的實驗環境只有我一個人使用，因此編譯軟體時，我大多設定 <code>prefix</code> 為自己家目錄；
+如果想要同時也提供給其他使用者，建議可以將 <code>prefix</code> 設定成 <code>/usr</code>。</p>
+<p>另外，如果 <code>prefix</code> 設定成 <code>$HOME</code>，就要將 <code>$HOME/bin</code> 加入到 <code>$PATH</code> 裡面：</p>
+<pre><code>export PATH=&quot;$HOME:$PATH&quot;
+</code></pre><ul>
+<li>安裝相依性套件</li>
+</ul>
+<pre><code>sudo apt-get -y --force-yes install autoconf automake build-essential \
+libass-dev libfreetype6-dev libsdl1.2-dev libtheora-dev libtool \
+libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
+libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev yasm libx264-dev libmp3lame-dev \
+libopus-dev
+</code></pre><ul>
+<li>H.265/HEVC video encoder</li>
+</ul>
+<pre><code>sudo apt-get install cmake mercurial
+cd ~/ffmpeg_sources
+hg clone https://bitbucket.org/multicoreware/x265
+cd ~/ffmpeg_sources/x265/build/linux
+cmake -G &quot;Unix Makefiles&quot; -DCMAKE_INSTALL_PREFIX=&quot;$HOME&quot; -DENABLE_SHARED:bool=off ../../source
+make
+make install
+</code></pre><ul>
+<li>AAC audio encoder</li>
+</ul>
+<pre><code>cd ~/ffmpeg_sources
+wget -O fdk-aac.tar.gz https://github.com/mstorsjo/fdk-aac/tarball/master
+tar xzvf fdk-aac.tar.gz
+cd mstorsjo-fdk-aac*
+autoreconf -fiv
+./configure --prefix=&quot;$HOME&quot; --disable-shared
+make
+make install
+</code></pre><ul>
+<li>VP8/VP9 video encoder and decoder</li>
+</ul>
+<pre><code>cd ~/ffmpeg_sources
+wget http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.5.0.tar.bz2
+tar xjvf libvpx-1.5.0.tar.bz2
+cd libvpx-1.5.0
+./configure --prefix=&quot;$HOME&quot; --disable-examples --disable-unit-tests
+make
+make install
+</code></pre><ul>
+<li>Compile and install <strong>FFmpeg</strong></li>
+</ul>
+<pre><code>cd ~/ffmpeg_sources
+wget http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
+tar xjvf ffmpeg-snapshot.tar.bz2
+cd ffmpeg
+PKG_CONFIG_PATH=&quot;$HOME/lib/pkgconfig&quot; ./configure \
+  --prefix=&quot;$HOME&quot; \
+  --pkg-config-flags=&quot;--static&quot; \
+  --extra-cflags=&quot;-I$HOME/include&quot; \
+  --extra-ldflags=&quot;-L$HOME/lib&quot; \
+  --bindir=&quot;$HOME/bin&quot; \
+  --enable-gpl \
+  --enable-libass \
+  --enable-libfdk-aac \
+  --enable-libfreetype \
+  --enable-libmp3lame \
+  --enable-libopus \
+  --enable-libtheora \
+  --enable-libvorbis \
+  --enable-libvpx \
+  --enable-libx264 \
+  --enable-libx265 \
+  --enable-nonfree
+make
+make install
+</code></pre><p>編譯完之後，就可以將編譯用的臨時資料夾刪除</p>
+<pre><code>sudo rm -rf ~/ffmpeg_sources
+</code></pre><hr>
+<h1 id="convert-dvd-to-mp4">Convert DVD to MP4</h1>
+<p>接下來，先將 DVD 光碟片放入光碟機中，然後掛載起來：</p>
+<pre><code>sudo mount /dev/sr0 /mnt
+</code></pre><p>讀取 VOB 檔進行轉換：</p>
+<pre><code>cd /mnt/
+cat VTS_01_*.VOB | ffmpeg -i - -aq 100 -ac 2 -vcodec libx264 -crf 24 -threads 0 ~/VTS_01.mp4
+</code></pre><p>利用 <code>cat</code> 加上正規表示法，將多個 VOB 檔依序丟給 ffmpeg，轉換後的影片會自動合併成一個 video 檔。
+(檔案名稱與路徑請自行更換)</p>
+<p>FFmpeg 真的是非常好用又強大呀!!!</p>
+<hr>
+<p>Reference:</p>
+<ul>
+<li><a href="https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu">Compile FFmpeg on Ubuntu, Debian, or Mint</a></li>
+<li><a href="http://ubuntuforums.org/showthread.php?t=1564791">FFmpeg script for DVD to mp4</a></li>
+</ul>]]></content>
+  </entry>
+  <entry>
+    <title>Ceph PG stuck in degraded &#43; undersized</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/ceph-pg-stuck-stuck-in-degraded-and-undersized/</id>
+    <updated>2015-12-17T17:08:53Z</updated>
+    <published>2015-12-17T17:08:53Z</published>
+    <content type="html"><![CDATA[<p>執行 <code>ceph -s</code> 出現：</p>
+<pre><code>cluster 1a1d374a-c6e9-48cb-9b45-525a6fdaa91e
+ health HEALTH_WARN
+        64 pgs degraded
+        64 pgs stale
+        64 pgs stuck degraded
+        64 pgs stuck stale
+        64 pgs stuck unclean
+        64 pgs stuck undersized
+        64 pgs undersized
+ monmap e1: 1 mons at {twin-storage-01=172.16.91.1:6789/0}
+        election epoch 2, quorum 0 twin-storage-01
+ mdsmap e5: 1/1/1 up {0=twin-storage-01=up:active}
+ osdmap e92: 7 osds: 7 up, 7 in
+  pgmap v685: 832 pgs, 7 pools, 43573 kB data, 38 objects
+        7491 MB used, 14889 GB / 14896 GB avail
+             769 active+clean
+              37 stale+active+undersized+degraded+remapped
+              26 stale+active+undersized+degraded
+</code></pre><p>很多 pg 卡在 <code>degraded</code> + <code>undersized</code> 狀態。</p>
+<!-- more -->
+<p>執行 <code>ceph health detail</code> 看到詳細一點的資訊：</p>
+<pre><code>pg 0.2c is stuck stale for 59834.916633, current state stale+active+undersized+degraded, last acting [0]
+pg 0.2b is stuck stale for 59834.916635, current state stale+active+undersized+degraded, last acting [0]
+pg 0.2a is stuck stale for 59834.916637, current state stale+active+undersized+degraded+remapped, last acting [0]
+pg 0.29 is stuck stale for 59834.916638, current state stale+active+undersized+degraded, last acting [0]
+pg 0.28 is stuck stale for 59834.916640, current state stale+active+undersized+degraded, last acting [0]
+pg 0.27 is stuck stale for 59834.916642, current state stale+active+undersized+degraded+remapped, last acting [0]
+pg 0.26 is stuck stale for 59834.916644, current state stale+active+undersized+degraded+remapped, last acting [0]
+pg 0.25 is stuck stale for 59834.916645, current state stale+active+undersized+degraded+remapped, last acting [0]
+pg 0.24 is stuck stale for 59834.916647, current state stale+active+undersized+degraded+remapped, last acting [0]
+</code></pre><p>想要利用 <code>ceph pg &lt;pgid&gt; query</code> 查看 pg 的詳細資訊，卻出現 error：</p>
+<pre><code>$ ceph pg 0.24 query
+Error ENOENT: i don't have pgid 0.24
+</code></pre><p>猜測問題產生的原因，可能是我在建置這一套 Ceph cluster 時，曾經把所有的 OSD 都移出重建。可能移除時沒有把資料清乾淨；或是我移除的方法不對，...等原因。</p>
+<hr>
+<h1 id="solution">Solution</h1>
+<p>解決方法就是用 <code>ceph pg force_creat_pg &lt;pgid&gt;</code> 去覆蓋那個有問題的 pg</p>
+<pre><code>$ ceph pg force_create_pg 0.24
+pg 0.24 now creating, ok
+</code></pre><p>這個 pg 就會轉成 <code>creating</code>，過一段時間，等 <code>creating</code>完成之後，就可以 query 出那個 pg 的資訊：</p>
+<pre><code>$ ceph pg 0.24 query
+{
+    &quot;state&quot;: &quot;active+clean&quot;,
+    &quot;snap_trimq&quot;: &quot;[]&quot;,
+    &quot;epoch&quot;: 94,
+    &quot;up&quot;: [
+        2,
+        4
+    ],
+
+    ... (省略)...
+
+    &quot;agent_state&quot;: {}
+}
+</code></pre><p>同時，<code>ceph -s</code>也可以看到少了有狀況的 pg：</p>
+<pre><code>cluster 1a1d374a-c6e9-48cb-9b45-525a6fdaa91e
+ health HEALTH_WARN
+        63 pgs degraded
+        63 pgs stale
+        63 pgs stuck degraded
+        63 pgs stuck stale
+        63 pgs stuck unclean
+        63 pgs stuck undersized
+        63 pgs undersized
+ monmap e1: 1 mons at {twin-storage-01=172.16.91.1:6789/0}
+        election epoch 2, quorum 0 twin-storage-01
+ mdsmap e5: 1/1/1 up {0=twin-storage-01=up:active}
+ osdmap e92: 7 osds: 7 up, 7 in
+  pgmap v685: 832 pgs, 7 pools, 43573 kB data, 38 objects
+        7491 MB used, 14889 GB / 14896 GB avail
+             769 active+clean
+              37 stale+active+undersized+degraded+remapped
+              26 stale+active+undersized+degraded
+</code></pre><hr>
+<p>如果有問題的 pg 數量很多，可以用 for loop 去跑：</p>
+<pre><code>for pg in `ceph health detail | grep &quot;stale+active+undersized+degraded&quot; | awk '{print $2}' | sort | uniq`;
+do
+  ceph pg force_create_pg $pg
+done
+</code></pre><p>用 for loop 跑指令下太快，可能會變成以下狀況：</p>
+<pre><code>cluster 1a1d374a-c6e9-48cb-9b45-525a6fdaa91e
+ health HEALTH_WARN
+        63 pgs stuck inactive
+        63 pgs stuck unclean
+ monmap e1: 1 mons at {twin-storage-01=172.16.91.1:6789/0}
+        election epoch 2, quorum 0 twin-storage-01
+ mdsmap e5: 1/1/1 up {0=twin-storage-01=up:active}
+ osdmap e92: 7 osds: 7 up, 7 in
+  pgmap v892: 832 pgs, 7 pools, 45412 kB data, 42 objects
+        7496 MB used, 14889 GB / 14896 GB avail
+             769 active+clean
+              63 creating
+</code></pre><p><code>ceph health detal</code> 出現：</p>
+<pre><code>pg 0.31 is stuck inactive since forever, current state creating, last acting []
+</code></pre><p>這時先不要急，放著讓他處理一段時間即可。</p>]]></content>
+  </entry>
+  <entry>
+    <title>Setup Squid Transparent Proxy with Docker</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/setup-squid-transparent-proxy-with-docker/</id>
+    <updated>2015-11-19T17:09:00Z</updated>
+    <published>2015-11-19T17:09:00Z</published>
+    <content type="html"><![CDATA[<p>Squid 作為 Transparent proxy 時，不但可以加快區域網絡內的速度、降低網路流量
+還可以控管區網內是否要開放/封鎖網站~~(監看區網內誰在玩FB或是看色情網站XD)~~</p>
+<p>通常 Transparent proxy 都會放在區網對外的那台 server 上，例如下圖：</p>
+<img class="center" src="http://user-image.logdown.io/user/10779/blog/10403/post/314634/N4mq1E37S767W0ZY5S3U_%E6%9C%AA%E5%91%BD%E5%90%8D.001.jpeg" alt="Squid-transparent-proxy.jpeg">
+<p>對於 Proxy , Transparent proxy 沒有概念的人，可以先看<a href="http://linux.vbird.org/linux_server/0420squid.php">鳥哥的文章</a>，這邊就很不負責的說不再贅述了((懶~</p>
+<h1 id="實驗環境">實驗環境</h1>
+<table>
+<thead>
+<tr>
+<th align="center">Item</th>
+<th align="center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">OS</td>
+<td align="center">Gentoo</td>
+</tr>
+<tr>
+<td align="center">Docker version</td>
+<td align="center">1.7.9</td>
+</tr>
+<tr>
+<td align="center">Docker image</td>
+<td align="center"><a href="https://github.com/sameersbn/docker-squid">sameersbn/squid:3.3.8-4</a></td>
+</tr>
+</tbody>
+</table>
+<p>只要能跑 Docker, 實體機的 OS 是什麼都不重要 :D</p>
+<!-- more -->
+<hr>
+<h1 id="安裝步驟">安裝步驟</h1>
+<h2 id="1-安裝-docker">1. 安裝 Docker</h2>
+<p>在 Gentoo 上安裝 Docker 會比較麻煩一些，要注意 kernel 有些功能要打開，其他就按照 <a href="http://docs.docker.com/engine/installation/gentoolinux/">Docker 官方教學(For Gentoo)</a>即可。
+至於其他 OS，就只好很不負責任的說，請參考 <a href="http://docs.docker.com/engine/installation/">Docker 官方教學</a>安裝吧</p>
+<h2 id="2-設定-memory-disk-option">2. 設定 Memory Disk (Option.)</h2>
+<p>既然 Squid 是一個 Proxy server，那通常就會有一個存放 cache 的地方。一般來說，如果 server 的 memory 夠大，將 cache 放到 memory 中是一個好選擇，可以讓效能快很多。</p>
+<pre><code>$ sudo mkdir /var/spool/squid3
+$ echo &quot;tmpfs /var/spool/squid3/ tmpfs defaults,size=256m,mode=1777 0 0&quot; | sudo tee -a /etc/fstab
+$ sudo mount /var/spool/squid3
+</code></pre><p>ps: <strong><code>tee</code> 這個指令千萬別忘了加上 <code>-a</code>，免得 <code>/etc/fstab</code> 的內容會被覆蓋。</strong></p>
+<blockquote>
+<p>手動掛載 <code>sudo mount -t tmpfs -o size=256M,mode=1777 tmpfs /var/spool/squid3</code></p>
+</blockquote>
+<h2 id="3-運行-container">3. 運行 Container</h2>
+<p>裝好 Docker 之後，接下來我們要運行 container。在網路上已經有安裝好的 docker image，可以直接從 docker.io 上下載。在這裡我選的是 <a href="https://github.com/sameersbn/docker-squid">sameersbn/squid:3.3.8-4</a> 。</p>
+<p>執行 <code>docker run</code> 指令，下載 docker image 並運行 Squid container：</p>
+<pre><code>$ sudo docker run -d --name squid3 --net host -v /var/log/squid3:/var/log/squid3 -v /var/spool/squid3:/var/spool/squid3 sameersbn/squid:3.3.8-4
+</code></pre><ul>
+<li><code>-d</code> 是指 daemon mode, 也就是背景運作。</li>
+<li><code>--name</code> 就是這個 container 的名稱。這個參數可以自由選擇要不要加，不加的話，docker 會直接以那一長串的 UUID 為名稱；<strong>為了操作方便，建議指定 container 的名稱</strong></li>
+<li><code>-net</code> 是 container 的網路模式。一般如果不加這個參數，預設是 bridge。如果不是 <code>host</code> mode 時，必須要加上 <code>-p 3128:3128</code> 或是自行設定 iptables nat rule 才能讓其他電腦連到 container。</li>
+<li><code>-v</code> 是將實體機上的某個路徑，掛載到 container 的某個路徑。
+<ul>
+<li><code>/var/log/squid3</code> 是 Squid 預設的 log 檔目錄。如果想要方便一點查看 log，建議可以掛載這個目錄。</li>
+<li><code>/var/spool/squid3</code> 是 Squid 預設的 cache 目錄。如果想要用 memory disk 來提高效能，記得做完第二步驟，並設定這個參數。</li>
+</ul>
+</li>
+<li><code>sameersbn/squid:3.3.8-4</code> 就是 docker image 名稱。</li>
+</ul>
+<p>利用 <code>docker ps</code> 來檢查 container 是否有在運作：</p>
+<pre><code>sudo docker ps
+CONTAINER ID        IMAGE                     COMMAND                CREATED             STATUS              PORTS               NAMES
+2d8d9f19b25d        sameersbn/squid:3.3.8-4   &quot;/sbin/entrypoint.sh   2 hours ago         Up About an hour                        squid3
+</code></pre><p>如果想要看 log，有兩種方式：</p>
+<ol>
+<li>如果 <code>docker run</code> 的參數有加上 <code>-v &lt;&lt;some path in host server&gt;&gt;:/var/log/squid3</code> 就可以在實體機上看到 log 檔。 在我的範例中是 <code>/var/log/squid3/cache.log</code></li>
+<li>如果沒有掛載 log 路徑，你也可以執行 <code>docker logs &lt;&lt;container name&gt;&gt;</code> 查看 log。</li>
+</ol>
+<h2 id="4-設定-squid">4. 設定 Squid</h2>
+<p>Squid 的設定檔是 <code>squid.conf</code>，存放在 container 裡面。想要修改可以直接進入 container 裡面，或是執行 <code>sudo docker exec -it &lt;&lt;contianer name&gt;&gt; vi /etc/squid3/squid.conf</code></p>
+<p>如果你的 <a href="http://stackoverflow.com/questions/22907231/copying-files-from-host-to-docker-container">Docker 是 1.8 以上的版本</a>，可以用 <code>docker cp</code> 將檔案下載到實體機上，編輯完後再傳回去。但可惜我不是。</p>
+<p>為了圖方便，我將 <code>/etc/squid3</code> 整個資料夾下載到實體機，然後刪除舊的 container，重新建立新的 container 並加上掛載設定檔目錄的參數</p>
+<pre><code>$ sudo docker cp squid3:/etc/squid3 /etc/
+$ sudo docker rm -f squid3
+$ sudo docker run -d --name squid3 --net host -v /etc/squid3:/etc/squid3 -v /var/log/squid3:/var/log/squid3 -v /var/spool/squid3:/var/spool/squid3 sameersbn/squid:3.3.8-4
+</code></pre><h3 id="編輯-squidconf">編輯 squid.conf</h3>
+<p>接下來就要編輯 squid.conf，以下先提供我的設定檔：</p>
+<pre><code>acl localnet src 10.0.0.0/8	    # RFC1918 possible internal network
+acl localnet src 172.16.0.0/12	# RFC1918 possible internal network
+acl localnet src 192.168.0.0/16	# RFC1918 possible internal network
+acl localnet src fc00::/7       # RFC 4193 local private network range
+acl localnet src fe80::/10      # RFC 4291 link-local (directly plugged) machines
+acl SSL_ports port 443
+acl Safe_ports port 80		# http
+acl Safe_ports port 21		# ftp
+acl Safe_ports port 443		# https
+acl Safe_ports port 70		# gopher
+acl Safe_ports port 210		# wais
+acl Safe_ports port 1025-65535	# unregistered ports
+acl Safe_ports port 280		# http-mgmt
+acl Safe_ports port 488		# gss-http
+acl Safe_ports port 591		# filemaker
+acl Safe_ports port 777		# multiling http
+acl CONNECT method CONNECT
+http_access deny !Safe_ports
+http_access deny CONNECT !SSL_ports
+http_access allow localhost manager
+http_access deny manager
+http_access deny to_localhost
+http_access allow localnet
+http_access allow localhost
+http_access deny all
+http_port 3128 transparent
+https_port 3129 transparent cert=/etc/squid3/squid-proxy.crt key=/etc/squid3/squid-proxy.key ssl-bump
+ssl_bump none all
+</code></pre><ul>
+<li><code>acl localnet src 192.168.0.0/16</code>
+<ul>
+<li><code>localnet</code> 是一個自訂的名稱</li>
+<li><code>src</code> 是指 request 的來源</li>
+<li><code>192.168.0.0/16</code> 也就是我們後端的 LAN。</li>
+</ul>
+</li>
+<li><code>http_port 3128 transparent</code>
+<ul>
+<li><code>http_port</code> 就是設定 squid 負責 listen HTTP request 的 port。預設是 <code>3128</code>。</li>
+<li><code>transparent</code> 就是運作模式，因為我們要建置 transparent proxy，所以必須要加上這個參數。</li>
+</ul>
+</li>
+<li><code>https_port 3129 transparent cert=/etc/squid3/ssl/squid-proxy.crt key=/etc/squid3/ssl/squid-proxy.key ssl-bump</code>
+<ul>
+<li><code>https_port</code> 顧名思義就是接受 https request 的 port。不能設定跟 <code>http_port</code> 一樣</li>
+<li><code>cert</code> 跟 <code>key</code> 必須要設定一對 self signed certificate 的路徑。</li>
+<li><code>ssl-bump</code> 設定 HTTPs 的加解密訊息要怎麼處理。這邊建議搭配 <code>ssl_bump none all</code> 這個設定，讓 client 直接讀取 Web server 的 certificate。</li>
+</ul>
+</li>
+</ul>
+<p>其他的參數可以不用動</p>
+<h3 id="產生-self-signed-certificate">產生 self signed certificate</h3>
+<p>首先必需先安裝 OpenSSL。在 Gentoo 上應該是 <code>dev-libs/openssl</code>;而 Ubuntu 上則只需要 <code>apt-get install openssl</code> 即可。</p>
+<blockquote>
+<p>產生出來的 certificate 必須要 Squid 能讀取到。因此，如果你有安裝我之前的步驟，將實體機上的某個資料夾掛載到 container，例如： <code>/etc/squid3</code> 之類，你就可以利用這些資料夾來傳檔案；
+若否，則建議直接在 container 中執行這個步驟。（例如可以 <code>docker exec -it squid3 openssl ......</code> 但是這樣路徑必須要是絕對路徑，例如 <code>/etc/squid3/squid-server.key</code>)</p>
+</blockquote>
+<p>安裝好之後，接下來安裝以下指令步驟：</p>
+<pre><code>$ openssl genrsa -des3 -out squid-server.key 1024
+Generating RSA private key, 1024 bit long modulus
+............................++++++
+...........................................................++++++
+e is 65537 (0x10001)
+Enter pass phrase for squid-server.key:
+Verifying - Enter pass phrase for squid-server.key:
+</code></pre><p><code>pass phrase</code> 必須要打一串密碼進去，不可以留空</p>
+<pre><code>$ openssl req -new -key squid-server.key -out squid-server.csr
+Enter pass phrase for squid-server.key:
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:TW
+State or Province Name (full name) [Some-State]:Taiwan
+Locality Name (eg, city) []:Hsichu
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:NTHU
+Organizational Unit Name (eg, section) []:SSLab
+Common Name (e.g. server FQDN or YOUR name) []:maple52046.twbbs.org.tw
+Email Address []:maple52046@gmail.com
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+</code></pre><p>後面 <code>extra</code> 這邊全部直接按 enter 跳過。</p>
+<p>然後接下來還有兩個指令：</p>
+<pre><code>$ openssl rsa -in squid-server.key -out squid-proxy.key
+Enter pass phrase for squid-server.key:
+writing RSA key
+
+$ openssl x509 -req -days 365 -in squid-server.csr -signkey squid-proxy.key -out squid-proxy.crt
+Signature ok
+subject=/C=TW/ST=Taiwan/L=Hsichu/O=NTHU/OU=SSLab/CN=maple52046.twbbs.org.tw/emailAddress=maple52046@gmail.com
+Getting Private key
+</code></pre><p>完成之後，在當前目錄下，會產生4個檔案：</p>
+<pre><code>$ ls
+squid-proxy.crt  squid-proxy.key  squid-server.csr  squid-server.key
+</code></pre><p>將 <code>squid-proxy.crt</code> 與 <code>squid-proxy.key</code> 放到 container 可以讀取到的地方，例如：<code>/etc/squid3</code> ...</p>
+<h2 id="5-restart-squid">5. Restart Squid</h2>
+<p>重新啟動 Squid server 以便套用新設定</p>
+<pre><code>$ sudo docker restart squid3
+</code></pre><p>檢查一下 port 是否有在監聽：</p>
+<pre><code>sudo netstat -tlnp | egrep '3128|3129'
+</code></pre><h2 id="6-設定-iptables">6. 設定 Iptables</h2>
+<p>因為是 transparent proxy，所以還必須要加上 iptables nat rule，將 HTTP/HTTPs request 導入到 Squid 中：</p>
+<pre><code>$ sudo iptables -t nat -A PREROUTING ! -d 10.0.0.1 -p tcp --dport 80 -j REDIRECT --to 3128
+$ sudo iptables -t nat -A PREROUTING ! -d 10.0.0.1 -p tcp --dport 443 -j REDIRECT --to 3129
+</code></pre><p>這邊 <code>10.0.0.1</code> 是實體 server 的對外 IP。如果你的 NAT server 沒有提供 web service，那就可以去掉這個條件，直接變成 <code>iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 3128</code></p>
+<p>或者你的 NAT server 是有區分內外網的 interface，例如假設 eth0 是連接外網、eth1 是連接內網，那就可以改成：<code>iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 80 -j REDIRECT --to 3128</code></p>
+<h2 id="7-用-upstartsystemd-來管理-squid-container-options">7. 用 upstart/systemd 來管理 Squid container (Options.)</h2>
+<p>如果將來 NAT server 重開機，那麼就得要自己重新啟動 container。
+因此可以利用 Linux 上的 upstart(或是 systemd)來啟動 container 會方便很多。</p>
+<p>以下用 upstart 為例( systemd 可以參考 <a href="https://docs.docker.com/v1.8/articles/host_integration/">Docker 官方教學</a>)：</p>
+<ol>
+<li>建立 <code>/etc/init/squid3.conf</code>，並新增以下內容：</li>
+</ol>
+<pre><code>description &quot;Squid Proxy Server&quot;
+author &quot;Maple52046&quot;
+start on filesystem and started docker
+stop on runlevel [!2345]
+respawn
+script
+	/usr/bin/docker start -a squid3
+end script
+</code></pre><ol start="2">
+<li>產生 <code>/etc/init.d/squid3</code></li>
+</ol>
+<pre><code>sudo ln -s /lib/init/upstart-job /etc/init.d/squid3
+</code></pre><ol start="3">
+<li>關閉原本的 container ，並啟動服務</li>
+</ol>
+<pre><code>sudo docker stop squid3
+sudo service squid3 start
+</code></pre><p>檢查一下 container 是否已經啟動</p>
+<pre><code>sudo service squid3 status
+sudo docker ps | grep squid3
+</code></pre><hr>
+<p>架設完 Squid proxy server 之後， 就可以分析 Squid 的 Log (<code>/var/log/squid3/access.log</code>)</p>
+<pre><code>1447999536.213 120894 192.168.0.3 TCP_MISS/200 7655 CONNECT 74.125.203.138:443 - HIER_DIRECT/74.125.203.138 -
+1447999536.213 121078 192.168.0.3 TCP_MISS/200 4957 CONNECT 64.233.188.139:443 - HIER_DIRECT/64.233.188.139 -
+1447999554.963 240143 192.168.0.3 TCP_MISS/200 5176 CONNECT 64.233.189.95:443 - HIER_DIRECT/64.233.189.95 -
+1447999555.327 240351 192.168.0.3 TCP_MISS/200 5961 CONNECT 64.233.189.95:443 - HIER_DIRECT/64.233.189.95 -
+1447999566.344   3061 192.168.0.3 TCP_MISS_ABORTED/000 0 GET http://secclientgw.alipay.com/product/3001/2.4.0.0/version.xml? - HIER_DIRECT/110.76.20.11 -
+1447999567.267 112594 192.168.0.3 TCP_MISS/200 55546 CONNECT 23.48.140.135:443 - HIER_DIRECT/23.48.140.135 -
+1447999574.672 240106 192.168.0.3 TCP_MISS/200 4895 CONNECT 74.125.204.139:443 - HIER_DIRECT/74.125.204.139 -
+1447999574.975 120170 192.168.0.3 TCP_MISS/200 744 CONNECT 54.230.212.62:443 - HIER_DIRECT/54.230.212.62 -
+1447999578.090 240080 192.168.0.3 TCP_MISS/200 1310 CONNECT 74.125.203.139:443 - HIER_DIRECT/74.125.203.139 -
+1447999631.985  65873 192.168.0.3 TCP_MISS/200 7278 CONNECT 31.13.87.1:443 - HIER_DIRECT/31.13.87.1 -
+</code></pre><h1 id="reference">Reference</h1>
+<ol>
+<li><a href="http://linux.vbird.org/linux_server/0420squid.php">第十七章、區網控制者： Proxy 伺服器</a> - 鳥哥的 Linux 私房菜</li>
+<li><a href="https://github.com/sameersbn/docker-squid">sameersbn/squid:3.3.8-4</a></li>
+<li><a href="http://docs.docker.com/engine/installation/gentoolinux/">Installing Docker on Gentoo Linux</a></li>
+<li><a href="http://serverfault.com/questions/610232/how-to-setup-client-for-squid-transparent-proxy">How to setup client for squid transparent proxy?</a></li>
+<li><a href="http://busylog.net/squid-ssl-certificate/">Squid – SSL Certificate</a></li>
+<li><a href="http://blog.longwin.com.tw/2006/01/ram_disk_build_method/">拿 RAM 當硬碟來用(RAM Disk)</a></li>
+<li><a href="http://www.ehow.com/how_7498953_enable-ssl-squid.html">How to Enable SSL Squid</a></li>
+<li><a href="http://stackoverflow.com/questions/22907231/copying-files-from-host-to-docker-container">Copying files from host to docker container</a></li>
+<li><a href="http://stackoverflow.com/questions/10175812/how-to-create-a-self-signed-certificate-with-openssl">How to create a self-signed certificate with openssl?</a></li>
+<li><a href="https://docs.docker.com/v1.8/articles/host_integration/">Automatically start containers</a></li>
+</ol>
+<h1 id="圖片來源">圖片來源</h1>
+<ol>
+<li>http://www.peppercan.com/wp-content/uploads/2012/03/cloud.png</li>
+<li>http://orig05.deviantart.net/4a1c/f/2010/239/0/b/pc_clipart_by_chiprunner-d2xfpv6.png</li>
+</ol>]]></content>
+  </entry>
+  <entry>
+    <title>Cross-compile for OpenWRT</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/cross-compile-for-openwrt/</id>
+    <updated>2015-05-14T09:55:00Z</updated>
+    <published>2015-05-14T09:55:00Z</published>
+    <content type="html"><![CDATA[<p>雖然不是很懂自己在幹嘛，不過至少是參考並修改別人的方式，完成了幾個簡單的範例。</p>
+<ul>
+<li>編譯環境：
+<ul>
+<li>Operating System: Ubuntu 14.04 x64</li>
+<li>OpenWRT version: 14.07</li>
+</ul>
+</li>
+</ul>
+<!-- more -->
+<h1 id="download-openwrt-source-code">Download OpenWRT source code</h1>
+<pre><code>cd ~
+mkdir ~/crosscompile
+git clone git://git.openwrt.org/14.07/openwrt.git
+</code></pre><h1 id="build-openwrt">Build OpenWRT</h1>
+<pre><code>cd openwrt
+make menuconfig
+</code></pre><ol>
+<li>Choice &quot;Target System&quot; and &quot;Target Profile&quot;</li>
+<li>&quot;Advanced configuration options (for developers)&quot; -&gt; &quot;Target Options&quot;</li>
+<li>&quot;Advanced configuration options (for developers)&quot; -&gt; &quot;Toolchain Options&quot; -&gt; &quot;Binutils Version&quot; -&gt; &quot;Linaro binutils 2.24&quot;</li>
+</ol>
+<p>Save configuration, then:</p>
+<pre><code>make defconfg
+make
+</code></pre><p>如果嫌 <code>make</code> 不夠快，可以再加上 <code>-j N</code> 開啟其他 cpu core 來編譯。 EX： <code>make -j 3</code>(for 雙核心)。</p>
+<h1 id="generate-environment-configuration">Generate environment configuration</h1>
+<ul>
+<li>Create configuration</li>
+</ul>
+<p>Create a new file:</p>
+<pre><code>cd ~/crosscompile
+vi env.sh
+</code></pre><p>Content:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">STAGING_DIR</span><span class="o">=</span>/home/maple/crosscompile/openwrt/staging_dir
+<span class="nb">export</span> <span class="nv">TOOLCHAIN_DIR</span><span class="o">=</span><span class="nv">$STAGING_DIR</span>/toolchain-mips_34kc_gcc-4.8-linaro_uClibc-0.9.33.2
+<span class="nb">export</span> <span class="nv">LDCFLAGS</span><span class="o">=</span><span class="nv">$TOOLCHAIN_DIR</span>/usr/lib
+<span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$TOOLCHAIN_DIR</span>/usr/lib
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$TOOLCHAIN_DIR</span>/bin:<span class="nv">$PATH</span>
+</code></pre></div><p>Change value of <strong>STAGING_DIR</strong> by the path of OpenWRT source code</p>
+<ul>
+<li>Source environment</li>
+</ul>
+<pre><code>source env.sh
+</code></pre><p>每一次 login 都要作這個步驟，因此有兩種(懶人)方法可以簡化這個步驟</p>
+<ol>
+<li><code>echo 'source ~/crosscompile/env.sh' &gt;&gt; ~/.bashrc</code></li>
+<li><code>cat ~/crosscompile/env.sh | sudo tee -a /etc/profile</code> or <code> sudo mv ~/crosscompile/env.sh /etc/profile.d/</code></li>
+</ol>
+<p>之後登入就會自動讀取 env.sh 裡面的環境變數了</p>
+<h1 id="cross-compile">Cross compile</h1>
+<h2 id="compile-a-software-package">Compile a software package</h2>
+<p><em>You need activate environment parameter before this step</em></p>
+<pre><code>cd ~/crosscompile
+wget -O- http://downloads.openwrt.org/sources/bluez-libs-3.36.tar.gz | tar zxf -
+cd bluez-libs-3.36
+./configure --prefix=$TOOLCHAIN_DIR --build=mips-openwrt-linux-gnu --host=mips-openwrt-linux-uclibc
+make
+make install
+</code></pre><h2 id="hello-world">Hello world</h2>
+<pre><code>cd ~/crosscompile
+mkdir helloworld
+cd helloworld
+</code></pre><ul>
+<li>Generate source code</li>
+</ul>
+<pre><code>vi helloworld.c
+</code></pre><div class="highlight"><pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;Hello World!</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><h3 id="compile-single-source-code">Compile single source code</h3>
+<pre><code>mips-openwrt-linux-gcc -o helloworld helloworld.c
+</code></pre><h3 id="compile-with-makefile">Compile with Makefile</h3>
+<ul>
+<li>Generate <code>Makefile</code></li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-makefile" data-lang="makefile"><span class="nv">INCLUDE_DIR</span><span class="o">=</span><span class="k">$(</span>TOOLCHAIN_DIR<span class="k">)</span>/usr/include
+
+<span class="nv">CC</span><span class="o">=</span>mips-openwrt-linux-gcc
+
+<span class="nv">CFLAGS</span><span class="o">=</span> -std<span class="o">=</span>gnu99
+<span class="nv">LDFLAGS</span><span class="o">=</span>-lbluetooth
+
+<span class="nv">SOURCES</span><span class="o">=</span>helloworld.c
+<span class="nv">OBJS</span><span class="o">=</span><span class="k">$(</span>SOURCES:.c<span class="o">=</span>.o<span class="k">)</span>
+
+<span class="nf">all</span><span class="o">:</span> <span class="n">helloworld</span>
+
+<span class="nf">helloworld.o</span><span class="o">:</span> <span class="n">helloworld</span>.<span class="n">c</span>
+	<span class="k">$(</span>CC<span class="k">)</span> -c <span class="k">$(</span>CFLAGS<span class="k">)</span> -I <span class="k">$(</span>INCLUDE_DIR<span class="k">)</span> -o <span class="nv">$@</span> $&lt;
+
+<span class="nf">%.o</span><span class="o">:</span> %.<span class="n">c</span> %.<span class="n">h</span>
+	<span class="k">$(</span>CC<span class="k">)</span> -c <span class="k">$(</span>CFLAGS<span class="k">)</span> -I <span class="k">$(</span>INCLUDE_DIR<span class="k">)</span> -o <span class="nv">$@</span> $&lt;
+
+<span class="nf">helloworld</span><span class="o">:</span> <span class="k">$(</span><span class="nv">OBJS</span><span class="k">)</span>
+	<span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>LDFLAGS<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -o helloworld <span class="k">$(</span>OBJS<span class="k">)</span>
+
+<span class="nf">clean</span><span class="o">:</span>
+	rm *.o helloworld
+</code></pre></div><p>縮排必須是一格 tab，不能是空白鍵，否則會產生 <code>Makefile:17: *** missing separator.  Stop.</code> 錯誤。</p>
+<ul>
+<li>Execute <code>make</code> command <em>(You need activate environment parameter before this step)</em></li>
+</ul>
+<p>完成</p>
+<h2 id="sniffex">Sniffex</h2>
+<h3 id="install-libpcap">Install libpcap</h3>
+<p><em>You need activate environment parameter before this step</em></p>
+<pre><code>cd ~/crosscompile
+wget -O- http://downloads.openwrt.org/sources/libpcap-1.5.3.tar.gz | tar zxf -
+cd libpcap-1.5.3
+./configure --prefix=$TOOLCHAIN_DIR --build=mips-openwrt-linux-gnu --host=mips-openwrt-linux-uclibc --with-pcap=null
+make
+make install
+</code></pre><h3 id="compile-sniffex">Compile sniffex</h3>
+<ul>
+<li>Install packages</li>
+</ul>
+<pre><code>sudo apt-get install m4 flex bison
+</code></pre><ul>
+<li>Create source code directory</li>
+</ul>
+<pre><code>cd ~/crosscompile
+mkdir sniffex
+</code></pre><ul>
+<li>Get source code</li>
+</ul>
+<pre><code>wget http://www.tcpdump.org/sniffex.c
+</code></pre><ul>
+<li>Generate <code>Makefile</code></li>
+</ul>
+<div class="highlight"><pre class="chroma"><code class="language-makefile" data-lang="makefile"><span class="nv">INCLUDE_DIR</span><span class="o">=</span><span class="k">$(</span>TOOLCHAIN_DIR<span class="k">)</span>/usr/include
+
+<span class="nv">CC</span><span class="o">=</span>mips-openwrt-linux-gcc
+
+<span class="nv">CFLAGS</span><span class="o">=</span> -Wall
+<span class="nv">LDFLAGS</span><span class="o">=</span>-lpcap
+
+<span class="nv">SOURCES</span><span class="o">=</span>sniffex.c
+<span class="nv">OBJS</span><span class="o">=</span><span class="k">$(</span>SOURCES:.c<span class="o">=</span>.o<span class="k">)</span>
+
+<span class="nf">all</span><span class="o">:</span> <span class="n">sniffex</span>
+
+<span class="nf">sniffex.o</span><span class="o">:</span> <span class="n">sniffex</span>.<span class="n">c</span>
+	<span class="k">$(</span>CC<span class="k">)</span> -c <span class="k">$(</span>CFLAGS<span class="k">)</span> -I <span class="k">$(</span>INCLUDE_DIR<span class="k">)</span> -o <span class="nv">$@</span> $&lt;
+
+<span class="nf">%.o</span><span class="o">:</span> %.<span class="n">c</span> %.<span class="n">h</span>
+	<span class="k">$(</span>CC<span class="k">)</span> -c <span class="k">$(</span>CFLAGS<span class="k">)</span> -I <span class="k">$(</span>INCLUDE_DIR<span class="k">)</span> -o <span class="nv">$@</span> $&lt;
+
+<span class="nf">sniffex</span><span class="o">:</span> <span class="k">$(</span><span class="nv">OBJS</span><span class="k">)</span>
+	<span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>LDFLAGS<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -o sniffex <span class="k">$(</span>OBJS<span class="k">)</span>
+
+<span class="nf">clean</span><span class="o">:</span>
+	rm *.o sniffex
+</code></pre></div><ul>
+<li>Execute <code>make</code> command <em>(You need source environment parameter before this step)</em></li>
+</ul>
+<p>Done</p>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="http://telecnatron.com/articles/Cross-Compiling-For-OpenWRT-On-Linux/">Cross Compiling For OpenWRT On Linux</a></li>
+<li><a href="http://ccchiu.pixnet.net/blog/post/28376950">missing separator. Stop.</a></li>
+<li><a href="http://owen-hsu.blogspot.tw/2011/03/embedded-porting-tcpdump-to-arm-emedded.html">[Embedded] How to Cross Compile tcpdump</a></li>
+<li><a href="http://read-and-thinking.blogspot.tw/2009/06/tcpdumparm.html">如何將tcpdump移植到arm嵌入式系統</a></li>
+</ul>
+<h1 id="相關文章">相關文章</h1>
+<ul>
+<li><a href="http://e2dick.com/index.php/archives/17/">Openwrt 缺少libpcap.so.xx文件 can't load library libpcap.so.1.0</a></li>
+</ul>]]></content>
+  </entry>
+  <entry>
+    <title>Compile OpenWRT x86 (KVM guest, VirtualBox)</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/compile-openwrt-x86-kvm-guest/</id>
+    <updated>2015-05-07T11:45:00Z</updated>
+    <published>2015-05-07T11:45:00Z</published>
+    <content type="html"><![CDATA[<p>編譯 x86 版的 OpenWRT 與之前的方式雷同，基本上差別的就在於 <code>make menuconfig</code> 的時候要作一些額外的修改。</p>
+<p>詳細的 OpenWRT 編譯流程請參考：<a href="http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch">Compile OpenWRT with Open vSwitch</a>，本篇不再贅述。</p>
+<h1 id="實驗環境">實驗環境</h1>
+<ul>
+<li>OS: Ubuntu 14.04 x64</li>
+<li>OpenWRT version: 14.07</li>
+</ul>
+<!-- more -->
+<h1 id="步驟">步驟</h1>
+<ol>
+<li>安裝編譯環境, 下載 source code, 編輯 feeds.conf, 執行 <code>scripts/feeds</code>
+前置步驟與<a href="http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch">上一篇</a>一模一樣，包含如果要順便編譯 openvswitch。</li>
+</ol>
+<blockquote>
+<p>注意：如果先前已經有編譯過了，想要使用原本的 source code。則會需要清除先前編譯產生的檔案，否則無法順利編譯。請參考<a href="#appendix">附錄</a>說明</p>
+</blockquote>
+<ol start="2">
+<li><a name="menuconfig" />執行 <code>make menuconfig</code> 開始進行選擇編譯選項</li>
+</ol>
+<ul>
+<li><code>Target system</code> 選擇 <code>x86</code></li>
+<li><code>Subtarget</code> 選擇 <code>KVM Guest</code></li>
+<li>如果需要編譯 Virtualbox 用的 VDI image，則在 <code>Target Images</code> 中選擇 <code>Build VirtualBox image files (VDI)</code></li>
+<li><code>Advanced configuration options (for developers)</code> <strong>不需要作任何設定</strong>，這點與上一篇不同</li>
+<li>選擇其他想要編譯的東西，例如：Open vSwitch, tcpdump, vim, Luci, ...
+<img class="center" src="http://user-image.logdown.io/user/10779/blog/10403/post/263856/TpohOsgTRpSKk324MFTj_%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7%202015-05-07%20%E4%B8%8B%E5%8D%8812.19.53.png" alt="make menuconifg(OpenWRT x86)"></li>
+</ul>
+<ol start="3">
+<li><code>make V=s</code> 進行編譯</li>
+</ol>
+<p>其餘的步驟皆與<a href="http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch">前一篇</a>雷同</p>
+<h1 id="a-nameappendix-附錄"><a name="appendix" />附錄</h1>
+<p>如果先前已經有編譯過了，想要使用原本的 source code，必須要額外作一些工作</p>
+<ol>
+<li>在 source code 目錄下執行 <code>make distclean</code></li>
+<li>重新執行 <code>scripts/feeds update -a</code></li>
+</ol>
+<ul>
+<li>如果有增加 Open vSwitch repo，則 <strong><code> libatomic patch</code> 不需要再執行了</strong> ；但是需要改版本的步驟則還是需要作</li>
+</ul>
+<ol start="3">
+<li>重新執行 <code>scripts/feeds install -a</code></li>
+<li>回到<a href="#menuconfig">先前的步驟</a>繼續編譯工作</li>
+</ol>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch">Compile OpenWRT with Open vSwitch</a></li>
+</ul>]]></content>
+  </entry>
+  <entry>
+    <title>IPv6 Neighbour table overflow</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/ipv6-neighbour-table-overflow/</id>
+    <updated>2015-05-01T12:07:00Z</updated>
+    <published>2015-05-01T12:07:00Z</published>
+    <content type="html"><![CDATA[<p>這兩天一直在 syslog 上看到 <code>Neighbour table overflow</code></p>
+<pre><code class="language-syslog" data-lang="syslog">Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressed
+Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
+</code></pre><p>每兩分鐘就出現6~7筆,數量非常的多
+如果不處理他，放任它繼續增長，過一兩天後系統就會 kernel panic。</p>
+<!-- more -->
+<p>Google 一番之後大概得知，neighbour table 基本上就是 arp table。所以簡單來說就是 arp table 爆了。
+問題是我已經把 IPv6 都關了，還能衝爆 neighbour table 實在無法理解。</p>
+<h2 id="increase-the-size-of-neighbour-table">Increase the size of neighbour table</h2>
+<p>這大概是搜尋到最多的解法，簡單來說就是直接增加 neighbour table 的大小。</p>
+<p>設定 <code>/etc/sysctl.conf</code> :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">net</span><span class="o">.</span><span class="n">ipv6</span><span class="o">.</span><span class="n">neigh</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">gc_thresh1</span> <span class="o">=</span> <span class="mi">4096</span>
+<span class="n">net</span><span class="o">.</span><span class="n">ipv6</span><span class="o">.</span><span class="n">neigh</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">gc_thresh2</span> <span class="o">=</span> <span class="mi">8192</span>
+<span class="n">net</span><span class="o">.</span><span class="n">ipv6</span><span class="o">.</span><span class="n">neigh</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">gc_thresh3</span> <span class="o">=</span> <span class="mi">8192</span>
+</code></pre></div><p>然後在執行 <code>sysctl -p</code> 讓設定值生效。</p>
+<p>在網路上搜尋到的範例大多都是設定成 512, 1024, 2048。這些設定對我的平台一點效果都沒有，必須要設定到 4096, 8192 才夠用。</p>
+<h2 id="disable-ipv6">Disable IPv6</h2>
+<p>原本我是在 <code>/etc/sysctl.conf</code> 中加入以下設定來關閉 IPv6：</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">net</span><span class="o">.</span><span class="n">ipv6</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">disable_ipv6</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">net</span><span class="o">.</span><span class="n">ipv6</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">disable_ipv6</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">net</span><span class="o">.</span><span class="n">ipv6</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">lo</span><span class="o">.</span><span class="n">disable_ipv6</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div><p>但是很顯然的，這並沒有真正的關閉 IPv6。到比較像是單純隱藏 IPv6 的感覺。最好的證明就是：</p>
+<ol>
+<li><code>netstat -tnlup</code> 可以看到部分 service 依然監聽 IPv6</li>
+<li>Neighbour table overflow 的狀況出現</li>
+</ol>
+<p>因此我嘗試了一下用 grub 的方式關閉，沒想到效果不錯。</p>
+<ol>
+<li>編輯 <code>/etc/default/grub</code>, 並且在 <code>GRUB_CMDLINE_LINUX</code> 的設定中加入 <code>ipv6.disable=1</code></li>
+</ol>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">GRUB_CMDLINE_LINUX</span><span class="o">=</span><span class="s2">&#34;ipv6.disable=1&#34;</span>
+</code></pre></div><ol start="2">
+<li>更新 grub <code>update-grub</code></li>
+<li>Reboot</li>
+</ol>
+<p>設定完之後發現:</p>
+<ul>
+<li><code>netstat -tnlup</code> 再也看不到有 service listen on IPv6 address</li>
+<li>先前加的 sysctl 參數，不論是 disable IPv6 還是 increase neighbour table size 都直接失效。</li>
+</ul>
+<pre><code>root@localhost:~ # sysctl -p
+error: &quot;net.ipv6.conf.all.disable_ipv6&quot; is an unknown key
+error: &quot;net.ipv6.conf.default.disable_ipv6&quot; is an unknown key
+error: &quot;net.ipv6.conf.lo.disable_ipv6&quot; is an unknown key
+error: &quot;net.ipv6.neigh.default.gc_thresh1&quot; is an unknown key
+error: &quot;net.ipv6.neigh.default.gc_thresh2&quot; is an unknown key
+error: &quot;net.ipv6.neigh.default.gc_thresh3&quot; is an unknown key
+</code></pre><p>即使將 disable_ipv6 都設定為 0 ，也無法啟用 IPv6。</p>
+<h2 id="現況與採取方案">現況與採取方案</h2>
+<p>一開始先採用了第一個方案，但是數值設太小了，沒多久系統又爆出一樣的 error；於是採取的第二個方案，在 grub 的參數上增加 <code>ipv6.disable=1</code>。結果 syslog 終於沒有在看到這個 error，但是 syslog 中出現另外一個錯誤：</p>
+<pre><code>Apr 28 06:50:52 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl --timeout=2 add-port br-tun gre-10
+Apr 28 06:50:52 host-42 ovs-vsctl: 00002|vsctl|ERR|cannot create a port named gre-10 because a port named gre-10 already exists on bridge br-tun
+Apr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl --timeout=2 set Interface gre-10 type=gre
+Apr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl --timeout=2 set Interface gre-10 options:remote_ip=192.168.91.93
+Apr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl --timeout=2 set Interface gre-10 options:in_key=flow
+Apr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl --timeout=2 set Interface gre-10 options:out_key=flow
+</code></pre><p>這個問題很久以前就看過，但是以前都不影響 OpenStack 的運作；而這次 syslog 中每一秒都出現這個 error，OpenStack virtual network 也跟著一起掛了。嘗試將 IPv6 打開，這個 error 就消除了。這讓我感到非常莫名其妙，目前也還不太清楚發生的原因。</p>
+<p>最後還是回到第一個方案，並起將參數調大至 4096 與 8192，最後才讓系統恢復正常運作。但我心中認為這是個治標不治本的方案。看來只能多花點時間研究一下 IPv6 的機制了。</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="http://www.arcweb.ro/blog/2011/12/13/neighbour-table-overflow-debug-ipv4-and-ipv6/">Neighbour table overflow – debug – IPv4 and IPv6</a></li>
+<li><a href="http://blog.csdn.net/reyleon/article/details/24981581">neighbour table overflow 问题解决</a><strong>(Important)</strong></li>
+</ul>]]></content>
+  </entry>
+  <entry>
+    <title>OpenStack Glance Image-list 401</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/openstack-glance-image-list-401/</id>
+    <updated>2015-04-08T16:12:00Z</updated>
+    <published>2015-04-08T16:12:00Z</published>
+    <content type="html"><![CDATA[<p>架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。</p>
+<pre><code>root@localhost:~# glance --debug image-list
+curl -i -X GET -H 'User-Agent: python-glanceclient' -H 'Content-Type: application/octet-stream' -H 'Accept-Encoding: gzip, deflate, compress' -H 'Accept: */*' -H 'X-Auth-Token: ***' http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;sort_dir=asc&amp;limit=20
+Request returned failure status 401.
+Invalid OpenStack Identity credentials.
+</code></pre><!-- more -->
+<p>查看 <code>/var/log/glance/api.log</code> 看到以下的錯誤訊息:</p>
+<pre><code>2015-04-08 15:34:03.127 18799 ERROR keystonemiddleware.auth_token [-] Bad response code while validating token: 403
+2015-04-08 15:34:03.128 18799 WARNING keystonemiddleware.auth_token [-] Invalid user token. Keystone response: {u'error': {u'message': u'You are not authorized to perform the requested action: identity:validate_token', u'code': 403, u'title': u'Forbidden'}}
+</code></pre><p>但是 keystone 指令本身沒問題:</p>
+<pre><code>root@localhost:~# keystone --debug token-get
+DEBUG:keystoneclient.auth.identity.v2:Making authentication request to http://localhost:35357/v2.0/tokens
+INFO:urllib3.connectionpool:Starting new HTTP connection (1): twin-26
+DEBUG:urllib3.connectionpool:Setting read timeout to 600.0
+DEBUG:urllib3.connectionpool:&quot;POST /v2.0/tokens HTTP/1.1&quot; 200 1084
++-----------+----------------------------------+
+|  Property |              Value               |
++-----------+----------------------------------+
+|  expires  |       2015-04-08T08:31:37Z       |
+|     id    | 6de04b01727841eb90ccaff60f9b0ac7 |
+| tenant_id | ed1743be7bac44fca510892f856d5662 |
+|  user_id  | 6c0899095ae74fc298dff6b335361ed6 |
++-----------+----------------------------------+
+</code></pre><p>Google 到了幾篇參考資料:</p>
+<ul>
+<li><a href="https://ask.openstack.org/en/question/1325/401-on-glance-image-list/">401 on &quot;glance image-list&quot;</a></li>
+<li><a href="http://lists.openstack.org/pipermail/openstack-dev/2015-February/056949.html">Ask for help with devstack error: &quot;401	Unauthorized&quot;</a></li>
+<li>https://review.openstack.org/#/c/154391</li>
+</ul>
+<p>第一篇所提到 region 設定，不論是在 <code>/etc/glance/glance-api.conf</code> 與 <code>/etc/glance/glance-registry.conf</code> 中設定 <code>auth_region</code>，還是在環境變數中設定 <code>OS_REGION_NAME</code> 都沒有效果。</p>
+<p>第二篇參考資料所提到的狀況與我的狀況幾乎一模一樣，透過該篇下面的回應，找到了第三篇參考資料。開頭敘述:</p>
+<blockquote>
+<p>Most of the services create the service user with the admin permission.
+This is unnecessary for token validation and they should be restricted
+to only having the service role.</p>
+</blockquote>
+<h2 id="solution">Solution</h2>
+<p>Glance 的 user role 我本來設定是 <code>Member</code>，解決方法就是改成 <code>admin</code> role 問題就解決了</p>]]></content>
+  </entry>
+  <entry>
+    <title>Configure Open vSwitch in OpenWRT</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/configure-open-vswitch-in-openwrt/</id>
+    <updated>2015-03-18T17:04:00Z</updated>
+    <published>2015-03-18T17:04:00Z</published>
+    <content type="html"><![CDATA[<p>當你安裝完 Open vSwitch 或是燒了一個<a href="http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch">內建 Open vSwitch 的 OpenWRT</a> 後，接下來要將網卡綁到 Open vSwitch 上。</p>
+<h1 id="實驗環境"><strong>實驗環境</strong></h1>
+<ul>
+<li>路由器: <a href="http://www.tp-link.tw/products/details/?model=TL-WR1043ND">TP-Link TL-WR1043ND</a>
+<ul>
+<li>Wan port x 1</li>
+<li>Lan port x 4</li>
+</ul>
+</li>
+</ul>
+<!-- more -->
+<hr>
+<h1 id="prepare-work">Prepare Work</h1>
+<ul>
+<li><strong>更換 root 密碼</strong>
+剛裝好 OpenWRT 之後，要先設定 root 密碼。第一次登入必須使用 telnet 從 lan 登入:</li>
+</ul>
+<pre><code>telnet 192.168.1.1
+</code></pre><pre><code>接下來執行 `passwd` 更換 root 密碼:
+</code></pre>
+<pre><code>root@OpenWrt:/# passwd
+Changing password for root
+New password:
+Retype password:
+Password for root changed by root
+</code></pre><pre><code>執行 `exit` 登出，然後改用 ssh 登入。 (或者是 Luci)
+</code></pre>
+<pre><code>ssh root@192.168.1.1
+</code></pre><h2 id="modify-network-configuration">Modify network configuration</h2>
+<p>Network 設定檔在 <code>/etc/config/network</code>，先看一下 <strong>lan</strong> 預設值:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">config</span> <span class="n">interface</span> <span class="s1">&#39;lan&#39;</span>
+	<span class="n">option</span> <span class="n">ifname</span> <span class="s1">&#39;eth1&#39;</span>
+	<span class="n">option</span> <span class="n">force_link</span> <span class="s1">&#39;1&#39;</span>
+	<span class="n">option</span> <span class="nb">type</span> <span class="s1">&#39;bridge&#39;</span>
+	<span class="n">option</span> <span class="n">proto</span> <span class="s1">&#39;static&#39;</span>
+	<span class="n">option</span> <span class="n">ipaddr</span> <span class="s1">&#39;192.168.1.1&#39;</span>
+	<span class="n">option</span> <span class="n">netmask</span> <span class="s1">&#39;255.255.255.0&#39;</span>
+	<span class="n">option</span> <span class="n">ip6assign</span> <span class="s1">&#39;60&#39;</span>
+
+</code></pre></div><ul>
+<li><code>lan</code> 是<strong>網路名稱</strong> 而非網卡名稱</li>
+<li>ifname 後面接網卡名稱，<code>eth1</code> (lan port)。<strong>每一個 network 只能設定一個 ifname</strong>。</li>
+<li>proto 後面接設定網路的方式: 固定 IP 就是 <code>static</code>、浮動 IP 就是 <code>dhcp</code>；其他還有 ppp ...等。</li>
+</ul>
+<p>lan 的 type 為 <code>bridge</code>，使用 <code>ifconfig</code> 與 <code>brctl</code> 可以觀察到:</p>
+<pre><code>root@OpenWrt:~# ifconfig br-lan
+br-lan    Link encap:Ethernet  HWaddr E8:DE:27:67:05:6E  
+          inet addr:192.168.1.1  Bcast:192.168.1.255  Mask:255.255.255.0
+          inet6 addr: fddb:c62a:a451::1/60 Scope:Global
+          inet6 addr: fe80::eade:27ff:fe67:56e/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:48715 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:51387 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:9282220 (8.8 MiB)  TX bytes:22974165 (21.9 MiB)
+
+root@OpenWrt:~# brctl show
+bridge name	bridge id		STP enabled	interfaces
+br-lan		7fff.e8de2767056e	no		eth1
+</code></pre><p>接下來我們要做的事情是:</p>
+<ol>
+<li>設定 lan 的網卡為 Open vSwitch 的 switch name</li>
+<li>設定新的 network 來開啟原本的網卡</li>
+</ol>
+<p>因此，第一步就是要修改 <code>/etc/config/network</code> :</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">config</span> <span class="n">interface</span> <span class="s1">&#39;lan&#39;</span>                         
+        <span class="n">option</span> <span class="n">ifname</span> <span class="s1">&#39;ovs-lan&#39;</span>                
+        <span class="n">option</span> <span class="n">proto</span> <span class="s1">&#39;static&#39;</span>                  
+        <span class="n">option</span> <span class="n">ipaddr</span> <span class="s1">&#39;192.168.1.1&#39;</span>            
+        <span class="n">option</span> <span class="n">netmask</span> <span class="s1">&#39;255.255.255.0&#39;</span>         
+
+<span class="n">config</span> <span class="n">interface</span> <span class="s1">&#39;eth1&#39;</span>               
+        <span class="n">option</span> <span class="n">ifname</span> <span class="s1">&#39;eth1&#39;</span>          
+        <span class="n">option</span> <span class="n">proto</span> <span class="s1">&#39;static&#39;</span>
+</code></pre></div><p>接下來，要使用指令來做幾個步驟:</p>
+<ul>
+<li>建立 ovs bridge</li>
+<li>移除 linux bridge 上原本的 interface</li>
+<li>將 interface 新增到 ovs bridge 中</li>
+<li>重新啟動網路套用新的設定值</li>
+</ul>
+<p>以上步驟可以利用 script 一氣呵成。 (當然也可以手動慢慢打指令，但是要注意的是執行 <code>brctl delif</code> 與 <code>ovs-vsctl add-port</code> 時會造成網路斷線)</p>
+<p>新增一個 scrpit:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/sh
+</span><span class="cp"></span><span class="nv">OVS_LAN</span><span class="o">=</span><span class="s2">&#34;ovs-lan&#34;</span>
+<span class="nv">LAN_PORT</span><span class="o">=</span><span class="s2">&#34;eth1&#34;</span>
+<span class="nv">LINUX_BRIDGE</span><span class="o">=</span><span class="s2">&#34;br-lan&#34;</span>
+
+<span class="c1"># Create Open vSwitch</span>
+ovs-vsctl --may-exist add-br <span class="nv">$OVS_LAN</span>
+
+<span class="c1"># Remove LAN port from Linux bridge</span>
+brctl delif <span class="nv">$LINUX_BRIDGE</span> <span class="nv">$LAN_PORT</span>
+
+<span class="c1"># Add LAN port to Open vSwitch</span>
+ovs-vsctl --may-exist add-port <span class="nv">$OVS_LAN</span> <span class="nv">$LAN_PORT</span>
+
+<span class="c1"># Restart network</span>
+/etc/init.d/network restart
+
+<span class="nb">exit</span> <span class="m">0</span>
+</code></pre></div><p>然後執行這個 script</p>
+<pre><code>sh ovs.sh &amp;
+</code></pre><p>這樣就完成了 Open vSwitch 的基礎設定。</p>
+<pre><code>root@OpenWrt:~# ovs-vsctl show
+f9a6117b-8af2-400b-91ff-39986349f0c6
+    Bridge ovs-lan
+        Port ovs-lan
+            Interface ovs-lan
+                type: internal
+        Port &quot;eth1&quot;
+            Interface &quot;eth1&quot;
+</code></pre><h2 id="wifi">Wifi</h2>
+<p>Wifi 的設定檔放在 <code>/etc/config/wireless</code></p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">onfig wifi-device  radio0
+        option type     mac80211
+        option channel  11
+        option hwmode   11g
+        option path     &#39;platform/qca955x_wmac&#39;
+        option htmode   HT20
+        # REMOVE THIS LINE TO ENABLE WIFI:
+        option disabled 1
+
+config wifi-iface
+        option device   radio0
+        option network  lan
+        option mode     ap
+        option ssid     OpenWrt
+        option encryption none
+</code></pre></div><p>註解 <code>option disabled 1</code> 這行，然後執行 <code>wifi</code></p>
+<p>執行 <code>ifconfig</code> 可以看到 <code>wlan0</code> 這個介面</p>
+<pre><code>wlan0     Link encap:Ethernet  HWaddr E8:DE:27:67:05:6E  
+          inet6 addr: fe80::eade:27ff:fe67:56e/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:4 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:0 (0.0 B)  TX bytes:480 (480.0 B)
+</code></pre><p>但是利用 ovs-vsctl show 卻看到 wlan0 沒有被新增到 openvswitch 裡:</p>
+<pre><code>root@OpenWrt:~# ovs-vsctl show
+f9a6117b-8af2-400b-91ff-39986349f0c6
+    Bridge ovs-lan
+        Port ovs-lan
+            Interface ovs-lan
+                type: internal
+        Port &quot;eth1&quot;
+            Interface &quot;eth1&quot;
+</code></pre><p>手動執行 <code>ovs-vsctl add-port</code> 去新增 wlan0</p>
+<pre><code>ovs-vsctl add-port ovs-lan wlan0
+</code></pre><p>這時候再用 ovs-vsctl show 就會看到 wlan0 加入到 openvswitch 中。使用無線裝置測試連線，可以順利取得 IP 並連上 internet。</p>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="http://roan.logdown.com/posts/239799-openvswitch-lab-7-setting-openwrt">OpenvSwitch Lab 7$ Setting OpenWrt</a></li>
+<li><a href="http://linton.tw/2014/05/13/openflow-13-for-openwrt-on-tl-1043nd-with-open-vswitch/">OpenFlow 1.3 for OpenWRT on TL-1043ND with OVS</a></li>
+</ul>
+<hr>
+<h1 id="附錄">附錄</h1>
+<p>如果想要自己手動打指令的方式去設定，有兩種方法:</p>
+<ol>
+<li>
+<p>參考 <a href="http://roan.logdown.com/posts/239799-openvswitch-lab-7-setting-openwrt">OpenvSwitch Lab 7$ Setting OpenWrt</a> 這篇的做法，切出一個 console port</p>
+</li>
+<li>
+<p>或者是你跟我一樣懶XD，那就修改 firewall，然後從 wan 登入進去設定。</p>
+</li>
+</ol>
+<p>編輯 <code>/etc/config/firewall</code> 並加上以下內容:</p>
+<pre><code>config rule
+        option src              wan
+        option dest_port        22
+        option target           ACCEPT
+        option proto            tcp
+</code></pre><p>然後重啟 firewall</p>
+<pre><code>/etc/init.d/firewall restart
+</code></pre><p>之後就可以從 wan 登入 OpenWRT 了</p>
+<p>Firewall 的規則可以參考 OpenWRT 官方的資料: <a href="http://wiki.openwrt.org/doc/uci/firewall">Firewall configuration</a></p>]]></content>
+  </entry>
+  <entry>
+    <title>Compile OpenWRT with Open vSwitch</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/</id>
+    <updated>2015-03-05T17:05:00Z</updated>
+    <published>2015-03-05T17:05:00Z</published>
+    <content type="html"><![CDATA[<p>雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 <a href="https://github.com/openwrt/packages/tree/master/net/openvswitch">Open vSwitch</a> 的身影。但是實際上，在官方的 <a href="https://downloads.openwrt.org/barrier_breaker/14.07/">repository</a> 中並沒有 Open vSwitch。因此決定自行編譯。</p>
+<h1 id="實驗環境"><strong>實驗環境</strong></h1>
+<ul>
+<li>
+<p>編譯環境</p>
+<ul>
+<li>Operating System: Ubuntu 14.04 x64</li>
+<li>OpenWRT version: 14.07</li>
+<li>Open vSwitch version: 2.3.1</li>
+</ul>
+</li>
+<li>
+<p>路由器</p>
+<ul>
+<li><a href="http://www.tp-link.tw/products/details/?model=TL-WR1043ND">TP-Link TL-WR1043ND</a></li>
+</ul>
+</li>
+</ul>
+<!-- more -->
+<hr>
+<h1 id="開始編譯"><strong>開始編譯</strong></h1>
+<ul>
+<li><strong>首先要先安裝編譯環境</strong></li>
+</ul>
+<pre><code>sudo apt-get -y install build-essential subversion git-core libncurses5-dev zlib1g-dev gawk flex quilt libssl-dev xsltproc libxml-parser-perl unzip
+</code></pre><ul>
+<li><strong>下載 source code (stable version, 14.07)</strong></li>
+</ul>
+<pre><code>user@localhost:~$ git clone git://git.openwrt.org/14.07/openwrt.git
+</code></pre><ul>
+<li><strong>建立 feeds.conf</strong></li>
+</ul>
+<pre><code>user@localhost:~$ cd openwrt
+user@localhost:~/openwrt$ mv feeds.conf.default feeds.conf
+</code></pre><ul>
+<li><strong>執行 <code>feeds update</code></strong></li>
+</ul>
+<pre><code>user@localhost:~/openwrt$ ./scripts/feeds update -a
+</code></pre><pre><code>指令結束後，會看到當前目錄下多了一個資料夾，名稱為 **feeds**，裡面將會根據 feeds.conf 的每個項目，一個項目將會產生兩個目錄、一個 soft-link，例如:
+</code></pre>
+<pre><code>user@localhost:~/openwrt$ ls -lh feeds/
+drwxrwxr-x 13 user user 4.0K  3月  9 14:24 packages
+lrwxrwxrwx  1 user user   25  3月  9 14:52 packages.index -&gt; packages.tmp/.packageinfo
+drwxrwxr-x  3 user user 4.0K  3月  9 14:24 packages.tmp
+</code></pre><ul>
+<li>
+<p><strong>將 Open vSwitch repo 新增到 feeds.conf 中</strong></p>
+<p>先檢查看看 packages 與 oldpackages 裡面是否有 openvswitch:</p>
+</li>
+</ul>
+<pre><code>user@localhost:~/openwrt$ ls feeds/packages/net/ | grep openvswtich
+user@localhost:~/openwrt$ ls feeds/oldpackages/net/ | grep openvswitch
+</code></pre><pre><code>如果有，則跳過此步驟；反之，則新增 Open vSwitch repo:
+</code></pre>
+<pre><code>user@localhost:~/openwrt$ echo 'src-git openvswitch git://github.com/pichuang/openvwrt.git' &gt;&gt; feeds.conf
+user@localhost:~/openwrt$ ./script/feeds update -a
+</code></pre><pre><code>然後打上 libatomic patch:
+</code></pre>
+<pre><code>user@localhost:~/openwrt$ wget https://gist.githubusercontent.com/pichuang/7372af6d5d3bd1db5a88/raw/4e2290e3e184288de7623c02f63fb57c536e035a/openwrt-add-libatomic.patch -q -O - | patch -p1
+</code></pre><pre><code>執行完之後，在 feeds 資料夾裡面看到 openvswitch:
+</code></pre>
+<pre><code>user@localhost:~/openwrt$ ls -lh feeds/ | grep openvswitch
+drwxrwxr-x  4 user user 4.0K  3月  9 14:52 openvswitch
+lrwxrwxrwx  1 user user   28  3月  9 14:52 openvswitch.index -&gt; openvswitch.tmp/.packageinfo
+drwxrwxr-x  3 user user 4.0K  3月  9 14:52 openvswitch.tmp
+</code></pre><pre><code>- **更改 Open vSwitch 版本**
+    原本的 maintainer 已經不再維護了，因此版本還是 2.3.0。如果想要更改版本，則編輯 `feeds/openvswitch/openvswitch/Makefile`
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-make" data-lang="make"><span class="nv">PKG_RELEASE</span><span class="o">:=</span><span class="m">1</span>
+<span class="nv">PKG_VERSION</span><span class="o">:=</span>2.3.0
+</code></pre></div><pre><code>    修改 `PKG_RELEASE` 與 `PKG_VERSION` 這兩個值:
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-make" data-lang="make"><span class="nv">PKG_RELEASE</span><span class="o">:=</span><span class="m">0</span>
+<span class="nv">PKG_VERSION</span><span class="o">:=</span>2.3.1
+</code></pre></div><pre><code>    然後再次執行 `feeds update`
+</code></pre>
+<pre><code>user@localhost:~/openwrt$ ./scripts/feeds update openvswitch
+</code></pre><pre><code>    這時候就可以看到 `feeds/openvswitch.index` 裡面，Open vSwitch 的版本就改成了 **2.3.1-0**
+</code></pre>
+<pre><code>Source-Makefile: feeds/openvswitch/openvswitch/Makefile
+Package: openvswitch-ipsec
+Version: 2.3.1-0
+</code></pre><ul>
+<li><strong>執行 <code>feeds install</code></strong></li>
+</ul>
+<pre><code>user@localhost:~/openwrt$ ./scripts/feeds install -a
+</code></pre><ul>
+<li><strong>執行 <code>make menuconfig</code></strong></li>
+</ul>
+<pre><code>user@localhost:~/openwrt$ make menuconfig
+</code></pre><pre><code>接下來會開啟編譯選單:&lt;br /&gt;
+</code></pre>
+<p><img src="http://user-image.logdown.io/user/10779/blog/10403/post/256561/sjalQsXQQmSupf39sAid_make_menuconfig.jpg" alt="make_menuconfig.jpg"></p>
+<pre><code>利用上下左右、M、空白鍵來切換與選擇不同的編譯選項。在選擇編譯選項時，原則上是:
+1. 系統預設值保留不變，除非要拿掉甚麼功能，ex: ppp。
+2. 盡量將需要編譯的項目選擇為 **M**，而不是 &lt;strong&gt;*&lt;/strong&gt;，除非認定必要存在。
+
+選擇的過程中或是離開前，選擇 **save** 可以將選項儲存起來，檔名保留為 **.config** (檔名不可以變更)。&lt;br /&gt;
+</code></pre>
+<p><img src="http://user-image.logdown.io/user/10779/blog/10403/post/256561/S0tZR8TwRa2v87AuN92F_save_config.jpg" alt="save_config.jpg"></p>
+<pre><code>- **Target Profile**
+
+    如果 OpenWRT 是要自己使用的，可以指定要編譯哪些 firmware，這樣可以節省不少編譯時間。&lt;br /&gt;
+    選擇 `Target Profile` -&gt; 選擇指定的 device 名稱，例如: TP-Link TL-W1043N/ND&lt;br /&gt;
+</code></pre>
+<p><img src="http://user-image.logdown.io/user/10779/blog/10403/post/256561/T7gxdCp0SAmLXpoyZvnH_custom_profile.jpg" alt="custom_profile.jpg"></p>
+<pre><code>- **Open vSwitch**
+    1. 選擇 `Network` -&gt; `openvswitch-common`、`openvswitch-ipsec`、`openvswitch-switch` &lt;br /&gt;&lt;br /&gt;
+</code></pre>
+<p><img src="http://user-image.logdown.io/user/10779/blog/10403/post/256561/KlkgzKJGSVSWdkhAGBOL_choice_openvswitch.jpg" alt="choice_openvswitch.jpg"><br />
+2. 選擇 <code>Advanced configuration options (for developers)</code> -&gt; <code>Target Options</code> -&gt; <strong>取消勾選</strong> <code>Build packages with MPIS16 instructions</code><br />
+3. 選擇 <code>Advanced configuration options (for developers)</code> -&gt; <code>Toolchain Options</code> -&gt; <code>Binutils Version</code> -&gt;<code>Linaro binutils 2.24</code></p>
+<pre><code>- **Luci** (Option.)
+
+    如果想要網頁管理介面，可以選擇加裝 luci&lt;br /&gt;
+    選擇 `Luci` -&gt; `Collections` -&gt; `luci`&lt;br /&gt;
+</code></pre>
+<p><img src="http://user-image.logdown.io/user/10779/blog/10403/post/256561/O6dnoyPcQ0KoIldgbv3Y_luci.jpg" alt="luci.jpg"></p>
+<ul>
+<li><strong>Compile OpenWRT</strong>
+選擇完編譯選項，並將設定值儲存為 <strong>.config</strong> 之後，接下來執行:<br /></li>
+</ul>
+<pre><code>user@localhost:~/openwrt$ echo '#CONFIG_KERNEL_BRIDGE is not set' &gt;&gt; .config
+</code></pre><pre><code>這個步驟再每一次 `make menuconfig` 之後都要執行一次&lt;br /&gt;
+然後開始編譯 OpenWRT&lt;br/&gt;
+</code></pre>
+<pre><code>user@localhost:~/openwrt$ make V=s
+</code></pre><pre><code>編譯完成後的檔案會放在 `openwrt/bin/`
+</code></pre>
+<p><a name="CustomRepository"></a></p>
+<ul>
+<li>
+<p><strong>架設 repository</strong>
+為了方便燒 OpenWRT 到 AP 裡面，可以順便架設 web server ，透過 HTTP 來提供 firmware 載點。以 nginx 為範例:</p>
+<ul>
+<li>安裝 web server</li>
+</ul>
+</li>
+</ul>
+<pre><code>user@localhost:~/openwrt$ sudo apt-get -y install nginx
+</code></pre><pre><code>- 編輯 `/etc/nginx/sites-available/default`，在 **server** 的設定裡面，新增以下 location 片段:
+</code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-nginx" data-lang="nginx"><span class="k">location</span> <span class="s">/openwrt/downloads</span> <span class="p">{</span>
+    <span class="kn">alias</span> <span class="s">/home/user/openwrt/bin</span><span class="p">;</span>
+    <span class="kn">autoindex</span> <span class="no">on</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div><pre><code>    請根據喜好與系統狀態去設定:
+    - URL: `/openwrt/downloads`
+    - PATH (編譯後的 firmware 放置位置): `/home/user/openwrt/bin`
+
+- 重啟 nginx
+</code></pre>
+<pre><code>user@localhost:~/openwrt$ sudo service nginx restart
+</code></pre><pre><code>然後打開瀏覽器，輸入網址: `http://&lt;&lt;your ip&gt;&gt;/openwrt/downloads`，應該要出現類似以下的畫面:&lt;br /&gt;
+</code></pre>
+<p><img src="http://user-image.logdown.io/user/10779/blog/10403/post/256561/2NycfcuTRCiuY67uumXA_custom_repository_1.jpg" alt="custom_repository_1.jpg"><br />
+點擊 <strong>ar71xx</strong> 後:<br />
+<img src="http://user-image.logdown.io/user/10779/blog/10403/post/256561/Az6shvIdRqyXaK4wDUkV_custom_repository_2.jpg" alt="custom_repository_2.jpg"></p>
+<hr>
+<h1 id="使用-openwrt"><strong>使用 OpenWRT</strong></h1>
+<p>接下來就可以利用 Luci 、<a href="http://wiki.openwrt.org/doc/howto/generic.sysupgrade">Sysupgrade 指令</a>、AP 原廠的管理介面等方法去燒 OpenWRT。<br />
+OpenWRT 第一次開機時，要使用 telnet 的方式連入</p>
+<pre><code>telnet 192.168.1.1
+</code></pre><p>進入系統之後，更換 root 密碼。登出之後，接下來就改用 ssh (或是 Luci) 登入。</p>
+<hr>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="http://linton.tw/2014/05/13/openflow-13-for-openwrt-on-tl-1043nd-with-open-vswitch/">OpenFlow 1.3 for OpenWRT on TL-1043ND with OVS</a></li>
+<li><a href="http://roan.logdown.com/posts/165911-compiled-openwrt">編譯 OpenWrt</a></li>
+<li><a href="http://roan.logdown.com/posts/208499-openvswitch-lab-5-porting-openvswitch-to-openwrt">Porting OpenvSwitch to OpenWrt</a></li>
+</ul>
+<!----  以下為保留段落,此區段文章不顯示
+#### OpenSSH server
+
+選擇 `Network` -> `SSH` -> 選擇 `openssh-server` 與 `openssh-server-pam`
+
+![openssh-server.jpg](http://user-image.logdown.io/user/10779/blog/10403/post/256561/UbXhlSl0Sxy3p5GzSK9f_openssh-server.jpg)
+
+#### Editor (VIM)
+
+選擇 `Utilities` -> `Editors` -> `vim-full`
+
+![vim.jpg](http://user-image.logdown.io/user/10779/blog/10403/post/256561/7IVxT0wYSQqp1DO2KBrl_vim.jpg)
+
+如果不太會需要編輯器的話，可以選擇 `vim` 或是 `vim-runtime`
+
+#### Bash
+
+選擇 `Utilities` -> `bash-completion`
+
+![bash.jpg](http://user-image.logdown.io/user/10779/blog/10403/post/256561/2CF91bTR0CfxopFT9tIZ_bash.jpg)
+
+#### 網路預設值 (Option.)
+
+選擇 `Image configuration` -> `Preinit configuration options` 然後就可以看到最下面有 IP 預設值，如果有需要的可以修改:
+
+![Preinit configuration options.jpg](http://user-image.logdown.io/user/10779/blog/10403/post/256561/aLk1ao2QcWcxmaT75dQo_Preinit%20configuration%20options.jpg)
+
+
+#### WGet
+
+選擇 `Network` -> `File Transfer` -> `wget`
+
+![wget.jpg](http://user-image.logdown.io/user/10779/blog/10403/post/256561/Ds0o1GRCQiqBBkVTBvHv_wget.jpg)
+
+#### Custom repositry (Option.)
+
+預設的 repository 是 **http://downloads.openwrt.org/snapshots/trunk/%T/packages**
+如果想要讓編譯好的 image 預設就使用自己的 repo 修改的方式如下:
+
+選擇 `Image configuration` -> `Version configuration options` -> `Release repository`
+
+![custom_repository_4.jpg](http://user-image.logdown.io/user/10779/blog/10403/post/256561/P4s3sy1Sg2H238TQwuoX_custom_repository_4.jpg)
+
+不知道為甚麼，這個參數我無法直接編輯，按 delete 鍵都沒有反應
+
+目前解決的方法是:
+
+1. 先儲存當前的設定值為 `.config`，然後離開 menucnofig
+2. 編輯 `.config` 檔，找到 `CONFIG_VERSION_REPO="http://downloads.openwrt.org/snapshots/trunk/%T/packages"` 並修改成自己的 repository。例如: `CONFIG_VERSION_REPO="http://maple52046.twbbs.org/openwrt/downloads/%T/packages/"`
+
+存檔，然後再次執行 `make menuconfig`，就可以看到預設的 repository 已經改成自己的網址
+
+![custom_repository_3.jpg](http://user-image.logdown.io/user/10779/blog/10403/post/256561/wTfI8T1Qw2oilVJbOjAi_custom_repository_3.jpg)
+
+當然，別忘了編譯完成之後，還要[架設自己的 repository](#CustomRepository)。
+
+----->]]></content>
+  </entry>
+  <entry>
+    <title>Install Rally 筆記 (OpenStack benchmark)</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/rally-installation/</id>
+    <updated>2015-02-24T16:45:00Z</updated>
+    <published>2015-02-24T16:45:00Z</published>
+    <content type="html"><![CDATA[<p><a href="http://rally.readthedocs.org/en/latest/index.html">Rally</a> 是一套 OpenStack benchmark tool。關於 Rally 的介紹本文就不再贅述。本篇安裝時是以 <a href="https://wiki.openstack.org/wiki/Rally#How_To">OpenStack 官方 Wiki</a> 的教學為參考內容，紀錄安裝與使用 Rally 的筆記。</p>
+<h2 id="實驗環境">實驗環境</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operating System</td>
+<td>Ubuntu 12.04 x64</td>
+</tr>
+<tr>
+<td>Python version</td>
+<td>Python 2.7</td>
+</tr>
+<tr>
+<td>OpenStack version</td>
+<td>Grizzly (2013)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="install-rally">Install Rally</h2>
+<p>一開始我是想要安裝在 OpenStack controller node 上，但是一直裝不起來，看起來似乎是 python module 的版本問題，不過我沒有仔細研究到底是哪個 module 的哪個版本卡住。</p>
+<p>直接在 OpenStack 上開了一個新的 VM，一樣是選擇 Ubuntu 12.04，就可以直接安裝。<em>(不過現在回想起來，應該要用 virtualenv 來裝就可以解決，也不會影響原本的系統。)</em></p>
+<!-- more -->
+<blockquote>
+<p>PS: Rally 可以跟 DevStack 一起部署。參考: <a href="https://wiki.openstack.org/wiki/Rally/installation#Rally_with_DevStack_all_in_one_installation">Rally with DevStack all in one installation</a></p>
+</blockquote>
+<p><strong>Step</strong>:</p>
+<ol>
+<li>下載 source code</li>
+</ol>
+<pre><code>root@rally:~# git clone https://git.openstack.org/stackforge/rally
+</code></pre><ol start="2">
+<li>執行 script</li>
+</ol>
+<pre><code>root@rally:~# ./rally/install_rally.sh
+</code></pre><ol start="3">
+<li>安裝並執行 tox (當前版本可以跳過此步驟)</li>
+</ol>
+<pre><code>root@rally:~# pip install 'tox==1.6.1'
+root@rally:~# tox
+</code></pre><h2 id="deployment-initialization">Deployment initialization</h2>
+<p>安裝完 Rally 之後，再進行下一步之前，必須要確定該 host 可以使用 OpenStack API</p>
+<p>建立 OpenStack credentials (openrc)，然後看看 keystone client 是否可已使用:</p>
+<p>建立 RC file:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">OS_TENANT_NAME</span><span class="o">=</span>admin
+<span class="nb">export</span> <span class="nv">OS_USERNAE</span><span class="o">=</span>admin
+<span class="nb">export</span> <span class="nv">OS_PASSWORD</span><span class="o">=</span>myStackAdmin
+<span class="nb">export</span> <span class="nv">OS_AUTH_URL</span><span class="o">=</span><span class="s2">&#34;http://myopenstack:5000/v2.0/&#34;</span>
+<span class="nb">export</span> <span class="nv">OS_SERVICE_ENDPOINT</span><span class="o">=</span><span class="s2">&#34;http://myopenstack:35357/v2.0&#34;</span>
+<span class="nb">export</span> <span class="nv">OS_SERVICE_TOKEN</span><span class="o">=</span>myOpenStackAdminToken28143
+</code></pre></div><p>測試 keystone 指令是否能使用:  <em>(keystone client 已經在 install_rally.sh 的時候就安裝了，不需要額外裝)</em></p>
+<pre><code>root@localhost:~# source openrc
+root@localhost:~# keystone tenant-list
+... (省略) ...
+</code></pre><p>接下來要設定 deployment</p>
+<h3 id="step-1">Step 1</h3>
+<p>首先，複製 samples 裡面的 existing.json，並修改參數</p>
+<pre><code>root@rally:~# cp rally/samples/deployments/existing.json ./
+</code></pre><div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;ExistingCloud&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;auth_url&#34;</span><span class="p">:</span> <span class="s2">&#34;http://myopenstack:5000/v2.0/&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;region_name&#34;</span><span class="p">:</span> <span class="s2">&#34;RegionOne&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;endpoint_type&#34;</span><span class="p">:</span> <span class="s2">&#34;public&#34;</span><span class="p">,</span>
+    <span class="nt">&#34;admin&#34;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&#34;username&#34;</span><span class="p">:</span> <span class="s2">&#34;admin&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;password&#34;</span><span class="p">:</span> <span class="s2">&#34;myStackAdmin&#34;</span><span class="p">,</span>
+        <span class="nt">&#34;tenant_name&#34;</span><span class="p">:</span> <span class="s2">&#34;benchmark&#34;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><ul>
+<li>type 的部分不能換改</li>
+<li><strong>auth_url</strong> 這個參數只要使用 public url 的就可以了</li>
+<li>User 一定要是具有 admin role 的 user；tenant 則不一定要特地建立專門使用的，因為測試的過程不會使用到自己的 tenant。</li>
+</ul>
+<p>接著執行命令 <code>rally deployment create --filename=&lt;json file&gt; --name=&lt;name of Openstack deployment&gt;</code></p>
+<pre><code>root@rally:~# rally deployment create --filename existing.json --name myStack
++--------------------------------------+----------------------------+---------+------------------+--------+
+| uuid                                 | created_at                 | name    | status           | active |
++--------------------------------------+----------------------------+---------+------------------+--------+
+| 3070593f-c583-4bcf-85a8-7dc7345ad146 | 2015-02-24 03:45:37.088393 | myStack | deploy-&gt;finished |        |
++--------------------------------------+----------------------------+---------+------------------+--------+
+Using deployment: 3070593f-c583-4bcf-85a8-7dc7345ad146
+~/.rally/openrc was updated
+
+HINTS:
+* To get your cloud resources, run:
+	rally show [flavors|images|keypairs|networks|secgroups]
+
+* To use standard OpenStack clients, set up your env by running:
+	source ~/.rally/openrc
+  OpenStack clients are now configured, e.g run:
+	glance image-list
+root@rally:~#
+</code></pre><p>這時候執行 rally show [option] 可以看到 Openstack 資訊</p>
+<pre><code>root@rally:~# rally show images
++--------------------------------------+------------------------------+------------+
+| UUID                                 | Name                         | Size (B)   |
++--------------------------------------+------------------------------+------------+
+| 53c59f00-509a-4056-b5b2-ff1984c9323f | Ubuntu 14.04 (Cloud Image)   | 256836096  |
+| 75426fa5-f73b-46a4-84fa-4a44f9cbc9fb | Ubuntu 12.04 (Cloud Image)   | 261423616  |
+| 7bd19a5c-0eba-439c-a627-599df9d9ad4d | CentOS 7                     | 418688512  |
++--------------------------------------+------------------------------+------------+
+root@rally:~#
+</code></pre><h3 id="step-2">Step 2</h3>
+<p>接下來，執行 <code>rally deployment check</code></p>
+<pre><code>root@rally:~# rally deployment check
+keystone endpoints are valid and following services are available:
++----------+----------+-----------+
+| services | type     | status    |
++----------+----------+-----------+
+| cinder   | volume   | Available |
+| ec2      | ec2      | Available |
+| glance   | image    | Available |
+| keystone | identity | Available |
+| nova     | compute  | Available |
+| quantum  | network  | Available |
++----------+----------+-----------+
+root@rally:~#
+</code></pre><h2 id="benchmarking-openstack">Benchmarking OpenStack</h2>
+<p>接下來跑一個 benchmark 的範例</p>
+<h3 id="step-1-1">Step 1</h3>
+<p>從 sample 中複製 benchmark task 範例</p>
+<pre><code>cp samples/tasks/scenarios/nova/boot-and-delete.json ./task-1.json
+</code></pre><p>修改 task 內容</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="p">{</span>
+    <span class="nt">&#34;NovaServers.boot_and_delete_server&#34;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&#34;args&#34;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&#34;flavor&#34;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;m1.tiny&#34;</span>
+                <span class="p">},</span>
+                <span class="nt">&#34;image&#34;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;CirrOS 0.3.3&#34;</span>
+                <span class="p">},</span>
+                <span class="nt">&#34;force_delete&#34;</span><span class="p">:</span> <span class="kc">false</span>
+            <span class="p">},</span>
+            <span class="nt">&#34;runner&#34;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;constant&#34;</span><span class="p">,</span>
+                <span class="nt">&#34;times&#34;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                <span class="nt">&#34;concurrency&#34;</span><span class="p">:</span> <span class="mi">2</span>
+            <span class="p">},</span>
+            <span class="nt">&#34;context&#34;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&#34;users&#34;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="nt">&#34;tenants&#34;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                    <span class="nt">&#34;users_per_tenant&#34;</span><span class="p">:</span> <span class="mi">2</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div><p>Flavor name、image name 可以用 rally show [option] 去抓取。
+另外，根據 OpenStack Wiki 的<a href="https://wiki.openstack.org/wiki/Rally/Concepts">資料</a>， flavor 與 image 可以改用提供 id、uuid 的方式。</p>
+<div class="highlight"><pre class="chroma"><code class="language-json" data-lang="json"><span class="s2">&#34;args&#34;</span><span class="err">:</span> <span class="p">{</span>
+   <span class="nt">&#34;flavor_id&#34;</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+    <span class="nt">&#34;image_id&#34;</span><span class="p">:</span> <span class="s2">&#34;73257560-c59b-4275-a1ec-ab140e5b9979&#34;</span>
+<span class="p">}</span><span class="err">,</span>
+</code></pre></div><h2 id="step-2-1">Step 2</h2>
+<p>接下來，執行 <code>rally -v task start &lt;task json file&gt; --tag &lt;task name&gt;</code></p>
+<p>最後會出現:</p>
+<pre><code>root@rally:~# rally -v task start task-1.json --tag &quot;Task 1&quot;
+
+... (過程省略) ...
+
+--------------------------------------------------------------------------------
+Task 9148f0ee-d5d6-42a7-a44f-d8cd81b6d309: finished
+--------------------------------------------------------------------------------
+
+test scenario NovaServers.boot_and_delete_server
+args position 0
+args values:
+{u'args': {u'flavor': {u'name': u'm1.tiny'},
+           u'force_delete': False,
+           u'image': {u'name': u'CirrOS 0.3.3'}},
+ u'context': {u'users': {u'project_domain': u'default',
+                         u'resource_management_workers': 30,
+                         u'tenants': 3,
+                         u'user_domain': u'default',
+                         u'users_per_tenant': 2}},
+ u'runner': {u'concurrency': 2, u'times': 10, u'type': u'constant'}}
++--------------------+-----------+-----------+-----------+---------------+---------------+---------+-------+
+| action             | min (sec) | avg (sec) | max (sec) | 90 percentile | 95 percentile | success | count |
++--------------------+-----------+-----------+-----------+---------------+---------------+---------+-------+
+| nova.boot_server   | 6.708     | 13.289    | 37.405    | 34.299        | 35.852        | 100.0%  | 10    |
+| nova.delete_server | 2.347     | 3.872     | 5.509     | 4.932         | 5.22          | 100.0%  | 10    |
+| total              | 9.408     | 17.16     | 39.752    | 38.566        | 39.159        | 100.0%  | 10    |
++--------------------+-----------+-----------+-----------+---------------+---------------+---------+-------+
+Load duration: 85.8980619907
+Full duration: 97.1042778492
+
+HINTS:
+* To plot HTML graphics with this data, run:
+	rally task report 9148f0ee-d5d6-42a7-a44f-d8cd81b6d309 --out output.html
+
+* To get raw JSON output of task results, run:
+	rally task results 9148f0ee-d5d6-42a7-a44f-d8cd81b6d309
+
+Using task: 9148f0ee-d5d6-42a7-a44f-d8cd81b6d309
+root@rally:~#
+</code></pre><p>跑完之後就會出現如上方範例的簡易報告，如果想要詳盡的報告內容，可以按照提示執行 <code>rally task report &lt;uuid&gt; --out &lt;html file&gt;</code> 就可以產生 html 檔案。</p>
+<p>Benchmark 參數說明請參考: https://wiki.openstack.org/wiki/Rally/Concepts</p>
+<p>另外，Rally 官方也提供了安裝在 docker 的方法，以及如果 Rally 是安裝在 OpenStack controller 時，也有幾個比較簡易的步驟可以參考: http://rally.readthedocs.org/en/latest/tutorial.html</p>
+<hr>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="schema-validation-error">Schema validation error</h2>
+<p>執行命令 <code>rally deployment create --filename=&lt;json file&gt; --name=&lt;name of Openstack deployment&gt;</code> 時發生以下錯誤:</p>
+<pre><code>root@rally:~# rally deployment create --filename=mystack.json --name=myStack
+2015-02-24 03:11:33.579 23212 ERROR rally.api [-] Deployment 59dc5f2c-a83a-42d8-bf49-777ff5e32783: Schema validation error.
+Config schema validation error: {'admin': {'username': 'admin', 'password': 'myStackAdmin', 'tenant': 'benchmark'}, 'auth_url': 'http://myopenstack:5000/v2.0/', 'type': 'ExistingCloud'} is not valid under any of the given schemas
+
+Failed validating 'anyOf' in schema:
+    {'anyOf': [{'properties': {'admin': {'$ref': '#/definitions/user'}},
+                'required': ['type', 'auth_url', 'admin']},
+               {'required': ['type', 'auth_url', 'users'],
+                'users': {'items': {'$ref': '#/definitions/user'},
+                          'type': 'array'}}],
+     'definitions': {'user': {'oneOf': [{'properties': {'tenant_name': {'type': 'string'}},
+                                         'required': ['username',
+                                                      'password',
+                                                      'tenant_name']},
+                                        {'properties': {'project_domain_name': {'type': 'string'},
+                                                        'project_name': {'type': 'string'},
+                                                        'user_domain_name': {'type': 'string'}},
+                                         'required': ['username',
+                                                      'password',
+                                                      'project_name']}],
+                              'properties': {'password': {'type': 'string'},
+                                             'username': {'type': 'string'}},
+                              'type': 'object'}},
+     'properties': {'auth_url': {'type': 'string'},
+                    'endpoint_type': {'enum': ['admin',
+                                               'internal',
+                                               'public'],
+                                      'type': 'string'},
+                    'region_name': {'type': 'string'},
+                    'type': {'type': 'string'}},
+     'type': 'object'}
+
+On instance:
+    {'admin': {'password': 'myStackAdmin',
+               'tenant': 'benchmark',
+               'username': 'admin'},
+     'auth_url': 'http://myopenstack:5000/v2.0/',
+     'type': 'ExistingCloud'}.
+root@rally:~#
+</code></pre><p>這時候執行 <code>rally deployment list</code> 可以看到 deployment 的狀態是 failed</p>
+<pre><code>root@rally:~# rally deployment list
++--------------------------------------+----------------------------+---------+----------------+--------+
+| uuid                                 | created_at                 | name    | status         | active |
++--------------------------------------+----------------------------+---------+----------------+--------+
+| 59dc5f2c-a83a-42d8-bf49-777ff5e32783 | 2015-02-24 03:11:33.195680 | myStack | deploy-&gt;failed |        |
++--------------------------------------+----------------------------+---------+----------------+--------+
+root@rally:~#
+</code></pre><p>雖然這時候，執行 <code>rally deployment recreate --deployment &lt;uuid of deployment&gt;</code> 就會<strong>看似</strong>恢復正常。</p>
+<pre><code>root@rally:~# rally deployment recreate --deployment 59dc5f2c-a83a-42d8-bf49-777ff5e32783
+root@rally:~# rally deployment list
++--------------------------------------+----------------------------+---------+------------------+--------+
+| uuid                                 | created_at                 | name    | status           | active |
++--------------------------------------+----------------------------+---------+------------------+--------+
+| 59dc5f2c-a83a-42d8-bf49-777ff5e32783 | 2015-02-24 03:11:33.195680 | myStack | deploy-&gt;finished |        |
++--------------------------------------+----------------------------+---------+------------------+--------+
+root@rally:~# rally use deployment --deployment 59dc5f2c-a83a-42d8-bf49-777ff5e32783
+Using deployment: 59dc5f2c-a83a-42d8-bf49-777ff5e32783
+~/.rally/openrc was updated
+
+HINTS:
+* To get your cloud resources, run:
+	rally show [flavors|images|keypairs|networks|secgroups]
+
+* To use standard OpenStack clients, set up your env by running:
+	source ~/.rally/openrc
+  OpenStack clients are now configured, e.g run:
+	glance image-list
+root@rally:~#
+</code></pre><p>但是要做其他動作就會發生錯誤，例如:</p>
+<pre><code>root@rally:~# rally deployment check
+Authentication Issues: user rally doesn't have 'admin' role.
+</code></pre><p><strong>這是因為<a href="https://wiki.openstack.org/wiki/Rally/HowTo#Step_1._Deployment_initialization_.28use_existing_cloud.29">OpenStack Wiki 教學文</a>裡，deployment.json 少了一些參數。如果是直接從 source code 裡面的 sample 中複製並修改，就不會發生這個問題。</strong></p>
+<hr>
+<h2 id="connectionrefused-unable-to-establish-connection-openstack-api-endpoint">ConnectionRefused: Unable to establish connection OpenStack API endpoint</h2>
+<pre><code>root@rally:~# rally deployment check
+keystone endpoints are valid and following services are available:
+Command failed, please check log for more info
+2015-02-24 03:48:00.930 24945 CRITICAL rally [-] ConnectionRefused: Unable to establish connection to http://quanta-42.sslab.cs.nthu.edu.tw:35357/v2.0/OS-KSADM/services
+2015-02-24 03:48:00.930 24945 TRACE rally Traceback (most recent call last):
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/bin/rally&quot;, line 10, in &lt;module&gt;
+2015-02-24 03:48:00.930 24945 TRACE rally     sys.exit(main())
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/rally/cmd/main.py&quot;, line 42, in main
+2015-02-24 03:48:00.930 24945 TRACE rally     return cliutils.run(sys.argv, categories)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/rally/cmd/cliutils.py&quot;, line 318, in run
+2015-02-24 03:48:00.930 24945 TRACE rally     ret = fn(*fn_args, **fn_kwargs)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;&lt;string&gt;&quot;, line 2, in check
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/rally/cmd/envutils.py&quot;, line 66, in default_from_global
+2015-02-24 03:48:00.930 24945 TRACE rally     return f(*args, **kwargs)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/rally/cmd/commands/deployment.py&quot;, line 248, in check
+2015-02-24 03:48:00.930 24945 TRACE rally     for service in client.services.list():
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/v2_0/services.py&quot;, line 32, in list
+2015-02-24 03:48:00.930 24945 TRACE rally     return self._list(&quot;/OS-KSADM/services&quot;, &quot;OS-KSADM:services&quot;)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/base.py&quot;, line 113, in _list
+2015-02-24 03:48:00.930 24945 TRACE rally     resp, body = self.client.get(url, **kwargs)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/adapter.py&quot;, line 164, in get
+2015-02-24 03:48:00.930 24945 TRACE rally     return self.request(url, 'GET', **kwargs)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/adapter.py&quot;, line 200, in request
+2015-02-24 03:48:00.930 24945 TRACE rally     resp = super(LegacyJsonAdapter, self).request(*args, **kwargs)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/adapter.py&quot;, line 89, in request
+2015-02-24 03:48:00.930 24945 TRACE rally     return self.session.request(url, method, **kwargs)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/utils.py&quot;, line 318, in inner
+2015-02-24 03:48:00.930 24945 TRACE rally     return func(*args, **kwargs)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/session.py&quot;, line 369, in request
+2015-02-24 03:48:00.930 24945 TRACE rally     resp = send(**kwargs)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/session.py&quot;, line 412, in _send_request
+2015-02-24 03:48:00.930 24945 TRACE rally     raise exceptions.ConnectionRefused(msg)
+2015-02-24 03:48:00.930 24945 TRACE rally ConnectionRefused: Unable to establish connection to http://quanta-42:35357/v2.0/OS-KSADM/services
+2015-02-24 03:48:00.930 24945 TRACE rally
+root@rally:~#
+</code></pre><p>我會發生這個問題是因為，我將 Rally 安裝在 OpenStack 之外，而 <code>rally deployment check</code> 會 call internal url (或是 admin url 我不是很確定)而非 public url。不過解決方法很簡單，<strong>只要將 IP 與 hostname 對應設定到 /etc/hosts 上即可。</strong></p>]]></content>
+  </entry>
+  <entry>
+    <title>Ceph pgs stuck in &#39;incomplete&#39; state ,ops blocked</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/</id>
+    <updated>2015-02-11T17:46:53Z</updated>
+    <published>2015-02-11T17:46:53Z</published>
+    <content type="html"><![CDATA[<p>Ceph OSD 又再次發生 <a href="http://worldend.logdown.com/posts/251761-ceph-osd-a-copy-of-the-executable-or-objdump-rds-executable-is-needed-to-interpret-this">disk failure</a>，結果在手動修復硬碟時操作不當，整個 disk partition table 都消失了
+即使把備份的 disk patition table 寫回去之後，依然無法解決問題。</p>
+<p>無奈之下，硬是將 Ceph cluster 開啟 (少一個 OSD)</p>
+<p>執行 <code>ceph health detail</code> 得到以下狀態:</p>
+<pre><code>pg 0.1f is stuck inactive since forever, current state incomplete, last acting [3]
+pg 0.1f is stuck unclean since forever, current state incomplete, last acting [3]
+pg 0.1f is incomplete, acting [3]
+32 ops are blocked &gt; 32.768 sec on osd.3
+32 ops are blocked &gt; 32.768 sec on osd.3
+1 osds have slow requests
+</code></pre><!-- more -->
+<p>按照官網的<a href="http://docs.ceph.com/docs/master/rados/troubleshooting/troubleshooting-pg/#failures-osd-peering">教學</a>，先執行 <code>ceph pg 01.f query</code>，看到 pg 的資訊如下(節錄):</p>
+<pre><code>{ &quot;state&quot;: &quot;incomplete&quot;,
+  ...
+  &quot;recovery_state&quot;: [
+       { &quot;name&quot;: &quot;Started\/Primary\/Peering&quot;,
+         &quot;enter_time&quot;: &quot;2012-03-06 14:40:16.169659&quot;,
+         &quot;probing_osds&quot;: [
+               0,
+               1,
+               2,
+               3],
+         &quot;blocked&quot;: &quot;&quot;,
+         &quot;down_osds_we_would_probe&quot;: [],
+         &quot;peering_blocked_by&quot;: []
+}
+</code></pre><p>與官網不同的是，這個 pg 並沒有顯示 unfound object，所以執行 <code>ceph pg 0.1f mark_unfound_lost revert</code> 只會出現 <strong>pg has no unfound objects</strong></p>
+<p>上網 google 了一下類似問題:</p>
+<ul>
+<li><a href="http://lists.ceph.com/pipermail/ceph-users-ceph.com/2013-May/021095.html">[ceph-users] PG down &amp; incomplete</a></li>
+<li><a href="http://lists.ceph.com/pipermail/ceph-users-ceph.com/2014-August/042096.html">[ceph-users] HEALTH_WARN 4 pgs incomplete; 4 pgs stuck inactive; 4 pgs stuck unclean</a></li>
+<li><a href="http://www.spinics.net/lists/ceph-users/msg12588.html">pgs stuck in 'incomplete' state, blocked ops,	query command hangs</a></li>
+<li><a href="http://lists.ceph.com/pipermail/ceph-users-ceph.com/2013-November/035826.html">[ceph-users] Constant slow / blocked requests with otherwise healthy cluster</a></li>
+<li><a href="http://lists.ceph.com/pipermail/ceph-users-ceph.com/2014-August/042225.html">[ceph-users] HEALTH_WARN 4 pgs incomplete; 4 pgs stuck inactive; 4 pgs stuck unclean</a></li>
+</ul>
+<p>Google 到的解法大多都是:</p>
+<ol>
+<li><code>ceph pg 0.1f mark_unfound_lost revert</code></li>
+<li><code>ceph pg force_create_pg 0.1f</code></li>
+<li>Shutdown Ceph OSD 3</li>
+<li><code>ceph osd lost 4 --yes-i-really-mean-it</code></li>
+</ol>
+<p>但是很遺憾，怎麼做就是沒有任何效果。</p>
+<p>如果執行 <code>ceph pg scrub 0.1f</code> 會得到 <strong>instructing pg 0.1f on osd.3 to scrub</strong>，然後就沒下文了。而 <code>deep-scrub</code> 與 <code>repair</code> 也是一樣的狀況。</p>
+<p>正當要準備放棄時，忽然靈機一動，調整了一下指令的順序</p>
+<h2 id="solution">Solution</h2>
+<p>根據 <code>ceph pg 01.f query</code> 得到的結果中得知，pg 0.1f 是存在於 0,1,2,3 這四個 OSD 上:</p>
+<pre><code>recovery_state&quot;: [
+       { &quot;name&quot;: &quot;Started\/Primary\/Peering&quot;,
+         &quot;enter_time&quot;: &quot;2012-03-06 14:40:16.169659&quot;,
+         &quot;probing_osds&quot;: [
+               0,
+               1,
+               2,
+               3],
+        }
+]
+</code></pre><p>因此<strong>第一步就是關閉這四個 OSD</strong></p>
+<pre><code>ssh node01 &quot;stop ceph-osd id=0&quot;
+ssh node01 &quot;stop ceph-osd id=1&quot;
+ssh node02 &quot;stop ceph-osd id=2&quot;
+ssh node02 &quot;stop ceph-osd id=3&quot;
+</code></pre><p><strong>第二步直接執行 <code>ceph osd lost</code></strong>，一樣也是四個 OSD 都要做:</p>
+<pre><code>ceph osd lost 0 --yes-i-really-mean-it
+ceph osd lost 1 --yes-i-really-mean-it
+ceph osd lost 2 --yes-i-really-mean-it
+ceph osd lost 3 --yes-i-really-mean-it
+</code></pre><p>這時候稍微等一段時間(大概5分鐘)，再次執行 <code>ceph health detail</code> 後，發現:</p>
+<pre><code>pg 0.1f is stuck inactive since forever, current state incomplete, last acting []
+</code></pre><p>差別在於原本是 <strong>last acting[3]</strong>，代表最後一次是在 OSD 3 上面動作；而現在 pg 0.1f 並沒有在任何一個 OSD 上有動作。</p>
+<blockquote>
+<p><strong>PS: 此狀態是憑印象寫的，不是非常確定。但是<code>ceph osd lost</code>勢必一定要執行</strong></p>
+</blockquote>
+<p><strong>第三步就是執行 <code>ceph pg force_create_pg 0.1f</code></strong></p>
+<p>然後，神奇的事情來了，過沒幾分鐘後再次執行 <code>ceph health detail</code>，就沒有再看到任何 pg 0.1f 的錯誤訊息</p>
+<p><strong>第四步啟動原先四個 OSD</strong></p>
+<pre><code>ssh node01 &quot;start ceph-osd id=0&quot;
+ssh node01 &quot;start ceph-osd id=1&quot;
+ssh node02 &quot;start ceph-osd id=2&quot;
+ssh node02 &quot;start ceph-osd id=3&quot;
+</code></pre><p>接下來只需要讓 Ceph 同步一段時間，再次執行 <code>ceph health detail</code>，就可以得到 <strong>HEALTH_OK</strong></p>
+<p>收工!!!~</p>
+<hr>
+<p>利用以上的步驟，雖然終於讓 Ceph 回復到正常狀態，但是與 pg 0.1f 有關的檔案幾乎都是損毀的狀態。因為我是 OpenStack  使用 Ceph，最直觀的影響就是很多 image、instance 無法正常開機。然而本次錯誤狀況其實是可以避免的，原因在於之前將 replication 設為 1。因此一個 OSD 掰掰了，上面的資料變得無法救援，也算是自作自受吧 :'(</p>
+<hr>
+<h2 id="後紀">後紀</h2>
+<p>經過這將近半年來各種狀況的考驗，目前對於 Ceph 有一些心得:</p>
+<ol>
+<li>
+<p>OSD 不要架設在 LVM 上。在網路看到很多文章都說是不要安裝在 raid 上，因為 Ceph 已經有自己的 fault torolence。但是根據目前的經驗來看，最好連 LVM 也不要，直接使用一整顆硬碟才是最好的方案。</p>
+</li>
+<li>
+<p>Data replication 最好不要設成 1。否則，天有不測風雲...。即使要儲存的資料不是這麼重要，但是為了讓 Ceph 能正常運作，replication 建議保留原本的預設值(default is 2)。</p>
+</li>
+<li>
+<p>Ceph cluster 最好要區分 public network 與 cluster network。雖然 cluster network 只有 OSDs 會用到，而且使用率很低。但是在 production 環境上，為了不影響其他 service (例如 OpenStack)，最好將其獨立出來。</p>
+</li>
+<li>
+<p>Disk partition 最好也要做個備份，還有 Ceph 本身的檔案 (/var/lib/ceph/*)</p>
+</li>
+</ol>
+<p>另外，網路上有不少討論 xfs 與 ext4 到底哪個比較適合 Ceph。XFS 似乎在多線程同時讀寫上比 ext4 好，因此才會有 XFS 比 ext4 更適合 Ceph 一說。下次可以試試。</p>]]></content>
+  </entry>
+  <entry>
+    <title>OpenStack Nova cannot reboot instance - Unable to create tap device</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/</id>
+    <updated>2015-02-11T16:36:00Z</updated>
+    <published>2015-02-11T16:36:00Z</published>
+    <content type="html"><![CDATA[<p>早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 <code>nova reboot --hard &lt;server&gt;</code> 的方式，想要開啟instance 卻失敗，在 <code>/var/log/nova/nova-compute.log</code> 中看到以下錯誤訊息:</p>
+<pre><code>2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy
+</code></pre><!-- more -->
+<p>用 ifconfig 與 ip 指令都可以看到該 tap 存在</p>
+<pre><code>root@compute-14:~# ifconfig
+tape10b9639-d8 Link encap:Ethernet  HWaddr fe:16:3e:cb:8f:29  
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:513131 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:691944 errors:0 dropped:9397 overruns:0 carrier:0
+          collisions:0 txqueuelen:500
+          RX bytes:94571524 (94.5 MB)  TX bytes:206871945 (206.8 MB)
+</code></pre><pre><code>root@compute-14:~# ip a | grep tape10b9639-d8
+77: tape10b9639-d8: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc pfifo_fast state DOWN qlen 500
+</code></pre><p>不過 ovs-vsctl show 倒是沒有看到這個 tap device</p>
+<hr>
+<p>直接使用 <code>ifconfig &lt;tap name&gt; down</code> 是沒有辦法讓這張網卡消失，在 StackOverflow 上看到一篇<a href="http://stackoverflow.com/questions/17529345/ubuntu-remove-network-tap-interface">參考文章</a></p>
+<p>試了一下文章中提到 ip link set 的方式，結果沒效</p>
+<pre><code>root@compute-14:~# ip link set tape10b9639-d8 down
+root@compute-14:~# ip a | grep tape10b9639-d8
+77: tape10b9639-d8: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc pfifo_fast state DOWN qlen 500
+</code></pre><p>不過倒是讓我發現 <code>ip link delete &lt;tap name&gt;</code> 可以達成</p>
+<h1 id="solution">Solution</h1>
+<pre><code>root@compute-14:~# ip link delete tape10b9639-d8
+root@compute-14:~# ip a | grep tape10b9639-d8
+</code></pre><p>之後再次使用 nova reboot 指令就沒有問題囉</p>]]></content>
+  </entry>
+  <entry>
+    <title>OpenStack Nova error: libVirt cannot get CPU affinity of process 30619</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/</id>
+    <updated>2015-02-11T15:55:00Z</updated>
+    <published>2015-02-11T15:55:00Z</published>
+    <content type="html"><![CDATA[<p>Nova-compute 開不起來，在 log 中發現:</p>
+<pre><code>2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 187, in doit
+2015-02-11 15:34:05.511 30827 TRACE nova     result = proxy_call(self._autowrap, f, *args, **kwargs)
+2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 147, in proxy_call
+2015-02-11 15:34:05.511 30827 TRACE nova     rv = execute(f,*args,**kwargs)
+2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 76, in tworker
+2015-02-11 15:34:05.511 30827 TRACE nova     rv = meth(*args,**kwargs)
+2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/libvirt.py&quot;, line 2096, in vcpus
+2015-02-11 15:34:05.511 30827 TRACE nova     if ret == -1: raise libvirtError ('virDomainGetVcpus() failed', dom=self)
+2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process
+2015-02-11 15:34:05.511 30827 TRACE nova
+</code></pre><!-- more -->
+<p>雖然看不太懂為什麼會出現這種錯誤，不過猜測大概與早上將 compute node 強制重開機有關。</p>
+<p>看一下 <code>virsh list</code> 結果一大堆 VM 卡在 <em>running</em> 或 <em>shutdown</em> 的狀態。
+但是並沒有任何 KVM process 在 running。</p>
+<p>雖然不知道為什麼，但是我的直覺告訴我，只要解決 libVirt 這個狀態，就能解決 nova-compute 的問題</p>
+<h1 id="solution">Solution</h1>
+<p>找了一下，發現在 <strong>/var/run/libvirt/qemu/</strong> 這個資料夾中，有很多 instance-XXXXX.pid 與 instance-XXXXX.xml</p>
+<pre><code>root@compute-02: /var/run/libvirt/qemu# ls
+instance-00000093.pid  instance-000002bb.xml  instance-00000307.pid  instance-00000327.xml  instance-00000340.pid
+instance-00000093.xml  instance-000002be.pid  instance-00000307.xml  instance-0000032b.pid  instance-00000340.xml
+instance-000000ac.pid  instance-000002be.xml  instance-00000322.pid  instance-0000032b.xml  instance-00000348.pid
+instance-000000ac.xml  instance-000002c5.pid  instance-00000322.xml  instance-00000333.pid  instance-00000348.xml
+instance-00000271.pid  instance-000002c5.xml  instance-00000325.pid  instance-00000333.xml  instance-00000357.pid
+instance-00000271.xml  instance-000002c8.pid  instance-00000325.xml  instance-0000033d.pid  instance-00000357.xml
+instance-000002bb.pid  instance-000002c8.xml  instance-00000327.pid  instance-0000033d.xml
+</code></pre><p>這些檔案應該是要 instance running 時，libVirt 自己產生。我猜測 <code>virsh list</code> 應該是會來這個目錄讀取檔案。反正現在也沒有 VM 正在 running，乾脆把他們全部砍掉。</p>
+<pre><code>root@compute-02: /var/run/libvirt/qemu# rm -rf *
+</code></pre><p>接下來重啟 libVirt ，然後就發現 <code>virsh list</code> 恢復到原本的狀態。</p>
+<pre><code>root@compute-02:~# service libvirt-bin restart
+libvirt-bin stop/waiting
+libvirt-bin start/running, process 29451
+root@compute-02:~# virsh list
+ Id    Name                           State
+----------------------------------------------------
+
+root@compute-02:~#
+</code></pre><p>接著啟動 nova-compute 就可以恢復運作囉。</p>
+<pre><code>root@compute-02:~# service nova-compute start
+nova-compute start/running, process 32664
+root@compute-02:~# service nova-compute status
+nova-compute start/running, process 32664
+</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>Ceph OSD stuck in an existing executable needed to interrupt.</title>
+    <author>
+      <name>Chen-Hao Ku</name>
+      <uri></uri>
+    </author>
+    <id>https://maple52046.github.io/posts/ceph-osd-stuck-in-an-existing-executable-needed-to-interrupt/</id>
+    <updated>2015-01-19T11:39:36Z</updated>
+    <published>2015-01-19T11:39:36Z</published>
+    <content type="html"><![CDATA[<p>上週 Ceph cluster 掛掉，結果是某個 OSD 一直起不來。
+在 <code>/var/log/ceph/ceph-osd.X.log</code> 裡面看到了以下錯誤訊息</p>
+<pre><code>ceph version 0.80.5 (38b73c67d375a2552d8ed67843c8a65c2c0feba6)
+1: (FileStore::lfn_open(coll_t, ghobject_t const&amp;, bool, std::tr1::shared_ptr&lt;FDCache::FD&gt;*, std::tr1::shared_ptr&lt;CollectionIndex::Path&gt;*, std::tr1::shared_ptr&lt;CollectionIndex&gt;*)+0x4e6) [0x888926]
+2: (FileStore::_touch(coll_t, ghobject_t const&amp;)+0x18b) [0x88effb]
+3: (FileStore::_do_transaction(ObjectStore::Transaction&amp;, unsigned long, int, ThreadPool::TPHandle*)+0x48f6) [0x899856]
+4: (FileStore::_do_transactions(std::list&lt;ObjectStore::Transaction*, std::allocator&lt;ObjectStore::Transaction*&gt; &gt;&amp;, unsigned long, ThreadPool::TPHandle*)+0x74) [0x89b204]
+5: (JournalingObjectStore::journal_replay(unsigned long)+0x886) [0x8af6e6]
+6: (FileStore::mount()+0x30c2) [0x883052]
+7: (OSD::do_convertfs(ObjectStore*)+0x1a) [0x61a11a]
+8: (main()+0x1d88) [0x602f98]
+9: (__libc_start_main()+0xed) [0x7f70e698276d]
+10: /usr/bin/ceph-osd() [0x607229]
+NOTE: a copy of the executable, or `objdump -rdS &lt;executable&gt;` is needed to interpret this.
+</code></pre><!-- more -->
+<p>因為 Ceph 掛掉時，剛好正在 VM 上安裝一些東西
+原本以為是 VM 卡在要做 I/O 才當掉
+但是把所有 server 都重開了以後，發現問題依然沒有解決。</p>
+<p>Google 一番之後，看到有人說，升級可以解決這個問題
+於是將 Ceph 從 Firefly upgrade 到 Giant，但是很遺憾的是依然沒有解決問題。</p>
+<p>新增了一個 OSD 進去，天真的想說如果變成 1/4 的 OSD 掛掉，那是否可以讓 Ceph 繼續運作呢，結果還是失敗。</p>
+<p>忽然想起了很久以前看到一篇文章，上面說 Ceph OSD 最好不要安裝在 raid 上
+因為 Ceph 本身已經有 fault tolerance 了，如果硬碟發生錯誤，則兩者的 fault tolerance 將會互相影響。</p>
+<p>雖然我的 OSD 不是建立在 raid 上，但是是在 LVM 上
+於是，使用了 e2fsck 去檢查並修復，發現了兩個 block 壞了
+修復完之後，再重新啟動 OSD
+然後...然後 OSD 終於歸隊拉!!!</p>
+<h1 id="結論">結論</h1>
+<p>LVM 與 Raid 本身就有自己的錯誤檢查機制。這些機制會與 Ceph 本身的的容錯機制互相衝突。
+因為 Ceph OSD 最好還是一個 OSD 就一個硬碟。</p>]]></content>
+  </entry>
+</feed>
