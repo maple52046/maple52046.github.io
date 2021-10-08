@@ -9,9 +9,7 @@
 
     <title>Fix the Oracle Java installation on Ubuntu 16.04 | 世界的盡頭</title>
     
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" href="/favicon.ico">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
     <meta name="theme-color" content="#ffffff">
@@ -27,7 +25,7 @@
 
     
     
- 
+
     </head>
 
     <body>
@@ -153,7 +151,7 @@
 <pre tabindex="0"><code>sudo add-apt-repository ppa:webupd8team/java
 sudo apt update
 sudo apt install oracle-java9-installer
-</code></pre><p>安裝的過程中發生 404 Not found。</p>
+</code></pre><p>安裝的過程中遇到 404 Not found 問題。</p>
 <p>錯誤內容：</p>
 <pre tabindex="0"><code>Downloading Oracle Java 9...
 --2017-10-19 08:41:59--  http://download.oracle.com/otn-pub/java/jdk/9+181/jdk-9_linux-x64_bin.tar.gz
@@ -254,6 +252,21 @@ sudo apt install oracle-java9-set-default
         </p>
     </div>
     
+    <div id="disqus_thread"></div>
+<script>
+    
+
+    
+
+    (function() { 
+    var d = document, s = d.createElement('script');
+    s.src = 'https://EXAMPLE.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
 
     
 
