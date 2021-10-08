@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>openstack on 世界的盡頭</title>
+    <link>https://maple52046.github.io/tags/openstack/</link>
+    <description>Recent content in openstack on 世界的盡頭</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Thu, 30 Jun 2016 15:48:16 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/tags/openstack/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenStack Heat 使用筆記</title>
+      <link>https://maple52046.github.io/posts/notes-openstack-heat-usage/</link>
+      <pubDate>Thu, 30 Jun 2016 15:48:16 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/notes-openstack-heat-usage/</guid>
+      <description>&lt;p&gt;Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。&lt;/p&gt;
+&lt;p&gt;Heat 用 &lt;strong&gt;resource&lt;/strong&gt; 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 &lt;code&gt;default&lt;/code&gt;。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 &lt;code&gt;default&lt;/code&gt; 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。&lt;/p&gt;
+&lt;p&gt;Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 &lt;code&gt;block_device_mapping&lt;/code&gt; 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。&lt;/p&gt;
+&lt;p&gt;這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 &lt;strong&gt;resource&lt;/strong&gt;，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 &lt;strong&gt;state&lt;/strong&gt; 來配置 Linux。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>IPv6 Neighbour table overflow</title>
+      <link>https://maple52046.github.io/posts/ipv6-neighbour-table-overflow/</link>
+      <pubDate>Fri, 01 May 2015 12:07:00 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/ipv6-neighbour-table-overflow/</guid>
+      <description>&lt;p&gt;這兩天一直在 syslog 上看到 &lt;code&gt;Neighbour table overflow&lt;/code&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-syslog&#34; data-lang=&#34;syslog&#34;&gt;Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressed
+Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;每兩分鐘就出現6~7筆,數量非常的多
+如果不處理他，放任它繼續增長，過一兩天後系統就會 kernel panic。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack Glance Image-list 401</title>
+      <link>https://maple52046.github.io/posts/openstack-glance-image-list-401/</link>
+      <pubDate>Wed, 08 Apr 2015 16:12:00 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/openstack-glance-image-list-401/</guid>
+      <description>&lt;p&gt;架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;root@localhost:~# glance --debug image-list
+curl -i -X GET -H &#39;User-Agent: python-glanceclient&#39; -H &#39;Content-Type: application/octet-stream&#39; -H &#39;Accept-Encoding: gzip, deflate, compress&#39; -H &#39;Accept: */*&#39; -H &#39;X-Auth-Token: ***&#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;amp;sort_dir=asc&amp;amp;limit=20
+Request returned failure status 401.
+Invalid OpenStack Identity credentials.
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Install Rally 筆記 (OpenStack benchmark)</title>
+      <link>https://maple52046.github.io/posts/rally-installation/</link>
+      <pubDate>Tue, 24 Feb 2015 16:45:00 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/rally-installation/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://rally.readthedocs.org/en/latest/index.html&#34;&gt;Rally&lt;/a&gt; 是一套 OpenStack benchmark tool。關於 Rally 的介紹本文就不再贅述。本篇安裝時是以 &lt;a href=&#34;https://wiki.openstack.org/wiki/Rally#How_To&#34;&gt;OpenStack 官方 Wiki&lt;/a&gt; 的教學為參考內容，紀錄安裝與使用 Rally 的筆記。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>OpenStack Nova cannot reboot instance - Unable to create tap device</title>
+      <link>https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/</link>
+      <pubDate>Wed, 11 Feb 2015 16:36:00 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/</guid>
+      <description>&lt;p&gt;早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 &lt;code&gt;nova reboot --hard &amp;lt;server&amp;gt;&lt;/code&gt; 的方式，想要開啟instance 卻失敗，在 &lt;code&gt;/var/log/nova/nova-compute.log&lt;/code&gt; 中看到以下錯誤訊息:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

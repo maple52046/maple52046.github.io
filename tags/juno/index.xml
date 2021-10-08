@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>juno on 世界的盡頭</title>
+    <link>https://maple52046.github.io/tags/juno/</link>
+    <description>Recent content in juno on 世界的盡頭</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Wed, 08 Apr 2015 16:12:00 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/tags/juno/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenStack Glance Image-list 401</title>
+      <link>https://maple52046.github.io/posts/openstack-glance-image-list-401/</link>
+      <pubDate>Wed, 08 Apr 2015 16:12:00 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/openstack-glance-image-list-401/</guid>
+      <description>&lt;p&gt;架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;root@localhost:~# glance --debug image-list
+curl -i -X GET -H &#39;User-Agent: python-glanceclient&#39; -H &#39;Content-Type: application/octet-stream&#39; -H &#39;Accept-Encoding: gzip, deflate, compress&#39; -H &#39;Accept: */*&#39; -H &#39;X-Auth-Token: ***&#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;amp;sort_dir=asc&amp;amp;limit=20
+Request returned failure status 401.
+Invalid OpenStack Identity credentials.
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

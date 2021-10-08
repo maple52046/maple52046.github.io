@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pxe on 世界的盡頭</title>
+    <link>https://maple52046.github.io/tags/pxe/</link>
+    <description>Recent content in pxe on 世界的盡頭</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Sun, 22 Apr 2018 14:45:10 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/tags/pxe/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Enable PXE boot on Intel NIC under RHEL</title>
+      <link>https://maple52046.github.io/posts/enable-pxe-boot-on-intel-nic-under-rhel/</link>
+      <pubDate>Sun, 22 Apr 2018 14:45:10 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/enable-pxe-boot-on-intel-nic-under-rhel/</guid>
+      <description>&lt;p&gt;最近遇到一個奇怪的問題：在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡;
+但是進入到 OS 之後，網卡就出現了並且能正常運作。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

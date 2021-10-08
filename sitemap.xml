@@ -70,7 +70,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/</loc>
+    <loc>https://maple52046.github.io/2018/04/22/Enable-PXE-boot-on-Intel-NIC-under-RHEL/</loc>
     <lastmod>2018-04-22T14:45:10+00:00</lastmod>
   </url>
   
@@ -107,7 +107,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/</loc>
+    <loc>https://maple52046.github.io/2017/11/03/Install-Ubuntu-in-UEFI-mode-with-debootstrap/</loc>
     <lastmod>2017-11-03T15:28:19+00:00</lastmod>
   </url>
   
@@ -152,7 +152,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2017/10/19/Fix-the-Oracle-Java-installation-on-Ubuntu-16-04/</loc>
+    <loc>https://maple52046.github.io/2017/10/19/Fix-the-Oracle-Java-installation-on-Ubuntu-16-04/</loc>
     <lastmod>2017-10-19T08:38:53+00:00</lastmod>
   </url>
   
@@ -173,7 +173,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2017/08/02/Build-OpenCV-3-2-with-CUDA-8-0-and-Matlab/</loc>
+    <loc>https://maple52046.github.io/2017/08/02/Build-OpenCV-3-2-with-CUDA-8-0-and-Matlab/</loc>
     <lastmod>2017-08-02T19:14:45+00:00</lastmod>
   </url>
   
@@ -234,7 +234,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2016/06/30/Notes-OpenStack-Heat-Usage/</loc>
+    <loc>https://maple52046.github.io/2016/06/30/Notes-OpenStack-Heat-Usage/</loc>
     <lastmod>2016-06-30T15:48:16+00:00</lastmod>
   </url>
   
@@ -255,7 +255,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2016/06/29/Change-Comment-Color-in-VIM/</loc>
+    <loc>https://maple52046.github.io/2016/06/29/Change-Comment-Color-in-VIM/</loc>
     <lastmod>2016-06-29T12:04:20+00:00</lastmod>
   </url>
   
@@ -276,7 +276,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2016/01/23/Convert-DVD-to-MP4-with-ffmpeg-on-Ubuntu/</loc>
+    <loc>https://maple52046.github.io/2016/01/23/Convert-DVD-to-MP4-with-ffmpeg-on-Ubuntu/</loc>
     <lastmod>2016-01-23T00:14:00+00:00</lastmod>
   </url>
   
@@ -297,7 +297,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/12/17/Ceph-PG-stuck-stuck-in-degraded-and-undersized/</loc>
+    <loc>https://maple52046.github.io/2015/12/17/Ceph-PG-stuck-stuck-in-degraded-and-undersized/</loc>
     <lastmod>2015-12-17T17:08:53+00:00</lastmod>
   </url>
   
@@ -334,7 +334,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/11/19/Setup-Squid-Transparent-Proxy-with-Docker/</loc>
+    <loc>https://maple52046.github.io/2015/11/19/Setup-Squid-Transparent-Proxy-with-Docker/</loc>
     <lastmod>2015-11-19T17:09:00+00:00</lastmod>
   </url>
   
@@ -363,7 +363,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/05/14/Cross-Compile-for-OpenWRT/</loc>
+    <loc>https://maple52046.github.io/2015/05/14/Cross-Compile-for-OpenWRT/</loc>
     <lastmod>2015-05-14T09:55:00+00:00</lastmod>
   </url>
   
@@ -400,7 +400,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/05/07/Compile-OpenWRT-x86-KVM-guest/</loc>
+    <loc>https://maple52046.github.io/2015/05/07/Compile-OpenWRT-x86-KVM-guest/</loc>
     <lastmod>2015-05-07T11:45:00+00:00</lastmod>
   </url>
   
@@ -453,7 +453,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/05/01/IPv6-Neighbour-table-overflow/</loc>
+    <loc>https://maple52046.github.io/2015/05/01/IPv6-Neighbour-table-overflow/</loc>
     <lastmod>2015-05-01T12:07:00+00:00</lastmod>
   </url>
   
@@ -482,7 +482,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/04/08/OpenStack-Glance-image-list-401/</loc>
+    <loc>https://maple52046.github.io/2015/04/08/OpenStack-Glance-image-list-401/</loc>
     <lastmod>2015-04-08T16:12:00+00:00</lastmod>
   </url>
   
@@ -495,7 +495,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/03/18/Configure-Open-vSwitch-in-OpenWRT/</loc>
+    <loc>https://maple52046.github.io/2015/03/18/Configure-Open-vSwitch-in-OpenWRT/</loc>
     <lastmod>2015-03-18T17:04:00+00:00</lastmod>
   </url>
   
@@ -516,7 +516,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/03/05/Compile-OpenWRT-with-Open-vSwitch/</loc>
+    <loc>https://maple52046.github.io/2015/03/05/Compile-OpenWRT-with-Open-vSwitch/</loc>
     <lastmod>2015-03-05T17:05:00+00:00</lastmod>
   </url>
   
@@ -529,8 +529,16 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/02/24/Rally-Installation/</loc>
+    <loc>https://maple52046.github.io/2015/02/24/Rally-Installation/</loc>
     <lastmod>2015-02-24T16:45:00+00:00</lastmod>
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/tags/rally/</loc>
+    
+    <lastmod>2015-02-24T16:45:00+00:00</lastmod>
+    
   </url>
   
   
@@ -542,7 +550,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/02/11/Ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/</loc>
+    <loc>https://maple52046.github.io/2015/02/11/Ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/</loc>
     <lastmod>2015-02-11T17:46:53+00:00</lastmod>
   </url>
   
@@ -563,7 +571,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/</loc>
+    <loc>https://maple52046.github.io/2015/02/11/OpenStack-Nova-cannot-reboot-instance-unable-to-create-tap-device/</loc>
     <lastmod>2015-02-11T16:36:00+00:00</lastmod>
   </url>
   
@@ -576,7 +584,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/</loc>
+    <loc>https://maple52046.github.io/2015/02/11/OpenStack-Nova-error-libVirt-cannot-get-cpu-affinity-of-process/</loc>
     <lastmod>2015-02-11T15:55:00+00:00</lastmod>
   </url>
   
@@ -589,7 +597,7 @@
   </url>
   
   <url>
-    <loc>https://maple52046.github.io2015/01/19/Ceph-OSD-stuck-in-an-existing-executable-needed-to-interrupt/</loc>
+    <loc>https://maple52046.github.io/2015/01/19/Ceph-OSD-stuck-in-an-existing-executable-needed-to-interrupt/</loc>
     <lastmod>2015-01-19T11:39:36+00:00</lastmod>
   </url>
   

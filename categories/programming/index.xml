@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Programming on 世界的盡頭</title>
+    <link>https://maple52046.github.io/categories/programming/</link>
+    <description>Recent content in Programming on 世界的盡頭</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Thu, 14 May 2015 09:55:00 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/categories/programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cross-compile for OpenWRT</title>
+      <link>https://maple52046.github.io/posts/cross-compile-for-openwrt/</link>
+      <pubDate>Thu, 14 May 2015 09:55:00 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/cross-compile-for-openwrt/</guid>
+      <description>&lt;p&gt;這是一個實驗，在 Ubuntu 上編譯可以在 OpenWRT 上運行的程式。
+參考並修改別人的方式，完成了幾個簡單的範例。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;編譯環境：
+&lt;ul&gt;
+&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;
+&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

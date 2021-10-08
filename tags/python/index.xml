@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python on 世界的盡頭</title>
+    <link>https://maple52046.github.io/tags/python/</link>
+    <description>Recent content in python on 世界的盡頭</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Sat, 25 Apr 2020 19:20:05 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MuJoco and mujoco_py Installation</title>
+      <link>https://maple52046.github.io/posts/mujoco-installation/</link>
+      <pubDate>Sat, 25 Apr 2020 19:20:05 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/mujoco-installation/</guid>
+      <description>&lt;p&gt;本文紀錄在 Linux 環境 (Ubuntu) 上安裝 MuJoco 以及 mujoco_py 的方法。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

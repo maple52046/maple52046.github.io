@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on 世界的盡頭</title>
+    <link>https://maple52046.github.io/categories/linux/</link>
+    <description>Recent content in Linux on 世界的盡頭</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Sun, 22 Apr 2018 14:45:10 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Enable PXE boot on Intel NIC under RHEL</title>
+      <link>https://maple52046.github.io/posts/enable-pxe-boot-on-intel-nic-under-rhel/</link>
+      <pubDate>Sun, 22 Apr 2018 14:45:10 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/enable-pxe-boot-on-intel-nic-under-rhel/</guid>
+      <description>&lt;p&gt;最近遇到一個奇怪的問題：在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡;
+但是進入到 OS 之後，網卡就出現了並且能正常運作。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Install Ubuntu in UEFI mode with debootstrap</title>
+      <link>https://maple52046.github.io/posts/install-ubuntu-in-uefi-mode-with-debootstrap/</link>
+      <pubDate>Fri, 03 Nov 2017 15:28:19 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/install-ubuntu-in-uefi-mode-with-debootstrap/</guid>
+      <description>&lt;p&gt;在 UEFI 模式下使用 LiveCD 安裝 Ubuntu，安裝完成後卻總是卡在 grub。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Fix the Oracle Java installation on Ubuntu 16.04</title>
+      <link>https://maple52046.github.io/posts/fix-the-oracle-java-installation-on-ubuntu-16-04/</link>
+      <pubDate>Thu, 19 Oct 2017 08:38:53 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/fix-the-oracle-java-installation-on-ubuntu-16-04/</guid>
+      <description>&lt;p&gt;在 Ubuntu 透過 &lt;a href=&#34;https://launchpad.net/~webupd8team/+archive/ubuntu/java&#34;&gt;WebUpd8 team ppa&lt;/a&gt; 安裝 Java：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo add-apt-repository ppa:webupd8team/java
+sudo apt update
+sudo apt install oracle-java9-installer
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;安裝的過程中發生 404 Not found。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Build OpenCV 3.2 with CUDA 8.0 and Matlab on Ubuntu 16.04/14.04</title>
+      <link>https://maple52046.github.io/posts/build-opencv-3-2-with-cuda-8-0-and-matlab/</link>
+      <pubDate>Wed, 02 Aug 2017 19:14:45 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/build-opencv-3-2-with-cuda-8-0-and-matlab/</guid>
+      <description>&lt;p&gt;本文記錄如何在 Ubuntu 16.04 (14.04) 上搭建 Cuda, Matlab 與 OpenCV 的開發環境。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>調整 vim 註解顏色</title>
+      <link>https://maple52046.github.io/posts/change-comment-color-in-vim/</link>
+      <pubDate>Wed, 29 Jun 2016 12:04:20 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/change-comment-color-in-vim/</guid>
+      <description>&lt;p&gt;VIM 在純 terminal 的環境下, 如果你設定 &lt;code&gt;bg=light&lt;/code&gt; (預設)，註解的顏色真是令人看到眼睛都快瞎了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu 上使用 ffmpeg 將 DVD 轉成 mp4</title>
+      <link>https://maple52046.github.io/posts/convert-dvd-to-mp4-with-ffmpeg-on-ubuntu/</link>
+      <pubDate>Sat, 23 Jan 2016 00:14:00 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/convert-dvd-to-mp4-with-ffmpeg-on-ubuntu/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.ffmpeg.org/&#34;&gt;FFmpeg&lt;/a&gt; 是一套跨平臺開發原始碼的影音轉換軟體。
+利用 FFmpeg 我們可以在 Linux 上將 DVD 轉換成 mp4 或是其他格式。&lt;/p&gt;
+&lt;p&gt;Ubuntu 15.04 以上可以直接以 apt-get 安裝。不過我的平臺是 Ubuntu 14.04。
+因此只能通過兩種方式安裝: ppa、手動編譯。&lt;/p&gt;
+&lt;p&gt;如果要從 PPA 安裝，請參考： &lt;a href=&#34;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&#34;&gt;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;不過我是採用編譯的方式：https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

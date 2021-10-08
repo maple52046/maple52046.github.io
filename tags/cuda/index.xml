@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cuda on 世界的盡頭</title>
+    <link>https://maple52046.github.io/tags/cuda/</link>
+    <description>Recent content in cuda on 世界的盡頭</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Wed, 02 Aug 2017 19:14:45 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/tags/cuda/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Build OpenCV 3.2 with CUDA 8.0 and Matlab on Ubuntu 16.04/14.04</title>
+      <link>https://maple52046.github.io/posts/build-opencv-3-2-with-cuda-8-0-and-matlab/</link>
+      <pubDate>Wed, 02 Aug 2017 19:14:45 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/build-opencv-3-2-with-cuda-8-0-and-matlab/</guid>
+      <description>&lt;p&gt;本文記錄如何在 Ubuntu 16.04 (14.04) 上搭建 Cuda, Matlab 與 OpenCV 的開發環境。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

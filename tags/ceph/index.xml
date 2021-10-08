@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ceph on 世界的盡頭</title>
+    <link>https://maple52046.github.io/tags/ceph/</link>
+    <description>Recent content in ceph on 世界的盡頭</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Thu, 17 Dec 2015 17:08:53 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/tags/ceph/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ceph PG stuck in degraded &#43; undersized</title>
+      <link>https://maple52046.github.io/posts/ceph-pg-stuck-stuck-in-degraded-and-undersized/</link>
+      <pubDate>Thu, 17 Dec 2015 17:08:53 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/ceph-pg-stuck-stuck-in-degraded-and-undersized/</guid>
+      <description>&lt;p&gt;執行 &lt;code&gt;ceph -s&lt;/code&gt; 發現有很多 pg 狀態卡住不動。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Ceph pgs stuck in &#39;incomplete&#39; state ,ops blocked</title>
+      <link>https://maple52046.github.io/posts/ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/</link>
+      <pubDate>Wed, 11 Feb 2015 17:46:53 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/</guid>
+      <description>&lt;p&gt;Ceph OSD 又再次發生 &lt;a href=&#34;http://worldend.logdown.com/posts/251761-ceph-osd-a-copy-of-the-executable-or-objdump-rds-executable-is-needed-to-interpret-this&#34;&gt;disk failure&lt;/a&gt;，結果在手動修復硬碟時操作不當，整個 disk partition table 都消失了
+即使把備份的 disk patition table 寫回去之後，依然無法解決問題。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Ceph OSD stuck in an existing executable needed to interrupt.</title>
+      <link>https://maple52046.github.io/posts/ceph-osd-stuck-in-an-existing-executable-needed-to-interrupt/</link>
+      <pubDate>Mon, 19 Jan 2015 11:39:36 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/ceph-osd-stuck-in-an-existing-executable-needed-to-interrupt/</guid>
+      <description>&lt;p&gt;上週 Ceph cluster 掛掉，結果是某個 OSD 一直起不來。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

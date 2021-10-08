@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>deb on 世界的盡頭</title>
+    <link>https://maple52046.github.io/tags/deb/</link>
+    <description>Recent content in deb on 世界的盡頭</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Thu, 19 Oct 2017 08:38:53 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/tags/deb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fix the Oracle Java installation on Ubuntu 16.04</title>
+      <link>https://maple52046.github.io/posts/fix-the-oracle-java-installation-on-ubuntu-16-04/</link>
+      <pubDate>Thu, 19 Oct 2017 08:38:53 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/fix-the-oracle-java-installation-on-ubuntu-16-04/</guid>
+      <description>&lt;p&gt;在 Ubuntu 透過 &lt;a href=&#34;https://launchpad.net/~webupd8team/+archive/ubuntu/java&#34;&gt;WebUpd8 team ppa&lt;/a&gt; 安裝 Java：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo add-apt-repository ppa:webupd8team/java
+sudo apt update
+sudo apt install oracle-java9-installer
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;安裝的過程中發生 404 Not found。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
