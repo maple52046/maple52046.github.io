@@ -59,7 +59,7 @@ Invalid OpenStack Identity credentials.
       <pubDate>Wed, 11 Feb 2015 15:55:00 +0000</pubDate>
       
       <guid>https://maple52046.github.io/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/</guid>
-      <description>&lt;p&gt;Nova-compute 開不起來，在 log 中發現:&lt;/p&gt;
+      <description>&lt;p&gt;Nova-compute 無法運行，在 log 中發現:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&amp;quot;, line 187, in doit
 2015-02-11 15:34:05.511 30827 TRACE nova     result = proxy_call(self._autowrap, f, *args, **kwargs)
 2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&amp;quot;, line 147, in proxy_call
