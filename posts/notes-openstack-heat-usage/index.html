@@ -29,8 +29,16 @@
     
 
     
-      
-      <meta property="og:title" content="OpenStack Heat 使用筆記" />
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79529428-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-79529428-1');
+    </script>
+
+    <meta property="og:title" content="OpenStack Heat 使用筆記" />
 <meta property="og:description" content="Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。
 Heat 用 resource 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 default。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 default 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。
 Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 block_device_mapping 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。

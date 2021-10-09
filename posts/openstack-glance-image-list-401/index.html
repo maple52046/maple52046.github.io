@@ -29,8 +29,16 @@
     
 
     
-      
-      <meta property="og:title" content="OpenStack Glance Image-list 401" />
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79529428-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-79529428-1');
+    </script>
+
+    <meta property="og:title" content="OpenStack Glance Image-list 401" />
 <meta property="og:description" content="架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。
 root@localhost:~# glance --debug image-list
 curl -i -X GET -H &#39;User-Agent: python-glanceclient&#39; -H &#39;Content-Type: application/octet-stream&#39; -H &#39;Accept-Encoding: gzip, deflate, compress&#39; -H &#39;Accept: */*&#39; -H &#39;X-Auth-Token: ***&#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;sort_dir=asc&amp;limit=20
