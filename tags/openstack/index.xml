@@ -29,7 +29,7 @@
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-syslog&#34; data-lang=&#34;syslog&#34;&gt;Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressed
 Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;每兩分鐘就出現6~7筆,數量非常的多
-如果不處理他，放任它繼續增長，過一兩天後系統就會 kernel panic。&lt;/p&gt;</description>
+如果不處理它，放任它繼續增長，過一兩天後系統就會 kernel panic。&lt;/p&gt;</description>
     </item>
     
     <item>
