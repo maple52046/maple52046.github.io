@@ -9,8 +9,9 @@
 
     <title>IPv6 Neighbour table overflow | 世界的盡頭</title>
     
-    
-    <link rel="icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
     <meta name="theme-color" content="#ffffff">
@@ -27,7 +28,19 @@
     
     
 
-    </head>
+    
+      <meta property="og:title" content="IPv6 Neighbour table overflow" />
+<meta property="og:description" content="這兩天一直在 syslog 上看到 Neighbour table overflow
+Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressed
+Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
+每兩分鐘就出現6~7筆,數量非常的多
+如果不處理他，放任它繼續增長，過一兩天後系統就會 kernel panic。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/ipv6-neighbour-table-overflow/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-05-01T12:07:00+00:00" />
+<meta property="article:modified_time" content="2015-05-01T12:07:00+00:00" />
+
+</head>
 
     <body>
         
@@ -213,13 +226,20 @@ Apr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl
         </p>
     </div>
     
-    <script src="https://utteranc.es/client.js"
-            repo="maple52046/blog-comments"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-    </script>
+
+    
+    <script
+    type="text/text/javascript"
+    src="https://utteranc.es/client.js"
+    repo="maple52046/blog-comments"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async
+>
+</script>
+
+    
 
     
 

@@ -9,8 +9,9 @@
 
     <title>OpenStack Nova error: libVirt cannot get CPU affinity of process 30619 | 世界的盡頭</title>
     
-    
-    <link rel="icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
     <meta name="theme-color" content="#ffffff">
@@ -27,7 +28,26 @@
     
     
 
-    </head>
+    
+      <meta property="og:title" content="OpenStack Nova error: libVirt cannot get CPU affinity of process 30619" />
+<meta property="og:description" content="Nova-compute 無法運行，在 log 中發現:
+2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 187, in doit
+2015-02-11 15:34:05.511 30827 TRACE nova     result = proxy_call(self._autowrap, f, *args, **kwargs)
+2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 147, in proxy_call
+2015-02-11 15:34:05.511 30827 TRACE nova     rv = execute(f,*args,**kwargs)
+2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 76, in tworker
+2015-02-11 15:34:05.511 30827 TRACE nova     rv = meth(*args,**kwargs)
+2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/libvirt.py&quot;, line 2096, in vcpus
+2015-02-11 15:34:05.511 30827 TRACE nova     if ret == -1: raise libvirtError (&#39;virDomainGetVcpus() failed&#39;, dom=self)
+2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process
+2015-02-11 15:34:05.511 30827 TRACE nova
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-02-11T15:55:00+00:00" />
+<meta property="article:modified_time" content="2015-02-11T15:55:00+00:00" />
+
+</head>
 
     <body>
         
@@ -193,13 +213,20 @@ nova-compute start/running, process 32664
         </p>
     </div>
     
-    <script src="https://utteranc.es/client.js"
-            repo="maple52046/blog-comments"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-    </script>
+
+    
+    <script
+    type="text/text/javascript"
+    src="https://utteranc.es/client.js"
+    repo="maple52046/blog-comments"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async
+>
+</script>
+
+    
 
     
 
