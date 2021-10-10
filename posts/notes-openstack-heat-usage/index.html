@@ -27,18 +27,20 @@
 
     
     
-
+ 
     
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79529428-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-79529428-1');
-    </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-GC1G5TJVGY', { 'anonymize_ip': false });
+}
+</script>
 
-    <meta property="og:title" content="OpenStack Heat 使用筆記" />
+      <meta property="og:title" content="OpenStack Heat 使用筆記" />
 <meta property="og:description" content="Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。
 Heat 用 resource 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 default。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 default 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。
 Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 block_device_mapping 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。
@@ -47,7 +49,6 @@ Resource 之間可以建立關連性，例如你可以先建立一個 volume res
 <meta property="og:url" content="https://maple52046.github.io/posts/notes-openstack-heat-usage/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2016-06-30T15:48:16+00:00" />
 <meta property="article:modified_time" content="2016-06-30T15:48:16+00:00" /><meta property="og:site_name" content="世界的盡頭" />
-
 
 </head>
 
@@ -301,7 +302,6 @@ Resource 之間可以建立關連性，例如你可以先建立一個 volume res
 </ol>
         </p>
     </div>
-    
 
     
 
@@ -338,6 +338,27 @@ Resource 之間可以建立關連性，例如你可以先建立一個 volume res
         </script>
         </div>
     
+
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "maple52046-githubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
         

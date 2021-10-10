@@ -27,24 +27,25 @@
 
     
     
-
+ 
     
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79529428-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-79529428-1');
-    </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-GC1G5TJVGY', { 'anonymize_ip': false });
+}
+</script>
 
-    <meta property="og:title" content="Install Rally 筆記 (OpenStack benchmark)" />
+      <meta property="og:title" content="Install Rally 筆記 (OpenStack benchmark)" />
 <meta property="og:description" content="Rally 是一套 OpenStack benchmark tool。關於 Rally 的介紹本文就不再贅述。本篇安裝時是以 OpenStack 官方 Wiki 的教學為參考內容，紀錄安裝與使用 Rally 的筆記。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maple52046.github.io/posts/rally-installation/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2015-02-24T16:45:00+00:00" />
 <meta property="article:modified_time" content="2015-02-24T16:45:00+00:00" /><meta property="og:site_name" content="世界的盡頭" />
-
 
 </head>
 
@@ -488,7 +489,6 @@ root@rally:~#
 </code></pre><p>我會發生這個問題是因為，我將 Rally 安裝在 OpenStack 之外，而 <code>rally deployment check</code> 會 call internal url (或是 admin url 我不是很確定)而非 public url。不過解決方法很簡單，<strong>只要將 IP 與 hostname 對應設定到 /etc/hosts 上即可。</strong></p>
         </p>
     </div>
-    
 
     
 
@@ -525,6 +525,27 @@ root@rally:~#
         </script>
         </div>
     
+
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "maple52046-githubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
         

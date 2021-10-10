@@ -27,25 +27,26 @@
 
     
     
-
+ 
     
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79529428-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-79529428-1');
-    </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-GC1G5TJVGY', { 'anonymize_ip': false });
+}
+</script>
 
-    <meta property="og:title" content="Setup Squid Transparent Proxy with Docker" />
+      <meta property="og:title" content="Setup Squid Transparent Proxy with Docker" />
 <meta property="og:description" content="Squid 作為 Transparent proxy 時，不但可以加快區域網絡內的速度、降低網路流量
 還可以控管區網內是否要開放/封鎖網站~~(監看區網內誰在玩FB或是看色情網站XD)~~" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maple52046.github.io/posts/setup-squid-transparent-proxy-with-docker/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2015-11-19T17:09:00+00:00" />
 <meta property="article:modified_time" content="2015-11-19T17:09:00+00:00" /><meta property="og:site_name" content="世界的盡頭" />
-
 
 </head>
 
@@ -416,7 +417,6 @@ sudo docker ps | grep squid3
 </ol>
         </p>
     </div>
-    
 
     
 
@@ -453,6 +453,27 @@ sudo docker ps | grep squid3
         </script>
         </div>
     
+
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "maple52046-githubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
         
