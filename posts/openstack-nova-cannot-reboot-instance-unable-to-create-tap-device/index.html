@@ -23,10 +23,11 @@
 
     
     
+     
     
 
     
-    
+    <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
@@ -169,7 +170,7 @@ if (!doNotTrack) {
     <time>February 11, 2015</time>
     
     <div>
-        <p style='font-size:"1.4rem";line-height:"2.4rem"'>
+        <p>
         <p>早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 <code>nova reboot --hard &lt;server&gt;</code> 的方式，想要開啟instance 卻失敗，在 <code>/var/log/nova/nova-compute.log</code> 中看到以下錯誤訊息:</p>
 <pre tabindex="0"><code>2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy
 </code></pre><p>用 ifconfig 與 ip 指令都可以看到該 tap 存在</p>

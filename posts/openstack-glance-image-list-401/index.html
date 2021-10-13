@@ -23,10 +23,11 @@
 
     
     
+     
     
 
     
-    
+    <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
@@ -172,7 +173,7 @@ Invalid OpenStack Identity credentials.
     <time>April 8, 2015</time>
     
     <div>
-        <p style='font-size:"1.4rem";line-height:"2.4rem"'>
+        <p>
         <p>架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。</p>
 <pre tabindex="0"><code>root@localhost:~# glance --debug image-list
 curl -i -X GET -H 'User-Agent: python-glanceclient' -H 'Content-Type: application/octet-stream' -H 'Accept-Encoding: gzip, deflate, compress' -H 'Accept: */*' -H 'X-Auth-Token: ***' http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;sort_dir=asc&amp;limit=20
