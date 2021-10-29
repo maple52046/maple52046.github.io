@@ -43,7 +43,7 @@ if (!doNotTrack) {
 
       <meta property="og:title" content="在 Flutter MaterialApp 中使用指定顏色" />
 <meta property="og:description" content="使用 Flutter MaterialApp 時，如果直接使用 Color.fromRGBO 指定 ThemeData 的 primarySwatch 會出現類型錯誤。這是因為 primarySwatch 接收的類型是 MaterialColor 而不是 Color：
-Imgur" />
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-10-28T20:36:27+08:00" />
@@ -171,13 +171,13 @@ Imgur" />
     <div class="article-content">
         <p>
         <p>使用 Flutter MaterialApp 時，如果直接使用 <code>Color.fromRGBO</code> 指定 ThemeData 的 <code>primarySwatch</code> 會出現類型錯誤。這是因為 <code>primarySwatch</code> 接收的類型是 <code>MaterialColor</code> 而不是 <code>Color</code>：</p>
-<p><a href="https://i.imgur.com/8oO6cvG.png">Imgur</a></p>
+<p><img src="https://i.imgur.com/8oO6cvG.png" alt="Imgur"></p>
 <p>在網路上找到了一篇解決方法: <a href="https://medium.com/py-bits/turn-any-color-to-material-color-for-flutter-d8e8e037a837">Turn any color to Material Color for flutter</a>。</p>
 <p>按照這個方式來coding：</p>
 <ol>
 <li>首先，先尋找自己喜歡的顏色。這裡我習慣用<a href="https://htmlcolorcodes.com">HTML COLOR CODES</a>：</li>
 </ol>
-<p><a href="https://i.imgur.com/nx5uPZR.png">Imgur</a></p>
+<p><img src="https://i.imgur.com/nx5uPZR.png" alt="Imgur"></p>
 <ol start="2">
 <li>宣告 <code>MaterialColor</code>。第一個是參數是16進位的整數，這裡用到上圖的 hex 值，將 <code>#6C3483</code> 改成 <code>0xFF6C3483</code>；第二個參數是 color swatch，這是一個 <code>int</code>/<code>Color</code> 組成的 <code>Map</code>，這裡用 <code>Color.fromRGBO</code> 並代入上圖的 RGB。</li>
 </ol>

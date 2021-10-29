@@ -14,7 +14,7 @@
       
       <guid>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</guid>
       <description>&lt;p&gt;使用 Flutter MaterialApp 時，如果直接使用 &lt;code&gt;Color.fromRGBO&lt;/code&gt; 指定 ThemeData 的 &lt;code&gt;primarySwatch&lt;/code&gt; 會出現類型錯誤。這是因為 &lt;code&gt;primarySwatch&lt;/code&gt; 接收的類型是 &lt;code&gt;MaterialColor&lt;/code&gt; 而不是 &lt;code&gt;Color&lt;/code&gt;：&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://i.imgur.com/8oO6cvG.png&#34;&gt;Imgur&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/8oO6cvG.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
