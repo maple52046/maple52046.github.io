@@ -174,6 +174,31 @@ if (!doNotTrack) {
         
         <article>
             <h2>
+                <a href="https://maple52046.github.io/posts/ceph-pg-stuck-stuck-in-degraded-and-undersized/">
+                    Ceph PG stuck in degraded &#43; undersized
+                </a>
+            </h2>
+            <div>
+                <p><p>執行 <code>ceph -s</code> 發現有很多 pg 狀態卡住不動。</p></p>
+                
+                <p><a href="/posts/ceph-pg-stuck-stuck-in-degraded-and-undersized/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>December 17, 2015</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/ceph">#ceph</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
                 <a href="https://maple52046.github.io/posts/setup-squid-transparent-proxy-with-docker/">
                     Setup Squid Transparent Proxy with Docker
                 </a>
@@ -337,6 +362,32 @@ Invalid OpenStack Identity credentials.
         
         <article>
             <h2>
+                <a href="https://maple52046.github.io/posts/force-confirm-gitlab-user/">
+                    暴力啟用 gitLab user
+                </a>
+            </h2>
+            <div>
+                <p><p>下這個標題不知道是不是很奇怪XD</p>
+<p>最近在為自己的 team 開發一個 management 系統，於是決定在 GitLAB 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&hellip;不小心找了個旁門左道 XD</p></p>
+                
+                <p><a href="/posts/force-confirm-gitlab-user/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>March 27, 2015</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/gitlab">#gitlab</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
                 <a href="https://maple52046.github.io/posts/configure-open-vswitch-in-openwrt/">
                     Configure Open vSwitch in OpenWRT
                 </a>
@@ -410,60 +461,6 @@ Invalid OpenStack Identity credentials.
                     <a class="tag" href="/tags/openstack">#openstack</a>
                 
                     <a class="tag" href="/tags/rally">#rally</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/">
-                    Ceph pgs stuck in &#39;incomplete&#39; state ,ops blocked
-                </a>
-            </h2>
-            <div>
-                <p><p>Ceph OSD 又再次發生 <a href="http://worldend.logdown.com/posts/251761-ceph-osd-a-copy-of-the-executable-or-objdump-rds-executable-is-needed-to-interpret-this">disk failure</a>，結果在手動修復硬碟時操作不當，整個 disk partition table 都消失了。即使把備份的 disk patition table 寫回去之後，依然無法解決問題。</p></p>
-                
-                <p><a href="/posts/ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>February 11, 2015</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/ceph">#ceph</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/">
-                    OpenStack Nova cannot reboot instance - Unable to create tap device
-                </a>
-            </h2>
-            <div>
-                <p><p>早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 <code>nova reboot --hard &lt;server&gt;</code> 的方式，想要開啟instance 卻失敗，在 <code>/var/log/nova/nova-compute.log</code> 中看到以下錯誤訊息:</p>
-<pre tabindex="0"><code>2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy
-</code></pre></p>
-                
-                <p><a href="/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>February 11, 2015</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/nova">#nova</a>
-                
-                    <a class="tag" href="/tags/openstack">#openstack</a>
                 
             
             </div> 

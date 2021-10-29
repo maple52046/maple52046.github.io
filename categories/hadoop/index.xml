@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hadoop on 世界的盡頭</title>
+    <link>https://maple52046.github.io/categories/hadoop/</link>
+    <description>Recent content in Hadoop on 世界的盡頭</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language>
+    <lastBuildDate>Mon, 18 Nov 2013 12:10:07 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/categories/hadoop/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hadoop SecondaryNameNode 、CheckpointNode 與 Backup Node 觀念整理</title>
+      <link>https://maple52046.github.io/posts/concepts-of-hadoop-nodes/</link>
+      <pubDate>Mon, 18 Nov 2013 12:10:07 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/concepts-of-hadoop-nodes/</guid>
+      <description>&lt;p&gt;為了要管理 lab 裡的 Hadoop cluster，針對 Hadoop 的 NameNode、SecondaryNameNode、CheckpointNode 與 BackupNode 做個了survay。&lt;/p&gt;
+&lt;h1 id=&#34;namenode&#34;&gt;NameNode&lt;/h1&gt;
+&lt;p&gt;Hadoop 的 metadata 是存放在運行 Namenode 的 server 的 memory 裡面，而 Namenode 的工作就是將 clients 對 metadata 的讀寫修改紀錄在&lt;strong&gt;edits&lt;/strong&gt;裡。&lt;/p&gt;
+&lt;p&gt;當 Namenode 被啟動的時候，會先合併 HDFS 上的 fsimage 與 edits，取得完整的 metadata。此時，原本的 fsimage 會被更新。&lt;/p&gt;
+&lt;p&gt;之後，在 NameNode 運作的期間，client 對 metadata 的 access 還是只會記錄在新的 edits 裡，直到下一次 NameNode restart 的時候，周而復始的更新 fsimage、產生新的 edits。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

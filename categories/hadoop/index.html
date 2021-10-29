@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Categories | 世界的盡頭</title>
+    <title>Hadoop | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -30,7 +30,7 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/index.xml" title="世界的盡頭" />
+    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/hadoop/index.xml" title="世界的盡頭" />
     
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
@@ -43,10 +43,10 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="Categories" />
+      <meta property="og:title" content="Hadoop" />
 <meta property="og:description" content="牽妳走過世界的盡頭" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/categories/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
+<meta property="og:url" content="https://maple52046.github.io/categories/hadoop/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
 
 </head>
 
@@ -163,36 +163,32 @@ if (!doNotTrack) {
         <div id="content" class="content-container">
         
 
-<h1>Tags</h1>
-<ul>
+  <h1>Tagged "Hadoop"</h1>
+  
+  
     
-        <li><a href="https://maple52046.github.io/categories/akashicrecords/">AkashicRecords</a> 1</li>
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/concepts-of-hadoop-nodes/">
+                    Hadoop SecondaryNameNode 、CheckpointNode 與 Backup Node 觀念整理
+                </a>
+            </h2>
+            <div>
+                <p><p>為了要管理 lab 裡的 Hadoop cluster，針對 Hadoop 的 NameNode、SecondaryNameNode、CheckpointNode 與 BackupNode 做個了survay。</p>
+<h1 id="namenode">NameNode</h1>
+<p>Hadoop 的 metadata 是存放在運行 Namenode 的 server 的 memory 裡面，而 Namenode 的工作就是將 clients 對 metadata 的讀寫修改紀錄在<strong>edits</strong>裡。</p>
+<p>當 Namenode 被啟動的時候，會先合併 HDFS 上的 fsimage 與 edits，取得完整的 metadata。此時，原本的 fsimage 會被更新。</p>
+<p>之後，在 NameNode 運作的期間，client 對 metadata 的 access 還是只會記錄在新的 edits 裡，直到下一次 NameNode restart 的時候，周而復始的更新 fsimage、產生新的 edits。</p></p>
+                
+                <p><a href="/posts/concepts-of-hadoop-nodes/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>November 18, 2013</time>
+            </div> 
+        </article>
     
-        <li><a href="https://maple52046.github.io/categories/container/">Container</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/flutter/">Flutter</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/gitlab/">Gitlab</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/hadoop/">Hadoop</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/linux/">Linux</a> 8</li>
-    
-        <li><a href="https://maple52046.github.io/categories/network/">Network</a> 4</li>
-    
-        <li><a href="https://maple52046.github.io/categories/openstack/">OpenStack</a> 7</li>
-    
-        <li><a href="https://maple52046.github.io/categories/programming/">Programming</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/python/">Python</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/storage/">Storage</a> 3</li>
-    
-        <li><a href="https://maple52046.github.io/categories/virtualization/">Virtualization</a> 1</li>
-    
-</ul>
 
-<div class="page-footer"></div>
 
         
         </div>

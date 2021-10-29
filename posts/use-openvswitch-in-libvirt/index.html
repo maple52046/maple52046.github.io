@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Categories | 世界的盡頭</title>
+    <title>設定 Libvirt 使用 Open vSwitch | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -30,8 +30,6 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/index.xml" title="世界的盡頭" />
-    
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
 var doNotTrack = false;
@@ -43,10 +41,14 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="Categories" />
-<meta property="og:description" content="牽妳走過世界的盡頭" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/categories/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
+      <meta property="og:title" content="設定 Libvirt 使用 Open vSwitch" />
+<meta property="og:description" content="最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 virsh define 之後才能使用。
+每個 VM 都要手動設定真的很麻煩
+幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/use-openvswitch-in-libvirt/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2014-08-12T03:22:59+08:00" />
+<meta property="article:modified_time" content="2014-08-12T03:22:59+08:00" /><meta property="og:site_name" content="世界的盡頭" />
 
 </head>
 
@@ -163,36 +165,85 @@ if (!doNotTrack) {
         <div id="content" class="content-container">
         
 
-<h1>Tags</h1>
-<ul>
+<h1 class="post-title">設定 Libvirt 使用 Open vSwitch</h1>
     
-        <li><a href="https://maple52046.github.io/categories/akashicrecords/">AkashicRecords</a> 1</li>
+    <time>August 12, 2014</time>
     
-        <li><a href="https://maple52046.github.io/categories/container/">Container</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/flutter/">Flutter</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/gitlab/">Gitlab</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/hadoop/">Hadoop</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/linux/">Linux</a> 8</li>
-    
-        <li><a href="https://maple52046.github.io/categories/network/">Network</a> 4</li>
-    
-        <li><a href="https://maple52046.github.io/categories/openstack/">OpenStack</a> 7</li>
-    
-        <li><a href="https://maple52046.github.io/categories/programming/">Programming</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/python/">Python</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/storage/">Storage</a> 3</li>
-    
-        <li><a href="https://maple52046.github.io/categories/virtualization/">Virtualization</a> 1</li>
-    
-</ul>
+    <div class="article-content">
+        <p>
+        <p>最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 <code>virsh define</code> 之後才能使用。</p>
+<p>每個 VM 都要手動設定真的很麻煩</p>
+<p>幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]</p>
+<p>修改 network xml，直接讓 default network 使用 Open vSwitch</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;network&gt;</span>
+	 <span style="color:#f92672">&lt;name&gt;</span>default<span style="color:#f92672">&lt;/name&gt;</span>
+	 <span style="color:#f92672">&lt;uuid&gt;</span>61f5a0f8-e81d-4685-9456-b22f03f278ab<span style="color:#f92672">&lt;/uuid&gt;</span>
+	 <span style="color:#f92672">&lt;forward</span> <span style="color:#a6e22e">mode=</span><span style="color:#e6db74">&#39;bridge&#39;</span><span style="color:#f92672">/&gt;</span>
+	 <span style="color:#f92672">&lt;bridge</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#39;ovsbr0&#39;</span> <span style="color:#f92672">/&gt;</span>
+	 <span style="color:#f92672">&lt;virtualport</span> <span style="color:#a6e22e">type=</span><span style="color:#e6db74">&#39;Open vSwitch&#39;</span><span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/network&gt;</span>  
+</code></pre></div><p>這樣 virt-manager 就可以直接使用 NAT network。</p>
+<p>[1]: <a href="http://dtucker.co.uk/hack/installing-kvm-libvirt-Open">http://dtucker.co.uk/hack/installing-kvm-libvirt-Open</a> vSwitch-on-fedora.html</p>
+        </p>
+    </div>
 
-<div class="page-footer"></div>
+    
+
+        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
+        <script type='text/javascript'>
+            const kofiId = 'maple52046';
+            kofiwidget2.init('Support Me on Ko-fi', '#29abe0', kofiId);
+            kofiwidget2.draw();
+        </script> 
+
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/libvirt">#libvirt</a>
+        
+            <a class="tag" href="/tags/open-vswitch">#open vswitch</a>
+        
+      
+    </div>
+
+    
+        <div id="utterance_thread">
+        <script
+            async
+            src="https://utteranc.es/client.js"
+            repo="maple52046/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+        >
+        </script>
+        </div>
+    
+
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "maple52046-githubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
         
         </div>

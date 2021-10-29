@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Categories | 世界的盡頭</title>
+    <title>暴力啟用 gitLab user | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -30,8 +30,6 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/index.xml" title="世界的盡頭" />
-    
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
 var doNotTrack = false;
@@ -43,10 +41,13 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="Categories" />
-<meta property="og:description" content="牽妳走過世界的盡頭" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/categories/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
+      <meta property="og:title" content="暴力啟用 gitLab user" />
+<meta property="og:description" content="下這個標題不知道是不是很奇怪XD
+最近在為自己的 team 開發一個 management 系統，於是決定在 GitLAB 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&hellip;不小心找了個旁門左道 XD" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/force-confirm-gitlab-user/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-03-27T15:38:23+08:00" />
+<meta property="article:modified_time" content="2015-03-27T15:38:23+08:00" /><meta property="og:site_name" content="世界的盡頭" />
 
 </head>
 
@@ -163,36 +164,146 @@ if (!doNotTrack) {
         <div id="content" class="content-container">
         
 
-<h1>Tags</h1>
-<ul>
+<h1 class="post-title">暴力啟用 gitLab user</h1>
     
-        <li><a href="https://maple52046.github.io/categories/akashicrecords/">AkashicRecords</a> 1</li>
+    <time>March 27, 2015</time>
     
-        <li><a href="https://maple52046.github.io/categories/container/">Container</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/flutter/">Flutter</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/gitlab/">Gitlab</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/hadoop/">Hadoop</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/linux/">Linux</a> 8</li>
-    
-        <li><a href="https://maple52046.github.io/categories/network/">Network</a> 4</li>
-    
-        <li><a href="https://maple52046.github.io/categories/openstack/">OpenStack</a> 7</li>
-    
-        <li><a href="https://maple52046.github.io/categories/programming/">Programming</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/python/">Python</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/storage/">Storage</a> 3</li>
-    
-        <li><a href="https://maple52046.github.io/categories/virtualization/">Virtualization</a> 1</li>
-    
-</ul>
+    <div class="article-content">
+        <p>
+        <p>下這個標題不知道是不是很奇怪XD</p>
+<p>最近在為自己的 team 開發一個 management 系統，於是決定在 GitLAB 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&hellip;不小心找了個旁門左道 XD</p>
+<h2 id="step-1">Step 1</h2>
+<p>首先，要先登入 MySQL，找到 Gitlab 所使用的資料庫，然後再找到 <code>users</code> 這個資料表。使用 <code>describe users</code> 查看該資料表的結構:</p>
+<pre tabindex="0"><code>mysql&gt; describe users;
++--------------------------+--------------+------+-----+---------+----------------+
+| Field                    | Type         | Null | Key | Default | Extra          |
++--------------------------+--------------+------+-----+---------+----------------+
+| id                       | int(11)      | NO   | PRI | NULL    | auto_increment |
+| email                    | varchar(255) | NO   | UNI |         |                |
+| encrypted_password       | varchar(255) | NO   |     |         |                |
+| reset_password_token     | varchar(255) | YES  | UNI | NULL    |                |
+| reset_password_sent_at   | datetime     | YES  |     | NULL    |                |
+| remember_created_at      | datetime     | YES  |     | NULL    |                |
+| sign_in_count            | int(11)      | YES  |     | 0       |                |
+| current_sign_in_at       | datetime     | YES  |     | NULL    |                |
+| last_sign_in_at          | datetime     | YES  |     | NULL    |                |
+| current_sign_in_ip       | varchar(255) | YES  |     | NULL    |                |
+| last_sign_in_ip          | varchar(255) | YES  |     | NULL    |                |
+| created_at               | datetime     | YES  |     | NULL    |                |
+| updated_at               | datetime     | YES  |     | NULL    |                |
+| name                     | varchar(255) | YES  | MUL | NULL    |                |
+| admin                    | tinyint(1)   | NO   | MUL | 0       |                |
+| projects_limit           | int(11)      | YES  |     | 10      |                |
+| skype                    | varchar(255) | NO   |     |         |                |
+| linkedin                 | varchar(255) | NO   |     |         |                |
+| twitter                  | varchar(255) | NO   |     |         |                |
+| authentication_token     | varchar(255) | YES  | UNI | NULL    |                |
+| theme_id                 | int(11)      | NO   |     | 1       |                |
+| bio                      | varchar(255) | YES  |     | NULL    |                |
+| failed_attempts          | int(11)      | YES  |     | 0       |                |
+| locked_at                | datetime     | YES  |     | NULL    |                |
+| extern_uid               | varchar(255) | YES  | MUL | NULL    |                |
+| provider                 | varchar(255) | YES  |     | NULL    |                |
+| username                 | varchar(255) | YES  | MUL | NULL    |                |
+| can_create_group         | tinyint(1)   | NO   |     | 1       |                |
+| can_create_team          | tinyint(1)   | NO   |     | 1       |                |
+| state                    | varchar(255) | YES  |     | NULL    |                |
+| color_scheme_id          | int(11)      | NO   |     | 1       |                |
+| notification_level       | int(11)      | NO   |     | 1       |                |
+| password_expires_at      | datetime     | YES  |     | NULL    |                |
+| created_by_id            | int(11)      | YES  |     | NULL    |                |
+| last_credential_check_at | datetime     | YES  |     | NULL    |                |
+| avatar                   | varchar(255) | YES  |     | NULL    |                |
+| confirmation_token       | varchar(255) | YES  | UNI | NULL    |                |
+| confirmed_at             | datetime     | YES  |     | NULL    |                |
+| confirmation_sent_at     | datetime     | YES  |     | NULL    |                |
+| unconfirmed_email        | varchar(255) | YES  |     | NULL    |                |
+| hide_no_ssh_key          | tinyint(1)   | YES  |     | 0       |                |
+| website_url              | varchar(255) | NO   |     |         |                |
++--------------------------+--------------+------+-----+---------+----------------+
+42 rows in set (0.01 sec)
+</code></pre><p>查詢 <code>users</code> table 裡的內容:</p>
+<pre tabindex="0"><code>mysql&gt; select id,email,confirmed_at,confirmation_token from users;
++----+---------------------------------+---------------------+----------------------+
+| id | email                           | confirmed_at        | confirmation_token   |
++----+---------------------------------+---------------------+----------------------+
+| 17 | abcd@abcd.defg.higk             | 2014-07-07 03:39:04 | NULL                 |
+| 18 | ab123@abcd.defg.higk            | NULL                | pynoSQoHEBjXYH5Ws7f8 |
++----+---------------------------------+---------------------+----------------------+
+17 rows in set (0.00 sec)
+</code></pre><p>可以發現，已驗證過的使用者，在 <code>confirmed_at</code> 這個欄位可以看到驗證的時間，而 <code>confirmation_token</code> 欄位則為 NULL；反之，未驗證過的 user 則是在 <code>confirmation_token</code> 裡有一個字串，而 <code>confirmed_at</code> 則為 NULL</p>
+<h2 id="step-2">Step 2</h2>
+<p>在 StackOverflow 上查到一篇: <a href="http://stackoverflow.com/questions/23385422/incorrect-url-in-confirmation-mail">Incorrect url in confirmation mail</a></p>
+<p>看到提問者打了一串 URL: <code>http://localhost/users/confirmation?confirmation_token=pTy5sdjYjfymgcLy4gjp</code></p>
+<p>於是我照著一樣格式的 URL，將 domain 與 token 替換掉，然後直接 enter。</p>
+<p>神奇的事情來拉!!! 直接 login，並看到 <strong>Welcome to GitLab!</strong></p>
+<p>這時候在回去 MySQL 中查看:</p>
+<pre tabindex="0"><code>mysql&gt; select id,email,confirmed_at,confirmation_token from users;
++----+---------------------------------+---------------------+--------------------+
+| id | email                           | confirmed_at        | confirmation_token |
++----+---------------------------------+---------------------+--------------------+
+| 18 | ab123@abcd.defg.higk            | 2015-03-27 07:35:46 | NULL               |
++----+---------------------------------+---------------------+--------------------+
+17 rows in set (0.01 sec)
+</code></pre><p>Ending~</p>
+        </p>
+    </div>
 
-<div class="page-footer"></div>
+    
+
+        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
+        <script type='text/javascript'>
+            const kofiId = 'maple52046';
+            kofiwidget2.init('Support Me on Ko-fi', '#29abe0', kofiId);
+            kofiwidget2.draw();
+        </script> 
+
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/gitlab">#gitlab</a>
+        
+      
+    </div>
+
+    
+        <div id="utterance_thread">
+        <script
+            async
+            src="https://utteranc.es/client.js"
+            repo="maple52046/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+        >
+        </script>
+        </div>
+    
+
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "maple52046-githubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
         
         </div>

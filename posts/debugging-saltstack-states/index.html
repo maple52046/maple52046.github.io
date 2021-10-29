@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Categories | 世界的盡頭</title>
+    <title>Debugging Saltstack States | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -30,8 +30,6 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/index.xml" title="世界的盡頭" />
-    
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
 var doNotTrack = false;
@@ -43,10 +41,54 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="Categories" />
-<meta property="og:description" content="牽妳走過世界的盡頭" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/categories/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
+      <meta property="og:title" content="Debugging Saltstack States" />
+<meta property="og:description" content="利用 Saltstack 安裝 OpenStack Keystone。按照 OpenStack 官方安裝手冊，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。
+這一個步驟，我把他寫成 Saltstack states 如下：
+waiting-keystone-startup:
+  cmd.run:
+    - name: sleep 1
+
+registry-keystone-service:
+  keystone.service_present:
+    - name: keystone
+    - service_type: identity
+    - description: &#34;OpenStack Identity&#34;
+    - require:
+      - cmd: waiting-keystone-startup
+
+registry-keystone-endpoint:
+  keystone.endpoint_present:
+    - name: keystone
+    - publicurl: http://host-01:5000/v2.0
+    - internalurl: http://host-01:5000/v2.0
+    - adminurl: http://host-01:35357/v2.0
+    - region: regionOne
+    - require:
+      - keystone: registry-keystone-service
+結果執行時發生 KeyError:
+user@host-01:/srv/salt/openstack/keystone$ salt &#39;*&#39; state.sls openstack.keystone.registry
+host-01:
+    The minion function caused an exception: Traceback (most recent call last):
+      File &quot;/usr/lib/python2.7/dist-packages/salt/minion.py&quot;, line 1161, in _thread_return
+        return_data = func(*args, **kwargs)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/modules/state.py&quot;, line 681, in sls
+        ret = st_.state.call_high(high_)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 2067, in call_high
+        ret = dict(list(disabled.items()) &#43; list(self.call_chunks(chunks).items()))
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1623, in call_chunks
+        running = self.call_chunk(low, running, chunks)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1769, in call_chunk
+        self._mod_init(low)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 612, in _mod_init
+        self.states[&#39;{0}.{1}&#39;.format(low[&#39;state&#39;], low[&#39;fun&#39;])]  # pylint: disable=W0106
+      File &quot;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&quot;, line 90, in __getitem__
+        raise KeyError(key)
+    KeyError: &#39;keystone.service_present&#39;
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/debugging-saltstack-states/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-29T16:53:13+08:00" />
+<meta property="article:modified_time" content="2021-10-29T16:53:13+08:00" /><meta property="og:site_name" content="世界的盡頭" />
 
 </head>
 
@@ -163,36 +205,248 @@ if (!doNotTrack) {
         <div id="content" class="content-container">
         
 
-<h1>Tags</h1>
-<ul>
+<h1 class="post-title">Debugging Saltstack States</h1>
     
-        <li><a href="https://maple52046.github.io/categories/akashicrecords/">AkashicRecords</a> 1</li>
+    <time>October 29, 2021</time>
     
-        <li><a href="https://maple52046.github.io/categories/container/">Container</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/flutter/">Flutter</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/gitlab/">Gitlab</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/hadoop/">Hadoop</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/linux/">Linux</a> 8</li>
-    
-        <li><a href="https://maple52046.github.io/categories/network/">Network</a> 4</li>
-    
-        <li><a href="https://maple52046.github.io/categories/openstack/">OpenStack</a> 7</li>
-    
-        <li><a href="https://maple52046.github.io/categories/programming/">Programming</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/python/">Python</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/storage/">Storage</a> 3</li>
-    
-        <li><a href="https://maple52046.github.io/categories/virtualization/">Virtualization</a> 1</li>
-    
-</ul>
+    <div class="article-content">
+        <p>
+        <p>利用 Saltstack 安裝 OpenStack Keystone。按照 <a href="http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html">OpenStack 官方安裝手冊</a>，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。</p>
+<p>這一個步驟，我把他寫成 Saltstack states 如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">waiting-keystone-startup</span>:
+  <span style="color:#f92672">cmd.run</span>:
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sleep 1</span>
 
-<div class="page-footer"></div>
+<span style="color:#f92672">registry-keystone-service</span>:
+  <span style="color:#f92672">keystone.service_present</span>:
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">keystone</span>
+    - <span style="color:#f92672">service_type</span>: <span style="color:#ae81ff">identity</span>
+    - <span style="color:#f92672">description</span>: <span style="color:#e6db74">&#34;OpenStack Identity&#34;</span>
+    - <span style="color:#f92672">require</span>:
+      - <span style="color:#f92672">cmd</span>: <span style="color:#ae81ff">waiting-keystone-startup</span>
+
+<span style="color:#f92672">registry-keystone-endpoint</span>:
+  <span style="color:#f92672">keystone.endpoint_present</span>:
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">keystone</span>
+    - <span style="color:#f92672">publicurl</span>: <span style="color:#ae81ff">http://host-01:5000/v2.0</span>
+    - <span style="color:#f92672">internalurl</span>: <span style="color:#ae81ff">http://host-01:5000/v2.0</span>
+    - <span style="color:#f92672">adminurl</span>: <span style="color:#ae81ff">http://host-01:35357/v2.0</span>
+    - <span style="color:#f92672">region</span>: <span style="color:#ae81ff">regionOne</span>
+    - <span style="color:#f92672">require</span>:
+      - <span style="color:#f92672">keystone</span>: <span style="color:#ae81ff">registry-keystone-service</span>
+</code></pre></div><p>結果執行時發生 KeyError:</p>
+<pre tabindex="0"><code>user@host-01:/srv/salt/openstack/keystone$ salt '*' state.sls openstack.keystone.registry
+host-01:
+    The minion function caused an exception: Traceback (most recent call last):
+      File &quot;/usr/lib/python2.7/dist-packages/salt/minion.py&quot;, line 1161, in _thread_return
+        return_data = func(*args, **kwargs)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/modules/state.py&quot;, line 681, in sls
+        ret = st_.state.call_high(high_)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 2067, in call_high
+        ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1623, in call_chunks
+        running = self.call_chunk(low, running, chunks)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1769, in call_chunk
+        self._mod_init(low)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 612, in _mod_init
+        self.states['{0}.{1}'.format(low['state'], low['fun'])]  # pylint: disable=W0106
+      File &quot;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&quot;, line 90, in __getitem__
+        raise KeyError(key)
+    KeyError: 'keystone.service_present'
+</code></pre><h3 id="問題主因">問題主因</h3>
+<p>先說結果：
+Keystone 本身是安裝在其他 node 上，安裝後我沒有去確認 Keystone 是否正常運作。問題的主因在於 Saltstack minion 在執行 <code>keystone.service_present</code>，要先載入 keystone.auth。而 Keystone 並沒有真正運行，造成 module 載入失敗。</p>
+<p>解決辦法只要確認 Keystone 有正常運作，就可以避免此問題。</p>
+<hr>
+<p>以下是我在追尋問題的過程與一些心得。</p>
+<p>通常 Saltatck 發生 KeyError，在過往的經驗，都是帶入了無法錯誤的參數，因此我仔細檢查我的 code。
+但是不論是 <a href="https://docs.saltstack.com/en/latest/ref/states/all/salt.states.keystone.html#module-salt.states.keystone">Saltstack 官方的文件</a>或是看 source code(<code>/usr/lib/python2.7/dist-packages/salt/states/keystone.py</code>)，都找不到有任何我帶錯參數的地方。</p>
+<p>因此，只能開啟 Debug mode 看看能不能抓到任何蛛絲馬跡.</p>
+<h3 id="trun-on-debug-mode">Trun on Debug mode</h3>
+<p>編輯 <code>/etc/salt/minion</code>，設定：<code>log_level: debug</code>，然後重新啟動 salt-minion。</p>
+<p>接下來我們就要觀察 <code>/var/log/salt/minion</code>。</p>
+<h3 id="start-debuging">Start debuging</h3>
+<p>首先，重複執行 job <em>(ex:</em> <code>salt '*' state.sls openstack.keystone.registry</code> <em>)</em></p>
+<p>等待錯誤回報之後，打開 <code>/var/log/salt/minion</code></p>
+<p>Job 執行時，log 的開頭是:</p>
+<pre tabindex="0"><code>2015-10-16 12:37:17,375 [salt.minion      ][INFO    ][19647] User root Executing command state.sls with jid 20151016043717370854
+2015-10-16 12:37:17,375 [salt.minion      ][DEBUG   ][19647] Command details {'tgt_type': 'glob', 'jid': '20151016043717370854', 'tgt': '*', 'ret': '', 'user': 'root', 'arg': ['openstack.keystone.registry'], 'fun': 'state.sls'}
+2015-10-16 12:37:17,380 [salt.minion      ][INFO    ][21811] Starting a new job with PID 21811
+2015-10-16 12:37:17,387 [salt.utils.lazy  ][DEBUG   ][21811] LazyLoaded state.sls
+2015-10-16 12:37:17,395 [salt.utils.lazy  ][DEBUG   ][21811] LazyLoaded saltutil.is_running
+2015-10-16 12:37:17,396 [salt.utils.lazy  ][DEBUG   ][21811] LazyLoaded grains.get
+2015-10-16 12:37:17,397 [salt.crypt       ][DEBUG   ][21811] Re-using SAuth for ('/etc/salt/pki/minion', 'host-01', 'tcp://192.168.0.1:4506')
+2015-10-16 12:37:17,414 [salt.config      ][DEBUG   ][21811] Reading configuration from /etc/salt/minion
+</code></pre><p>可以看到 Job ID, &hellip; 資訊。接著往下看，可以發現，minion 的運作流程：</p>
+<ol>
+<li>驗證</li>
+<li>載入所需要的模組(函式)</li>
+</ol>
+<pre tabindex="0"><code>2015-10-16 12:37:17,387 [salt.utils.lazy  ][DEBUG   ][21811] LazyLoaded state.sls
+2015-10-16 12:37:17,395 [salt.utils.lazy  ][DEBUG   ][21811] LazyLoaded saltutil.is_running
+2015-10-16 12:37:17,396 [salt.utils.lazy  ][DEBUG   ][21811] LazyLoaded grains.get
+</code></pre><ol start="3">
+<li>載入 configuration</li>
+</ol>
+<pre tabindex="0"><code>2015-10-16 12:37:17,414 [salt.config      ][DEBUG   ][21811] Reading configuration from /etc/salt/minion
+2015-10-16 12:37:17,450 [salt.config      ][DEBUG   ][21811] Including configuration from '/etc/salt/minion.d/_schedule.conf'
+2015-10-16 12:37:17,450 [salt.config      ][DEBUG   ][21811] Reading configuration from /etc/salt/minion.d/_schedule.conf
+2015-10-16 12:37:17,451 [salt.config      ][DEBUG   ][21811] Including configuration from '/etc/salt/minion.d/keystone.conf'
+2015-10-16 12:37:17,451 [salt.config      ][DEBUG   ][21811] Reading configuration from /etc/salt/minion.d/keystone.conf
+</code></pre><ol start="4">
+<li>從 master 取得所需的檔案</li>
+</ol>
+<pre tabindex="0"><code>2015-10-16 12:37:17,645 [salt.fileclient  ][DEBUG   ][21811] Fetching file from saltenv 'base', ** attempting ** 'salt://openstack/keystone/registry.sls'
+2015-10-16 12:37:17,649 [salt.fileclient  ][INFO    ][21811] Fetching file from saltenv 'base', ** done ** 'openstack/keystone/registry.sls'
+</code></pre><ol start="5">
+<li>從檔案, piller value, grains value 中，render data</li>
+</ol>
+<pre tabindex="0"><code>2015-10-16 12:37:17,662 [salt.template    ][DEBUG   ][21811] Rendered data from file: /var/cache/salt/minion/files/base/openstack/keystone/registry.sls:
+waiting-keystone-startup:
+  cmd.run:
+    \- name: sleep 1
+
+registry-keystone-service:
+  keystone.service\_present:
+    \- service_type: identity
+    \- description: &quot;OpenStack Identity&quot;
+    \- require:
+      \- cmd: waiting-keystone-startup
+
+registry-keystone-endpoint:
+  keystone.endpoint\_present:
+    - name: keystone
+    - publicurl: http://host-01:5000/v2.0
+    - internalurl: http://host-01:5000/v2.0
+    - adminurl: http://host-01:35357/v2.0
+    - region: regionOne
+    - require:
+      - keystone: registry-keystone-service
+</code></pre><ol start="6">
+<li>接下來就開始依照順序/相依性，先 load module/function，再執行 job。</li>
+</ol>
+<pre tabindex="0"><code>2015-10-16 12:37:17,669 [salt.utils.lazy  ][DEBUG   ][21811] LazyLoaded cmd.run
+2015-10-16 12:37:17,669 [salt.state       ][INFO    ][21811] Running state [sleep 1] at time 12:37:17.669452
+2015-10-16 12:37:17,670 [salt.state       ][INFO    ][21811] Executing state cmd.run for sleep 1
+2015-10-16 12:37:17,670 [salt.loaded.int.module.cmdmod][INFO    ][21811] Executing command 'sleep 1' in directory '/root'
+2015-10-16 12:37:18,674 [salt.state       ][INFO    ][21811] {'pid': 21834, 'retcode': 0, 'stderr': '', 'stdout': ''}
+2015-10-16 12:37:18,675 [salt.state       ][INFO    ][21811] Completed state [sleep 1] at time 12:37:18.674880
+</code></pre><p>透過這樣一連串的步驟，就發現了問題的所在。
+按照我寫的 states, <code>cmd.run</code> 執行完之後，就要執行 <code>keystone.service_present</code>。
+在 log 中看到接下來發生的錯誤：</p>
+<pre tabindex="0"><code>2015-10-16 12:37:18,727 [salt.loader      ][DEBUG   ][21811] Error loading module.tls: ['PyOpenSSL version 0.14 or later must be installed before  this module can be used.']
+2015-10-16 12:37:18,818 [salt.loader      ][DEBUG   ][21811] Error loading module.nacl: libnacl import error, perhaps missing python libnacl package
+2015-10-16 12:37:18,920 [salt.loader      ][DEBUG   ][21811] Error loading module.npm: npm execution module could not be loaded because the npm binary could not be located
+2015-10-16 12:37:18,943 [salt.utils.lazy  ][DEBUG   ][21811] Could not LazyLoad keystone.auth
+</code></pre><p>以及</p>
+<pre tabindex="0"><code>2015-10-16 12:37:19,081 [salt.loader      ][DEBUG   ][21811] Error loading states.npm: 'npm' binary not found on system
+2015-10-16 12:37:19,087 [salt.utils.lazy  ][DEBUG   ][21811] Could not LazyLoad keystone.service_present
+2015-10-16 12:37:19,087 [salt.minion      ][WARNING ][21811] The minion function caused an exception
+Traceback (most recent call last):
+  File &quot;/usr/lib/python2.7/dist-packages/salt/minion.py&quot;, line 1161, in _thread_return
+    return_data = func(*args, **kwargs)
+  File &quot;/usr/lib/python2.7/dist-packages/salt/modules/state.py&quot;, line 681, in sls
+    ret = st_.state.call_high(high_)
+  File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 2067, in call_high
+    ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))
+  File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1623, in call_chunks
+    running = self.call_chunk(low, running, chunks)
+  File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1769, in call_chunk
+    self._mod_init(low)
+  File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 612, in _mod_init
+    self.states['{0}.{1}'.format(low['state'], low['fun'])]  # pylint: disable=W0106
+  File &quot;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&quot;, line 90, in __getitem__
+    raise KeyError(key)
+KeyError: 'keystone.service_present'
+</code></pre><p>Log 中出現了三個 error :</p>
+<ul>
+<li>
+<p>Fix problem (1)</p>
+<p>Log 提示，PyOpenSSL 必須要是 0.14 以上的版本，於是檢查一下當前系統是否有安裝：</p>
+<pre tabindex="0"><code>user@host-01:~$ sudo dpkg -l | grep python-openssl
+ii  python-openssl                      0.13-2ubuntu6                    amd64        Python 2 wrapper around the OpenSSL library
+</code></pre><p>apt-get 能安裝的版本，最高已經是 0.13 了。因此要裝 0.14 只能使用 pip 指令。不過建議安裝 0.15.1 以上的版本，因為我安裝了 0.14 之後，log 中有出現 <code>You should upgrade pyOpenSSL to at least 0.15.1</code></p>
+<pre tabindex="0"><code>sudo apt-get install python-dev libffi-dev
+sudo pip install PyOpenSSL==0.15.1
+</code></pre></li>
+<li>
+<p>Fix problem (2)</p>
+<pre tabindex="0"><code>sudo pip install libnacl
+</code></pre></li>
+<li>
+<p>Fix problem (3)</p>
+<pre tabindex="0"><code>sudo apt-get install npm
+</code></pre></li>
+</ul>
+<p>解決了以上三個問題之後，再次執行了同樣的 job，雖然已經沒有上面三個錯誤，但結果還是得到 KeyError。
+後來才發現是因為 Keystone 並沒有正常運行，造成 <code>keystone.auth</code> 載入失敗，<code>keystone.service_present</code> 也因此連帶無法載入。</p>
+<hr>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://docs.saltstack.com/en/latest/ref/states/all/salt.states.keystone.html#module-salt.states.keystone">SALT.STATES.KEYSTONE</a></li>
+<li><a href="http://stackoverflow.com/questions/12982486/glib-compile-error-ffi-h-but-libffi-is-installed">GLib compile error (ffi.h), but libffi is installed</a></li>
+<li><a href="http://ask.xmodulo.com/fix-fatal-error-openssl.html">How to fix “fatal error: openssl/aes.h: No such file or directory”</a></li>
+</ul>
+        </p>
+    </div>
+
+    
+
+        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
+        <script type='text/javascript'>
+            const kofiId = 'maple52046';
+            kofiwidget2.init('Support Me on Ko-fi', '#29abe0', kofiId);
+            kofiwidget2.draw();
+        </script> 
+
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/openstack">#openstack</a>
+        
+            <a class="tag" href="/tags/saltstack">#saltstack</a>
+        
+      
+    </div>
+
+    
+        <div id="utterance_thread">
+        <script
+            async
+            src="https://utteranc.es/client.js"
+            repo="maple52046/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+        >
+        </script>
+        </div>
+    
+
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "maple52046-githubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
         
         </div>

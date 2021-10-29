@@ -71,5 +71,44 @@ sudo apt install oracle-java9-installer
 &lt;p&gt;不過我是採用編譯的方式：https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu&lt;/p&gt;</description>
     </item>
     
+    <item>
+      <title>Install Instiki on Ubuntu 12.04</title>
+      <link>https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/</link>
+      <pubDate>Thu, 25 Sep 2014 01:10:00 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/</guid>
+      <description>&lt;p&gt;Instiki 是一個用 Ruby 開發的 wiki 系統，特色是非常的 light weight、可以使用 &lt;strong&gt;Markdown&lt;/strong&gt; 語法等。詳細介紹就暫時略過。&lt;/p&gt;
+&lt;p&gt;本次安裝的環境如下:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Operating system&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Ruby version&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Ubuntu 12.04&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.9.1 (install by RVM)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;安裝步驟&#34;&gt;安裝步驟&lt;/h1&gt;
+&lt;h2 id=&#34;configure-ruby-environment&#34;&gt;Configure Ruby environment&lt;/h2&gt;
+&lt;p&gt;Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻煩，因此決定採用跟官網一樣的版本。
+不過 Ubuntu 預設的版本已經是 1.9.3 (?) 以上了，況且根據之前搞 CloudFoundry 的經驗，Ruby 的版本最好還是用 RVM 來進行管理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>設定 Libvirt 使用 Open vSwitch</title>
+      <link>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</link>
+      <pubDate>Tue, 12 Aug 2014 03:22:59 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</guid>
+      <description>&lt;p&gt;最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 &lt;code&gt;virsh define&lt;/code&gt; 之後才能使用。&lt;/p&gt;
+&lt;p&gt;每個 VM 都要手動設定真的很麻煩&lt;/p&gt;
+&lt;p&gt;幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]&lt;/p&gt;</description>
+    </item>
+    
   </channel>
 </rss>

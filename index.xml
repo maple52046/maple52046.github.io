@@ -6,7 +6,58 @@
     <description>Recent content on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 28 Oct 2021 20:36:27 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Oct 2021 16:53:13 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Debugging Saltstack States</title>
+      <link>https://maple52046.github.io/posts/debugging-saltstack-states/</link>
+      <pubDate>Fri, 29 Oct 2021 16:53:13 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/debugging-saltstack-states/</guid>
+      <description>&lt;p&gt;利用 Saltstack 安裝 OpenStack Keystone。按照 &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html&#34;&gt;OpenStack 官方安裝手冊&lt;/a&gt;，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。&lt;/p&gt;
+&lt;p&gt;這一個步驟，我把他寫成 Saltstack states 如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;waiting-keystone-startup&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;cmd.run&lt;/span&gt;:
+    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;sleep 1&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-service&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.service_present&lt;/span&gt;:
+    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;service_type&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;identity&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;description&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;OpenStack Identity&amp;#34;&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:
+      - &lt;span style=&#34;color:#f92672&#34;&gt;cmd&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;waiting-keystone-startup&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-endpoint&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.endpoint_present&lt;/span&gt;:
+    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;publicurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;internalurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;adminurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:35357/v2.0&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;region&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;regionOne&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:
+      - &lt;span style=&#34;color:#f92672&#34;&gt;keystone&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;registry-keystone-service&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;結果執行時發生 KeyError:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;user@host-01:/srv/salt/openstack/keystone$ salt &#39;*&#39; state.sls openstack.keystone.registry
+host-01:
+    The minion function caused an exception: Traceback (most recent call last):
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/minion.py&amp;quot;, line 1161, in _thread_return
+        return_data = func(*args, **kwargs)
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/modules/state.py&amp;quot;, line 681, in sls
+        ret = st_.state.call_high(high_)
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 2067, in call_high
+        ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 1623, in call_chunks
+        running = self.call_chunk(low, running, chunks)
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 1769, in call_chunk
+        self._mod_init(low)
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 612, in _mod_init
+        self.states[&#39;{0}.{1}&#39;.format(low[&#39;state&#39;], low[&#39;fun&#39;])]  # pylint: disable=W0106
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&amp;quot;, line 90, in __getitem__
+        raise KeyError(key)
+    KeyError: &#39;keystone.service_present&#39;
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
     <item>
       <title>在 Flutter MaterialApp 中使用指定顏色</title>
       <link>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</link>
@@ -213,6 +264,16 @@ Invalid OpenStack Identity credentials.
     </item>
     
     <item>
+      <title>暴力啟用 gitLab user</title>
+      <link>https://maple52046.github.io/posts/force-confirm-gitlab-user/</link>
+      <pubDate>Fri, 27 Mar 2015 15:38:23 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/force-confirm-gitlab-user/</guid>
+      <description>&lt;p&gt;下這個標題不知道是不是很奇怪XD&lt;/p&gt;
+&lt;p&gt;最近在為自己的 team 開發一個 management 系統，於是決定在 GitLAB 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&amp;hellip;不小心找了個旁門左道 XD&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Configure Open vSwitch in OpenWRT</title>
       <link>https://maple52046.github.io/posts/configure-open-vswitch-in-openwrt/</link>
       <pubDate>Wed, 18 Mar 2015 17:04:00 +0000</pubDate>
@@ -286,6 +347,78 @@ Invalid OpenStack Identity credentials.
       
       <guid>https://maple52046.github.io/posts/ceph-osd-stuck-in-an-existing-executable-needed-to-interrupt/</guid>
       <description>&lt;p&gt;上週 Ceph cluster 掛掉，結果是某個 OSD 一直起不來。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Install Instiki on Ubuntu 12.04</title>
+      <link>https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/</link>
+      <pubDate>Thu, 25 Sep 2014 01:10:00 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/</guid>
+      <description>&lt;p&gt;Instiki 是一個用 Ruby 開發的 wiki 系統，特色是非常的 light weight、可以使用 &lt;strong&gt;Markdown&lt;/strong&gt; 語法等。詳細介紹就暫時略過。&lt;/p&gt;
+&lt;p&gt;本次安裝的環境如下:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Operating system&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Ruby version&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Ubuntu 12.04&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.9.1 (install by RVM)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;安裝步驟&#34;&gt;安裝步驟&lt;/h1&gt;
+&lt;h2 id=&#34;configure-ruby-environment&#34;&gt;Configure Ruby environment&lt;/h2&gt;
+&lt;p&gt;Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻煩，因此決定採用跟官網一樣的版本。
+不過 Ubuntu 預設的版本已經是 1.9.3 (?) 以上了，況且根據之前搞 CloudFoundry 的經驗，Ruby 的版本最好還是用 RVM 來進行管理。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>設定 Libvirt 使用 Open vSwitch</title>
+      <link>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</link>
+      <pubDate>Tue, 12 Aug 2014 03:22:59 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</guid>
+      <description>&lt;p&gt;最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 &lt;code&gt;virsh define&lt;/code&gt; 之後才能使用。&lt;/p&gt;
+&lt;p&gt;每個 VM 都要手動設定真的很麻煩&lt;/p&gt;
+&lt;p&gt;幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hadoop SecondaryNameNode 、CheckpointNode 與 Backup Node 觀念整理</title>
+      <link>https://maple52046.github.io/posts/concepts-of-hadoop-nodes/</link>
+      <pubDate>Mon, 18 Nov 2013 12:10:07 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/concepts-of-hadoop-nodes/</guid>
+      <description>&lt;p&gt;為了要管理 lab 裡的 Hadoop cluster，針對 Hadoop 的 NameNode、SecondaryNameNode、CheckpointNode 與 BackupNode 做個了survay。&lt;/p&gt;
+&lt;h1 id=&#34;namenode&#34;&gt;NameNode&lt;/h1&gt;
+&lt;p&gt;Hadoop 的 metadata 是存放在運行 Namenode 的 server 的 memory 裡面，而 Namenode 的工作就是將 clients 對 metadata 的讀寫修改紀錄在&lt;strong&gt;edits&lt;/strong&gt;裡。&lt;/p&gt;
+&lt;p&gt;當 Namenode 被啟動的時候，會先合併 HDFS 上的 fsimage 與 edits，取得完整的 metadata。此時，原本的 fsimage 會被更新。&lt;/p&gt;
+&lt;p&gt;之後，在 NameNode 運作的期間，client 對 metadata 的 access 還是只會記錄在新的 edits 裡，直到下一次 NameNode restart 的時候，周而復始的更新 fsimage、產生新的 edits。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>復原 OpenStack 中被刪除的 instance</title>
+      <link>https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/</link>
+      <pubDate>Mon, 21 Oct 2013 21:25:11 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/</guid>
+      <description>&lt;p&gt;上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。&lt;/p&gt;
+&lt;p&gt;Unstall 時已經很習慣用 apt-get &lt;strong&gt;&amp;ndash;purge&lt;/strong&gt; install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 &lt;code&gt;/var/lib/nova/instance&lt;/code&gt; 用 ceph 分享給所有 compute。&lt;/p&gt;
+&lt;p&gt;所以&amp;hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。&lt;/p&gt;
+&lt;p&gt;所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。
+這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。&lt;/p&gt;
+&lt;p&gt;回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)&lt;/li&gt;
+&lt;li&gt;VM 一旦關機，instance 就會被刪掉 =&amp;gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =&lt;/p&gt;
+&lt;p&gt;萬幸的是我終於找到方法了&lt;/p&gt;</description>
     </item>
     
   </channel>

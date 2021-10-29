@@ -289,6 +289,65 @@ sudo apt install oracle-java9-installer
             </div> 
         </article>
     
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/">
+                    Install Instiki on Ubuntu 12.04
+                </a>
+            </h2>
+            <div>
+                <p><p>Instiki 是一個用 Ruby 開發的 wiki 系統，特色是非常的 light weight、可以使用 <strong>Markdown</strong> 語法等。詳細介紹就暫時略過。</p>
+<p>本次安裝的環境如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Operating system</th>
+<th style="text-align:center">Ruby version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Ubuntu 12.04</td>
+<td style="text-align:center">1.9.1 (install by RVM)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="安裝步驟">安裝步驟</h1>
+<h2 id="configure-ruby-environment">Configure Ruby environment</h2>
+<p>Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻煩，因此決定採用跟官網一樣的版本。
+不過 Ubuntu 預設的版本已經是 1.9.3 (?) 以上了，況且根據之前搞 CloudFoundry 的經驗，Ruby 的版本最好還是用 RVM 來進行管理。</p></p>
+                
+                <p><a href="/posts/install-instiki-on-ubuntu-precise/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>September 25, 2014</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/use-openvswitch-in-libvirt/">
+                    設定 Libvirt 使用 Open vSwitch
+                </a>
+            </h2>
+            <div>
+                <p><p>最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 <code>virsh define</code> 之後才能使用。</p>
+<p>每個 VM 都要手動設定真的很麻煩</p>
+<p>幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]</p></p>
+                
+                <p><a href="/posts/use-openvswitch-in-libvirt/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>August 12, 2014</time>
+            </div> 
+        </article>
+    
 
 
         

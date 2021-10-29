@@ -4,7 +4,63 @@
   <url>
     <loc>https://maple52046.github.io/categories/</loc>
     
-    <lastmod>2021-10-28T20:36:27+08:00</lastmod>
+    <lastmod>2021-10-29T16:53:13+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/posts/debugging-saltstack-states/</loc>
+    
+    <lastmod>2021-10-29T16:53:13+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/categories/openstack/</loc>
+    
+    <lastmod>2021-10-29T16:53:13+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/tags/openstack/</loc>
+    
+    <lastmod>2021-10-29T16:53:13+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/posts/</loc>
+    
+    <lastmod>2021-10-29T16:53:13+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/tags/saltstack/</loc>
+    
+    <lastmod>2021-10-29T16:53:13+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/tags/</loc>
+    
+    <lastmod>2021-10-29T16:53:13+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/</loc>
+    
+    <lastmod>2021-10-29T16:53:13+08:00</lastmod>
     
   </url>
   
@@ -19,30 +75,6 @@
   
   <url>
     <loc>https://maple52046.github.io/tags/flutter/</loc>
-    
-    <lastmod>2021-10-28T20:36:27+08:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
-    <loc>https://maple52046.github.io/posts/</loc>
-    
-    <lastmod>2021-10-28T20:36:27+08:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
-    <loc>https://maple52046.github.io/tags/</loc>
-    
-    <lastmod>2021-10-28T20:36:27+08:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
-    <loc>https://maple52046.github.io/</loc>
     
     <lastmod>2021-10-28T20:36:27+08:00</lastmod>
     
@@ -268,22 +300,6 @@
   
   <url>
     <loc>https://maple52046.github.io/tags/heat/</loc>
-    
-    <lastmod>2016-06-30T15:48:16+00:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
-    <loc>https://maple52046.github.io/categories/openstack/</loc>
-    
-    <lastmod>2016-06-30T15:48:16+00:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
-    <loc>https://maple52046.github.io/tags/openstack/</loc>
     
     <lastmod>2016-06-30T15:48:16+00:00</lastmod>
     
@@ -560,6 +576,30 @@
   
   
   <url>
+    <loc>https://maple52046.github.io/categories/gitlab/</loc>
+    
+    <lastmod>2015-03-27T15:38:23+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/tags/gitlab/</loc>
+    
+    <lastmod>2015-03-27T15:38:23+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/posts/force-confirm-gitlab-user/</loc>
+    
+    <lastmod>2015-03-27T15:38:23+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
     <loc>https://maple52046.github.io/posts/configure-open-vswitch-in-openwrt/</loc>
     
     <lastmod>2015-03-18T17:04:00+00:00</lastmod>
@@ -671,6 +711,62 @@
   <url>
     <loc>https://maple52046.github.io/2015/01/19/Ceph-OSD-stuck-in-an-existing-executable-needed-to-interrupt/</loc>
     <lastmod>2015-01-19T11:39:36+00:00</lastmod>
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/</loc>
+    
+    <lastmod>2014-09-25T01:10:00+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/tags/libvirt/</loc>
+    
+    <lastmod>2014-08-12T03:22:59+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</loc>
+    
+    <lastmod>2014-08-12T03:22:59+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/categories/hadoop/</loc>
+    
+    <lastmod>2013-11-18T12:10:07+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/tags/hadoop/</loc>
+    
+    <lastmod>2013-11-18T12:10:07+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/posts/concepts-of-hadoop-nodes/</loc>
+    
+    <lastmod>2013-11-18T12:10:07+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/</loc>
+    
+    <lastmod>2013-10-21T21:25:11+08:00</lastmod>
+    
   </url>
   
   

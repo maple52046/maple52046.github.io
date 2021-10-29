@@ -174,6 +174,60 @@ if (!doNotTrack) {
         
         <article>
             <h2>
+                <a href="https://maple52046.github.io/posts/ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/">
+                    Ceph pgs stuck in &#39;incomplete&#39; state ,ops blocked
+                </a>
+            </h2>
+            <div>
+                <p><p>Ceph OSD 又再次發生 <a href="http://worldend.logdown.com/posts/251761-ceph-osd-a-copy-of-the-executable-or-objdump-rds-executable-is-needed-to-interpret-this">disk failure</a>，結果在手動修復硬碟時操作不當，整個 disk partition table 都消失了。即使把備份的 disk patition table 寫回去之後，依然無法解決問題。</p></p>
+                
+                <p><a href="/posts/ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>February 11, 2015</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/ceph">#ceph</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/">
+                    OpenStack Nova cannot reboot instance - Unable to create tap device
+                </a>
+            </h2>
+            <div>
+                <p><p>早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 <code>nova reboot --hard &lt;server&gt;</code> 的方式，想要開啟instance 卻失敗，在 <code>/var/log/nova/nova-compute.log</code> 中看到以下錯誤訊息:</p>
+<pre tabindex="0"><code>2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy
+</code></pre></p>
+                
+                <p><a href="/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>February 11, 2015</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/nova">#nova</a>
+                
+                    <a class="tag" href="/tags/openstack">#openstack</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
                 <a href="https://maple52046.github.io/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/">
                     OpenStack Nova error: libVirt cannot get CPU affinity of process 30619
                 </a>
@@ -223,6 +277,142 @@ if (!doNotTrack) {
             
                 
                     <a class="tag" href="/tags/ceph">#ceph</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/">
+                    Install Instiki on Ubuntu 12.04
+                </a>
+            </h2>
+            <div>
+                <p><p>Instiki 是一個用 Ruby 開發的 wiki 系統，特色是非常的 light weight、可以使用 <strong>Markdown</strong> 語法等。詳細介紹就暫時略過。</p>
+<p>本次安裝的環境如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Operating system</th>
+<th style="text-align:center">Ruby version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Ubuntu 12.04</td>
+<td style="text-align:center">1.9.1 (install by RVM)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="安裝步驟">安裝步驟</h1>
+<h2 id="configure-ruby-environment">Configure Ruby environment</h2>
+<p>Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻煩，因此決定採用跟官網一樣的版本。
+不過 Ubuntu 預設的版本已經是 1.9.3 (?) 以上了，況且根據之前搞 CloudFoundry 的經驗，Ruby 的版本最好還是用 RVM 來進行管理。</p></p>
+                
+                <p><a href="/posts/install-instiki-on-ubuntu-precise/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>September 25, 2014</time>
+
+            
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/use-openvswitch-in-libvirt/">
+                    設定 Libvirt 使用 Open vSwitch
+                </a>
+            </h2>
+            <div>
+                <p><p>最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 <code>virsh define</code> 之後才能使用。</p>
+<p>每個 VM 都要手動設定真的很麻煩</p>
+<p>幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]</p></p>
+                
+                <p><a href="/posts/use-openvswitch-in-libvirt/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>August 12, 2014</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/libvirt">#libvirt</a>
+                
+                    <a class="tag" href="/tags/open-vswitch">#open vswitch</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/concepts-of-hadoop-nodes/">
+                    Hadoop SecondaryNameNode 、CheckpointNode 與 Backup Node 觀念整理
+                </a>
+            </h2>
+            <div>
+                <p><p>為了要管理 lab 裡的 Hadoop cluster，針對 Hadoop 的 NameNode、SecondaryNameNode、CheckpointNode 與 BackupNode 做個了survay。</p>
+<h1 id="namenode">NameNode</h1>
+<p>Hadoop 的 metadata 是存放在運行 Namenode 的 server 的 memory 裡面，而 Namenode 的工作就是將 clients 對 metadata 的讀寫修改紀錄在<strong>edits</strong>裡。</p>
+<p>當 Namenode 被啟動的時候，會先合併 HDFS 上的 fsimage 與 edits，取得完整的 metadata。此時，原本的 fsimage 會被更新。</p>
+<p>之後，在 NameNode 運作的期間，client 對 metadata 的 access 還是只會記錄在新的 edits 裡，直到下一次 NameNode restart 的時候，周而復始的更新 fsimage、產生新的 edits。</p></p>
+                
+                <p><a href="/posts/concepts-of-hadoop-nodes/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>November 18, 2013</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/hadoop">#hadoop</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/">
+                    復原 OpenStack 中被刪除的 instance
+                </a>
+            </h2>
+            <div>
+                <p><p>上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。</p>
+<p>Unstall 時已經很習慣用 apt-get <strong>&ndash;purge</strong> install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 <code>/var/lib/nova/instance</code> 用 ceph 分享給所有 compute。</p>
+<p>所以&hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。</p>
+<p>所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。
+這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。</p>
+<p>回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?</p>
+<ul>
+<li>VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)</li>
+<li>VM 一旦關機，instance 就會被刪掉 =&gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)</li>
+</ul>
+<p>萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =</p>
+<p>萬幸的是我終於找到方法了</p></p>
+                
+                <p><a href="/posts/recovery-live-deleted-instance-on-openstack/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>October 21, 2013</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/openstack">#openstack</a>
+                
+                    <a class="tag" href="/tags/libvirt">#libvirt</a>
                 
             
             </div> 

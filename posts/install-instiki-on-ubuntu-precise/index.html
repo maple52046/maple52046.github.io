@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Categories | 世界的盡頭</title>
+    <title>Install Instiki on Ubuntu 12.04 | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -30,8 +30,6 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/index.xml" title="世界的盡頭" />
-    
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
 var doNotTrack = false;
@@ -43,10 +41,31 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="Categories" />
-<meta property="og:description" content="牽妳走過世界的盡頭" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/categories/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
+      <meta property="og:title" content="Install Instiki on Ubuntu 12.04" />
+<meta property="og:description" content="Instiki 是一個用 Ruby 開發的 wiki 系統，特色是非常的 light weight、可以使用 Markdown 語法等。詳細介紹就暫時略過。
+本次安裝的環境如下:
+
+
+
+Operating system
+Ruby version
+
+
+
+
+Ubuntu 12.04
+1.9.1 (install by RVM)
+
+
+
+安裝步驟
+Configure Ruby environment
+Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻煩，因此決定採用跟官網一樣的版本。
+不過 Ubuntu 預設的版本已經是 1.9.3 (?) 以上了，況且根據之前搞 CloudFoundry 的經驗，Ruby 的版本最好還是用 RVM 來進行管理。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2014-09-25T01:10:00+08:00" />
+<meta property="article:modified_time" content="2014-09-25T01:10:00+08:00" /><meta property="og:site_name" content="世界的盡頭" />
 
 </head>
 
@@ -163,36 +182,238 @@ if (!doNotTrack) {
         <div id="content" class="content-container">
         
 
-<h1>Tags</h1>
-<ul>
+<h1 class="post-title">Install Instiki on Ubuntu 12.04</h1>
     
-        <li><a href="https://maple52046.github.io/categories/akashicrecords/">AkashicRecords</a> 1</li>
+    <time>September 25, 2014</time>
     
-        <li><a href="https://maple52046.github.io/categories/container/">Container</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/flutter/">Flutter</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/gitlab/">Gitlab</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/hadoop/">Hadoop</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/linux/">Linux</a> 8</li>
-    
-        <li><a href="https://maple52046.github.io/categories/network/">Network</a> 4</li>
-    
-        <li><a href="https://maple52046.github.io/categories/openstack/">OpenStack</a> 7</li>
-    
-        <li><a href="https://maple52046.github.io/categories/programming/">Programming</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/python/">Python</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/storage/">Storage</a> 3</li>
-    
-        <li><a href="https://maple52046.github.io/categories/virtualization/">Virtualization</a> 1</li>
-    
-</ul>
+    <div class="article-content">
+        <p>
+        <p>Instiki 是一個用 Ruby 開發的 wiki 系統，特色是非常的 light weight、可以使用 <strong>Markdown</strong> 語法等。詳細介紹就暫時略過。</p>
+<p>本次安裝的環境如下:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Operating system</th>
+<th style="text-align:center">Ruby version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Ubuntu 12.04</td>
+<td style="text-align:center">1.9.1 (install by RVM)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="安裝步驟">安裝步驟</h1>
+<h2 id="configure-ruby-environment">Configure Ruby environment</h2>
+<p>Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻煩，因此決定採用跟官網一樣的版本。
+不過 Ubuntu 預設的版本已經是 1.9.3 (?) 以上了，況且根據之前搞 CloudFoundry 的經驗，Ruby 的版本最好還是用 RVM 來進行管理。</p>
+<h3 id="安裝-rvm">安裝 RVM</h3>
+<p>安裝指令就只有一行:</p>
+<pre tabindex="0"><code>curl -sSL https://get.rvm.io | bash -s stable
+</code></pre><p>裝完之後，使用 <strong>vigr</strong> 將使用者名稱加入到 <strong>rvm</strong> 這個群組。
+然後重新登入。</p>
+<h3 id="安裝-ruby">安裝 Ruby</h3>
+<p>安裝前，先設定 <strong>~/.gemrc</strong> (或是 /etc/gemrc)，新增以下內容至檔案中:</p>
+<pre tabindex="0"><code>gem: --no-ri --no-rdoc
+</code></pre><p>接下來安裝 Ruby 1.9.1</p>
+<pre tabindex="0"><code>rvm install 1.9.1
+</code></pre><p>跑完之後，用 <strong>ruby -v</strong> 確認一下:</p>
+<pre tabindex="0"><code>[root@wiki instiki]# ruby -v  
+ruby 1.9.1p431 (2011-02-18 revision 30908) [x86_64-linux]
+</code></pre><h2 id="install-instiki">Install Instiki</h2>
+<p>首先，先安裝 git</p>
+<pre tabindex="0"><code>apt-get install git
+</code></pre><p>接下來，下載 source code:</p>
+<pre tabindex="0"><code>cd /opt/
+git clone http://github.com/parasew/instiki.git
+</code></pre><p>然後，進入到 instiki 資料夾裡面，執行 ruby bundle:</p>
+<pre tabindex="0"><code>cd instiki
+ruby bundle
+</code></pre><p>過程中可能會提示缺少那些 gem，例如: nokogiri、rack、&hellip;。錯誤提示大概是長得像這樣:</p>
+<pre tabindex="0"><code>Gem::RemoteFetcher::FetchError: SocketError: getaddrinfo: Name or service not known (http://rubygems.org/gems/rack-1.5.2.gem)
+An error occurred while installing rack (1.5.2), and Bundler cannot continue.
+Make sure that `gem install rack -v '1.5.2'` succeeds before bundling.
+</code></pre><p>一般來說，就是直接按照提示，直接用 gem install 補那些缺少的 gem 即可。</p>
+<pre tabindex="0"><code>gem install rack -v '1.5.2'
+</code></pre><p>不過在安裝 nokogiri 時發現，直接執行 <strong>gem install nokogiri -v &lsquo;1.5.11&rsquo;</strong> 後，看似有順利安裝完，但是用 <strong>gem list</strong>，發現 nokogiri 依然沒有被安裝；同時再次執行 <strong>ruby bundle</strong>依然會提示缺少 nokogiri(1.5.11)</p>
+<p>幸好 lab 還有個 Ruby 大神可以迅速救我XD</p>
+<h3 id="gem-install-nokogiri">Gem install nokogiri</h3>
+<p>安裝 nokogiri 之前，要先裝兩個 package:</p>
+<pre tabindex="0"><code>apt-get install libxml2-dev libxslt-dev
+</code></pre><p>然後在安裝 nokogiri 時，加上 <strong>&ndash;use-system-libraries</strong> :</p>
+<pre tabindex="0"><code>gem install nokogiri -v '1.5.11' -- --use-system-libraries
+</code></pre><p>這時候用 gem list 檢查就能看到 nokogiri 已經成功安裝，再回頭重新執行 <strong>ruby bundle</strong></p>
+<h2 id="migrating-to-mysql">Migrating to MySQL</h2>
+<p>首先要先安裝 library:</p>
+<pre tabindex="0"><code>sudo apt-get install libmysqlclient-dev
+</code></pre><p>接下來安裝 gem:</p>
+<pre tabindex="0"><code>gem install mysql2
+</code></pre><p><em>(官方教學使用 mysql，but Ruby大神建議用 mysql2，所以先聽大神的建議)</em></p>
+<p>設定 shell 環境變數 (bash):</p>
+<pre tabindex="0"><code>export RAILS_ENV='production'
+</code></pre><p>編輯 config/database.yml，設定 production 的部分:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">production</span>:
+	 <span style="color:#f92672">adapter</span>: <span style="color:#ae81ff">mysql2  </span>
+	 <span style="color:#f92672">database</span>: <span style="color:#ae81ff">instiki</span>
+	 <span style="color:#f92672">username</span>: <span style="color:#ae81ff">instiki  </span>
+	 <span style="color:#f92672">password</span>: <span style="color:#ae81ff">instiki</span>
+	 <span style="color:#f92672">host</span>: <span style="color:#ae81ff">127.0.0.1</span>
+	 <span style="color:#f92672">port</span>: <span style="color:#ae81ff">3306</span>
+</code></pre></div><p>然後登入到 mysql 中</p>
+<pre tabindex="0"><code>mysql -u root -p
+</code></pre><p>建立 database, user 並設定權限:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">database</span> instiki;
+<span style="color:#66d9ef">create</span> <span style="color:#66d9ef">user</span> <span style="color:#e6db74">&#39;instiki&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span> identified <span style="color:#66d9ef">by</span> <span style="color:#e6db74">&#39;instiki&#39;</span>;
+<span style="color:#66d9ef">grant</span> <span style="color:#66d9ef">all</span> <span style="color:#66d9ef">on</span> instiki.<span style="color:#f92672">*</span> <span style="color:#66d9ef">to</span> <span style="color:#e6db74">&#39;instiki&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span>;
+flush <span style="color:#66d9ef">privileges</span>;
+</code></pre></div><h2 id="setting-apache-and-passenger">Setting Apache and Passenger</h2>
+<p>先安裝 passenger</p>
+<pre tabindex="0"><code>gem install passenger
+</code></pre><p>執行 <strong>passenger-install-apache2-module</strong></p>
+<pre tabindex="0"><code>[root@wiki] instiki # passenger-install-apache2-module
+Welcome to the Phusion Passenger Apache 2 module installer, v4.0.52.
 
-<div class="page-footer"></div>
+This installer will guide you through the entire installation process. It shouldn't take more than 3 minutes in total.
+
+Here's what you can expect from the installation process:
+
+1. The Apache 2 module will be installed for you.
+2. You'll learn how to configure Apache.
+3. You'll learn how to deploy a Ruby on Rails application.
+
+Don't worry if anything goes wrong. This installer will advise you on how to solve any problems.
+
+Press Enter to continue, or Ctrl-C to abort.
+
+--------------------------------------------
+
+Which languages are you interested in?
+
+Use  to select.
+If the menu doesn't display correctly, press '!'
+
+ ‣ ⬢ Ruby
+   ⬢ Python
+   ⬡ Node.js
+   ⬡ Meteor
+
+--------------------------------------------
+
+Checking for required software...
+
+* Checking for C compiler...
+	 Found: yes
+	 Location: /usr/bin/cc
+* Checking for C++ compiler...
+	 Found: yes
+	 Location: /usr/bin/c++
+* Checking for Curl development headers with SSL support...
+	 Found: no
+	 Error: Cannot find the `curl-config` command.
+* Checking for OpenSSL development headers...
+	 Found: yes
+	 Location: /usr/include/openssl/ssl.h
+* Checking for Zlib development headers...
+	 Found: yes
+	 Location: /usr/include/zlib.h
+* Checking for Apache 2...
+	 Found: yes
+	 Location of httpd: /usr/sbin/apache2
+	 Apache version: 2.2.22
+* Checking for Apache 2 development headers...
+	 Found: no
+* Checking for Rake (associated with /usr/local/rvm/gems/ruby-1.9.1-p431/wrappers/ruby)...
+	 Found: yes
+	 Location: /usr/local/rvm/gems/ruby-1.9.1-p431/wrappers/rake
+* Checking for OpenSSL support for Ruby...
+	 Found: yes
+* Checking for RubyGems...
+	 Found: yes
+* Checking for Ruby development headers...
+	 Found: yes
+	 Location: /usr/local/rvm/rubies/ruby-1.9.1-p431/include/ruby-1.9.1/ruby.h
+* Checking for rack...
+	 Found: yes
+* Checking for Apache Portable Runtime (APR) development headers...
+	 Found: no
+* Checking for Apache Portable Runtime Utility (APU) development headers...
+	 Found: no
+
+Some required software is not installed. But don't worry, this installer will tell you how to install them. Press Enter to continue, or Ctrl-C to abort.
+</code></pre><p>根據檢查結果，發現部分 library/software 沒有安裝，因此在使用 apt-get 將缺少的 package 補起來:</p>
+<pre tabindex="0"><code>apt-get install libcurl4-openssl-dev apache2-prefork-dev libapr1-dev
+</code></pre><p>裝完之後，再重新執行一次 <strong>passenger-install-apache2-module</strong>，如果沒有缺少 library/software 的話，指令就會自動進行編譯的部分，完成之後，會出現以下訊息:</p>
+<pre tabindex="0"><code>Please edit your Apache configuration file, and add these lines:
+
+LoadModule passenger_module /usr/local/rvm/gems/ruby-1.9.1-p431/gems/passenger-4.0.52/buildout/apache2/mod_passenger.so
+
+  PassengerRoot /usr/local/rvm/gems/ruby-1.9.1-p431/gems/passenger-4.0.52
+  PassengerDefaultRuby /usr/local/rvm/gems/ruby-1.9.1-p431/wrappers/ruby
+
+After you restart Apache, you are ready to deploy any number of web applications on Apache, with a minimum amount of configuration!
+
+Press ENTER to continue.
+</code></pre><h1 id="參考資料">參考資料</h1>
+<ul>
+<li><a href="http://rvm.io/">Ruby Version Manager (RVM)</a></li>
+<li><a href="http://stackoverflow.com/questions/1381725/how-to-make-no-ri-no-rdoc-the-default-for-gem-install">How to make &ndash;no-ri &ndash;no-rdoc the default for gem install?</a></li>
+<li><a href="http://golem.ph.utexas.edu/wiki/instiki/show/Installation">Instiki installation</a></li>
+<li><a href="https://golem.ph.utexas.edu/wiki/instiki/show/Migrating+to+MySQL">Migrating to MySQL</a></li>
+</ul>
+        </p>
+    </div>
+
+    
+
+        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
+        <script type='text/javascript'>
+            const kofiId = 'maple52046';
+            kofiwidget2.init('Support Me on Ko-fi', '#29abe0', kofiId);
+            kofiwidget2.draw();
+        </script> 
+
+    
+
+    <div class="page-footer">
+        
+    </div>
+
+    
+        <div id="utterance_thread">
+        <script
+            async
+            src="https://utteranc.es/client.js"
+            repo="maple52046/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+        >
+        </script>
+        </div>
+    
+
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "maple52046-githubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
         
         </div>

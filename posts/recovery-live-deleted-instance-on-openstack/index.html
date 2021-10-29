@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Categories | 世界的盡頭</title>
+    <title>復原 OpenStack 中被刪除的 instance | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -30,8 +30,6 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/index.xml" title="世界的盡頭" />
-    
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
 var doNotTrack = false;
@@ -43,10 +41,23 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="Categories" />
-<meta property="og:description" content="牽妳走過世界的盡頭" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/categories/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
+      <meta property="og:title" content="復原 OpenStack 中被刪除的 instance" />
+<meta property="og:description" content="上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。
+Unstall 時已經很習慣用 apt-get &ndash;purge install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 /var/lib/nova/instance 用 ceph 分享給所有 compute。
+所以&hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。
+所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。
+這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。
+回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?
+
+VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)
+VM 一旦關機，instance 就會被刪掉 =&gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)
+
+萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =
+萬幸的是我終於找到方法了" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2013-10-21T21:25:11+08:00" />
+<meta property="article:modified_time" content="2013-10-21T21:25:11+08:00" /><meta property="og:site_name" content="世界的盡頭" />
 
 </head>
 
@@ -163,36 +174,222 @@ if (!doNotTrack) {
         <div id="content" class="content-container">
         
 
-<h1>Tags</h1>
+<h1 class="post-title">復原 OpenStack 中被刪除的 instance</h1>
+    
+    <time>October 21, 2013</time>
+    
+    <div class="article-content">
+        <p>
+        <p>上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。</p>
+<p>Unstall 時已經很習慣用 apt-get <strong>&ndash;purge</strong> install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 <code>/var/lib/nova/instance</code> 用 ceph 分享給所有 compute。</p>
+<p>所以&hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。</p>
+<p>所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。
+這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。</p>
+<p>回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?</p>
 <ul>
-    
-        <li><a href="https://maple52046.github.io/categories/akashicrecords/">AkashicRecords</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/container/">Container</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/flutter/">Flutter</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/gitlab/">Gitlab</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/hadoop/">Hadoop</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/linux/">Linux</a> 8</li>
-    
-        <li><a href="https://maple52046.github.io/categories/network/">Network</a> 4</li>
-    
-        <li><a href="https://maple52046.github.io/categories/openstack/">OpenStack</a> 7</li>
-    
-        <li><a href="https://maple52046.github.io/categories/programming/">Programming</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/python/">Python</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/storage/">Storage</a> 3</li>
-    
-        <li><a href="https://maple52046.github.io/categories/virtualization/">Virtualization</a> 1</li>
-    
+<li>VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)</li>
+<li>VM 一旦關機，instance 就會被刪掉 =&gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)</li>
 </ul>
+<p>萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =</p>
+<p>萬幸的是我終於找到方法了</p>
+<h1 id="solution">Solution</h1>
+<h2 id="第一步">第一步</h2>
+<p>先登入到 physical machine 中，使用 virsh 指令查看還有哪些 VM 是 running :</p>
+<pre tabindex="0"><code>root@local# virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+ 16    instance-000002d3              running
+ 38    instance-0000006c              running
+ 39    instance-00000008              running
+ -     instance-0000029d              shut off
+ -     instance-000002a6              shut off
+ -     instance-000002c6              shut off
+</code></pre><p>以上述為例，目前還有3個 VM 是 running 中，此時我們必須要先將 VM <strong>暫停</strong>:</p>
+<pre tabindex="0"><code>root@local# virsh suspend 16
+root@local# virsh suspend 38
+root@local# virsh suspend 39
+</code></pre><p>之後 VM 的狀態就會從 running 變成 <strong>paused</strong> :</p>
+<pre tabindex="0"><code>root@local# virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+ 16    instance-000002d3              paused
+ 38    instance-0000006c              paused
+ 39    instance-00000008              paused
+ -     instance-0000029d              shut off
+ -     instance-000002a6              shut off
+ -     instance-000002c6              shut off
+</code></pre><h2 id="第二步">第二步</h2>
+<p>找到 VM 的 process id:</p>
+<pre tabindex="0"><code>root@local# ps aux |grep 'instance-000002d3'
+root     22430  0.0  0.0   9388   940 pts/1    S+   09:12   0:00 grep --color=auto 2d3
+107      25534 12.9  5.9 13075024 1474148 ?    Sl   Sep17 6469:57 /usr/bin/kvm -name instance-000002d3 -S ...(以下省略)...
+</code></pre><p>從上述中的例子我們可以看到，<code>instance-000002d3</code> 的 process id 為 <strong>25534</strong>。根據 process id，切換當前目錄到 <code>/proc/$processid/fd</code>，此時就可以看到此 process 佔用了那些檔案:</p>
+<pre tabindex="0"><code>root@local# cd /proc/25534/fd
+root@local# ls -l
+total 0
+dr-x------ 2 libvirt-qemu kvm  0 Oct 21 21:08 .
+dr-xr-xr-x 9 libvirt-qemu kvm  0 Sep 17 16:30 ..
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 0 -&gt; /dev/null
+l-wx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 1 -&gt; /var/log/libvirt/qemu/instance-000002d3.log
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 10 -&gt; anon_inode:[eventfd]
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 11 -&gt; /var/lib/nova/instances/19664c67-5831-4ebe-a1e5-1cb808ec2d81/disk (deleted)
+lr-x------ 1 libvirt-qemu kvm 64 Oct 21 21:08 12 -&gt; pipe:[73026899]
+l-wx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 13 -&gt; pipe:[73026899]
+lr-x------ 1 libvirt-qemu kvm 64 Oct 21 21:08 14 -&gt; /var/lib/nova/instances/_base/05a559eb870ea8c8e3142a7269f2c1dd8bd69321 (deleted)
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 15 -&gt; anon_inode:kvm-vcpu
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 16 -&gt; anon_inode:kvm-vcpu
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 17 -&gt; anon_inode:kvm-vcpu
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 18 -&gt; anon_inode:kvm-vcpu
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 19 -&gt; socket:[73019779]
+l-wx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 2 -&gt; /var/log/libvirt/qemu/instance-000002d3.log
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 20 -&gt; anon_inode:[eventfd]
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 21 -&gt; socket:[73019780]
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 24 -&gt; /dev/net/tun
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 29 -&gt; /dev/vhost-net
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 3 -&gt; socket:[72970876]
+l-wx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 4 -&gt; /var/lib/nova/instances/19664c67-5831-4ebe-a1e5-1cb808ec2d81/console.log (deleted)
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 5 -&gt; /dev/ptmx
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 6 -&gt; /dev/kvm
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 7 -&gt; anon_inode:kvm-vm
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 8 -&gt; anon_inode:[signalfd]
+lrwx------ 1 libvirt-qemu kvm 64 Oct 21 21:08 9 -&gt; anon_inode:[eventfd]
+</code></pre><h2 id="第三步">第三步</h2>
+<p>在以上的範例中，<strong><code>&lt;font color=&quot;red&quot;&gt;11&lt;/font&gt;</code><strong>這個檔案是 link 到 VM 的 instance (</strong><code>/var/lib/nova/instances/19664c67-5831-4ebe-a1e5-1cb808ec2d81/disk</code></strong>)，而 <strong><code>&lt;font color=&quot;red&quot;&gt;14&lt;/font&gt;</code></strong> 則是 link 到此 instance 的 backing_file (在 Openstack 上稱為 VM image)。此時，將 11、14、4 三個檔案複製到其他位置保存:</p>
+<pre tabindex="0"><code>root@local# mkdir ~/backup/19664c67-5831-4ebe-a1e5-1cb808ec2d81 ~/backup/_base
+root@local# cp 11 ~/backup/19664c67-5831-4ebe-a1e5-1cb808ec2d81/disk
+root@local# cp 4 ~/backup/19664c67-5831-4ebe-a1e5-1cb808ec2d81/console.log
+root@local# cp 14 ~/backup/_base/05a559eb870ea8c8e3142a7269f2c1dd8bd69321
+</code></pre><p>重複以上的步驟直到所有 VM 的 instances、base image 都備份完成</p>
+<blockquote>
+<p>一般來說，一個 base image 會開出很多的 VM instance。因此相同的 base image 只要 copy 一份即可</p>
+</blockquote>
+<h2 id="第四步">第四步</h2>
+<p>完成備份之後，將所有的 VM 關機 <strong>(這個步驟一定要用 virsh 指令，不可以使用 openstack dashboard)</strong>:</p>
+<pre tabindex="0"><code>root@local# virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+ 16    instance-000002d3              paused
+ 38    instance-0000006c              paused
+ 39    instance-00000008              paused
+ -     instance-0000029d              shut off
+ -     instance-000002a6              shut off
+ -     instance-000002c6              shut off
 
-<div class="page-footer"></div>
+root@local# virsh destroy 16
+Domain 16 destroyed
+
+root@local# virsh destroy 38
+Domain 38 destroyed
+
+root@local# virsh destroy 39
+Domain 39 destroyed
+
+root@local# virsh list --all
+ Id    Name                           State
+----------------------------------------------------
+ -     instance-0000029d              shut off
+ -     instance-000002a6              shut off
+ -     instance-000002c6              shut off
+ -     instance-000002d3              shut off
+ -     instance-0000006c              shut off
+ -     instance-00000008              shut off
+</code></pre><h2 id="第五步">第五步</h2>
+<p>將每一台 VM 關機之後，再將備份好的檔案全部寫回去:</p>
+<pre tabindex="0"><code>root@local# cp -R ~/backup/* /var/lib/nova/instances/
+</code></pre><p>確認一下 base image 與 VM instance 都否都存在:</p>
+<ol>
+<li><code>/var/lib/nova/instances/_base/$(Base image)</code></li>
+<li><code>/var/lib/nova/instances/$(VM UUID)/disk</code></li>
+<li><code>/var/lib/nova/instances/$(VM UUID)/console.log</code></li>
+</ol>
+<p>修改檔案的擁有者、群組以及存取權限:</p>
+<ul>
+<li>
+<p><code>/var/lib/nova/instances/_base</code> 的 ownwer/group 必須要是 <strong>nova:nova</strong>，目錄下內的所有 base image:</p>
+<ul>
+<li>Owner/Group =&gt; <strong>nova:kvm</strong></li>
+<li>Mode =&gt; 0644</li>
+</ul>
+</li>
+<li>
+<p><code>/var/lib/nova/instances/$(VM UUID)</code> 的 owner/group 必須要是 <strong>nova:nova</strong>，目錄下的所有檔案分別為:</p>
+<ul>
+<li><code>disk</code>
+<ul>
+<li>Owner/Group =&gt; <strong>libvirt-qemu:kvm</strong></li>
+<li>Mode =&gt; 0644</li>
+</ul>
+</li>
+<li><code>console.log</code>
+<ul>
+<li>Owner/Group =&gt; <strong>nova:nova</strong></li>
+<li>Mode =&gt; 0660</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>完成之後，就可以在 Openstack Dashboard 上 hardware reboot VM 。</p>
+        </p>
+    </div>
+
+    
+
+        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
+        <script type='text/javascript'>
+            const kofiId = 'maple52046';
+            kofiwidget2.init('Support Me on Ko-fi', '#29abe0', kofiId);
+            kofiwidget2.draw();
+        </script> 
+
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/openstack">#openstack</a>
+        
+            <a class="tag" href="/tags/libvirt">#libvirt</a>
+        
+      
+    </div>
+
+    
+        <div id="utterance_thread">
+        <script
+            async
+            src="https://utteranc.es/client.js"
+            repo="maple52046/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+        >
+        </script>
+        </div>
+    
+
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "maple52046-githubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
         
         </div>
