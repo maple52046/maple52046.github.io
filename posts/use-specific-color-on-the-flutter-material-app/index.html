@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Categories | 世界的盡頭</title>
+    <title>在 Flutter MaterialApp 中使用指定顏色 | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -30,8 +30,6 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/index.xml" title="世界的盡頭" />
-    
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
 var doNotTrack = false;
@@ -43,10 +41,13 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="Categories" />
-<meta property="og:description" content="牽妳走過世界的盡頭" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/categories/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
+      <meta property="og:title" content="在 Flutter MaterialApp 中使用指定顏色" />
+<meta property="og:description" content="使用 Flutter MaterialApp 時，如果直接使用 Color.fromRGBO 指定 ThemeData 的 primarySwatch 會出現類型錯誤。這是因為 primarySwatch 接收的類型是 MaterialColor 而不是 Color：
+Imgur" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-10-28T20:36:27+08:00" />
+<meta property="article:modified_time" content="2021-10-28T20:36:27+08:00" /><meta property="og:site_name" content="世界的盡頭" />
 
 </head>
 
@@ -163,32 +164,117 @@ if (!doNotTrack) {
         <div id="content" class="content-container">
         
 
-<h1>Tags</h1>
-<ul>
+<h1 class="post-title">在 Flutter MaterialApp 中使用指定顏色</h1>
     
-        <li><a href="https://maple52046.github.io/categories/akashicrecords/">AkashicRecords</a> 1</li>
+    <time>October 28, 2021</time>
     
-        <li><a href="https://maple52046.github.io/categories/container/">Container</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/flutter/">Flutter</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/linux/">Linux</a> 6</li>
-    
-        <li><a href="https://maple52046.github.io/categories/network/">Network</a> 4</li>
-    
-        <li><a href="https://maple52046.github.io/categories/openstack/">OpenStack</a> 5</li>
-    
-        <li><a href="https://maple52046.github.io/categories/programming/">Programming</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/python/">Python</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/storage/">Storage</a> 3</li>
-    
-        <li><a href="https://maple52046.github.io/categories/virtualization/">Virtualization</a> 1</li>
-    
-</ul>
+    <div class="article-content">
+        <p>
+        <p>使用 Flutter MaterialApp 時，如果直接使用 <code>Color.fromRGBO</code> 指定 ThemeData 的 <code>primarySwatch</code> 會出現類型錯誤。這是因為 <code>primarySwatch</code> 接收的類型是 <code>MaterialColor</code> 而不是 <code>Color</code>：</p>
+<p><a href="https://i.imgur.com/8oO6cvG.png">Imgur</a></p>
+<p>在網路上找到了一篇解決方法: <a href="https://medium.com/py-bits/turn-any-color-to-material-color-for-flutter-d8e8e037a837">Turn any color to Material Color for flutter</a>。</p>
+<p>按照這個方式來coding：</p>
+<ol>
+<li>首先，先尋找自己喜歡的顏色。這裡我習慣用<a href="https://htmlcolorcodes.com">HTML COLOR CODES</a>：</li>
+</ol>
+<p><a href="https://i.imgur.com/nx5uPZR.png">Imgur</a></p>
+<ol start="2">
+<li>宣告 <code>MaterialColor</code>。第一個是參數是16進位的整數，這裡用到上圖的 hex 值，將 <code>#6C3483</code> 改成 <code>0xFF6C3483</code>；第二個參數是 color swatch，這是一個 <code>int</code>/<code>Color</code> 組成的 <code>Map</code>，這裡用 <code>Color.fromRGBO</code> 並代入上圖的 RGB。</li>
+</ol>
+<p>以下是完整的範例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, Color<span style="color:#f92672">&gt;</span> purpleColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">const</span> {
+  <span style="color:#ae81ff">50</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">1</span>),
+  <span style="color:#ae81ff">100</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">2</span>),
+  <span style="color:#ae81ff">200</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">3</span>),
+  <span style="color:#ae81ff">300</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">4</span>),
+  <span style="color:#ae81ff">400</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">5</span>),
+  <span style="color:#ae81ff">500</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">6</span>),
+  <span style="color:#ae81ff">600</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">7</span>),
+  <span style="color:#ae81ff">700</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">8</span>),
+  <span style="color:#ae81ff">800</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">9</span>),
+  <span style="color:#ae81ff">900</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, <span style="color:#ae81ff">1</span>),
+};
 
-<div class="page-footer"></div>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+  <span style="color:#960050;background-color:#1e0010">@</span>override
+  Widget build(BuildContext context) {
+    <span style="color:#66d9ef">final</span> purple <span style="color:#f92672">=</span> MaterialColor(<span style="color:#ae81ff">0xFF6C3483</span>, purpleColor);
+
+    <span style="color:#66d9ef">return</span> MaterialApp(
+      title: <span style="color:#e6db74">&#39;MyShop&#39;</span>,
+      theme: ThemeData(
+        primarySwatch: purple,
+        accentColor: Colors.deepOrange,
+        fontFamily: <span style="color:#e6db74">&#39;Lato&#39;</span>,
+        bottomAppBarColor: purple,
+      ),
+      home: ProductsOverflowScreen(),
+    );
+  }
+}
+</code></pre></div><hr>
+<p>參考資料：</p>
+<ul>
+<li><a href="https://medium.com/py-bits/turn-any-color-to-material-color-for-flutter-d8e8e037a837">Turn any color to Material Color for flutter</a></li>
+</ul>
+        </p>
+    </div>
+
+    
+
+        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
+        <script type='text/javascript'>
+            const kofiId = 'maple52046';
+            kofiwidget2.init('Support Me on Ko-fi', '#29abe0', kofiId);
+            kofiwidget2.draw();
+        </script> 
+
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/flutter">#flutter</a>
+        
+      
+    </div>
+
+    
+        <div id="utterance_thread">
+        <script
+            async
+            src="https://utteranc.es/client.js"
+            repo="maple52046/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+        >
+        </script>
+        </div>
+    
+
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "maple52046-githubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
         
         </div>

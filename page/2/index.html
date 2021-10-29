@@ -174,6 +174,34 @@ if (!doNotTrack) {
         
         <article>
             <h2>
+                <a href="https://maple52046.github.io/posts/setup-squid-transparent-proxy-with-docker/">
+                    Setup Squid Transparent Proxy with Docker
+                </a>
+            </h2>
+            <div>
+                <p><p>Squid 作為 Transparent proxy 時，不但可以加快區域網絡內的速度、降低網路流量
+還可以控管區網內是否要開放/封鎖網站~~(監看區網內誰在玩FB或是看色情網站XD)~~</p></p>
+                
+                <p><a href="/posts/setup-squid-transparent-proxy-with-docker/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>November 19, 2015</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/docker">#docker</a>
+                
+                    <a class="tag" href="/tags/squid">#squid</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
                 <a href="https://maple52046.github.io/posts/cross-compile-for-openwrt/">
                     Cross-compile for OpenWRT
                 </a>
@@ -437,38 +465,6 @@ Invalid OpenStack Identity credentials.
                 
                     <a class="tag" href="/tags/openstack">#openstack</a>
                 
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/">
-                    OpenStack Nova error: libVirt cannot get CPU affinity of process 30619
-                </a>
-            </h2>
-            <div>
-                <p><p>Nova-compute 無法運行，在 log 中發現:</p>
-<pre tabindex="0"><code>2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 187, in doit
-2015-02-11 15:34:05.511 30827 TRACE nova     result = proxy_call(self._autowrap, f, *args, **kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 147, in proxy_call
-2015-02-11 15:34:05.511 30827 TRACE nova     rv = execute(f,*args,**kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 76, in tworker
-2015-02-11 15:34:05.511 30827 TRACE nova     rv = meth(*args,**kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/libvirt.py&quot;, line 2096, in vcpus
-2015-02-11 15:34:05.511 30827 TRACE nova     if ret == -1: raise libvirtError ('virDomainGetVcpus() failed', dom=self)
-2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process
-2015-02-11 15:34:05.511 30827 TRACE nova
-</code></pre></p>
-                
-                <p><a href="/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>February 11, 2015</time>
-
-            
             
             </div> 
            
