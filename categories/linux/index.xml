@@ -72,6 +72,19 @@ sudo apt install oracle-java9-installer
     </item>
     
     <item>
+      <title>解決 qcow2 image : Could not read snapshots. File too large</title>
+      <link>https://maple52046.github.io/posts/solve-qcow2-file-too-large-could-not-read-snapshots/</link>
+      <pubDate>Wed, 22 Jul 2015 11:54:40 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/solve-qcow2-file-too-large-could-not-read-snapshots/</guid>
+      <description>&lt;p&gt;在 KVM VM running 的中，執行了 &lt;code&gt;qemu-img snapshot -c ....&lt;/code&gt;，可能是沒有算好 image 的剩餘空間，也可能是某種 bug，總之，當 VM 關機後，就再也開不起來了。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;qemu-img info&lt;/code&gt; 會產生錯誤：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Host1 # qemu-img info portal.img
+qemu-img: Could not open &#39;portal.img&#39;: Could not read snapshots: File too large
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
       <title>Install Instiki on Ubuntu 12.04</title>
       <link>https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/</link>
       <pubDate>Thu, 25 Sep 2014 01:10:00 +0800</pubDate>

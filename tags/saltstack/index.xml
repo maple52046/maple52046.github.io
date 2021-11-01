@@ -6,11 +6,11 @@
     <description>Recent content in saltstack on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Fri, 29 Oct 2021 16:53:13 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/tags/saltstack/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 16 Oct 2015 12:54:13 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/tags/saltstack/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Debugging Saltstack States</title>
       <link>https://maple52046.github.io/posts/debugging-saltstack-states/</link>
-      <pubDate>Fri, 29 Oct 2021 16:53:13 +0800</pubDate>
+      <pubDate>Fri, 16 Oct 2015 12:54:13 +0800</pubDate>
       
       <guid>https://maple52046.github.io/posts/debugging-saltstack-states/</guid>
       <description>&lt;p&gt;利用 Saltstack 安裝 OpenStack Keystone。按照 &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html&#34;&gt;OpenStack 官方安裝手冊&lt;/a&gt;，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。&lt;/p&gt;

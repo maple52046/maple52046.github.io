@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Categories | 世界的盡頭</title>
+    <title>解決 qcow2 image : Could not read snapshots. File too large | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -30,8 +30,6 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/index.xml" title="世界的盡頭" />
-    
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
 var doNotTrack = false;
@@ -43,10 +41,16 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="Categories" />
-<meta property="og:description" content="牽妳走過世界的盡頭" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/categories/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
+      <meta property="og:title" content="解決 qcow2 image : Could not read snapshots. File too large" />
+<meta property="og:description" content="在 KVM VM running 的中，執行了 qemu-img snapshot -c ....，可能是沒有算好 image 的剩餘空間，也可能是某種 bug，總之，當 VM 關機後，就再也開不起來了。
+qemu-img info 會產生錯誤：
+Host1 # qemu-img info portal.img
+qemu-img: Could not open &#39;portal.img&#39;: Could not read snapshots: File too large
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/solve-qcow2-file-too-large-could-not-read-snapshots/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2015-07-22T11:54:40+08:00" />
+<meta property="article:modified_time" content="2015-07-22T11:54:40+08:00" /><meta property="og:site_name" content="世界的盡頭" />
 
 </head>
 
@@ -163,36 +167,94 @@ if (!doNotTrack) {
         <div id="content" class="content-container">
         
 
-<h1>Tags</h1>
+<h1 class="post-title">解決 qcow2 image : Could not read snapshots. File too large</h1>
+    
+    <time>July 22, 2015</time>
+    
+    <div class="article-content">
+        <p>
+        <p>在 KVM VM running 的中，執行了 <code>qemu-img snapshot -c ....</code>，可能是沒有算好 image 的剩餘空間，也可能是某種 bug，總之，當 VM 關機後，就再也開不起來了。</p>
+<p><code>qemu-img info</code> 會產生錯誤：</p>
+<pre tabindex="0"><code>Host1 # qemu-img info portal.img
+qemu-img: Could not open 'portal.img': Could not read snapshots: File too large
+</code></pre><h2 id="solution">Solution</h2>
+<p>先將 image 傳送到其他機器上，就可以用 <code>qemu-img info</code> 查看 image 的資料：</p>
+<pre tabindex="0"><code>Host2 # qemu-img info portal.img
+image: portal.img
+file format: qcow2
+virtual size: 50G (53687091200 bytes)
+disk size: 53G
+cluster_size: 65536
+Snapshot list:
+ID        TAG                 VM SIZE                DATE       VM CLOCK
+                                   -1 2106-02-07 14:28:155124095:34:33.709
+                                    0 1970-01-01 08:00:00   00:00:00.000
+</code></pre><p>可以看到 snapshot 的資訊還殘存，但是不完整，因此也不能刪除 snapshot。</p>
+<p>接下來，利用 <code>qemu-img convert</code> 去產生新的 image：</p>
+<pre tabindex="0"><code>Host2 # qemu-img convert -O raw portal.img portal.raw
+Host2 # qemu-img info portal.raw
+image: portal.raw
+file format: raw
+virtual size: 50G (53687091200 bytes)
+disk size: 45G
+</code></pre><p>可以看到新的 image 就沒有 snapshot 了，這時候再把新的 image 傳回去原本的 server 就可以使用囉。</p>
+<h2 id="reference">Reference</h2>
 <ul>
-    
-        <li><a href="https://maple52046.github.io/categories/akashicrecords/">AkashicRecords</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/container/">Container</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/flutter/">Flutter</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/gitlab/">Gitlab</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/hadoop/">Hadoop</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/linux/">Linux</a> 9</li>
-    
-        <li><a href="https://maple52046.github.io/categories/network/">Network</a> 4</li>
-    
-        <li><a href="https://maple52046.github.io/categories/openstack/">OpenStack</a> 7</li>
-    
-        <li><a href="https://maple52046.github.io/categories/programming/">Programming</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/python/">Python</a> 1</li>
-    
-        <li><a href="https://maple52046.github.io/categories/storage/">Storage</a> 3</li>
-    
-        <li><a href="https://maple52046.github.io/categories/virtualization/">Virtualization</a> 1</li>
-    
+<li><a href="https://bugs.launchpad.net/qemu/+bug/1354167">On VM restart: Could not open &lsquo;poppy.qcow2&rsquo;: Could not read snapshots: File too large</a></li>
 </ul>
+        </p>
+    </div>
 
-<div class="page-footer"></div>
+    
+
+        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
+        <script type='text/javascript'>
+            const kofiId = 'maple52046';
+            kofiwidget2.init('Support Me on Ko-fi', '#29abe0', kofiId);
+            kofiwidget2.draw();
+        </script> 
+
+    
+
+    <div class="page-footer">
+        
+    </div>
+
+    
+        <div id="utterance_thread">
+        <script
+            async
+            src="https://utteranc.es/client.js"
+            repo="maple52046/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+        >
+        </script>
+        </div>
+    
+
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "maple52046-githubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
         
         </div>

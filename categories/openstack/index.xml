@@ -6,11 +6,23 @@
     <description>Recent content in OpenStack on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Fri, 29 Oct 2021 16:53:13 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/categories/openstack/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 30 Jun 2016 15:48:16 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/categories/openstack/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenStack Heat 使用筆記</title>
+      <link>https://maple52046.github.io/posts/notes-openstack-heat-usage/</link>
+      <pubDate>Thu, 30 Jun 2016 15:48:16 +0000</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/notes-openstack-heat-usage/</guid>
+      <description>&lt;p&gt;Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。&lt;/p&gt;
+&lt;p&gt;Heat 用 &lt;strong&gt;resource&lt;/strong&gt; 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 &lt;code&gt;default&lt;/code&gt;。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 &lt;code&gt;default&lt;/code&gt; 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。&lt;/p&gt;
+&lt;p&gt;Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 &lt;code&gt;block_device_mapping&lt;/code&gt; 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。&lt;/p&gt;
+&lt;p&gt;這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 &lt;strong&gt;resource&lt;/strong&gt;，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 &lt;strong&gt;state&lt;/strong&gt; 來配置 Linux。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Debugging Saltstack States</title>
       <link>https://maple52046.github.io/posts/debugging-saltstack-states/</link>
-      <pubDate>Fri, 29 Oct 2021 16:53:13 +0800</pubDate>
+      <pubDate>Fri, 16 Oct 2015 12:54:13 +0800</pubDate>
       
       <guid>https://maple52046.github.io/posts/debugging-saltstack-states/</guid>
       <description>&lt;p&gt;利用 Saltstack 安裝 OpenStack Keystone。按照 &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html&#34;&gt;OpenStack 官方安裝手冊&lt;/a&gt;，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。&lt;/p&gt;
@@ -56,18 +68,6 @@ host-01:
         raise KeyError(key)
     KeyError: &#39;keystone.service_present&#39;
 &lt;/code&gt;&lt;/pre&gt;</description>
-    </item>
-    
-    <item>
-      <title>OpenStack Heat 使用筆記</title>
-      <link>https://maple52046.github.io/posts/notes-openstack-heat-usage/</link>
-      <pubDate>Thu, 30 Jun 2016 15:48:16 +0000</pubDate>
-      
-      <guid>https://maple52046.github.io/posts/notes-openstack-heat-usage/</guid>
-      <description>&lt;p&gt;Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。&lt;/p&gt;
-&lt;p&gt;Heat 用 &lt;strong&gt;resource&lt;/strong&gt; 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 &lt;code&gt;default&lt;/code&gt;。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 &lt;code&gt;default&lt;/code&gt; 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。&lt;/p&gt;
-&lt;p&gt;Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 &lt;code&gt;block_device_mapping&lt;/code&gt; 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。&lt;/p&gt;
-&lt;p&gt;這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 &lt;strong&gt;resource&lt;/strong&gt;，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 &lt;strong&gt;state&lt;/strong&gt; 來配置 Linux。&lt;/p&gt;</description>
     </item>
     
     <item>

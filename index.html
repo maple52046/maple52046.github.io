@@ -174,75 +174,6 @@ if (!doNotTrack) {
         
         <article>
             <h2>
-                <a href="https://maple52046.github.io/posts/debugging-saltstack-states/">
-                    Debugging Saltstack States
-                </a>
-            </h2>
-            <div>
-                <p><p>利用 Saltstack 安裝 OpenStack Keystone。按照 <a href="http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html">OpenStack 官方安裝手冊</a>，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。</p>
-<p>這一個步驟，我把他寫成 Saltstack states 如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">waiting-keystone-startup</span>:
-  <span style="color:#f92672">cmd.run</span>:
-    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sleep 1</span>
-
-<span style="color:#f92672">registry-keystone-service</span>:
-  <span style="color:#f92672">keystone.service_present</span>:
-    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">keystone</span>
-    - <span style="color:#f92672">service_type</span>: <span style="color:#ae81ff">identity</span>
-    - <span style="color:#f92672">description</span>: <span style="color:#e6db74">&#34;OpenStack Identity&#34;</span>
-    - <span style="color:#f92672">require</span>:
-      - <span style="color:#f92672">cmd</span>: <span style="color:#ae81ff">waiting-keystone-startup</span>
-
-<span style="color:#f92672">registry-keystone-endpoint</span>:
-  <span style="color:#f92672">keystone.endpoint_present</span>:
-    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">keystone</span>
-    - <span style="color:#f92672">publicurl</span>: <span style="color:#ae81ff">http://host-01:5000/v2.0</span>
-    - <span style="color:#f92672">internalurl</span>: <span style="color:#ae81ff">http://host-01:5000/v2.0</span>
-    - <span style="color:#f92672">adminurl</span>: <span style="color:#ae81ff">http://host-01:35357/v2.0</span>
-    - <span style="color:#f92672">region</span>: <span style="color:#ae81ff">regionOne</span>
-    - <span style="color:#f92672">require</span>:
-      - <span style="color:#f92672">keystone</span>: <span style="color:#ae81ff">registry-keystone-service</span>
-</code></pre></div><p>結果執行時發生 KeyError:</p>
-<pre tabindex="0"><code>user@host-01:/srv/salt/openstack/keystone$ salt '*' state.sls openstack.keystone.registry
-host-01:
-    The minion function caused an exception: Traceback (most recent call last):
-      File &quot;/usr/lib/python2.7/dist-packages/salt/minion.py&quot;, line 1161, in _thread_return
-        return_data = func(*args, **kwargs)
-      File &quot;/usr/lib/python2.7/dist-packages/salt/modules/state.py&quot;, line 681, in sls
-        ret = st_.state.call_high(high_)
-      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 2067, in call_high
-        ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))
-      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1623, in call_chunks
-        running = self.call_chunk(low, running, chunks)
-      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1769, in call_chunk
-        self._mod_init(low)
-      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 612, in _mod_init
-        self.states['{0}.{1}'.format(low['state'], low['fun'])]  # pylint: disable=W0106
-      File &quot;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&quot;, line 90, in __getitem__
-        raise KeyError(key)
-    KeyError: 'keystone.service_present'
-</code></pre></p>
-                
-                <p><a href="/posts/debugging-saltstack-states/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>October 29, 2021</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/openstack">#openstack</a>
-                
-                    <a class="tag" href="/tags/saltstack">#saltstack</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
                 <a href="https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/">
                     在 Flutter MaterialApp 中使用指定顏色
                 </a>
@@ -492,6 +423,31 @@ sudo apt install oracle-java9-installer
                     <a class="tag" href="/tags/ffmpeg">#ffmpeg</a>
                 
                     <a class="tag" href="/tags/ubuntu">#ubuntu</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/ceph-pg-stuck-stuck-in-degraded-and-undersized/">
+                    解决 Ceph PG stuck in degraded &#43; undersized
+                </a>
+            </h2>
+            <div>
+                <p><p>執行 <code>ceph -s</code> 發現有很多 pg 狀態卡住不動。</p></p>
+                
+                <p><a href="/posts/ceph-pg-stuck-stuck-in-degraded-and-undersized/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>December 17, 2015</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/ceph">#ceph</a>
                 
             
             </div> 

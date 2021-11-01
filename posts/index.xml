@@ -6,58 +6,7 @@
     <description>Recent content in Posts on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Fri, 29 Oct 2021 16:53:13 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Debugging Saltstack States</title>
-      <link>https://maple52046.github.io/posts/debugging-saltstack-states/</link>
-      <pubDate>Fri, 29 Oct 2021 16:53:13 +0800</pubDate>
-      
-      <guid>https://maple52046.github.io/posts/debugging-saltstack-states/</guid>
-      <description>&lt;p&gt;利用 Saltstack 安裝 OpenStack Keystone。按照 &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html&#34;&gt;OpenStack 官方安裝手冊&lt;/a&gt;，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。&lt;/p&gt;
-&lt;p&gt;這一個步驟，我把他寫成 Saltstack states 如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;waiting-keystone-startup&lt;/span&gt;:
-  &lt;span style=&#34;color:#f92672&#34;&gt;cmd.run&lt;/span&gt;:
-    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;sleep 1&lt;/span&gt;
-
-&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-service&lt;/span&gt;:
-  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.service_present&lt;/span&gt;:
-    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;
-    - &lt;span style=&#34;color:#f92672&#34;&gt;service_type&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;identity&lt;/span&gt;
-    - &lt;span style=&#34;color:#f92672&#34;&gt;description&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;OpenStack Identity&amp;#34;&lt;/span&gt;
-    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:
-      - &lt;span style=&#34;color:#f92672&#34;&gt;cmd&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;waiting-keystone-startup&lt;/span&gt;
-
-&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-endpoint&lt;/span&gt;:
-  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.endpoint_present&lt;/span&gt;:
-    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;
-    - &lt;span style=&#34;color:#f92672&#34;&gt;publicurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;
-    - &lt;span style=&#34;color:#f92672&#34;&gt;internalurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;
-    - &lt;span style=&#34;color:#f92672&#34;&gt;adminurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:35357/v2.0&lt;/span&gt;
-    - &lt;span style=&#34;color:#f92672&#34;&gt;region&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;regionOne&lt;/span&gt;
-    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:
-      - &lt;span style=&#34;color:#f92672&#34;&gt;keystone&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;registry-keystone-service&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;結果執行時發生 KeyError:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;user@host-01:/srv/salt/openstack/keystone$ salt &#39;*&#39; state.sls openstack.keystone.registry
-host-01:
-    The minion function caused an exception: Traceback (most recent call last):
-      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/minion.py&amp;quot;, line 1161, in _thread_return
-        return_data = func(*args, **kwargs)
-      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/modules/state.py&amp;quot;, line 681, in sls
-        ret = st_.state.call_high(high_)
-      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 2067, in call_high
-        ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))
-      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 1623, in call_chunks
-        running = self.call_chunk(low, running, chunks)
-      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 1769, in call_chunk
-        self._mod_init(low)
-      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 612, in _mod_init
-        self.states[&#39;{0}.{1}&#39;.format(low[&#39;state&#39;], low[&#39;fun&#39;])]  # pylint: disable=W0106
-      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&amp;quot;, line 90, in __getitem__
-        raise KeyError(key)
-    KeyError: &#39;keystone.service_present&#39;
-&lt;/code&gt;&lt;/pre&gt;</description>
-    </item>
-    
+    <lastBuildDate>Thu, 28 Oct 2021 20:36:27 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在 Flutter MaterialApp 中使用指定顏色</title>
       <link>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</link>
@@ -154,7 +103,7 @@ sudo apt install oracle-java9-installer
     </item>
     
     <item>
-      <title>Ceph PG stuck in degraded &#43; undersized</title>
+      <title>解决 Ceph PG stuck in degraded &#43; undersized</title>
       <link>https://maple52046.github.io/posts/ceph-pg-stuck-stuck-in-degraded-and-undersized/</link>
       <pubDate>Thu, 17 Dec 2015 17:08:53 +0000</pubDate>
       
@@ -170,6 +119,70 @@ sudo apt install oracle-java9-installer
       <guid>https://maple52046.github.io/posts/setup-squid-transparent-proxy-with-docker/</guid>
       <description>&lt;p&gt;Squid 作為 Transparent proxy 時，不但可以加快區域網絡內的速度、降低網路流量
 還可以控管區網內是否要開放/封鎖網站~~(監看區網內誰在玩FB或是看色情網站XD)~~&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Debugging Saltstack States</title>
+      <link>https://maple52046.github.io/posts/debugging-saltstack-states/</link>
+      <pubDate>Fri, 16 Oct 2015 12:54:13 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/debugging-saltstack-states/</guid>
+      <description>&lt;p&gt;利用 Saltstack 安裝 OpenStack Keystone。按照 &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html&#34;&gt;OpenStack 官方安裝手冊&lt;/a&gt;，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。&lt;/p&gt;
+&lt;p&gt;這一個步驟，我把他寫成 Saltstack states 如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;waiting-keystone-startup&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;cmd.run&lt;/span&gt;:
+    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;sleep 1&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-service&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.service_present&lt;/span&gt;:
+    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;service_type&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;identity&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;description&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;OpenStack Identity&amp;#34;&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:
+      - &lt;span style=&#34;color:#f92672&#34;&gt;cmd&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;waiting-keystone-startup&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-endpoint&lt;/span&gt;:
+  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.endpoint_present&lt;/span&gt;:
+    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;publicurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;internalurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;adminurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:35357/v2.0&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;region&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;regionOne&lt;/span&gt;
+    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:
+      - &lt;span style=&#34;color:#f92672&#34;&gt;keystone&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;registry-keystone-service&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;結果執行時發生 KeyError:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;user@host-01:/srv/salt/openstack/keystone$ salt &#39;*&#39; state.sls openstack.keystone.registry
+host-01:
+    The minion function caused an exception: Traceback (most recent call last):
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/minion.py&amp;quot;, line 1161, in _thread_return
+        return_data = func(*args, **kwargs)
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/modules/state.py&amp;quot;, line 681, in sls
+        ret = st_.state.call_high(high_)
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 2067, in call_high
+        ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 1623, in call_chunks
+        running = self.call_chunk(low, running, chunks)
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 1769, in call_chunk
+        self._mod_init(low)
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/state.py&amp;quot;, line 612, in _mod_init
+        self.states[&#39;{0}.{1}&#39;.format(low[&#39;state&#39;], low[&#39;fun&#39;])]  # pylint: disable=W0106
+      File &amp;quot;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&amp;quot;, line 90, in __getitem__
+        raise KeyError(key)
+    KeyError: &#39;keystone.service_present&#39;
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>解決 qcow2 image : Could not read snapshots. File too large</title>
+      <link>https://maple52046.github.io/posts/solve-qcow2-file-too-large-could-not-read-snapshots/</link>
+      <pubDate>Wed, 22 Jul 2015 11:54:40 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/solve-qcow2-file-too-large-could-not-read-snapshots/</guid>
+      <description>&lt;p&gt;在 KVM VM running 的中，執行了 &lt;code&gt;qemu-img snapshot -c ....&lt;/code&gt;，可能是沒有算好 image 的剩餘空間，也可能是某種 bug，總之，當 VM 關機後，就再也開不起來了。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;qemu-img info&lt;/code&gt; 會產生錯誤：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Host1 # qemu-img info portal.img
+qemu-img: Could not open &#39;portal.img&#39;: Could not read snapshots: File too large
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
