@@ -10,14 +10,6 @@
   
   
   <url>
-    <loc>https://maple52046.github.io/categories/flutter/</loc>
-    
-    <lastmod>2021-10-28T20:36:27+08:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
     <loc>https://maple52046.github.io/tags/flutter/</loc>
     
     <lastmod>2021-10-28T20:36:27+08:00</lastmod>
@@ -27,6 +19,14 @@
   
   <url>
     <loc>https://maple52046.github.io/posts/</loc>
+    
+    <lastmod>2021-10-28T20:36:27+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/categories/programming/</loc>
     
     <lastmod>2021-10-28T20:36:27+08:00</lastmod>
     
@@ -98,6 +98,22 @@
   
   
   <url>
+    <loc>https://maple52046.github.io/categories/linux/</loc>
+    
+    <lastmod>2020-04-25T19:20:05+00:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/tags/mujoco/</loc>
+    
+    <lastmod>2020-04-25T19:20:05+00:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
     <loc>https://maple52046.github.io/posts/mujoco-installation/</loc>
     
     <lastmod>2020-04-25T19:20:05+00:00</lastmod>
@@ -107,14 +123,6 @@
   <url>
     <loc>https://maple52046.github.io2020/04/25/Mujoco-Installation/</loc>
     <lastmod>2020-04-25T19:20:05+00:00</lastmod>
-  </url>
-  
-  
-  <url>
-    <loc>https://maple52046.github.io/categories/python/</loc>
-    
-    <lastmod>2020-04-25T19:20:05+00:00</lastmod>
-    
   </url>
   
   
@@ -140,14 +148,6 @@
   
   
   <url>
-    <loc>https://maple52046.github.io/categories/linux/</loc>
-    
-    <lastmod>2018-04-22T14:45:10+00:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
     <loc>https://maple52046.github.io/tags/pxe/</loc>
     
     <lastmod>2018-04-22T14:45:10+00:00</lastmod>
@@ -159,6 +159,14 @@
     <loc>https://maple52046.github.io/tags/rhel/</loc>
     
     <lastmod>2018-04-22T14:45:10+00:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/tags/debootstrap/</loc>
+    
+    <lastmod>2017-11-03T15:28:19+00:00</lastmod>
     
   </url>
   
@@ -267,7 +275,7 @@
   
   
   <url>
-    <loc>https://maple52046.github.io/tags/heat/</loc>
+    <loc>https://maple52046.github.io/categories/cloud-computing/</loc>
     
     <lastmod>2016-06-30T15:48:16+00:00</lastmod>
     
@@ -275,7 +283,7 @@
   
   
   <url>
-    <loc>https://maple52046.github.io/categories/openstack/</loc>
+    <loc>https://maple52046.github.io/tags/heat/</loc>
     
     <lastmod>2016-06-30T15:48:16+00:00</lastmod>
     
@@ -362,14 +370,6 @@
   
   
   <url>
-    <loc>https://maple52046.github.io/categories/storage/</loc>
-    
-    <lastmod>2015-12-17T17:08:53+00:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
     <loc>https://maple52046.github.io/posts/ceph-pg-stuck-stuck-in-degraded-and-undersized/</loc>
     
     <lastmod>2015-12-17T17:08:53+00:00</lastmod>
@@ -379,14 +379,6 @@
   <url>
     <loc>https://maple52046.github.io/2015/12/17/Ceph-PG-stuck-stuck-in-degraded-and-undersized/</loc>
     <lastmod>2015-12-17T17:08:53+00:00</lastmod>
-  </url>
-  
-  
-  <url>
-    <loc>https://maple52046.github.io/categories/container/</loc>
-    
-    <lastmod>2015-11-19T17:09:00+00:00</lastmod>
-    
   </url>
   
   
@@ -481,14 +473,6 @@
   
   
   <url>
-    <loc>https://maple52046.github.io/categories/programming/</loc>
-    
-    <lastmod>2015-05-14T09:55:00+00:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
     <loc>https://maple52046.github.io/tags/sniffex/</loc>
     
     <lastmod>2015-05-14T09:55:00+00:00</lastmod>
@@ -511,22 +495,6 @@
   
   <url>
     <loc>https://maple52046.github.io/tags/kvm/</loc>
-    
-    <lastmod>2015-05-07T11:45:00+00:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
-    <loc>https://maple52046.github.io/categories/network/</loc>
-    
-    <lastmod>2015-05-07T11:45:00+00:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
-    <loc>https://maple52046.github.io/categories/virtualization/</loc>
     
     <lastmod>2015-05-07T11:45:00+00:00</lastmod>
     
@@ -588,14 +556,6 @@
   <url>
     <loc>https://maple52046.github.io/2015/04/08/OpenStack-Glance-image-list-401/</loc>
     <lastmod>2015-04-08T16:12:00+00:00</lastmod>
-  </url>
-  
-  
-  <url>
-    <loc>https://maple52046.github.io/categories/gitlab/</loc>
-    
-    <lastmod>2015-03-27T15:38:23+08:00</lastmod>
-    
   </url>
   
   
@@ -731,6 +691,22 @@
   
   
   <url>
+    <loc>https://maple52046.github.io/tags/vsftpd/</loc>
+    
+    <lastmod>2014-12-25T17:26:57+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
+    <loc>https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/</loc>
+    
+    <lastmod>2014-12-25T17:26:57+08:00</lastmod>
+    
+  </url>
+  
+  
+  <url>
     <loc>https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/</loc>
     
     <lastmod>2014-09-25T01:10:00+08:00</lastmod>
@@ -750,14 +726,6 @@
     <loc>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</loc>
     
     <lastmod>2014-08-12T03:22:59+08:00</lastmod>
-    
-  </url>
-  
-  
-  <url>
-    <loc>https://maple52046.github.io/categories/hadoop/</loc>
-    
-    <lastmod>2013-11-18T12:10:07+08:00</lastmod>
     
   </url>
   

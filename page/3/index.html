@@ -312,6 +312,35 @@ if (!doNotTrack) {
         
         <article>
             <h2>
+                <a href="https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/">
+                    解決 vsftpd: &#34;500 OOPS: priv_sock_get_cmd&#34;
+                </a>
+            </h2>
+            <div>
+                <p><p>最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:</p>
+<pre tabindex="0"><code>回應:	500 OOPS: priv_sock_get_cmd
+</code></pre><p>在 server 端，<code>/var/log/syslog</code> 裡面看到:</p>
+<pre tabindex="0"><code>Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&quot;vsftpd&quot; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
+</code></pre></p>
+                
+                <p><a href="/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>December 25, 2014</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/vsftpd">#vsftpd</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
                 <a href="https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/">
                     Install Instiki on Ubuntu 12.04
                 </a>

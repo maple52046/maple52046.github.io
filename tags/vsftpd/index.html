@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Programming | 世界的盡頭</title>
+    <title>vsftpd | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -30,7 +30,7 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/programming/index.xml" title="世界的盡頭" />
+    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/tags/vsftpd/index.xml" title="世界的盡頭" />
     
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
@@ -43,10 +43,10 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="Programming" />
+      <meta property="og:title" content="vsftpd" />
 <meta property="og:description" content="牽妳走過世界的盡頭" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/categories/programming/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
+<meta property="og:url" content="https://maple52046.github.io/tags/vsftpd/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
 
 </head>
 
@@ -163,53 +163,28 @@ if (!doNotTrack) {
         <div id="content" class="content-container">
         
 
-  <h1>Tagged "Programming"</h1>
+  <h1>Tagged "vsftpd"</h1>
   
   
     
     <article>
             <h2>
-                <a href="https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/">
-                    在 Flutter MaterialApp 中使用指定顏色
+                <a href="https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/">
+                    解決 vsftpd: &#34;500 OOPS: priv_sock_get_cmd&#34;
                 </a>
             </h2>
             <div>
-                <p><p>使用 Flutter MaterialApp 時，如果直接使用 <code>Color.fromRGBO</code> 指定 ThemeData 的 <code>primarySwatch</code> 會出現類型錯誤。這是因為 <code>primarySwatch</code> 接收的類型是 <code>MaterialColor</code> 而不是 <code>Color</code>：</p>
-<p><img src="https://i.imgur.com/8oO6cvG.png" alt="Imgur"></p></p>
+                <p><p>最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:</p>
+<pre tabindex="0"><code>回應:	500 OOPS: priv_sock_get_cmd
+</code></pre><p>在 server 端，<code>/var/log/syslog</code> 裡面看到:</p>
+<pre tabindex="0"><code>Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&quot;vsftpd&quot; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
+</code></pre></p>
                 
-                <p><a href="/posts/use-specific-color-on-the-flutter-material-app/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>October 28, 2021</time>
-            </div> 
-        </article>
-    
-  
-    
-    <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/cross-compile-for-openwrt/">
-                    Cross-compile for OpenWRT
-                </a>
-            </h2>
-            <div>
-                <p><p>這是一個實驗，在 Ubuntu 上編譯可以在 OpenWRT 上運行的程式。
-參考並修改別人的方式，完成了幾個簡單的範例。</p>
-<ul>
-<li>編譯環境：
-<ul>
-<li>Operating System: Ubuntu 14.04 x64</li>
-<li>OpenWRT version: 14.07</li>
-</ul>
-</li>
-</ul></p>
-                
-                <p><a href="/posts/cross-compile-for-openwrt/">Read more...</a></p>
+                <p><a href="/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/">Read more...</a></p>
                 
             </div>
             <div class="post-footer">
-            <time>May 14, 2015</time>
+            <time>December 25, 2014</time>
             </div> 
         </article>
     

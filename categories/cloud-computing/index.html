@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Programming | 世界的盡頭</title>
+    <title>Cloud Computing | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -30,7 +30,7 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/programming/index.xml" title="世界的盡頭" />
+    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/categories/cloud-computing/index.xml" title="世界的盡頭" />
     
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
@@ -43,10 +43,10 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="Programming" />
+      <meta property="og:title" content="Cloud Computing" />
 <meta property="og:description" content="牽妳走過世界的盡頭" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/categories/programming/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
+<meta property="og:url" content="https://maple52046.github.io/categories/cloud-computing/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
 
 </head>
 
@@ -163,25 +163,27 @@ if (!doNotTrack) {
         <div id="content" class="content-container">
         
 
-  <h1>Tagged "Programming"</h1>
+  <h1>Tagged "Cloud Computing"</h1>
   
   
     
     <article>
             <h2>
-                <a href="https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/">
-                    在 Flutter MaterialApp 中使用指定顏色
+                <a href="https://maple52046.github.io/posts/notes-openstack-heat-usage/">
+                    OpenStack Heat 使用筆記
                 </a>
             </h2>
             <div>
-                <p><p>使用 Flutter MaterialApp 時，如果直接使用 <code>Color.fromRGBO</code> 指定 ThemeData 的 <code>primarySwatch</code> 會出現類型錯誤。這是因為 <code>primarySwatch</code> 接收的類型是 <code>MaterialColor</code> 而不是 <code>Color</code>：</p>
-<p><img src="https://i.imgur.com/8oO6cvG.png" alt="Imgur"></p></p>
+                <p><p>Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。</p>
+<p>Heat 用 <strong>resource</strong> 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 <code>default</code>。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 <code>default</code> 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。</p>
+<p>Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 <code>block_device_mapping</code> 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。</p>
+<p>這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 <strong>resource</strong>，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 <strong>state</strong> 來配置 Linux。</p></p>
                 
-                <p><a href="/posts/use-specific-color-on-the-flutter-material-app/">Read more...</a></p>
+                <p><a href="/posts/notes-openstack-heat-usage/">Read more...</a></p>
                 
             </div>
             <div class="post-footer">
-            <time>October 28, 2021</time>
+            <time>June 30, 2016</time>
             </div> 
         </article>
     
@@ -189,27 +191,264 @@ if (!doNotTrack) {
     
     <article>
             <h2>
-                <a href="https://maple52046.github.io/posts/cross-compile-for-openwrt/">
-                    Cross-compile for OpenWRT
+                <a href="https://maple52046.github.io/posts/ceph-pg-stuck-stuck-in-degraded-and-undersized/">
+                    解决 Ceph PG stuck in degraded &#43; undersized
                 </a>
             </h2>
             <div>
-                <p><p>這是一個實驗，在 Ubuntu 上編譯可以在 OpenWRT 上運行的程式。
-參考並修改別人的方式，完成了幾個簡單的範例。</p>
-<ul>
-<li>編譯環境：
-<ul>
-<li>Operating System: Ubuntu 14.04 x64</li>
-<li>OpenWRT version: 14.07</li>
-</ul>
-</li>
-</ul></p>
+                <p><p>執行 <code>ceph -s</code> 發現有很多 pg 狀態卡住不動。</p></p>
                 
-                <p><a href="/posts/cross-compile-for-openwrt/">Read more...</a></p>
+                <p><a href="/posts/ceph-pg-stuck-stuck-in-degraded-and-undersized/">Read more...</a></p>
                 
             </div>
             <div class="post-footer">
-            <time>May 14, 2015</time>
+            <time>December 17, 2015</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/debugging-saltstack-states/">
+                    Debugging Saltstack States
+                </a>
+            </h2>
+            <div>
+                <p><p>利用 Saltstack 安裝 OpenStack Keystone。按照 <a href="http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html">OpenStack 官方安裝手冊</a>，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。</p>
+<p>這一個步驟，我把他寫成 Saltstack states 如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">waiting-keystone-startup</span>:
+  <span style="color:#f92672">cmd.run</span>:
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sleep 1</span>
+
+<span style="color:#f92672">registry-keystone-service</span>:
+  <span style="color:#f92672">keystone.service_present</span>:
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">keystone</span>
+    - <span style="color:#f92672">service_type</span>: <span style="color:#ae81ff">identity</span>
+    - <span style="color:#f92672">description</span>: <span style="color:#e6db74">&#34;OpenStack Identity&#34;</span>
+    - <span style="color:#f92672">require</span>:
+      - <span style="color:#f92672">cmd</span>: <span style="color:#ae81ff">waiting-keystone-startup</span>
+
+<span style="color:#f92672">registry-keystone-endpoint</span>:
+  <span style="color:#f92672">keystone.endpoint_present</span>:
+    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">keystone</span>
+    - <span style="color:#f92672">publicurl</span>: <span style="color:#ae81ff">http://host-01:5000/v2.0</span>
+    - <span style="color:#f92672">internalurl</span>: <span style="color:#ae81ff">http://host-01:5000/v2.0</span>
+    - <span style="color:#f92672">adminurl</span>: <span style="color:#ae81ff">http://host-01:35357/v2.0</span>
+    - <span style="color:#f92672">region</span>: <span style="color:#ae81ff">regionOne</span>
+    - <span style="color:#f92672">require</span>:
+      - <span style="color:#f92672">keystone</span>: <span style="color:#ae81ff">registry-keystone-service</span>
+</code></pre></div><p>結果執行時發生 KeyError:</p>
+<pre tabindex="0"><code>user@host-01:/srv/salt/openstack/keystone$ salt '*' state.sls openstack.keystone.registry
+host-01:
+    The minion function caused an exception: Traceback (most recent call last):
+      File &quot;/usr/lib/python2.7/dist-packages/salt/minion.py&quot;, line 1161, in _thread_return
+        return_data = func(*args, **kwargs)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/modules/state.py&quot;, line 681, in sls
+        ret = st_.state.call_high(high_)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 2067, in call_high
+        ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1623, in call_chunks
+        running = self.call_chunk(low, running, chunks)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1769, in call_chunk
+        self._mod_init(low)
+      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 612, in _mod_init
+        self.states['{0}.{1}'.format(low['state'], low['fun'])]  # pylint: disable=W0106
+      File &quot;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&quot;, line 90, in __getitem__
+        raise KeyError(key)
+    KeyError: 'keystone.service_present'
+</code></pre></p>
+                
+                <p><a href="/posts/debugging-saltstack-states/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>October 16, 2015</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/openstack-glance-image-list-401/">
+                    OpenStack Glance Image-list 401
+                </a>
+            </h2>
+            <div>
+                <p><p>架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。</p>
+<pre tabindex="0"><code>root@localhost:~# glance --debug image-list
+curl -i -X GET -H 'User-Agent: python-glanceclient' -H 'Content-Type: application/octet-stream' -H 'Accept-Encoding: gzip, deflate, compress' -H 'Accept: */*' -H 'X-Auth-Token: ***' http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;sort_dir=asc&amp;limit=20
+Request returned failure status 401.
+Invalid OpenStack Identity credentials.
+</code></pre></p>
+                
+                <p><a href="/posts/openstack-glance-image-list-401/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>April 8, 2015</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/rally-installation/">
+                    Install Rally 筆記 (OpenStack benchmark)
+                </a>
+            </h2>
+            <div>
+                <p><p><a href="http://rally.readthedocs.org/en/latest/index.html">Rally</a> 是一套 OpenStack benchmark tool。關於 Rally 的介紹本文就不再贅述。本篇安裝時是以 <a href="https://wiki.openstack.org/wiki/Rally#How_To">OpenStack 官方 Wiki</a> 的教學為參考內容，紀錄安裝與使用 Rally 的筆記。</p></p>
+                
+                <p><a href="/posts/rally-installation/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>February 24, 2015</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/">
+                    Ceph pgs stuck in &#39;incomplete&#39; state ,ops blocked
+                </a>
+            </h2>
+            <div>
+                <p><p>Ceph OSD 又再次發生 <a href="http://worldend.logdown.com/posts/251761-ceph-osd-a-copy-of-the-executable-or-objdump-rds-executable-is-needed-to-interpret-this">disk failure</a>，結果在手動修復硬碟時操作不當，整個 disk partition table 都消失了。即使把備份的 disk patition table 寫回去之後，依然無法解決問題。</p></p>
+                
+                <p><a href="/posts/ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>February 11, 2015</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/">
+                    OpenStack Nova cannot reboot instance - Unable to create tap device
+                </a>
+            </h2>
+            <div>
+                <p><p>早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 <code>nova reboot --hard &lt;server&gt;</code> 的方式，想要開啟instance 卻失敗，在 <code>/var/log/nova/nova-compute.log</code> 中看到以下錯誤訊息:</p>
+<pre tabindex="0"><code>2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy
+</code></pre></p>
+                
+                <p><a href="/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>February 11, 2015</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/">
+                    OpenStack Nova error: libVirt cannot get CPU affinity of process 30619
+                </a>
+            </h2>
+            <div>
+                <p><p>Nova-compute 無法運行，在 log 中發現:</p>
+<pre tabindex="0"><code>2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 187, in doit
+2015-02-11 15:34:05.511 30827 TRACE nova     result = proxy_call(self._autowrap, f, *args, **kwargs)
+2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 147, in proxy_call
+2015-02-11 15:34:05.511 30827 TRACE nova     rv = execute(f,*args,**kwargs)
+2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 76, in tworker
+2015-02-11 15:34:05.511 30827 TRACE nova     rv = meth(*args,**kwargs)
+2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/libvirt.py&quot;, line 2096, in vcpus
+2015-02-11 15:34:05.511 30827 TRACE nova     if ret == -1: raise libvirtError ('virDomainGetVcpus() failed', dom=self)
+2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process
+2015-02-11 15:34:05.511 30827 TRACE nova
+</code></pre></p>
+                
+                <p><a href="/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>February 11, 2015</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/ceph-osd-stuck-in-an-existing-executable-needed-to-interrupt/">
+                    Ceph OSD stuck in an existing executable needed to interrupt.
+                </a>
+            </h2>
+            <div>
+                <p><p>上週 Ceph cluster 掛掉，結果是某個 OSD 一直起不來。</p></p>
+                
+                <p><a href="/posts/ceph-osd-stuck-in-an-existing-executable-needed-to-interrupt/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>January 19, 2015</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/concepts-of-hadoop-nodes/">
+                    Hadoop SecondaryNameNode 、CheckpointNode 與 Backup Node 觀念整理
+                </a>
+            </h2>
+            <div>
+                <p><p>為了要管理 lab 裡的 Hadoop cluster，針對 Hadoop 的 NameNode、SecondaryNameNode、CheckpointNode 與 BackupNode 做個了survay。</p>
+<h1 id="namenode">NameNode</h1>
+<p>Hadoop 的 metadata 是存放在運行 Namenode 的 server 的 memory 裡面，而 Namenode 的工作就是將 clients 對 metadata 的讀寫修改紀錄在<strong>edits</strong>裡。</p>
+<p>當 Namenode 被啟動的時候，會先合併 HDFS 上的 fsimage 與 edits，取得完整的 metadata。此時，原本的 fsimage 會被更新。</p>
+<p>之後，在 NameNode 運作的期間，client 對 metadata 的 access 還是只會記錄在新的 edits 裡，直到下一次 NameNode restart 的時候，周而復始的更新 fsimage、產生新的 edits。</p></p>
+                
+                <p><a href="/posts/concepts-of-hadoop-nodes/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>November 18, 2013</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/">
+                    復原 OpenStack 中被刪除的 instance
+                </a>
+            </h2>
+            <div>
+                <p><p>上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。</p>
+<p>Unstall 時已經很習慣用 apt-get <strong>&ndash;purge</strong> install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 <code>/var/lib/nova/instance</code> 用 ceph 分享給所有 compute。</p>
+<p>所以&hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。</p>
+<p>所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。
+這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。</p>
+<p>回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?</p>
+<ul>
+<li>VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)</li>
+<li>VM 一旦關機，instance 就會被刪掉 =&gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)</li>
+</ul>
+<p>萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =</p>
+<p>萬幸的是我終於找到方法了</p></p>
+                
+                <p><a href="/posts/recovery-live-deleted-instance-on-openstack/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>October 21, 2013</time>
             </div> 
         </article>
     
