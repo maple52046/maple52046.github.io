@@ -164,6 +164,35 @@ if (!doNotTrack) {
         
 
 <h1>Tags</h1>
+
+<script>
+let tagMap = new Map();
+let tagArray = new Array();
+
+  tagMap.set("akashicrecords",  1 );
+  tagArray.push(["akashicrecords",  1  ]);
+
+  tagMap.set("cloud-computing",  11 );
+  tagArray.push(["cloud-computing",  11  ]);
+
+  tagMap.set("linux",  17 );
+  tagArray.push(["linux",  17  ]);
+
+  tagMap.set("programming",  2 );
+  tagArray.push(["programming",  2  ]);
+
+
+</script>
+<canvas id="tag-canvas" width="600" height="300" style="border: 1px solid red;"></canvas>
+<script src="/js/wordcloud2.js"></script>
+<script>
+    WordCloud(document.querySelector("#tag-canvas"), {
+        list: tagArray,
+        
+    });
+</script>
+
+
 <ul>
     
         <li><a href="https://maple52046.github.io/categories/akashicrecords/">AkashicRecords</a> 1</li>
