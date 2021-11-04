@@ -173,11 +173,11 @@ if (!doNotTrack) {
   
 </script>
 
-<canvas id="tag-canvas" width="100%" height="300"></canvas>
+<canvas id="tag-canvas" width="700" height="300"></canvas>
 <script>
     WordCloud(document.querySelector("#tag-canvas"), {
         list: tagArray,
-        
+        weightFactor: 8,
     });
 </script>
 
