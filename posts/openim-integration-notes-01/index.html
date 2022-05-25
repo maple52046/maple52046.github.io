@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+<html lang="zh-tw">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no"/>
+
+    <title>OpenIM 整合(踩坑)筆記 01 | 世界的盡頭</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <meta name="theme-color" content="#ffffff">
+
+    
+    
+    
+    <link rel="stylesheet" href="https://maple52046.github.io/css/main.min.e34415025514319010e741089e6920454053855755ba465f66943ad102d2cb08.css"/>
+
+    
+    
+    
+    
+
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.css">
+
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-GC1G5TJVGY', { 'anonymize_ip': false });
+}
+</script>
+
+      <meta property="og:title" content="OpenIM 整合(踩坑)筆記 01" />
+<meta property="og:description" content="OpenIM 號稱是由一群前微信等技術專家一起出來打造的開源 IM 系統。撇開政治不談，個人覺得微信在 IM 領域確實是佼佼者，因此決定整合 OpenIM 到現有的產品中，以減少浪費時間重複造輪子。
+本篇目標是串連原有的帳號系統與 OpenIM 的串連系統。說白話一點就是：註冊用戶到 OpenIM。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/openim-integration-notes-01/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-05-25T18:40:10+08:00" />
+<meta property="article:modified_time" content="2022-05-25T18:40:10+08:00" /><meta property="og:site_name" content="世界的盡頭" />
+
+</head>
+
+    <body>
+        
+<nav>
+  <header>
+    <div class="site-title">
+        <a href="/">世界的盡頭</a>
+    </div>  
+</header>
+
+  <div class="nav-menu">
+  
+  <a class="color-link nav-link" href="https://maple52046.github.io/index.xml" target="_blank" rel="noopener" type="application/rss+xml">RSS</a>
+</div>
+<footer class="footer">
+	<div class="social-icons">
+        
+    <a class="social-icon" href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="Email">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M25.2794292,5.59128519 L14,16.8707144 L2.72057081,5.59128519 C3.06733103,5.30237414 3.51336915,5.12857603 4,5.12857603 L24,5.12857603 C24.4866308,5.12857603 24.932669,5.30237414 25.2794292,5.59128519 Z M25.9956978,6.99633695 C25.998551,7.04004843 26,7.08414302 26,7.12857603 L26,20.871424 C26,21.0798433 25.9681197,21.2808166 25.9089697,21.4697335 L18.7156355,14.2763993 L25.9956978,6.99633695 Z M24.9498374,22.6319215 C24.6672737,22.7846939 24.3437653,22.871424 24,22.871424 L4,22.871424 C3.5268522,22.871424 3.09207889,22.7071233 2.74962118,22.432463 L10.0950247,15.0870594 L13.9848068,18.9768415 L14.1878486,18.7737996 L14.2030419,18.7889929 L17.6549753,15.3370594 L24.9498374,22.6319215 Z M2.00810114,21.0526627 C2.00273908,20.9929669 2,20.9325153 2,20.871424 L2,7.12857603 C2,7.08414302 2.00144896,7.04004843 2.00430222,6.99633695 L9.03436454,14.0263993 L2.00810114,21.0526627 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.instagram.com/bill0155/" target="_blank" rel="noopener" title="Instagram">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+             <path d="M14.0000238,2.00378571 C17.2579762,2.00378571 17.6665,2.01759524 18.9460238,2.07597619 C20.222881,2.13421429 21.0949286,2.33702381 21.8579762,2.63359524 C22.6468333,2.94011905 23.3158333,3.35030952 23.9827857,4.01721429 C24.6496905,4.68416667 25.059881,5.35316667 25.3664524,6.14202381 C25.6629762,6.90507143 25.8657857,7.77711905 25.9240238,9.05397619 C25.9824048,10.3335 25.9962143,10.7420238 25.9962143,14.0000238 C25.9962143,17.2579762 25.9824048,17.6665 25.9240238,18.9460238 C25.8657857,20.222881 25.6629762,21.0949286 25.3664524,21.8579762 C25.059881,22.6468333 24.6496905,23.3158333 23.9827857,23.9827857 C23.3158333,24.6496905 22.6468333,25.059881 21.8579762,25.3664524 C21.0949286,25.6629762 20.222881,25.8657857 18.9460238,25.9240238 C17.6665,25.9824048 17.2579762,25.9962143 14.0000238,25.9962143 C10.7420238,25.9962143 10.3335,25.9824048 9.05397619,25.9240238 C7.77711905,25.8657857 6.90507143,25.6629762 6.14202381,25.3664524 C5.35316667,25.059881 4.68416667,24.6496905 4.01721429,23.9827857 C3.35030952,23.3158333 2.94011905,22.6468333 2.63359524,21.8579762 C2.33702381,21.0949286 2.13421429,20.222881 2.07597619,18.9460238 C2.01759524,17.6665 2.00378571,17.2579762 2.00378571,14.0000238 C2.00378571,10.7420238 2.01759524,10.3335 2.07597619,9.05397619 C2.13421429,7.77711905 2.33702381,6.90507143 2.63359524,6.14202381 C2.94011905,5.35316667 3.35030952,4.68416667 4.01721429,4.01721429 C4.68416667,3.35030952 5.35316667,2.94011905 6.14202381,2.63359524 C6.90507143,2.33702381 7.77711905,2.13421429 9.05397619,2.07597619 C10.3335,2.01759524 10.7420238,2.00378571 14.0000238,2.00378571 Z M14.0000238,4.1652619 C10.796881,4.1652619 10.4174524,4.1775 9.1525,4.23521429 C7.98288095,4.28854762 7.34769048,4.48397619 6.92497619,4.6482619 C6.36502381,4.86588095 5.96540476,5.12583333 5.54564286,5.54564286 C5.12583333,5.96540476 4.86588095,6.36502381 4.6482619,6.92497619 C4.48397619,7.34769048 4.28854762,7.98288095 4.23521429,9.1525 C4.1775,10.4174524 4.1652619,10.796881 4.1652619,14.0000238 C4.1652619,17.203119 4.1775,17.5825476 4.23521429,18.8475 C4.28854762,20.017119 4.48397619,20.6523095 4.6482619,21.0750238 C4.86588095,21.6349762 5.12588095,22.0345952 5.54564286,22.4543571 C5.96540476,22.8741667 6.36502381,23.134119 6.92497619,23.3517381 C7.34769048,23.5160238 7.98288095,23.7114524 9.1525,23.7647857 C10.4173095,23.8225 10.7966429,23.8347381 14.0000238,23.8347381 C17.2033571,23.8347381 17.5827381,23.8225 18.8475,23.7647857 C20.017119,23.7114524 20.6523095,23.5160238 21.0750238,23.3517381 C21.6349762,23.134119 22.0345952,22.8741667 22.4543571,22.4543571 C22.8741667,22.0345952 23.134119,21.6349762 23.3517381,21.0750238 C23.5160238,20.6523095 23.7114524,20.017119 23.7647857,18.8475 C23.8225,17.5825476 23.8347381,17.203119 23.8347381,14.0000238 C23.8347381,10.796881 23.8225,10.4174524 23.7647857,9.1525 C23.7114524,7.98288095 23.5160238,7.34769048 23.3517381,6.92497619 C23.134119,6.36502381 22.8741667,5.96540476 22.4543571,5.54564286 C22.0345952,5.12583333 21.6349762,4.86588095 21.0750238,4.6482619 C20.6523095,4.48397619 20.017119,4.28854762 18.8475,4.23521429 C17.5825476,4.1775 17.203119,4.1652619 14.0000238,4.1652619 Z M14.0000238,17.9987381 C16.2084524,17.9987381 17.9987381,16.2084524 17.9987381,14.0000238 C17.9987381,11.7915476 16.2084524,10.0012619 14.0000238,10.0012619 C11.7915476,10.0012619 10.0012619,11.7915476 10.0012619,14.0000238 C10.0012619,16.2084524 11.7915476,17.9987381 14.0000238,17.9987381 Z M14.0000238,7.83978571 C17.4022143,7.83978571 20.1602143,10.5977857 20.1602143,14.0000238 C20.1602143,17.4022143 17.4022143,20.1602143 14.0000238,20.1602143 C10.5977857,20.1602143 7.83978571,17.4022143 7.83978571,14.0000238 C7.83978571,10.5977857 10.5977857,7.83978571 14.0000238,7.83978571 Z M21.8431667,7.59640476 C21.8431667,8.39145238 21.1986429,9.03592857 20.4035952,9.03592857 C19.6085952,9.03592857 18.9640714,8.39145238 18.9640714,7.59640476 C18.9640714,6.80135714 19.6085952,6.15683333 20.4035952,6.15683333 C21.1986429,6.15683333 21.8431667,6.80135714 21.8431667,7.59640476 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.linkedin.com/in/kuchenhao" target="_blank" rel="noopener" title="LinkedIn">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M2,3.654102 C2,2.69908141 2.79442509,1.92397846 3.77383592,1.92397846 L24.2261641,1.92397846 C25.2058917,1.92397846 26,2.69908141 26,3.654102 L26,24.3462148 C26,25.3015521 25.2058917,26.0760215 24.2261641,26.0760215 L3.77383592,26.0760215 C2.79442509,26.0760215 2,25.3015521 2,24.3465315 L2,3.65378524 L2,3.654102 Z M9.27526132,22.1415901 L9.27526132,11.2356668 L5.65030092,11.2356668 L5.65030092,22.1415901 L9.27557808,22.1415901 L9.27526132,22.1415901 Z M7.46341463,9.74691162 C8.72727273,9.74691162 9.51409566,8.90940767 9.51409566,7.86284447 C9.49033893,6.79252455 8.72727273,5.97846056 7.48748812,5.97846056 C6.24675325,5.97846056 5.43649034,6.79252455 5.43649034,7.86284447 C5.43649034,8.90940767 6.22299652,9.74691162 7.4396579,9.74691162 L7.46309788,9.74691162 L7.46341463,9.74691162 Z M11.2815965,22.1415901 L14.9062401,22.1415901 L14.9062401,16.0519481 C14.9062401,15.7263225 14.9299968,15.4000634 15.0256573,15.1675641 C15.2876148,14.5159962 15.8840672,13.8416218 16.8856509,13.8416218 C18.1970225,13.8416218 18.7218879,14.8416218 18.7218879,16.3078872 L18.7218879,22.1415901 L22.3465315,22.1415901 L22.3465315,15.8885017 C22.3465315,12.5388027 20.5584416,10.9800443 18.1735825,10.9800443 C16.2182452,10.9800443 15.3595185,12.072854 14.8824834,12.8172315 L14.9065569,12.8172315 L14.9065569,11.2359835 L11.2819132,11.2359835 C11.3291099,12.2591067 11.2815965,22.1419069 11.2815965,22.1419069 L11.2815965,22.1415901 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <a class="social-icon" href="https://github.com/maple52046" target="_blank" rel="noopener" title="GitHub">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M13.9988029,1.32087331 C6.82105037,1.32087331 1,7.14112562 1,14.3212723 C1,20.0649109 4.72454649,24.9370678 9.89038951,26.6560892 C10.5408085,26.7757983 10.7778323,26.374374 10.7778323,26.0296121 C10.7778323,25.7215609 10.7666595,24.9035493 10.760275,23.8189856 C7.14426471,24.6042767 6.38131925,22.0760223 6.38131925,22.0760223 C5.78995672,20.5740732 4.93762853,20.1742451 4.93762853,20.1742451 C3.75729765,19.3682044 5.02701126,19.3841656 5.02701126,19.3841656 C6.33183953,19.4759425 7.01817121,20.7241085 7.01817121,20.7241085 C8.17775254,22.7104801 10.0611744,22.1366749 10.8017741,21.8038838 C10.919887,20.9643246 11.2558703,20.3913175 11.6269683,20.066507 C8.74038491,19.7385043 5.70536235,18.6228163 5.70536235,13.6413251 C5.70536235,12.2223743 6.21213051,11.0611968 7.04370914,10.1530044 C6.90963504,9.82420367 6.46351945,8.50181809 7.17139875,6.71256734 C7.17139875,6.71256734 8.26234691,6.36301702 10.7459099,8.04532771 C11.78259,7.75642995 12.8950858,7.61277914 14.000399,7.60719272 C15.1049142,7.61277914 16.2166119,7.75642995 17.2548881,8.04532771 C19.736855,6.36301702 20.8262071,6.71256734 20.8262071,6.71256734 C21.5356825,8.50181809 21.0895669,9.82420367 20.9562909,10.1530044 C21.7894656,11.0611968 22.2922435,12.2223743 22.2922435,13.6413251 C22.2922435,18.6355852 19.2524325,19.734514 16.3570705,20.0561322 C16.8231376,20.4575564 17.2389269,21.2508282 17.2389269,22.4638795 C17.2389269,24.2012564 17.2229657,25.603448 17.2229657,26.0296121 C17.2229657,26.3775663 17.4575954,26.7821827 18.116793,26.6552912 C23.2786458,24.9322794 27,20.0633148 27,14.3212723 C27,7.14112562 21.1789496,1.32087331 13.9988029,1.32087331"></path>
+        </svg>
+    </a>
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+</div>
+
+
+
+
+    <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
+    <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
+
+	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+</footer>
+
+</nav>
+
+        <div id="content" class="content-container">
+        
+
+<h1 class="post-title">OpenIM 整合(踩坑)筆記 01</h1>
+    
+    <time>May 25, 2022</time>
+    
+    <div class="article-content">
+        <p>
+        <p><a href="https://doc.rentsoft.cn/#/introduce/production_introduce">OpenIM</a> 號稱是由一群前微信等技術專家一起出來打造的開源 IM 系統。撇開政治不談，個人覺得微信在 IM 領域確實是佼佼者，因此決定整合 OpenIM 到現有的產品中，以減少浪費時間重複造輪子。</p>
+<p>本篇目標是串連原有的帳號系統與 OpenIM 的串連系統。說白話一點就是：<strong>註冊用戶到 OpenIM</strong>。</p>
+<h2 id="system-environment-and-software-version">System environment and Software version</h2>
+<ul>
+<li>Container Infrastructure: <a href="https://k3s.io/">K3s</a></li>
+<li>OpenIM version:
+<ul>
+<li>Open-IM-Server: v2 (commit: <a href="https://github.com/OpenIMSDK/Open-IM-Server/tree/b978b6756e7558e3508bdb8bdd4ea3d7c51f79a1">b978b6756e7558e3508bdb8bdd4ea3d7c51f79a1</a>)</li>
+</ul>
+</li>
+<li>Golang: 1.18.2</li>
+<li>Operating System: CentOS 8 stream / Debian testing</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>安裝部署主要參考 OpenIM 官方文件: <a href="https://doc.rentsoft.cn/#/demo/server_deploy/k8s_cluster">k8s部署</a> 並根據自身業務平台與習慣做調整。</p>
+<h3 id="第三方的軟體">第三方的軟體</h3>
+<p>OpenIM 需要一些第三方的軟體，包含: MySQL/MariaDB, MongoDB, Kafka, ETCD, Redis, &hellip; 等。
+我主要是採用 helm 部署 bitnami 版本上去 (etcd 除外)。</p>
+<p>部署的命令大致上是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm -n openim install infra01 bitnami/mariadb --values mariadb.yml
+helm -n openim install infra02 bitnami/mongodb --values mongodb.yml
+helm -n openim install infra03 bitnami/redis --values redis.yml
+<span style="color:#75715e"># helm -n openim install infra04 bitnami/zookeeper --values zookeeper.yml</span>
+helm -n openim install infra05 bitnami/kafka --values kafka.yml
+</code></pre></div><blockquote>
+<p>雖然 bitnami/kafka 可以順便部署 zookeeper, 但是由於我的資源有限, 因此我是額外部署, 跟其他系統共用。</p>
+</blockquote>
+<blockquote>
+<p>Etcd 則不適合用 bitnami 版本部署，個人猜測可能是因為 bitnami 有預設帳號, 但是 <strong>OpenIM 目前的版本還不支援 etcd 設置帳號</strong>，因此我在這裡先採用裸機部署，以後再找解決方案。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone -b v3.5.0 https://github.com/etcd-io/etcd.git
+cd etcd/
+./build.sh
+./bin/etcd --listen-client-urls<span style="color:#f92672">=</span>http://10.60.31.91:22379 --advertise-client-urls<span style="color:#f92672">=</span>http://127.0.0.1:22379
+</code></pre></div><h3 id="openim-配置">OpenIM 配置</h3>
+<p>官方提供了 configmap.yaml template: <a href="http://public.msypy.xyz/k8syamls/openim/latest/configmap.yaml">http://public.msypy.xyz/k8syamls/openim/latest/configmap.yaml</a>。下載然後按照自己的環境修改，再 apply 上去即可。以下重點提示幾個&quot;坑&quot;:</p>
+<ul>
+<li>MySQL</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">mysql</span>:
+  <span style="color:#f92672">dbMysqlUserName</span>: <span style="color:#ae81ff">root</span> <span style="color:#75715e">#不能修改</span>
+  <span style="color:#f92672">dbMysqlPassword</span>: <span style="color:#ae81ff">ewjriwejirwe</span> <span style="color:#75715e">#root 密碼</span>
+</code></pre></div><p>MySQL 帳密必須是 root 帳密，否則一開始就無法運行。我猜測是建表的問題，但即使我設置 grant all privileges &hellip;，依然無法解決。最後還是必須改回去 root。</p>
+<ul>
+<li>Manager Secret</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">manager</span>:
+  <span style="color:#75715e">#app管理员userID和对应的secret  建议修改。 用于管理后台登录，也可以用户管理后台对应的api</span>
+  <span style="color:#f92672">appManagerUid</span>: [ <span style="color:#e6db74">&#34;xxxxxxxxx&#34;</span> ]
+  <span style="color:#f92672">secrets</span>: [ <span style="color:#e6db74">&#34;abc123456&#34;</span> ]
+
+<span style="color:#f92672">secret</span>: <span style="color:#ae81ff">arwsef234s9w</span>
+</code></pre></div><p>Call admin API 時，如果需要代入 admin uid 以及 secret，則參數是 <code>manager.appManagerUid</code> + <code>secret</code>; 而 <code>manager.secrets</code> 沒有用 (也許是管理介面會用到, 但是我還沒測試到那裡)。在本範例中也就是 <code>xxxxxxxxx</code> 是 admin 帳號, <code>arwsef234s9w</code> 才是 secret。</p>
+<h3 id="部署-openim">部署 OpenIM</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n openim apply configmap.yaml
+kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_api.yaml
+kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_auth.yaml
+kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_user.yaml
+</code></pre></div><blockquote>
+<p>如果要從 cluster 之外 call api, 記得要修改 service/api，將 <code>ClusterIP</code> 改成 <code>LoadBalancer</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n openim edit svc/api
+</code></pre></div><p>或是設置 ingress 等，請按照自己的平台做設置。</p>
+</blockquote>
+<h2 id="整合開發">整合開發</h2>
+<p>完整的程式碼就先不放了，現在也沒有空單純寫 demo，因此就將部分的業務程式碼修改一下放上來。</p>
+<p>我的目標是：檢查用戶是否註冊，如果沒有，就幫用戶註冊帳號。因此需要 call :<a href="https://doc.rentsoft.cn/#/server_doc/admin?id=%e6%9f%a5%e8%af%a2%e7%94%a8%e6%88%b7%e6%98%af%e5%90%a6%e5%9c%a8im%e4%b8%ad%e5%b7%b2%e7%bb%8f%e6%b3%a8%e5%86%8c">查询用户是否在IM中已经注册</a>以及<a href="https://doc.rentsoft.cn/#/server_doc/account?id=%e6%b3%a8%e5%86%8c%e6%96%b0%e7%94%a8%e6%88%b7">注册新用户</a>這兩個 API。不過，<code>查詢用戶是否註冊</code>，這個是管理 API，因此 http request 中必須要帶有 admin token，因此我們還需要先 call <a href="https://doc.rentsoft.cn/#/server_doc/admin?id=%e6%8d%a2%e5%8f%96%e7%ae%a1%e7%90%86%e5%91%98token">换取管理员Token</a>。</p>
+<p>依照調用順序，以下展示關鍵的程式碼:</p>
+<h3 id="取得管理員-token">取得管理員 token</h3>
+<p>基本上這個 API 需要注意的就是 manager secret，如果代錯了，就會有 error。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">apis</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;bytes&#34;</span>
+	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+	<span style="color:#e6db74">&#34;errors&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/google/uuid&#34;</span>
+	<span style="color:#e6db74">&#34;go.uber.org/zap&#34;</span>
+	<span style="color:#e6db74">&#34;io/ioutil&#34;</span>
+	<span style="color:#e6db74">&#34;net/http&#34;</span>
+	<span style="color:#e6db74">&#34;net/url&#34;</span>
+)
+
+<span style="color:#66d9ef">const</span> (
+	<span style="color:#a6e22e">MANAGER_UID</span>    = <span style="color:#e6db74">&#34;xxxxxxxxx&#34;</span>
+	<span style="color:#a6e22e">MANAGER_SECRET</span> = <span style="color:#e6db74">&#34;abc123456&#34;</span>
+	<span style="color:#a6e22e">OPENIM_API</span>     = <span style="color:#e6db74">&#34;http://w.x.y.z:10000&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">adminToken</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">UserId</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
+	<span style="color:#a6e22e">Token</span>     <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;token&#34;`</span>
+	<span style="color:#a6e22e">ExpiredAt</span> <span style="color:#66d9ef">int64</span>  <span style="color:#e6db74">`json:&#34;expiredTime&#34;`</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">getAdminTokenRequest</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">UserId</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
+	<span style="color:#a6e22e">Platform</span>  <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`json:&#34;platform&#34;`</span>
+	<span style="color:#a6e22e">RequestId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span> <span style="color:#e6db74">`json:&#34;operationID&#34;`</span>
+	<span style="color:#a6e22e">Secret</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;secret&#34;`</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">getAdminTokenResponse</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Data</span>    <span style="color:#a6e22e">adminToken</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+	<span style="color:#a6e22e">ErrCode</span> <span style="color:#66d9ef">int</span>        <span style="color:#e6db74">`json:&#34;errCode&#34;`</span>
+	<span style="color:#a6e22e">ErrMsg</span>  <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`json:&#34;errMsg&#34;`</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetOpenIMAdminToken</span>(<span style="color:#a6e22e">logger</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Logger</span>) (<span style="color:#a6e22e">secret</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+
+	<span style="color:#66d9ef">var</span> (
+		<span style="color:#a6e22e">api</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">URL</span>
+		<span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
+		<span style="color:#a6e22e">resp</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Response</span>
+	)
+
+	<span style="color:#a6e22e">_api</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">OPENIM_API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/auth/user_token&#34;</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">api</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">api</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;parse openim api failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;api&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">api</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#a6e22e">payload</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getAdminTokenRequest</span>{
+		<span style="color:#a6e22e">UserId</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">MANAGER_UID</span>,
+		<span style="color:#a6e22e">Platform</span>:  <span style="color:#ae81ff">8</span>,
+		<span style="color:#a6e22e">RequestId</span>: <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">New</span>(),
+		<span style="color:#a6e22e">Secret</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">MANAGER_SECRET</span>,
+	}
+
+	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">payload</span>)
+	<span style="color:#a6e22e">_logger</span> = <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">With</span>(<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;operation_id&#34;</span>, <span style="color:#a6e22e">payload</span>.<span style="color:#a6e22e">RequestId</span>.<span style="color:#a6e22e">String</span>()))
+
+	<span style="color:#75715e">// logger.Debug(&#34;show request&#34;, zap.String(&#34;url&#34;, api.String()))
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// fmt.Println(string(data))
+</span><span style="color:#75715e"></span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Post</span>(<span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#e6db74">&#34;application/json&#34;</span>, <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>)); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;call openim api failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;url&#34;</span>, <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>()),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;payload&#34;</span>, <span style="color:#a6e22e">data</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;decode http response failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#75715e">// logger.Debug(&#34;show response&#34;)
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// fmt.Println(string(data))
+</span><span style="color:#75715e"></span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#a6e22e">getAdminTokenResponse</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;unmarshal openim response failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;response&#34;</span>, <span style="color:#a6e22e">data</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrMsg</span>)
+		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;openim api response error&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Intp</span>(<span style="color:#e6db74">&#34;code&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#a6e22e">secret</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>.<span style="color:#a6e22e">Token</span>
+	<span style="color:#66d9ef">return</span>
+}
+</code></pre></div><h3 id="查詢用戶是否註冊">查詢用戶是否註冊</h3>
+<p>這個 API 的重點是，要將 admin token 放到 header 中，而且設置對應的字段為 <code>token</code>。其他應該沒什麼需要解釋的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">apis</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;bytes&#34;</span>
+	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+	<span style="color:#e6db74">&#34;errors&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/google/uuid&#34;</span>
+	<span style="color:#e6db74">&#34;go.uber.org/zap&#34;</span>
+	<span style="color:#e6db74">&#34;io/ioutil&#34;</span>
+	<span style="color:#e6db74">&#34;net/http&#34;</span>
+	<span style="color:#e6db74">&#34;net/url&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">userRegistered</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">UserID</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
+	<span style="color:#a6e22e">Status</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;accountStatus&#34;`</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">checkUserRegisteredRequest</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">RequestId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span> <span style="color:#e6db74">`json:&#34;operationID&#34;`</span>
+	<span style="color:#a6e22e">UserList</span>  []<span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;checkUserIDList&#34;`</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">checkUserRegisteredResponse</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Data</span>    []<span style="color:#a6e22e">userRegistered</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+	<span style="color:#a6e22e">ErrCode</span> <span style="color:#66d9ef">int</span>              <span style="color:#e6db74">`json:&#34;errCode&#34;`</span>
+	<span style="color:#a6e22e">ErrMsg</span>  <span style="color:#66d9ef">string</span>           <span style="color:#e6db74">`json:&#34;errMsg&#34;`</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">CheckOpenIMUserRegistered</span>(<span style="color:#a6e22e">logger</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Logger</span>, <span style="color:#a6e22e">user_id</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>) (<span style="color:#a6e22e">registered</span> <span style="color:#66d9ef">bool</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+
+	<span style="color:#66d9ef">var</span> (
+		<span style="color:#a6e22e">api</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">URL</span>
+		<span style="color:#a6e22e">client</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Client</span>{}
+		<span style="color:#a6e22e">data</span>   []<span style="color:#66d9ef">byte</span>
+		<span style="color:#a6e22e">req</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>
+		<span style="color:#a6e22e">resp</span>   <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Response</span>
+		<span style="color:#a6e22e">token</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+	)
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">token</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">GetOpenIMAdminToken</span>(<span style="color:#a6e22e">logger</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#a6e22e">_api</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">OPENIM_API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/manager/account_check&#34;</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">api</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">api</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;parse openim api failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;url&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">api</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#a6e22e">payload</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">checkUserRegisteredRequest</span>{
+		<span style="color:#a6e22e">RequestId</span>: <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">New</span>(),
+		<span style="color:#a6e22e">UserList</span>:  []<span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>{<span style="color:#a6e22e">user_id</span>},
+	}
+
+	<span style="color:#a6e22e">_logger</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">With</span>(
+		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;user&#34;</span>, <span style="color:#a6e22e">user_id</span>),
+		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;operation_id&#34;</span>, <span style="color:#a6e22e">payload</span>.<span style="color:#a6e22e">RequestId</span>.<span style="color:#a6e22e">String</span>()),
+	)
+
+	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">payload</span>)
+	<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">NewRequest</span>(<span style="color:#e6db74">&#34;POST&#34;</span>, <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>))
+	<span style="color:#75715e">// req.Header.Set(&#34;Authorization&#34;, &#34;Bearer &#34;+*token)
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;token&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">token</span>)
+	<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Do</span>(<span style="color:#a6e22e">req</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;check openim user registered failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;api&#34;</span>, <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>()),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;payload&#34;</span>, <span style="color:#a6e22e">data</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;decode http response failed&#34;</span>, <span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>))
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#a6e22e">checkUserRegisteredResponse</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;unmarshal openim response failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;response&#34;</span>, <span style="color:#a6e22e">data</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrMsg</span>)
+		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;check openim user registered status failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Intp</span>(<span style="color:#e6db74">&#34;code&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">UserID</span> <span style="color:#f92672">==</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">user_id</span> {
+			<span style="color:#a6e22e">registered</span> = <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">Status</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;registered&#34;</span>
+			<span style="color:#66d9ef">break</span>
+		}
+	}
+
+	<span style="color:#66d9ef">return</span>
+}
+</code></pre></div><h3 id="註冊用戶">註冊用戶</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">apis</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;bytes&#34;</span>
+	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/google/uuid&#34;</span>
+	<span style="color:#e6db74">&#34;go.uber.org/zap&#34;</span>
+	<span style="color:#e6db74">&#34;io/ioutil&#34;</span>
+	<span style="color:#e6db74">&#34;net/http&#34;</span>
+	<span style="color:#e6db74">&#34;net/url&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">registerUser</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">ExpiredAt</span> <span style="color:#66d9ef">int64</span>  <span style="color:#e6db74">`json:&#34;expiredTime&#34;`</span>
+	<span style="color:#a6e22e">Token</span>     <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;token&#34;`</span>
+	<span style="color:#a6e22e">UserId</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">registerUserRequest</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#75715e">// required fields
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">UserID</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
+	<span style="color:#a6e22e">UserName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;nickname&#34;`</span>
+	<span style="color:#a6e22e">Platform</span>  <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`json:&#34;platform&#34;`</span>
+	<span style="color:#a6e22e">RequestId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span> <span style="color:#e6db74">`json:&#34;operationID&#34;`</span>
+	<span style="color:#a6e22e">Secret</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;secret&#34;`</span>
+
+	<span style="color:#75715e">// additional
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">AvatorURL</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;faceURL,omitempty&#34;`</span>
+	<span style="color:#a6e22e">Birthday</span>  <span style="color:#66d9ef">int</span>     <span style="color:#e6db74">`json:&#34;int&#34;`</span>
+	<span style="color:#a6e22e">EMail</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;email,omitempty&#34;`</span>
+	<span style="color:#a6e22e">Ex</span>        <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;ex,omitempty&#34;`</span>
+	<span style="color:#a6e22e">Gender</span>    <span style="color:#66d9ef">int</span>     <span style="color:#e6db74">`json:&#34;gender&#34;`</span>
+	<span style="color:#a6e22e">Phone</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;phoneNumber,omitempty&#34;`</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">registerUserResponse</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Data</span>    <span style="color:#a6e22e">registerUser</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+	<span style="color:#a6e22e">ErrCode</span> <span style="color:#66d9ef">int</span>          <span style="color:#e6db74">`json:&#34;errCode&#34;`</span>
+	<span style="color:#a6e22e">ErrMsg</span>  <span style="color:#66d9ef">string</span>       <span style="color:#e6db74">`json:&#34;errMsg&#34;`</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">RegisterOpenIMUser</span>(<span style="color:#a6e22e">logger</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Logger</span>, <span style="color:#a6e22e">user</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">myAccount</span>) (<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+
+	<span style="color:#66d9ef">var</span> (
+		<span style="color:#a6e22e">api</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">URL</span>
+		<span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
+		<span style="color:#a6e22e">resp</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Response</span>
+	)
+
+	<span style="color:#a6e22e">_api</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">OPENIM_API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/auth/user_register&#34;</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">api</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">_api</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;parse openim api endpoint failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;url&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">_api</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#a6e22e">member</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">registerUserRequest</span>{
+		<span style="color:#a6e22e">UserID</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">UserId</span>,
+		<span style="color:#a6e22e">UserName</span>:  <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Name</span>,
+		<span style="color:#a6e22e">Platform</span>:  <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Platform</span>, <span style="color:#75715e">// 0, 1, 7, ... 都可以
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">RequestId</span>: <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">New</span>(),
+		<span style="color:#a6e22e">Secret</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">settings</span>.<span style="color:#a6e22e">OPENIM</span>.<span style="color:#a6e22e">Secret</span>,
+		<span style="color:#a6e22e">Gender</span>:    <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Gender</span>,
+	}
+
+	<span style="color:#a6e22e">_logger</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">With</span>(
+		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;user&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">UserId</span>),
+		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;operation_id&#34;</span>, <span style="color:#a6e22e">member</span>.<span style="color:#a6e22e">RequestId</span>.<span style="color:#a6e22e">String</span>()),
+	)
+
+	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">member</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Post</span>(<span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#e6db74">&#34;application/json&#34;</span>, <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>)); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;register openim user failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;payload&#34;</span>, <span style="color:#a6e22e">data</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;decode http response failed&#34;</span>, <span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>))
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#a6e22e">registerUserResponse</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;unmarshal openim response failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;response&#34;</span>, <span style="color:#a6e22e">data</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrMsg</span>)
+		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+			<span style="color:#e6db74">&#34;register openim user failed&#34;</span>,
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Intp</span>(<span style="color:#e6db74">&#34;code&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span>),
+			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+		)
+	}
+	<span style="color:#66d9ef">return</span>
+}
+</code></pre></div><p>Call 完之後就可以在資料庫中看到用戶註冊的資料了:</p>
+<pre tabindex="0"><code>MariaDB [openIM_v2]&gt; select * from users;
++--------------------------------------+-------------+----------+--------+--------------+---------------------+-------+------+---------------------+------------------+
+| user_id                              | name        | face_url | gender | phone_number | birth               | email | ex   | create_time         | app_manger_level |
++--------------------------------------+-------------+----------+--------+--------------+---------------------+-------+------+---------------------+------------------+
+| 85977fc1-e783-4696-9517-174ecea2e8be | Bill        |          |      1 |              | 1970-01-01 08:00:00 |       |      | 2022-05-25 11:52:21 |                1 |
+| transcend                            | AppManager1 |          |      0 |              | 1970-01-01 08:00:00 |       |      | 2022-05-25 09:12:55 |                2 |
++--------------------------------------+-------------+----------+--------+--------------+---------------------+-------+------+---------------------+------------------+
+2 rows in set (0.006 sec)
+</code></pre><h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="802-db-failed">802 db failed</h3>
+<p>Call API 時返回錯誤:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;errCode&#34;</span>: <span style="color:#ae81ff">802</span>,
+    <span style="color:#f92672">&#34;errMsg&#34;</span>: <span style="color:#e6db74">&#34;db failed&#34;</span>,
+    <span style="color:#f92672">&#34;data&#34;</span>: {
+        <span style="color:#f92672">&#34;userID&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxx&#34;</span>,
+        <span style="color:#f92672">&#34;token&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+        <span style="color:#f92672">&#34;expiredTime&#34;</span>: <span style="color:#ae81ff">0</span>
+    }
+}
+</code></pre></div><p>這個錯誤只是 <code>api</code> 自身返回的錯誤訊息，並不一定是後端真正遇到的問題。
+目前有遇到以下幾種狀況, <code>api</code> 會返回 <code>802 db failed</code>:</p>
+<ol>
+<li>操作管理員用戶 (例如獲取 admin token), 但是 MySQL 裡面沒有 admin 的帳號</li>
+<li>Redis 密碼錯誤, 沒有建立連線</li>
+</ol>
+<p>第一種狀況, 只需要把 admin 信息放回去，(理論上)就可以了：</p>
+<pre tabindex="0"><code>+--------------------------------------+-------------+----------+--------+--------------+---------------------+-------+------+---------------------+------------------+
+| user_id                              | name        | face_url | gender | phone_number | birth               | email | ex   | create_time         | app_manger_level |
++--------------------------------------+-------------+----------+--------+--------------+---------------------+-------+------+---------------------+------------------+
+| xxxxxxxxx                            | AppManager1 |          |      0 |              | 1970-01-01 08:00:00 |       |      | 2022-05-25 09:12:55 |                2 |
++--------------------------------------+-------------+----------+--------+--------------+---------------------+-------+------+---------------------+------------------+
+</code></pre><p>但是我這裡的做法比較暴力XD 因為我才剛開始，一點資料都沒有，所以我直接砍光所有的資料表，然後重跑一次 <code>api</code> 服務創建資料表</p>
+<h4 id="redis-username-password-pair-or-user-is-disabled">Redis: username-password pair or user is disabled</h4>
+<p>第二種狀況，我的情境是在 call <code>/auth/user_token</code> 返回 <code>802</code>。經追查之後發現是 <code>auth</code> 有正確的錯誤訊息:</p>
+<p><a href="https://i.imgur.com/c7L052m.png">Imgur</a></p>
+<p>原本以為是 OpenIM 寫死密碼/不支援密碼，後來才發現 configmap 裡設置的 redis 密碼不是正確的密碼。至於為什麼會有這個問題，這就是另外一個坑：</p>
+<p>我用 helm 部署 <a href="https://artifacthub.io/packages/helm/bitnami/redis">bitnami/redis</a>，部署時設置了 <code>auth.password: &quot;yyyyyyyy&quot;</code>。我以為密碼就是我設置的字串，結果:</p>
+<p><a href="https://i.imgur.com/YSGncKz.png">Imgur</a></p>
+<p>於是我按照 helm 的提示抓 redis 密碼:</p>
+<p><a href="https://i.imgur.com/lTe1RH9.png">Imgur</a></p>
+<p>原來正確的密碼是 helm 自己產生的, 而不是我設置的。設置成正確的密碼後，砍掉重建 <code>auth</code> 問題就解決了。
+順便展示下正確的回傳結構:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;errCode&#34;</span>: <span style="color:#ae81ff">0</span>,
+    <span style="color:#f92672">&#34;errMsg&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+    <span style="color:#f92672">&#34;data&#34;</span>: {
+        <span style="color:#f92672">&#34;userID&#34;</span>: <span style="color:#e6db74">&#34;transcend&#34;</span>,
+        <span style="color:#f92672">&#34;token&#34;</span>: <span style="color:#e6db74">&#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVSUQiOiJ0cmFuc2NlbmQiLCJQbGF0Zm9ybSI6IiIsImV4cCI6MTk2ODgwNzg1MSwibmJmIjoxNjUzNDQ3ODUxLCJpYXQiOjE2NTM0NDc4NTF9.zt8NhC3zhBsyq6SH35CI16lMKvXGYxqeIClCy4QKmM8&#34;</span>,
+        <span style="color:#f92672">&#34;expiredTime&#34;</span>: <span style="color:#ae81ff">1968807851</span>
+    }
+}
+</code></pre></div><h3 id="500-getuseridfromtoken-failed">500 GetUserIDFromToken failed</h3>
+<p>在 call <code>/manager/account_check</code> 檢查用戶是否已經註冊到 OpenIM 時，API 返回:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;errCode&#34;</span>: <span style="color:#ae81ff">500</span>,
+    <span style="color:#f92672">&#34;errMsg&#34;</span>: <span style="color:#e6db74">&#34;GetUserIDFromToken failed&#34;</span>
+}
+</code></pre></div><p>追查 <code>api</code> 找到以下相關日誌:</p>
+<p><a href="https://i.imgur.com/ovralnD.png">Imgur</a></p>
+<p>乍看之下還以為是我程式中的 http request 沒有帶入 token (或是 token 不完整)。但是檢查了一下程式碼，怎麼看都沒有問題。於是決定 trace OpenIM。看日誌，調用鏈的起始點是 <code>manage/management_user.go</code> 的第100行，最後在 <a href="https://github.com/OpenIMSDK/Open-IM-Server/blob/b978b6756e7558e3508bdb8bdd4ea3d7c51f79a1/internal/api/manage/management_user.go#L108"><code>internal/api/manage/manage_user.go</code></a> 找到了答案:</p>
+<p><a href="https://i.imgur.com/LuolBPr.png">Imgur</a></p>
+<p>原來 OpenIM 在 header 尋找的字段是 <code>token: xxxxxxxxx</code>，而不是一般我們看到的 <code>Authorization: Bearer xxxxxx</code>。</p>
+<p>因此, 只需要修改程式碼來配合即可解決：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">NewRequest</span>(<span style="color:#e6db74">&#34;POST&#34;</span>, <span style="color:#a6e22e">_url</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>))
+<span style="color:#75715e">// req.Header.Set(&#34;Authorization&#34;, &#34;Bearer &#34;+*token)
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;token&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">token</span>)
+</code></pre></div>
+        </p>
+    </div>
+
+    
+
+        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
+        <script type='text/javascript'>
+            const kofiId = 'maple52046';
+            kofiwidget2.init('Support Me on Ko-fi', '#29abe0', kofiId);
+            kofiwidget2.draw();
+        </script> 
+
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/openim">#OpenIM</a>
+        
+            <a class="tag" href="/tags/golang">#golang</a>
+        
+            <a class="tag" href="/tags/k8s">#k8s</a>
+        
+            <a class="tag" href="/tags/k3s">#k3s</a>
+        
+            <a class="tag" href="/tags/redis">#redis</a>
+        
+      
+    </div>
+
+    
+        <div id="utterance_thread">
+        <script
+            async
+            src="https://utteranc.es/client.js"
+            repo="maple52046/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+        >
+        </script>
+        </div>
+    
+
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "maple52046-githubio" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        
+        </div>
+        <footer class="footer-mobile">
+	<div class="social-icons">
+        
+    <a class="social-icon" href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="Email">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M25.2794292,5.59128519 L14,16.8707144 L2.72057081,5.59128519 C3.06733103,5.30237414 3.51336915,5.12857603 4,5.12857603 L24,5.12857603 C24.4866308,5.12857603 24.932669,5.30237414 25.2794292,5.59128519 Z M25.9956978,6.99633695 C25.998551,7.04004843 26,7.08414302 26,7.12857603 L26,20.871424 C26,21.0798433 25.9681197,21.2808166 25.9089697,21.4697335 L18.7156355,14.2763993 L25.9956978,6.99633695 Z M24.9498374,22.6319215 C24.6672737,22.7846939 24.3437653,22.871424 24,22.871424 L4,22.871424 C3.5268522,22.871424 3.09207889,22.7071233 2.74962118,22.432463 L10.0950247,15.0870594 L13.9848068,18.9768415 L14.1878486,18.7737996 L14.2030419,18.7889929 L17.6549753,15.3370594 L24.9498374,22.6319215 Z M2.00810114,21.0526627 C2.00273908,20.9929669 2,20.9325153 2,20.871424 L2,7.12857603 C2,7.08414302 2.00144896,7.04004843 2.00430222,6.99633695 L9.03436454,14.0263993 L2.00810114,21.0526627 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.instagram.com/bill0155/" target="_blank" rel="noopener" title="Instagram">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+             <path d="M14.0000238,2.00378571 C17.2579762,2.00378571 17.6665,2.01759524 18.9460238,2.07597619 C20.222881,2.13421429 21.0949286,2.33702381 21.8579762,2.63359524 C22.6468333,2.94011905 23.3158333,3.35030952 23.9827857,4.01721429 C24.6496905,4.68416667 25.059881,5.35316667 25.3664524,6.14202381 C25.6629762,6.90507143 25.8657857,7.77711905 25.9240238,9.05397619 C25.9824048,10.3335 25.9962143,10.7420238 25.9962143,14.0000238 C25.9962143,17.2579762 25.9824048,17.6665 25.9240238,18.9460238 C25.8657857,20.222881 25.6629762,21.0949286 25.3664524,21.8579762 C25.059881,22.6468333 24.6496905,23.3158333 23.9827857,23.9827857 C23.3158333,24.6496905 22.6468333,25.059881 21.8579762,25.3664524 C21.0949286,25.6629762 20.222881,25.8657857 18.9460238,25.9240238 C17.6665,25.9824048 17.2579762,25.9962143 14.0000238,25.9962143 C10.7420238,25.9962143 10.3335,25.9824048 9.05397619,25.9240238 C7.77711905,25.8657857 6.90507143,25.6629762 6.14202381,25.3664524 C5.35316667,25.059881 4.68416667,24.6496905 4.01721429,23.9827857 C3.35030952,23.3158333 2.94011905,22.6468333 2.63359524,21.8579762 C2.33702381,21.0949286 2.13421429,20.222881 2.07597619,18.9460238 C2.01759524,17.6665 2.00378571,17.2579762 2.00378571,14.0000238 C2.00378571,10.7420238 2.01759524,10.3335 2.07597619,9.05397619 C2.13421429,7.77711905 2.33702381,6.90507143 2.63359524,6.14202381 C2.94011905,5.35316667 3.35030952,4.68416667 4.01721429,4.01721429 C4.68416667,3.35030952 5.35316667,2.94011905 6.14202381,2.63359524 C6.90507143,2.33702381 7.77711905,2.13421429 9.05397619,2.07597619 C10.3335,2.01759524 10.7420238,2.00378571 14.0000238,2.00378571 Z M14.0000238,4.1652619 C10.796881,4.1652619 10.4174524,4.1775 9.1525,4.23521429 C7.98288095,4.28854762 7.34769048,4.48397619 6.92497619,4.6482619 C6.36502381,4.86588095 5.96540476,5.12583333 5.54564286,5.54564286 C5.12583333,5.96540476 4.86588095,6.36502381 4.6482619,6.92497619 C4.48397619,7.34769048 4.28854762,7.98288095 4.23521429,9.1525 C4.1775,10.4174524 4.1652619,10.796881 4.1652619,14.0000238 C4.1652619,17.203119 4.1775,17.5825476 4.23521429,18.8475 C4.28854762,20.017119 4.48397619,20.6523095 4.6482619,21.0750238 C4.86588095,21.6349762 5.12588095,22.0345952 5.54564286,22.4543571 C5.96540476,22.8741667 6.36502381,23.134119 6.92497619,23.3517381 C7.34769048,23.5160238 7.98288095,23.7114524 9.1525,23.7647857 C10.4173095,23.8225 10.7966429,23.8347381 14.0000238,23.8347381 C17.2033571,23.8347381 17.5827381,23.8225 18.8475,23.7647857 C20.017119,23.7114524 20.6523095,23.5160238 21.0750238,23.3517381 C21.6349762,23.134119 22.0345952,22.8741667 22.4543571,22.4543571 C22.8741667,22.0345952 23.134119,21.6349762 23.3517381,21.0750238 C23.5160238,20.6523095 23.7114524,20.017119 23.7647857,18.8475 C23.8225,17.5825476 23.8347381,17.203119 23.8347381,14.0000238 C23.8347381,10.796881 23.8225,10.4174524 23.7647857,9.1525 C23.7114524,7.98288095 23.5160238,7.34769048 23.3517381,6.92497619 C23.134119,6.36502381 22.8741667,5.96540476 22.4543571,5.54564286 C22.0345952,5.12583333 21.6349762,4.86588095 21.0750238,4.6482619 C20.6523095,4.48397619 20.017119,4.28854762 18.8475,4.23521429 C17.5825476,4.1775 17.203119,4.1652619 14.0000238,4.1652619 Z M14.0000238,17.9987381 C16.2084524,17.9987381 17.9987381,16.2084524 17.9987381,14.0000238 C17.9987381,11.7915476 16.2084524,10.0012619 14.0000238,10.0012619 C11.7915476,10.0012619 10.0012619,11.7915476 10.0012619,14.0000238 C10.0012619,16.2084524 11.7915476,17.9987381 14.0000238,17.9987381 Z M14.0000238,7.83978571 C17.4022143,7.83978571 20.1602143,10.5977857 20.1602143,14.0000238 C20.1602143,17.4022143 17.4022143,20.1602143 14.0000238,20.1602143 C10.5977857,20.1602143 7.83978571,17.4022143 7.83978571,14.0000238 C7.83978571,10.5977857 10.5977857,7.83978571 14.0000238,7.83978571 Z M21.8431667,7.59640476 C21.8431667,8.39145238 21.1986429,9.03592857 20.4035952,9.03592857 C19.6085952,9.03592857 18.9640714,8.39145238 18.9640714,7.59640476 C18.9640714,6.80135714 19.6085952,6.15683333 20.4035952,6.15683333 C21.1986429,6.15683333 21.8431667,6.80135714 21.8431667,7.59640476 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.linkedin.com/in/kuchenhao" target="_blank" rel="noopener" title="LinkedIn">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M2,3.654102 C2,2.69908141 2.79442509,1.92397846 3.77383592,1.92397846 L24.2261641,1.92397846 C25.2058917,1.92397846 26,2.69908141 26,3.654102 L26,24.3462148 C26,25.3015521 25.2058917,26.0760215 24.2261641,26.0760215 L3.77383592,26.0760215 C2.79442509,26.0760215 2,25.3015521 2,24.3465315 L2,3.65378524 L2,3.654102 Z M9.27526132,22.1415901 L9.27526132,11.2356668 L5.65030092,11.2356668 L5.65030092,22.1415901 L9.27557808,22.1415901 L9.27526132,22.1415901 Z M7.46341463,9.74691162 C8.72727273,9.74691162 9.51409566,8.90940767 9.51409566,7.86284447 C9.49033893,6.79252455 8.72727273,5.97846056 7.48748812,5.97846056 C6.24675325,5.97846056 5.43649034,6.79252455 5.43649034,7.86284447 C5.43649034,8.90940767 6.22299652,9.74691162 7.4396579,9.74691162 L7.46309788,9.74691162 L7.46341463,9.74691162 Z M11.2815965,22.1415901 L14.9062401,22.1415901 L14.9062401,16.0519481 C14.9062401,15.7263225 14.9299968,15.4000634 15.0256573,15.1675641 C15.2876148,14.5159962 15.8840672,13.8416218 16.8856509,13.8416218 C18.1970225,13.8416218 18.7218879,14.8416218 18.7218879,16.3078872 L18.7218879,22.1415901 L22.3465315,22.1415901 L22.3465315,15.8885017 C22.3465315,12.5388027 20.5584416,10.9800443 18.1735825,10.9800443 C16.2182452,10.9800443 15.3595185,12.072854 14.8824834,12.8172315 L14.9065569,12.8172315 L14.9065569,11.2359835 L11.2819132,11.2359835 C11.3291099,12.2591067 11.2815965,22.1419069 11.2815965,22.1419069 L11.2815965,22.1415901 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <a class="social-icon" href="https://github.com/maple52046" target="_blank" rel="noopener" title="GitHub">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M13.9988029,1.32087331 C6.82105037,1.32087331 1,7.14112562 1,14.3212723 C1,20.0649109 4.72454649,24.9370678 9.89038951,26.6560892 C10.5408085,26.7757983 10.7778323,26.374374 10.7778323,26.0296121 C10.7778323,25.7215609 10.7666595,24.9035493 10.760275,23.8189856 C7.14426471,24.6042767 6.38131925,22.0760223 6.38131925,22.0760223 C5.78995672,20.5740732 4.93762853,20.1742451 4.93762853,20.1742451 C3.75729765,19.3682044 5.02701126,19.3841656 5.02701126,19.3841656 C6.33183953,19.4759425 7.01817121,20.7241085 7.01817121,20.7241085 C8.17775254,22.7104801 10.0611744,22.1366749 10.8017741,21.8038838 C10.919887,20.9643246 11.2558703,20.3913175 11.6269683,20.066507 C8.74038491,19.7385043 5.70536235,18.6228163 5.70536235,13.6413251 C5.70536235,12.2223743 6.21213051,11.0611968 7.04370914,10.1530044 C6.90963504,9.82420367 6.46351945,8.50181809 7.17139875,6.71256734 C7.17139875,6.71256734 8.26234691,6.36301702 10.7459099,8.04532771 C11.78259,7.75642995 12.8950858,7.61277914 14.000399,7.60719272 C15.1049142,7.61277914 16.2166119,7.75642995 17.2548881,8.04532771 C19.736855,6.36301702 20.8262071,6.71256734 20.8262071,6.71256734 C21.5356825,8.50181809 21.0895669,9.82420367 20.9562909,10.1530044 C21.7894656,11.0611968 22.2922435,12.2223743 22.2922435,13.6413251 C22.2922435,18.6355852 19.2524325,19.734514 16.3570705,20.0561322 C16.8231376,20.4575564 17.2389269,21.2508282 17.2389269,22.4638795 C17.2389269,24.2012564 17.2229657,25.603448 17.2229657,26.0296121 C17.2229657,26.3775663 17.4575954,26.7821827 18.116793,26.6552912 C23.2786458,24.9322794 27,20.0633148 27,14.3212723 C27,7.14112562 21.1789496,1.32087331 13.9988029,1.32087331"></path>
+        </svg>
+    </a>
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+</div>
+
+
+
+
+	<div class="footer-mobile-links">
+        <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
+		<span class="divider-bar">|</span>
+        <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
+	</div>
+
+	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+</footer>
+
+    </body>
+</html>

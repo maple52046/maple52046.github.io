@@ -6,7 +6,17 @@
     <description>Recent content on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 28 Oct 2021 20:36:27 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 May 2022 18:40:10 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenIM 整合(踩坑)筆記 01</title>
+      <link>https://maple52046.github.io/posts/openim-integration-notes-01/</link>
+      <pubDate>Wed, 25 May 2022 18:40:10 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/openim-integration-notes-01/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://doc.rentsoft.cn/#/introduce/production_introduce&#34;&gt;OpenIM&lt;/a&gt; 號稱是由一群前微信等技術專家一起出來打造的開源 IM 系統。撇開政治不談，個人覺得微信在 IM 領域確實是佼佼者，因此決定整合 OpenIM 到現有的產品中，以減少浪費時間重複造輪子。&lt;/p&gt;
+&lt;p&gt;本篇目標是串連原有的帳號系統與 OpenIM 的串連系統。說白話一點就是：&lt;strong&gt;註冊用戶到 OpenIM&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>在 Flutter MaterialApp 中使用指定顏色</title>
       <link>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</link>
