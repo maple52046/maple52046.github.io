@@ -172,6 +172,11 @@ if (!doNotTrack) {
         <p>
         <p><a href="https://doc.rentsoft.cn/#/introduce/production_introduce">OpenIM</a> 號稱是由一群前微信等技術專家一起出來打造的開源 IM 系統。撇開政治不談，個人覺得微信在 IM 領域確實是佼佼者，因此決定整合 OpenIM 到現有的產品中，以減少浪費時間重複造輪子。</p>
 <p>本篇目標是串連原有的帳號系統與 OpenIM 的串連系統。說白話一點就是：<strong>註冊用戶到 OpenIM</strong>。</p>
+<p>文中:</p>
+<ul>
+<li><code>open_im_api</code> 就是 OpenIM API 服務</li>
+<li><code>open_im_auth</code> 就是 OepnIM Auth 服務</li>
+</ul>
 <h2 id="system-environment-and-software-version">System environment and Software version</h2>
 <ul>
 <li>Container Infrastructure: <a href="https://k3s.io/">K3s</a></li>
@@ -184,7 +189,7 @@ if (!doNotTrack) {
 <li>Operating System: CentOS 8 stream / Debian testing</li>
 </ul>
 <h2 id="installation">Installation</h2>
-<p>安裝部署主要參考 OpenIM 官方文件: <a href="https://doc.rentsoft.cn/#/demo/server_deploy/k8s_cluster">k8s部署</a> 並根據自身業務平台與習慣做調整。</p>
+<p>安裝部署主要參考 OpenIM 官方文件: <a href="https://doc.rentsoft.cn/#/demo/server_deploy/k8s_cluster">k8s部署</a> ，並根據自身業務平台與習慣做調整。</p>
 <h3 id="第三方的軟體">第三方的軟體</h3>
 <p>OpenIM 需要一些第三方的軟體，包含: MySQL/MariaDB, MongoDB, Kafka, ETCD, Redis, &hellip; 等。
 我主要是採用 helm 部署 bitnami 版本上去 (etcd 除外)。</p>
@@ -195,7 +200,7 @@ helm -n openim install infra03 bitnami/redis --values redis.yml
 <span style="color:#75715e"># helm -n openim install infra04 bitnami/zookeeper --values zookeeper.yml</span>
 helm -n openim install infra05 bitnami/kafka --values kafka.yml
 </code></pre></div><blockquote>
-<p>雖然 bitnami/kafka 可以順便部署 zookeeper, 但是由於我的資源有限, 因此我是額外部署, 跟其他系統共用。</p>
+<p>bitnami/kafka 可以順便部署 zookeeper，請自行決定。</p>
 </blockquote>
 <blockquote>
 <p>Etcd 則不適合用 bitnami 版本部署，個人猜測可能是因為 bitnami 有預設帳號, 但是 <strong>OpenIM 目前的版本還不支援 etcd 設置帳號</strong>，因此我在這裡先採用裸機部署，以後再找解決方案。</p>
@@ -205,14 +210,14 @@ cd etcd/
 ./build.sh
 ./bin/etcd --listen-client-urls<span style="color:#f92672">=</span>http://10.60.31.91:22379 --advertise-client-urls<span style="color:#f92672">=</span>http://127.0.0.1:22379
 </code></pre></div><h3 id="openim-配置">OpenIM 配置</h3>
-<p>官方提供了 configmap.yaml template: <a href="http://public.msypy.xyz/k8syamls/openim/latest/configmap.yaml">http://public.msypy.xyz/k8syamls/openim/latest/configmap.yaml</a>。下載然後按照自己的環境修改，再 apply 上去即可。以下重點提示幾個&quot;坑&quot;:</p>
+<p>官方提供了 <a href="http://public.msypy.xyz/k8syamls/openim/latest/configmap.yaml"><code>configmap.yaml</code></a> template，下載後按照自己的環境修改，再 apply 上去即可。以下重點提示幾個&quot;坑&quot;:</p>
 <ul>
 <li>MySQL</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">mysql</span>:
   <span style="color:#f92672">dbMysqlUserName</span>: <span style="color:#ae81ff">root</span> <span style="color:#75715e">#不能修改</span>
   <span style="color:#f92672">dbMysqlPassword</span>: <span style="color:#ae81ff">ewjriwejirwe</span> <span style="color:#75715e">#root 密碼</span>
-</code></pre></div><p>MySQL 帳密必須是 root 帳密，否則一開始就無法運行。我猜測是建表的問題，但即使我設置 grant all privileges &hellip;，依然無法解決。最後還是必須改回去 root。</p>
+</code></pre></div><p>MySQL 帳密必須是 root 帳密，否則一開始就無法運行。我猜測是建表的問題，但即使 <code>grant all privileges</code>，依然無法解決。最後還是必須改回去 root。</p>
 <ul>
 <li>Manager Secret</li>
 </ul>
@@ -222,20 +227,20 @@ cd etcd/
   <span style="color:#f92672">secrets</span>: [ <span style="color:#e6db74">&#34;abc123456&#34;</span> ]
 
 <span style="color:#f92672">secret</span>: <span style="color:#ae81ff">arwsef234s9w</span>
-</code></pre></div><p>Call admin API 時，如果需要代入 admin uid 以及 secret，則參數是 <code>manager.appManagerUid</code> + <code>secret</code>; 而 <code>manager.secrets</code> 沒有用 (也許是管理介面會用到, 但是我還沒測試到那裡)。在本範例中也就是 <code>xxxxxxxxx</code> 是 admin 帳號, <code>arwsef234s9w</code> 才是 secret。</p>
+</code></pre></div><p>Call admin API 時，如果參數代入 <code>manager.appManagerUid</code> 以及 <code>manager.secrets</code><em>(<code>abc123456</code>)</em>，<code>open_im_api</code> 卻返回 401 <code>not authorized</code>。這時候就需要將 <code>manager.secrets</code> 換成 <code>secret</code><em>(<code>arwsef234s9w</code>)</em>。</p>
 <h3 id="部署-openim">部署 OpenIM</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n openim apply configmap.yaml
 kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_api.yaml
 kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_auth.yaml
 kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_user.yaml
 </code></pre></div><blockquote>
-<p>如果要從 cluster 之外 call api, 記得要修改 service/api，將 <code>ClusterIP</code> 改成 <code>LoadBalancer</code>。</p>
+<p>如果要從 cluster 之外 call <code>open_im_api</code> , 記得要修改 service/api，將 <code>ClusterIP</code> 改成 <code>LoadBalancer</code>。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n openim edit svc/api
 </code></pre></div><p>或是設置 ingress 等，請按照自己的平台做設置。</p>
 </blockquote>
 <h2 id="整合開發">整合開發</h2>
-<p>完整的程式碼就先不放了，現在也沒有空單純寫 demo，因此就將部分的業務程式碼修改一下放上來。</p>
-<p>我的目標是：檢查用戶是否註冊，如果沒有，就幫用戶註冊帳號。因此需要 call :<a href="https://doc.rentsoft.cn/#/server_doc/admin?id=%e6%9f%a5%e8%af%a2%e7%94%a8%e6%88%b7%e6%98%af%e5%90%a6%e5%9c%a8im%e4%b8%ad%e5%b7%b2%e7%bb%8f%e6%b3%a8%e5%86%8c">查询用户是否在IM中已经注册</a>以及<a href="https://doc.rentsoft.cn/#/server_doc/account?id=%e6%b3%a8%e5%86%8c%e6%96%b0%e7%94%a8%e6%88%b7">注册新用户</a>這兩個 API。不過，<code>查詢用戶是否註冊</code>，這個是管理 API，因此 http request 中必須要帶有 admin token，因此我們還需要先 call <a href="https://doc.rentsoft.cn/#/server_doc/admin?id=%e6%8d%a2%e5%8f%96%e7%ae%a1%e7%90%86%e5%91%98token">换取管理员Token</a>。</p>
+<p>完整的程式碼就先不放了，現在也沒有空寫 demo，因此就將部分的業務程式碼修改一下放上來。</p>
+<p>我的目標是：檢查用戶是否註冊，如果沒有，就幫用戶註冊帳號。因此需要 call: <a href="https://doc.rentsoft.cn/#/server_doc/admin?id=%e6%9f%a5%e8%af%a2%e7%94%a8%e6%88%b7%e6%98%af%e5%90%a6%e5%9c%a8im%e4%b8%ad%e5%b7%b2%e7%bb%8f%e6%b3%a8%e5%86%8c"><strong>查询用户是否在IM中已经注册</strong></a> 以及 <a href="https://doc.rentsoft.cn/#/server_doc/account?id=%e6%b3%a8%e5%86%8c%e6%96%b0%e7%94%a8%e6%88%b7"><strong>注册新用户</strong></a> 這兩個 API。不過，<code>查詢用戶是否註冊</code>，這個是管理 API，因此 http request 中必須要帶有 manager token，因此我們還需要先 call <a href="https://doc.rentsoft.cn/#/server_doc/admin?id=%e6%8d%a2%e5%8f%96%e7%ae%a1%e7%90%86%e5%91%98token"><strong>换取管理员Token</strong></a>。</p>
 <p>依照調用順序，以下展示關鍵的程式碼:</p>
 <h3 id="取得管理員-token">取得管理員 token</h3>
 <p>基本上這個 API 需要注意的就是 manager secret，如果代錯了，就會有 error。</p>
@@ -355,7 +360,7 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
 	<span style="color:#66d9ef">return</span>
 }
 </code></pre></div><h3 id="查詢用戶是否註冊">查詢用戶是否註冊</h3>
-<p>這個 API 的重點是，要將 admin token 放到 header 中，而且設置對應的字段為 <code>token</code>。其他應該沒什麼需要解釋的。</p>
+<p>這個 API 的重點是，要將 manager token 放到 header 中，而且設置對應的字段為 <code>token</code>。其他應該沒什麼需要解釋的。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">apis</span>
 
 <span style="color:#f92672">import</span> (
@@ -602,10 +607,10 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
         <span style="color:#f92672">&#34;expiredTime&#34;</span>: <span style="color:#ae81ff">0</span>
     }
 }
-</code></pre></div><p>這個錯誤只是 <code>api</code> 自身返回的錯誤訊息，並不一定是後端真正遇到的問題。
-目前有遇到以下幾種狀況, <code>api</code> 會返回 <code>802 db failed</code>:</p>
+</code></pre></div><p>這個錯誤只是 <code>open_im_api</code> 自身返回的錯誤訊息，並不一定是後端真正遇到的問題。
+目前遇到有以下兩種狀況, <code>open_im_api</code> 會返回 <code>802 db failed</code>:</p>
 <ol>
-<li>操作管理員用戶 (例如獲取 admin token), 但是 MySQL 裡面沒有 admin 的帳號</li>
+<li>操作管理員用戶 (例如獲取 manager token), 但是 MySQL 裡面沒有 admin 的帳號</li>
 <li>Redis 密碼錯誤, 沒有建立連線</li>
 </ol>
 <p>第一種狀況, 只需要把 admin 信息放回去，(理論上)就可以了：</p>
@@ -614,16 +619,16 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
 +--------------------------------------+-------------+----------+--------+--------------+---------------------+-------+------+---------------------+------------------+
 | xxxxxxxxx                            | AppManager1 |          |      0 |              | 1970-01-01 08:00:00 |       |      | 2022-05-25 09:12:55 |                2 |
 +--------------------------------------+-------------+----------+--------+--------------+---------------------+-------+------+---------------------+------------------+
-</code></pre><p>但是我這裡的做法比較暴力XD 因為我才剛開始，一點資料都沒有，所以我直接砍光所有的資料表，然後重跑一次 <code>api</code> 服務創建資料表</p>
+</code></pre><p>但是我這裡的做法比較暴力XD 因為我才剛開始，一點資料都沒有，所以我直接砍光所有的資料表，然後重跑一次 <code>open_im_api</code> 創建資料表</p>
 <h4 id="redis-username-password-pair-or-user-is-disabled">Redis: username-password pair or user is disabled</h4>
-<p>第二種狀況，我的情境是在 call <code>/auth/user_token</code> 返回 <code>802</code>。經追查之後發現是 <code>auth</code> 有正確的錯誤訊息:</p>
-<p><a href="https://i.imgur.com/c7L052m.png">Imgur</a></p>
+<p>第二種狀況，我的情境是在 call <code>/auth/user_token</code> 返回 <code>802</code>。經追查之後發現是 <code>open_im_auth</code> 有錯誤訊息:</p>
+<p><img src="https://i.imgur.com/c7L052m.png" alt="Imgur"></p>
 <p>原本以為是 OpenIM 寫死密碼/不支援密碼，後來才發現 configmap 裡設置的 redis 密碼不是正確的密碼。至於為什麼會有這個問題，這就是另外一個坑：</p>
 <p>我用 helm 部署 <a href="https://artifacthub.io/packages/helm/bitnami/redis">bitnami/redis</a>，部署時設置了 <code>auth.password: &quot;yyyyyyyy&quot;</code>。我以為密碼就是我設置的字串，結果:</p>
-<p><a href="https://i.imgur.com/YSGncKz.png">Imgur</a></p>
+<p><img src="https://i.imgur.com/YSGncKz.png" alt="Imgur"></p>
 <p>於是我按照 helm 的提示抓 redis 密碼:</p>
-<p><a href="https://i.imgur.com/lTe1RH9.png">Imgur</a></p>
-<p>原來正確的密碼是 helm 自己產生的, 而不是我設置的。設置成正確的密碼後，砍掉重建 <code>auth</code> 問題就解決了。
+<p><img src="https://i.imgur.com/lTe1RH9.png" alt="Imgur"></p>
+<p>原來正確的密碼是 helm 自己產生的, 而不是我設置的。設置成正確的密碼後，砍掉重建 <code>open_im_auth</code> 的 pod，問題就解決了。
 順便展示下正確的回傳結構:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
     <span style="color:#f92672">&#34;errCode&#34;</span>: <span style="color:#ae81ff">0</span>,
@@ -635,16 +640,16 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
     }
 }
 </code></pre></div><h3 id="500-getuseridfromtoken-failed">500 GetUserIDFromToken failed</h3>
-<p>在 call <code>/manager/account_check</code> 檢查用戶是否已經註冊到 OpenIM 時，API 返回:</p>
+<p>在 call <code>/manager/account_check</code> 檢查用戶是否已經註冊到 OpenIM 時，<code>open_im_api</code> 返回:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
     <span style="color:#f92672">&#34;errCode&#34;</span>: <span style="color:#ae81ff">500</span>,
     <span style="color:#f92672">&#34;errMsg&#34;</span>: <span style="color:#e6db74">&#34;GetUserIDFromToken failed&#34;</span>
 }
-</code></pre></div><p>追查 <code>api</code> 找到以下相關日誌:</p>
-<p><a href="https://i.imgur.com/ovralnD.png">Imgur</a></p>
-<p>乍看之下還以為是我程式中的 http request 沒有帶入 token (或是 token 不完整)。但是檢查了一下程式碼，怎麼看都沒有問題。於是決定 trace OpenIM。看日誌，調用鏈的起始點是 <code>manage/management_user.go</code> 的第100行，最後在 <a href="https://github.com/OpenIMSDK/Open-IM-Server/blob/b978b6756e7558e3508bdb8bdd4ea3d7c51f79a1/internal/api/manage/management_user.go#L108"><code>internal/api/manage/manage_user.go</code></a> 找到了答案:</p>
-<p><a href="https://i.imgur.com/LuolBPr.png">Imgur</a></p>
-<p>原來 OpenIM 在 header 尋找的字段是 <code>token: xxxxxxxxx</code>，而不是一般我們看到的 <code>Authorization: Bearer xxxxxx</code>。</p>
+</code></pre></div><p>追查 <code>open_im_api</code> 找到以下相關日誌:</p>
+<p><img src="https://i.imgur.com/ovralnD.png" alt="Imgur"></p>
+<p>乍看之下還以為是我程式中的 http request 沒有帶入 token (或是 token 不完整)。但是檢查了一下程式碼，怎麼看都沒有問題。於是 trace 日誌，調用鏈的起始點是 <code>manage/management_user.go</code> 的第100行，最後在 <a href="https://github.com/OpenIMSDK/Open-IM-Server/blob/b978b6756e7558e3508bdb8bdd4ea3d7c51f79a1/internal/api/manage/management_user.go#L108"><code>internal/api/manage/manage_user.go</code></a> 找到了答案:</p>
+<p><img src="https://i.imgur.com/LuolBPr.png" alt="Imgur"></p>
+<p>原來 OpenIM 在 header 尋找的字段是 <code>token: xxxxxxxxx</code>，而不是一般我們習慣的 <code>Authorization: Bearer xxxxxx</code>。</p>
 <p>因此, 只需要修改程式碼來配合即可解決：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">NewRequest</span>(<span style="color:#e6db74">&#34;POST&#34;</span>, <span style="color:#a6e22e">_url</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>))
 <span style="color:#75715e">// req.Header.Set(&#34;Authorization&#34;, &#34;Bearer &#34;+*token)
@@ -672,11 +677,9 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
         
             <a class="tag" href="/tags/golang">#golang</a>
         
-            <a class="tag" href="/tags/k8s">#k8s</a>
-        
             <a class="tag" href="/tags/k3s">#k3s</a>
         
-            <a class="tag" href="/tags/redis">#redis</a>
+            <a class="tag" href="/tags/etcd">#etcd</a>
         
       
     </div>
