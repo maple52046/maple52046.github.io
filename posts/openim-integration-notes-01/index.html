@@ -291,6 +291,8 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
 		<span style="color:#a6e22e">resp</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Response</span>
 	)
 
+    <span style="color:#75715e">/* 可以在這裡增加程式，從 redis 中讀取已存的 token */</span>
+
 	<span style="color:#a6e22e">_api</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">OPENIM_API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/auth/user_token&#34;</span>
 	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">api</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">api</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
 		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
@@ -355,6 +357,8 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
 		)
 		<span style="color:#66d9ef">return</span>
 	}
+
+    <span style="color:#75715e">/* 可以在這裡增加程式，將 token 存入 redis */</span>
 
 	<span style="color:#a6e22e">secret</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>.<span style="color:#a6e22e">Token</span>
 	<span style="color:#66d9ef">return</span>
@@ -476,6 +480,10 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
 	<span style="color:#66d9ef">return</span>
 }
 </code></pre></div><h3 id="註冊用戶">註冊用戶</h3>
+<ul>
+<li><code>myAccount</code> 是我的內部資料結構。其他應該也不用解釋XD</li>
+<li><code>platform</code> 的數值可以參考: <a href="https://doc.rentsoft.cn/#/server_doc/public">OpenIM字段说明</a></li>
+</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">apis</span>
 
 <span style="color:#f92672">import</span> (
@@ -539,7 +547,7 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
 	<span style="color:#a6e22e">member</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">registerUserRequest</span>{
 		<span style="color:#a6e22e">UserID</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">UserId</span>,
 		<span style="color:#a6e22e">UserName</span>:  <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Name</span>,
-		<span style="color:#a6e22e">Platform</span>:  <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Platform</span>, <span style="color:#75715e">// 0, 1, 7, ... 都可以
+		<span style="color:#a6e22e">Platform</span>:  <span style="color:#ae81ff">7</span>, <span style="color:#75715e">// 0, 1, 7, ... 都可以
 </span><span style="color:#75715e"></span>		<span style="color:#a6e22e">RequestId</span>: <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">New</span>(),
 		<span style="color:#a6e22e">Secret</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">settings</span>.<span style="color:#a6e22e">OPENIM</span>.<span style="color:#a6e22e">Secret</span>,
 		<span style="color:#a6e22e">Gender</span>:    <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Gender</span>,
