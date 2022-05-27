@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>flutter on 世界的盡頭</title>
-    <link>https://maple52046.github.io/tags/flutter/</link>
-    <description>Recent content in flutter on 世界的盡頭</description>
+    <title>ffcache on 世界的盡頭</title>
+    <link>https://maple52046.github.io/tags/ffcache/</link>
+    <description>Recent content in ffcache on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Fri, 27 May 2022 17:57:53 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/tags/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 27 May 2022 17:57:53 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/tags/ffcache/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>客製化 Flutter Image Provider</title>
       <link>https://maple52046.github.io/posts/customize-flutter-image-provider/</link>
@@ -17,16 +17,6 @@
 &lt;p&gt;然而後來圖片一多起來之後，就發現問題了，往往 app 打開滑沒幾下就 crash。看 log 是 OOM 問題，上網查了一下，有人說是 memory leak。大致上就是 image disposed 之後，沒有正確的釋放 ram，app 佔用的 ram 越來越多，就直接觸發 OOM killer。測試了一下原生的 NetworkImage 沒有這個問題。所以應該就是 Optimized Cached Image 的問題了。&lt;/p&gt;
 &lt;p&gt;另外就是在我的程式裡，widget 只拿到 media id，需要先到後端去查 media 的 presigned url 返回給 app，app 再用 presigned url 抓圖片資料。也就是原來的程式碼裡一直都是 future builder + image，這造成的問題就是頁面一刷新就要重新抓 presigned url，大大降低了效率，也大大提升了後端的負載。&lt;/p&gt;
 &lt;p&gt;因此決定客製化一個業務專用的 image provider。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>在 Flutter MaterialApp 中使用指定顏色</title>
-      <link>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</link>
-      <pubDate>Thu, 28 Oct 2021 20:36:27 +0800</pubDate>
-      
-      <guid>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</guid>
-      <description>&lt;p&gt;使用 Flutter MaterialApp 時，如果直接使用 &lt;code&gt;Color.fromRGBO&lt;/code&gt; 指定 ThemeData 的 &lt;code&gt;primarySwatch&lt;/code&gt; 會出現類型錯誤。這是因為 &lt;code&gt;primarySwatch&lt;/code&gt; 接收的類型是 &lt;code&gt;MaterialColor&lt;/code&gt; 而不是 &lt;code&gt;Color&lt;/code&gt;：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/8oO6cvG.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

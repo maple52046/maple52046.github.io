@@ -2,13 +2,12 @@
 
 <html lang="zh-tw">
     <head>
-	<meta name="generator" content="Hugo 0.88.1" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>世界的盡頭</title>
+    <title>ffcache | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -31,7 +30,7 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
  
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/index.xml" title="世界的盡頭" />
+    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/tags/ffcache/index.xml" title="世界的盡頭" />
     
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
@@ -44,10 +43,10 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="世界的盡頭" />
+      <meta property="og:title" content="ffcache" />
 <meta property="og:description" content="牽妳走過世界的盡頭" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
+<meta property="og:url" content="https://maple52046.github.io/tags/ffcache/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="og:site_name" content="世界的盡頭" />
 
 </head>
 
@@ -163,338 +162,32 @@ if (!doNotTrack) {
 
         <div id="content" class="content-container">
         
-<div class = "article-content">
-        
-        <div class="description">
-            <p>牽妳走過世界的盡頭</p>
-        </div>
-        
-        
-        
-        
-        <article>
+
+  <h1>Tagged "ffcache"</h1>
+  
+  
+    
+    <article>
             <h2>
-                <a href="https://maple52046.github.io/posts/configure-open-vswitch-in-openwrt/">
-                    Configure Open vSwitch in OpenWRT
+                <a href="https://maple52046.github.io/posts/customize-flutter-image-provider/">
+                    客製化 Flutter Image Provider
                 </a>
             </h2>
             <div>
-                <p><p>當你安裝完 Open vSwitch 或是燒了一個<a href="http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch">內建 Open vSwitch 的 OpenWRT</a> 後，接下來要將網卡綁到 Open vSwitch 上。</p></p>
+                <p><p>之前在 flutter app 中使用 <a href="https://pub.dev/packages/optimized_cached_image">Optimized Cached Image</a> 來展示圖片，選擇他的原因也很簡單，因為當時剛學 flutter 沒多久就要直接上陣了。先選一個看起來簡單好用的再說；而且他還可以設置 cache key，避免重複抓取，感覺起來就不錯。</p>
+<p>然而後來圖片一多起來之後，就發現問題了，往往 app 打開滑沒幾下就 crash。看 log 是 OOM 問題，上網查了一下，有人說是 memory leak。大致上就是 image disposed 之後，沒有正確的釋放 ram，app 佔用的 ram 越來越多，就直接觸發 OOM killer。測試了一下原生的 NetworkImage 沒有這個問題。所以應該就是 Optimized Cached Image 的問題了。</p>
+<p>另外就是在我的程式裡，widget 只拿到 media id，需要先到後端去查 media 的 presigned url 返回給 app，app 再用 presigned url 抓圖片資料。也就是原來的程式碼裡一直都是 future builder + image，這造成的問題就是頁面一刷新就要重新抓 presigned url，大大降低了效率，也大大提升了後端的負載。</p>
+<p>因此決定客製化一個業務專用的 image provider。</p></p>
                 
-                <p><a href="/posts/configure-open-vswitch-in-openwrt/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>March 18, 2015</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/openwrt">#openwrt</a>
-                
-                    <a class="tag" href="/tags/open-vswitch">#open vswitch</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/">
-                    Compile OpenWRT with Open vSwitch
-                </a>
-            </h2>
-            <div>
-                <p><p>雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 <a href="https://github.com/openwrt/packages/tree/master/net/openvswitch">Open vSwitch</a> 的身影。但是實際上，在官方的 <a href="https://downloads.openwrt.org/barrier_breaker/14.07/">repository</a> 中並沒有 Open vSwitch。因此決定自行編譯。</p></p>
-                
-                <p><a href="/posts/compile-openwrt-with-open-vswitch/">Read more...</a></p>
+                <p><a href="/posts/customize-flutter-image-provider/">Read more...</a></p>
                 
             </div>
             <div class="post-footer">
-            <time>March 5, 2015</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/openwrt">#openwrt</a>
-                
-                    <a class="tag" href="/tags/open-vswitch">#open vswitch</a>
-                
-            
+            <time>May 27, 2022</time>
             </div> 
-           
         </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/rally-installation/">
-                    Install Rally 筆記 (OpenStack benchmark)
-                </a>
-            </h2>
-            <div>
-                <p><p><a href="http://rally.readthedocs.org/en/latest/index.html">Rally</a> 是一套 OpenStack benchmark tool。關於 Rally 的介紹本文就不再贅述。本篇安裝時是以 <a href="https://wiki.openstack.org/wiki/Rally#How_To">OpenStack 官方 Wiki</a> 的教學為參考內容，紀錄安裝與使用 Rally 的筆記。</p></p>
-                
-                <p><a href="/posts/rally-installation/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>February 24, 2015</time>
+    
 
-            
-            
-                
-                    <a class="tag" href="/tags/openstack">#openstack</a>
-                
-                    <a class="tag" href="/tags/rally">#rally</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/">
-                    Ceph pgs stuck in &#39;incomplete&#39; state ,ops blocked
-                </a>
-            </h2>
-            <div>
-                <p><p>Ceph OSD 又再次發生 <a href="http://worldend.logdown.com/posts/251761-ceph-osd-a-copy-of-the-executable-or-objdump-rds-executable-is-needed-to-interpret-this">disk failure</a>，結果在手動修復硬碟時操作不當，整個 disk partition table 都消失了。即使把備份的 disk patition table 寫回去之後，依然無法解決問題。</p></p>
-                
-                <p><a href="/posts/ceph-pgs-stuck-in-incomplete-state-and-ops-blocked/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>February 11, 2015</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/ceph">#ceph</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/">
-                    OpenStack Nova cannot reboot instance - Unable to create tap device
-                </a>
-            </h2>
-            <div>
-                <p><p>早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 <code>nova reboot --hard &lt;server&gt;</code> 的方式，想要開啟instance 卻失敗，在 <code>/var/log/nova/nova-compute.log</code> 中看到以下錯誤訊息:</p>
-<pre tabindex="0"><code>2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy
-</code></pre></p>
-                
-                <p><a href="/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>February 11, 2015</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/nova">#nova</a>
-                
-                    <a class="tag" href="/tags/openstack">#openstack</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/">
-                    OpenStack Nova error: libVirt cannot get CPU affinity of process 30619
-                </a>
-            </h2>
-            <div>
-                <p><p>Nova-compute 無法運行，在 log 中發現:</p>
-<pre tabindex="0"><code>2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 187, in doit
-2015-02-11 15:34:05.511 30827 TRACE nova     result = proxy_call(self._autowrap, f, *args, **kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 147, in proxy_call
-2015-02-11 15:34:05.511 30827 TRACE nova     rv = execute(f,*args,**kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 76, in tworker
-2015-02-11 15:34:05.511 30827 TRACE nova     rv = meth(*args,**kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/libvirt.py&quot;, line 2096, in vcpus
-2015-02-11 15:34:05.511 30827 TRACE nova     if ret == -1: raise libvirtError ('virDomainGetVcpus() failed', dom=self)
-2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process
-2015-02-11 15:34:05.511 30827 TRACE nova
-</code></pre></p>
-                
-                <p><a href="/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>February 11, 2015</time>
-
-            
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/ceph-osd-stuck-in-an-existing-executable-needed-to-interrupt/">
-                    Ceph OSD stuck in an existing executable needed to interrupt.
-                </a>
-            </h2>
-            <div>
-                <p><p>上週 Ceph cluster 掛掉，結果是某個 OSD 一直起不來。</p></p>
-                
-                <p><a href="/posts/ceph-osd-stuck-in-an-existing-executable-needed-to-interrupt/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>January 19, 2015</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/ceph">#ceph</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/">
-                    解決 vsftpd: &#34;500 OOPS: priv_sock_get_cmd&#34;
-                </a>
-            </h2>
-            <div>
-                <p><p>最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:</p>
-<pre tabindex="0"><code>回應:	500 OOPS: priv_sock_get_cmd
-</code></pre><p>在 server 端，<code>/var/log/syslog</code> 裡面看到:</p>
-<pre tabindex="0"><code>Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&quot;vsftpd&quot; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
-</code></pre></p>
-                
-                <p><a href="/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>December 25, 2014</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/vsftpd">#vsftpd</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/">
-                    Install Instiki on Ubuntu 12.04
-                </a>
-            </h2>
-            <div>
-                <p><p>Instiki 是一個用 Ruby 開發的 wiki 系統，特色是非常的 light weight、可以使用 <strong>Markdown</strong> 語法等。詳細介紹就暫時略過。</p>
-<p>本次安裝的環境如下:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Operating system</th>
-<th style="text-align:center">Ruby version</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Ubuntu 12.04</td>
-<td style="text-align:center">1.9.1 (install by RVM)</td>
-</tr>
-</tbody>
-</table>
-<h1 id="安裝步驟">安裝步驟</h1>
-<h2 id="configure-ruby-environment">Configure Ruby environment</h2>
-<p>Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻煩，因此決定採用跟官網一樣的版本。
-不過 Ubuntu 預設的版本已經是 1.9.3 (?) 以上了，況且根據之前搞 CloudFoundry 的經驗，Ruby 的版本最好還是用 RVM 來進行管理。</p></p>
-                
-                <p><a href="/posts/install-instiki-on-ubuntu-precise/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>September 25, 2014</time>
-
-            
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/use-openvswitch-in-libvirt/">
-                    設定 Libvirt 使用 Open vSwitch
-                </a>
-            </h2>
-            <div>
-                <p><p>最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 <code>virsh define</code> 之後才能使用。</p>
-<p>每個 VM 都要手動設定真的很麻煩</p>
-<p>幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]</p></p>
-                
-                <p><a href="/posts/use-openvswitch-in-libvirt/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>August 12, 2014</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/libvirt">#libvirt</a>
-                
-                    <a class="tag" href="/tags/open-vswitch">#open vswitch</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-    </div>
-        
-        <div class="paginator">
-        
-        
-        <p>Page 3 of 4</p>
-        <div class="paginator-group">
-            
-            <a class="color-link" href="/page/2/">
-                    <svg width="13px" height="9px" viewBox="0 0 13 9" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
-                        <g class="color-arrow" fill="#63BDA2" fill-rule="nonzero">
-                            <polygon id="Path" points="1.75929935 4.50000282 5.3292523 7.62371165 4.6707477 8.37628835 0.240700645 4.49999718 4.67081049 0.623709205 5.32930951 1.37629079"></polygon>
-                            <polygon id="Path" points="13 4 13 5 1 5 1 4"></polygon>
-                        </g>
-                </svg>
-                Newer
-            </a>
-            
-            
-                <a class="color-link older" href="/page/4/">
-                    Older
-                    <svg width="13px" height="9px" viewBox="0 0 13 9" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
-                            <g class="color-arrow" fill="#63BDA2" fill-rule="nonzero">
-                                <polygon points="7.6707477 1.37628835 8.3292523 0.623711653 12.7592994 4.50000282 8.32918951 8.37629079 7.67069049 7.62370921 11.2407006 4.49999718"></polygon>
-                                <polygon id="Path" points="0 5 0 4 12 4 12 5"></polygon>
-                            </g>
-                    </svg>
-                        
-                </a>
-            
-        </div>
-        
-    </div>
 
         
         </div>

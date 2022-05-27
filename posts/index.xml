@@ -6,7 +6,19 @@
     <description>Recent content in Posts on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Wed, 25 May 2022 18:40:10 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 27 May 2022 17:57:53 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>客製化 Flutter Image Provider</title>
+      <link>https://maple52046.github.io/posts/customize-flutter-image-provider/</link>
+      <pubDate>Fri, 27 May 2022 17:57:53 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/customize-flutter-image-provider/</guid>
+      <description>&lt;p&gt;之前在 flutter app 中使用 &lt;a href=&#34;https://pub.dev/packages/optimized_cached_image&#34;&gt;Optimized Cached Image&lt;/a&gt; 來展示圖片，選擇他的原因也很簡單，因為當時剛學 flutter 沒多久就要直接上陣了。先選一個看起來簡單好用的再說；而且他還可以設置 cache key，避免重複抓取，感覺起來就不錯。&lt;/p&gt;
+&lt;p&gt;然而後來圖片一多起來之後，就發現問題了，往往 app 打開滑沒幾下就 crash。看 log 是 OOM 問題，上網查了一下，有人說是 memory leak。大致上就是 image disposed 之後，沒有正確的釋放 ram，app 佔用的 ram 越來越多，就直接觸發 OOM killer。測試了一下原生的 NetworkImage 沒有這個問題。所以應該就是 Optimized Cached Image 的問題了。&lt;/p&gt;
+&lt;p&gt;另外就是在我的程式裡，widget 只拿到 media id，需要先到後端去查 media 的 presigned url 返回給 app，app 再用 presigned url 抓圖片資料。也就是原來的程式碼裡一直都是 future builder + image，這造成的問題就是頁面一刷新就要重新抓 presigned url，大大降低了效率，也大大提升了後端的負載。&lt;/p&gt;
+&lt;p&gt;因此決定客製化一個業務專用的 image provider。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>OpenIM 整合(踩坑)筆記 01</title>
       <link>https://maple52046.github.io/posts/openim-integration-notes-01/</link>

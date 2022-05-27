@@ -174,6 +174,35 @@ if (!doNotTrack) {
         
         <article>
             <h2>
+                <a href="https://maple52046.github.io/posts/concepts-of-hadoop-nodes/">
+                    Hadoop SecondaryNameNode 、CheckpointNode 與 Backup Node 觀念整理
+                </a>
+            </h2>
+            <div>
+                <p><p>為了要管理 lab 裡的 Hadoop cluster，針對 Hadoop 的 NameNode、SecondaryNameNode、CheckpointNode 與 BackupNode 做個了survay。</p>
+<h1 id="namenode">NameNode</h1>
+<p>Hadoop 的 metadata 是存放在運行 Namenode 的 server 的 memory 裡面，而 Namenode 的工作就是將 clients 對 metadata 的讀寫修改紀錄在<strong>edits</strong>裡。</p>
+<p>當 Namenode 被啟動的時候，會先合併 HDFS 上的 fsimage 與 edits，取得完整的 metadata。此時，原本的 fsimage 會被更新。</p>
+<p>之後，在 NameNode 運作的期間，client 對 metadata 的 access 還是只會記錄在新的 edits 裡，直到下一次 NameNode restart 的時候，周而復始的更新 fsimage、產生新的 edits。</p></p>
+                
+                <p><a href="/posts/concepts-of-hadoop-nodes/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>November 18, 2013</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/hadoop">#hadoop</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
                 <a href="https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/">
                     復原 OpenStack 中被刪除的 instance
                 </a>
