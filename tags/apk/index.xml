@@ -13,7 +13,7 @@
       <pubDate>Fri, 10 Jun 2022 10:12:20 +0800</pubDate>
       
       <guid>https://maple52046.github.io/posts/compile-flutter-apk/</guid>
-      <description>&lt;p&gt;本文主要紀錄編譯 flutter app apk 時遇到的問題與解法。&lt;/p&gt;
+      <description>&lt;p&gt;本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。&lt;/p&gt;
 &lt;p&gt;版本資訊:&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -48,10 +48,7 @@
 &lt;td style=&#34;text-align:left&#34;&gt;11&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Android Studio 裡的 openjdk 與 adb tool 都是手動更新的。&lt;/p&gt;
-&lt;/blockquote&gt;</description>
+&lt;/table&gt;</description>
     </item>
     
   </channel>
