@@ -13,8 +13,7 @@
       <pubDate>Fri, 10 Jun 2022 10:12:20 +0800</pubDate>
       
       <guid>https://maple52046.github.io/posts/compile-flutter-apk/</guid>
-      <description>&lt;p&gt;之前開發 flutter app 都是直接跑在 iphone 上，最近開始準備測試 android。
-本文主要紀錄編譯 apk 時遇到的問題與解法。&lt;/p&gt;
+      <description>&lt;p&gt;本文主要紀錄編譯 flutter app apk 時遇到的問題與解法。&lt;/p&gt;
 &lt;p&gt;版本資訊:&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
