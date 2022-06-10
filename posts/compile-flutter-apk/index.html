@@ -257,7 +257,8 @@ Android Studio 裡的 openjdk 與 adb tool 都是手動更新的。
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        minSdkVersion <span style="color:#ae81ff">21</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span></code></pre></div><h2 id="openjdk-version">OpenJDK Version</h2>
+</span></span></code></pre></div><p>照步驟改完重新編譯即可。</p>
+<h2 id="openjdk-version">OpenJDK Version</h2>
 <p>第一個錯誤訊息沒有保存到，依稀記得是類似語法錯誤。猜測可能是 jdk 版本太老舊。但是更新了系統的 jdk 依然沒效，仔細看編譯的過程才發現 flutter 是使用 android studio 自帶的 jdk，而非 system path 裡的。</p>
 <p>解決的方法：</p>
 <ol>
@@ -266,8 +267,8 @@ Android Studio 裡的 openjdk 與 adb tool 都是手動更新的。
 <table>
 <thead>
 <tr>
-<th style="text-align:center">Java version</th>
-<th style="text-align:center">First Gradle version to support it</th>
+<th style="text-align:center">Java</th>
+<th style="text-align:center">Gradle</th>
 </tr>
 </thead>
 <tbody>
@@ -321,7 +322,8 @@ Android Studio 裡的 openjdk 與 adb tool 都是手動更新的。
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># tar jcf ~/Downloads/AndroidStudioJDK_backup.tar.bz2 Contents/</span>
 </span></span><span style="display:flex;"><span>rm -rf Contents
 </span></span><span style="display:flex;"><span>ln -s /Library/Java/JavaVirtualMachines/jdk-18.0.1.1.jdk/Contents Contents
-</span></span></code></pre></div><h2 id="gradle-and-kotlin-version">Gradle (and Kotlin) Version</h2>
+</span></span></code></pre></div><p>更新完重新編譯即可。</p>
+<h2 id="gradle-and-kotlin-version">Gradle (and Kotlin) Version</h2>
 <p>編譯過程中出現的錯誤訊息:</p>
 <p><img src="https://i.imgur.com/h7oVCxx.png" alt="Imgur"></p>
 <p>看錯誤訊息，應該還是版本問題。編譯失敗的 plugin 是 <a href="https://pub.dev/packages/image_picker">image_picker</a>。但是我的 project 裡並沒有直接使用 image_picker，而是其他 package 相依性自帶的；更新版本只能透過執行 <code>flutter pub upgrade</code> 但是依然無法解決。</p>
@@ -350,7 +352,7 @@ Android Studio 裡的 openjdk 與 adb tool 都是手動更新的。
 <li>打開配對資訊 (我拿到的是中國手機，不知道台版的叫什麼名稱)</li>
 </ol>
 <p><img src="https://i.imgur.com/827KyWX.jpg" alt="Imgur"></p>
-<p>在這次demo中，有兩個地址:</p>
+<p>上圖中有兩個地址:</p>
 <ol>
 <li><code>192.168.100.141:41679</code> 這是配對用的</li>
 <li><code>192.168.100.141:41577</code> 這是adb connect用的</li>
@@ -358,13 +360,12 @@ Android Studio 裡的 openjdk 與 adb tool 都是手動更新的。
 </li>
 <li>
 <p>adb</p>
-</li>
-</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb pair 192.168.100.141:41679 <span style="color:#ae81ff">497130</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># adb devices -l</span>
 </span></span><span style="display:flex;"><span>adb connect 192.168.100.141:41577
 </span></span><span style="display:flex;"><span>adb install build/app/outputs/flutter-apk/app-release.apk
-</span></span></code></pre></div>
+</span></span></code></pre></div></li>
+</ul>
         </p>
     </div>
 
