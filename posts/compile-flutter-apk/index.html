@@ -250,7 +250,7 @@ Android Studio 裡的 openjdk 與 adb tool 都是手動更新的。
 <h2 id="android-sdk-version">Android SDK Version</h2>
 <p>編譯 camera plugin 時出現錯誤訊息如下：</p>
 <p><img src="https://i.imgur.com/BwfEGbP.png" alt="Imgur"></p>
-<p>錯誤訊息中提示解決方法是指定 <code>minSdkVersion</code> 版本。解法就是編輯 <code>android/app/build.gradle</code>，修改 <code>android</code> 的 <code>defaultConfig</code> 區塊：</p>
+<p>錯誤訊息中提示解決方法是指定 <code>minSdkVersion</code> 版本。解法是編輯 <code>android/app/build.gradle</code>，修改 <code>android</code> 的 <code>defaultConfig</code> 區塊：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-gradle" data-lang="gradle"><span style="display:flex;"><span>android <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    defaultConfig <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// minSdkVersion flutter.minSdkVersion
@@ -313,7 +313,7 @@ Android Studio 裡的 openjdk 與 adb tool 都是手動更新的。
 </tr>
 </tbody>
 </table>
-<p>我的 flutter project 創建時自動指定的 gradle 版本是 6.7，而當時 android studio 內建的 jdk 是 11 版，明顯落後版本的最低需求。因此下一步就是下載並安裝<a href="https://openjdk.java.net/projects/jdk/">新版 OpenJDK</a>，並替換掉內建的版本。</p>
+<p>我的 flutter project 創建時自動指定的 gradle 版本是 6.7，而我的 android studio 內建的 jdk 是 11 版，明顯落後版本的最低需求。因此下一步就是下載並安裝<a href="https://openjdk.java.net/projects/jdk/">新版 OpenJDK</a>，並替換掉內建的版本。</p>
 <ol start="2">
 <li>安裝完 OpenJDK 之後，接下來就是更換 jdk。這裡提供我的(有點暴力)作法:</li>
 </ol>
@@ -324,7 +324,7 @@ Android Studio 裡的 openjdk 與 adb tool 都是手動更新的。
 </span></span></code></pre></div><h2 id="gradle-and-kotlin-version">Gradle (and Kotlin) Version</h2>
 <p>編譯過程中出現的錯誤訊息:</p>
 <p><img src="https://i.imgur.com/h7oVCxx.png" alt="Imgur"></p>
-<p>看錯誤訊息，應該還是版本問題。編譯失敗的 plugin 是 <a href="https://pub.dev/packages/image_picker">image_picker</a>。但是我的 project 裡並沒有直接使用 image_picker，這是其他 package 相依性自帶；此外，執行 <code>flutter pub upgrade</code> 也已經盡可能將 package 都更新到最新了。</p>
+<p>看錯誤訊息，應該還是版本問題。編譯失敗的 plugin 是 <a href="https://pub.dev/packages/image_picker">image_picker</a>。但是我的 project 裡並沒有直接使用 image_picker，而是其他 package 相依性自帶的；更新版本只能透過執行 <code>flutter pub upgrade</code> 但是依然無法解決。</p>
 <p>仔細看 log 裏面提示解決問題的建議步驟：</p>
 <ol>
 <li>查看官方 issue list</li>
@@ -333,7 +333,7 @@ Android Studio 裡的 openjdk 與 adb tool 都是手動更新的。
 <p>按照提示，我找到了: <a href="https://issuetracker.google.com/issues/234820023">GitHub Actions: &lsquo;:app:lintVitalRelease&rsquo;. &gt; &lsquo;:image_picker_android:debugUnitTestRuntimeClasspath&rsquo;.</a></p>
 <p>在回覆留言中找到了正確的解決方法:</p>
 <p><img src="https://i.imgur.com/I0kkaZO.png" alt="Imgur"></p>
-<p>改完重新編譯即可。</p>
+<p>照步驟改完重新編譯即可。</p>
 <h2 id="plugin-version">Plugin Version</h2>
 <p>編譯 OpenIM 時出現的錯誤：</p>
 <p><img src="https://i.imgur.com/u1AmAF6.png" alt="Imgur"></p>
@@ -349,7 +349,7 @@ Android Studio 裡的 openjdk 與 adb tool 都是手動更新的。
 <li>啟用 wlan debug</li>
 <li>打開配對資訊 (我拿到的是中國手機，不知道台版的叫什麼名稱)</li>
 </ol>
-<p><a href="https://i.imgur.com/827KyWX.jpg">Imgur</a></p>
+<p><img src="https://i.imgur.com/827KyWX.jpg" alt="Imgur"></p>
 <p>在這次demo中，有兩個地址:</p>
 <ol>
 <li><code>192.168.100.141:41679</code> 這是配對用的</li>
