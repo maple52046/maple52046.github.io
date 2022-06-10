@@ -155,7 +155,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -179,19 +179,19 @@ pg 0.1f is incomplete, acting [3]
 32 ops are blocked &gt; 32.768 sec on osd.3
 1 osds have slow requests
 </code></pre><p>按照官網的<a href="http://docs.ceph.com/docs/master/rados/troubleshooting/troubleshooting-pg/#failures-osd-peering">教學</a>，先執行 <code>ceph pg 01.f query</code>，看到 pg 的資訊如下(節錄):</p>
-<pre tabindex="0"><code>{ &quot;state&quot;: &quot;incomplete&quot;,
+<pre tabindex="0"><code>{ &#34;state&#34;: &#34;incomplete&#34;,
   ...
-  &quot;recovery_state&quot;: [
-       { &quot;name&quot;: &quot;Started\/Primary\/Peering&quot;,
-         &quot;enter_time&quot;: &quot;2012-03-06 14:40:16.169659&quot;,
-         &quot;probing_osds&quot;: [
+  &#34;recovery_state&#34;: [
+       { &#34;name&#34;: &#34;Started\/Primary\/Peering&#34;,
+         &#34;enter_time&#34;: &#34;2012-03-06 14:40:16.169659&#34;,
+         &#34;probing_osds&#34;: [
                0,
                1,
                2,
                3],
-         &quot;blocked&quot;: &quot;&quot;,
-         &quot;down_osds_we_would_probe&quot;: [],
-         &quot;peering_blocked_by&quot;: []
+         &#34;blocked&#34;: &#34;&#34;,
+         &#34;down_osds_we_would_probe&#34;: [],
+         &#34;peering_blocked_by&#34;: []
 }
 </code></pre><p>與官網不同的是，這個 pg 並沒有顯示 unfound object，所以執行 <code>ceph pg 0.1f mark_unfound_lost revert</code> 只會出現 <strong>pg has no unfound objects</strong></p>
 <p>上網 google 了一下類似問題:</p>
@@ -214,10 +214,10 @@ pg 0.1f is incomplete, acting [3]
 <p>正當要準備放棄時，忽然靈機一動，調整了一下指令的順序</p>
 <h2 id="solution">Solution</h2>
 <p>根據 <code>ceph pg 01.f query</code> 得到的結果中得知，pg 0.1f 是存在於 0,1,2,3 這四個 OSD 上:</p>
-<pre tabindex="0"><code>recovery_state&quot;: [
-       { &quot;name&quot;: &quot;Started\/Primary\/Peering&quot;,
-         &quot;enter_time&quot;: &quot;2012-03-06 14:40:16.169659&quot;,
-         &quot;probing_osds&quot;: [
+<pre tabindex="0"><code>recovery_state&#34;: [
+       { &#34;name&#34;: &#34;Started\/Primary\/Peering&#34;,
+         &#34;enter_time&#34;: &#34;2012-03-06 14:40:16.169659&#34;,
+         &#34;probing_osds&#34;: [
                0,
                1,
                2,
@@ -225,10 +225,10 @@ pg 0.1f is incomplete, acting [3]
         }
 ]
 </code></pre><p>因此<strong>第一步就是關閉這四個 OSD</strong></p>
-<pre tabindex="0"><code>ssh node01 &quot;stop ceph-osd id=0&quot;
-ssh node01 &quot;stop ceph-osd id=1&quot;
-ssh node02 &quot;stop ceph-osd id=2&quot;
-ssh node02 &quot;stop ceph-osd id=3&quot;
+<pre tabindex="0"><code>ssh node01 &#34;stop ceph-osd id=0&#34;
+ssh node01 &#34;stop ceph-osd id=1&#34;
+ssh node02 &#34;stop ceph-osd id=2&#34;
+ssh node02 &#34;stop ceph-osd id=3&#34;
 </code></pre><p><strong>第二步直接執行 <code>ceph osd lost</code></strong>，一樣也是四個 OSD 都要做:</p>
 <pre tabindex="0"><code>ceph osd lost 0 --yes-i-really-mean-it
 ceph osd lost 1 --yes-i-really-mean-it
@@ -243,14 +243,14 @@ ceph osd lost 3 --yes-i-really-mean-it
 <p><strong>第三步就是執行 <code>ceph pg force_create_pg 0.1f</code></strong></p>
 <p>然後，神奇的事情來了，過沒幾分鐘後再次執行 <code>ceph health detail</code>，就沒有再看到任何 pg 0.1f 的錯誤訊息</p>
 <p><strong>第四步啟動原先四個 OSD</strong></p>
-<pre tabindex="0"><code>ssh node01 &quot;start ceph-osd id=0&quot;
-ssh node01 &quot;start ceph-osd id=1&quot;
-ssh node02 &quot;start ceph-osd id=2&quot;
-ssh node02 &quot;start ceph-osd id=3&quot;
+<pre tabindex="0"><code>ssh node01 &#34;start ceph-osd id=0&#34;
+ssh node01 &#34;start ceph-osd id=1&#34;
+ssh node02 &#34;start ceph-osd id=2&#34;
+ssh node02 &#34;start ceph-osd id=3&#34;
 </code></pre><p>接下來只需要讓 Ceph 同步一段時間，再次執行 <code>ceph health detail</code>，就可以得到 <strong>HEALTH_OK</strong></p>
 <p>收工!!!~</p>
 <hr>
-<p>利用以上的步驟，雖然終於讓 Ceph 回復到正常狀態，但是與 pg 0.1f 有關的檔案幾乎都是損毀的狀態。因為我是 OpenStack  使用 Ceph，最直觀的影響就是很多 image、instance 無法正常開機。然而本次錯誤狀況其實是可以避免的，原因在於之前將 replication 設為 1。因此一個 OSD 掰掰了，上面的資料變得無法救援，也算是自作自受吧 :'(</p>
+<p>利用以上的步驟，雖然終於讓 Ceph 回復到正常狀態，但是與 pg 0.1f 有關的檔案幾乎都是損毀的狀態。因為我是 OpenStack  使用 Ceph，最直觀的影響就是很多 image、instance 無法正常開機。然而本次錯誤狀況其實是可以避免的，原因在於之前將 replication 設為 1。因此一個 OSD 掰掰了，上面的資料變得無法救援，也算是自作自受吧 :&rsquo;(</p>
 <hr>
 <h2 id="後紀">後紀</h2>
 <p>經過這將近半年來各種狀況的考驗，目前對於 Ceph 有一些心得:</p>
@@ -406,7 +406,7 @@ ssh node02 &quot;start ceph-osd id=3&quot;
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

@@ -160,7 +160,7 @@ Ubuntu 15.04 以上可以直接以 apt-get 安裝。不過我的平臺是 Ubuntu
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -187,7 +187,7 @@ Ubuntu 15.04 以上可以直接以 apt-get 安裝。不過我的平臺是 Ubuntu
 </code></pre><p>由於我的實驗環境只有我一個人使用，因此編譯軟體時，我大多設定 <code>prefix</code> 為自己家目錄；
 如果想要同時也提供給其他使用者，建議可以將 <code>prefix</code> 設定成 <code>/usr</code>。</p>
 <p>另外，如果 <code>prefix</code> 設定成 <code>$HOME</code>，就要將 <code>$HOME/bin</code> 加入到 <code>$PATH</code> 裡面：</p>
-<pre tabindex="0"><code>export PATH=&quot;$HOME:$PATH&quot;
+<pre tabindex="0"><code>export PATH=&#34;$HOME:$PATH&#34;
 </code></pre><ul>
 <li>安裝相依性套件</li>
 </ul>
@@ -203,7 +203,7 @@ libopus-dev
 cd ~/ffmpeg_sources
 hg clone https://bitbucket.org/multicoreware/x265
 cd ~/ffmpeg_sources/x265/build/linux
-cmake -G &quot;Unix Makefiles&quot; -DCMAKE_INSTALL_PREFIX=&quot;$HOME&quot; -DENABLE_SHARED:bool=off ../../source
+cmake -G &#34;Unix Makefiles&#34; -DCMAKE_INSTALL_PREFIX=&#34;$HOME&#34; -DENABLE_SHARED:bool=off ../../source
 make
 make install
 </code></pre><ul>
@@ -214,7 +214,7 @@ wget -O fdk-aac.tar.gz https://github.com/mstorsjo/fdk-aac/tarball/master
 tar xzvf fdk-aac.tar.gz
 cd mstorsjo-fdk-aac*
 autoreconf -fiv
-./configure --prefix=&quot;$HOME&quot; --disable-shared
+./configure --prefix=&#34;$HOME&#34; --disable-shared
 make
 make install
 </code></pre><ul>
@@ -224,7 +224,7 @@ make install
 wget http://storage.googleapis.com/downloads.webmproject.org/releases/webm/libvpx-1.5.0.tar.bz2
 tar xjvf libvpx-1.5.0.tar.bz2
 cd libvpx-1.5.0
-./configure --prefix=&quot;$HOME&quot; --disable-examples --disable-unit-tests
+./configure --prefix=&#34;$HOME&#34; --disable-examples --disable-unit-tests
 make
 make install
 </code></pre><ul>
@@ -234,12 +234,12 @@ make install
 wget http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
 tar xjvf ffmpeg-snapshot.tar.bz2
 cd ffmpeg
-PKG_CONFIG_PATH=&quot;$HOME/lib/pkgconfig&quot; ./configure \
-  --prefix=&quot;$HOME&quot; \
-  --pkg-config-flags=&quot;--static&quot; \
-  --extra-cflags=&quot;-I$HOME/include&quot; \
-  --extra-ldflags=&quot;-L$HOME/lib&quot; \
-  --bindir=&quot;$HOME/bin&quot; \
+PKG_CONFIG_PATH=&#34;$HOME/lib/pkgconfig&#34; ./configure \
+  --prefix=&#34;$HOME&#34; \
+  --pkg-config-flags=&#34;--static&#34; \
+  --extra-cflags=&#34;-I$HOME/include&#34; \
+  --extra-ldflags=&#34;-L$HOME/lib&#34; \
+  --bindir=&#34;$HOME/bin&#34; \
   --enable-gpl \
   --enable-libass \
   --enable-libfdk-aac \
@@ -411,7 +411,7 @@ cat VTS_01_*.VOB | ffmpeg -i - -aq 100 -ac 2 -vcodec libx264 -crf 24 -threads 0 
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

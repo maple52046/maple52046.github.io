@@ -155,7 +155,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -198,16 +198,15 @@ Password for root changed by root
 <pre tabindex="0"><code>ssh root@192.168.1.1
 </code></pre><h2 id="modify-network-configuration">Modify network configuration</h2>
 <p>Network 設定檔在 <code>/etc/config/network</code>，先看一下 <strong>lan</strong> 預設值:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">config interface <span style="color:#e6db74">&#39;lan&#39;</span>
-	option ifname <span style="color:#e6db74">&#39;eth1&#39;</span>
-	option force_link <span style="color:#e6db74">&#39;1&#39;</span>
-	option type <span style="color:#e6db74">&#39;bridge&#39;</span>
-	option proto <span style="color:#e6db74">&#39;static&#39;</span>
-	option ipaddr <span style="color:#e6db74">&#39;192.168.1.1&#39;</span>
-	option netmask <span style="color:#e6db74">&#39;255.255.255.0&#39;</span>
-	option ip6assign <span style="color:#e6db74">&#39;60&#39;</span>
-
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>config interface <span style="color:#e6db74">&#39;lan&#39;</span>
+</span></span><span style="display:flex;"><span>	option ifname <span style="color:#e6db74">&#39;eth1&#39;</span>
+</span></span><span style="display:flex;"><span>	option force_link <span style="color:#e6db74">&#39;1&#39;</span>
+</span></span><span style="display:flex;"><span>	option type <span style="color:#e6db74">&#39;bridge&#39;</span>
+</span></span><span style="display:flex;"><span>	option proto <span style="color:#e6db74">&#39;static&#39;</span>
+</span></span><span style="display:flex;"><span>	option ipaddr <span style="color:#e6db74">&#39;192.168.1.1&#39;</span>
+</span></span><span style="display:flex;"><span>	option netmask <span style="color:#e6db74">&#39;255.255.255.0&#39;</span>
+</span></span><span style="display:flex;"><span>	option ip6assign <span style="color:#e6db74">&#39;60&#39;</span>
+</span></span></code></pre></div><ul>
 <li><code>lan</code> 是<strong>網路名稱</strong> 而非網卡名稱</li>
 <li>ifname 後面接網卡名稱，<code>eth1</code> (lan port)。<strong>每一個 network 只能設定一個 ifname</strong>。</li>
 <li>proto 後面接設定網路的方式: 固定 IP 就是 <code>static</code>、浮動 IP 就是 <code>dhcp</code>；其他還有 ppp &hellip;等。</li>
@@ -233,16 +232,16 @@ br-lan		7fff.e8de2767056e	no		eth1
 <li>設定新的 network 來開啟原本的網卡</li>
 </ol>
 <p>因此，第一步就是要修改 <code>/etc/config/network</code> :</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">config interface <span style="color:#e6db74">&#39;lan&#39;</span>                         
-        option ifname <span style="color:#e6db74">&#39;ovs-lan&#39;</span>                
-        option proto <span style="color:#e6db74">&#39;static&#39;</span>                  
-        option ipaddr <span style="color:#e6db74">&#39;192.168.1.1&#39;</span>            
-        option netmask <span style="color:#e6db74">&#39;255.255.255.0&#39;</span>         
-
-config interface <span style="color:#e6db74">&#39;eth1&#39;</span>               
-        option ifname <span style="color:#e6db74">&#39;eth1&#39;</span>          
-        option proto <span style="color:#e6db74">&#39;static&#39;</span>
-</code></pre></div><p>接下來，要使用指令來做幾個步驟:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>config interface <span style="color:#e6db74">&#39;lan&#39;</span>                         
+</span></span><span style="display:flex;"><span>        option ifname <span style="color:#e6db74">&#39;ovs-lan&#39;</span>                
+</span></span><span style="display:flex;"><span>        option proto <span style="color:#e6db74">&#39;static&#39;</span>                  
+</span></span><span style="display:flex;"><span>        option ipaddr <span style="color:#e6db74">&#39;192.168.1.1&#39;</span>            
+</span></span><span style="display:flex;"><span>        option netmask <span style="color:#e6db74">&#39;255.255.255.0&#39;</span>         
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>config interface <span style="color:#e6db74">&#39;eth1&#39;</span>               
+</span></span><span style="display:flex;"><span>        option ifname <span style="color:#e6db74">&#39;eth1&#39;</span>          
+</span></span><span style="display:flex;"><span>        option proto <span style="color:#e6db74">&#39;static&#39;</span>
+</span></span></code></pre></div><p>接下來，要使用指令來做幾個步驟:</p>
 <ul>
 <li>建立 ovs bridge</li>
 <li>移除 linux bridge 上原本的 interface</li>
@@ -251,25 +250,25 @@ config interface <span style="color:#e6db74">&#39;eth1&#39;</span>
 </ul>
 <p>以上步驟可以利用 script 一氣呵成。 (當然也可以手動慢慢打指令，但是要注意的是執行 <code>brctl delif</code> 與 <code>ovs-vsctl add-port</code> 時會造成網路斷線)</p>
 <p>新增一個 scrpit:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/sh
-</span><span style="color:#75715e"></span>OVS_LAN<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ovs-lan&#34;</span>
-LAN_PORT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;eth1&#34;</span>
-LINUX_BRIDGE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;br-lan&#34;</span>
-
-<span style="color:#75715e"># Create Open vSwitch</span>
-ovs-vsctl --may-exist add-br $OVS_LAN
-
-<span style="color:#75715e"># Remove LAN port from Linux bridge</span>
-brctl delif $LINUX_BRIDGE $LAN_PORT
-
-<span style="color:#75715e"># Add LAN port to Open vSwitch</span>
-ovs-vsctl --may-exist add-port $OVS_LAN $LAN_PORT
-
-<span style="color:#75715e"># Restart network</span>
-/etc/init.d/network restart
-
-exit <span style="color:#ae81ff">0</span>
-</code></pre></div><p>然後執行這個 script</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/sh
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>OVS_LAN<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ovs-lan&#34;</span>
+</span></span><span style="display:flex;"><span>LAN_PORT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;eth1&#34;</span>
+</span></span><span style="display:flex;"><span>LINUX_BRIDGE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;br-lan&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create Open vSwitch</span>
+</span></span><span style="display:flex;"><span>ovs-vsctl --may-exist add-br $OVS_LAN
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Remove LAN port from Linux bridge</span>
+</span></span><span style="display:flex;"><span>brctl delif $LINUX_BRIDGE $LAN_PORT
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add LAN port to Open vSwitch</span>
+</span></span><span style="display:flex;"><span>ovs-vsctl --may-exist add-port $OVS_LAN $LAN_PORT
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Restart network</span>
+</span></span><span style="display:flex;"><span>/etc/init.d/network restart
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>exit <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>然後執行這個 script</p>
 <pre tabindex="0"><code>sh ovs.sh &amp;
 </code></pre><p>這樣就完成了 Open vSwitch 的基礎設定。</p>
 <pre tabindex="0"><code>root@OpenWrt:~# ovs-vsctl show
@@ -278,26 +277,26 @@ f9a6117b-8af2-400b-91ff-39986349f0c6
         Port ovs-lan
             Interface ovs-lan
                 type: internal
-        Port &quot;eth1&quot;
-            Interface &quot;eth1&quot;
+        Port &#34;eth1&#34;
+            Interface &#34;eth1&#34;
 </code></pre><h2 id="wifi">Wifi</h2>
 <p>Wifi 的設定檔放在 <code>/etc/config/wireless</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">onfig wifi-device  radio0
-        option type     mac80211
-        option channel  11
-        option hwmode   11g
-        option path     &#39;platform/qca955x_wmac&#39;
-        option htmode   HT20
-        # REMOVE THIS LINE TO ENABLE WIFI:
-        option disabled 1
-
-config wifi-iface
-        option device   radio0
-        option network  lan
-        option mode     ap
-        option ssid     OpenWrt
-        option encryption none
-</code></pre></div><p>註解 <code>option disabled 1</code> 這行，然後執行 <code>wifi</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>onfig wifi-device  radio0
+</span></span><span style="display:flex;"><span>        option type     mac80211
+</span></span><span style="display:flex;"><span>        option channel  11
+</span></span><span style="display:flex;"><span>        option hwmode   11g
+</span></span><span style="display:flex;"><span>        option path     &#39;platform/qca955x_wmac&#39;
+</span></span><span style="display:flex;"><span>        option htmode   HT20
+</span></span><span style="display:flex;"><span>        # REMOVE THIS LINE TO ENABLE WIFI:
+</span></span><span style="display:flex;"><span>        option disabled 1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>config wifi-iface
+</span></span><span style="display:flex;"><span>        option device   radio0
+</span></span><span style="display:flex;"><span>        option network  lan
+</span></span><span style="display:flex;"><span>        option mode     ap
+</span></span><span style="display:flex;"><span>        option ssid     OpenWrt
+</span></span><span style="display:flex;"><span>        option encryption none
+</span></span></code></pre></div><p>註解 <code>option disabled 1</code> 這行，然後執行 <code>wifi</code></p>
 <p>執行 <code>ifconfig</code> 可以看到 <code>wlan0</code> 這個介面</p>
 <pre tabindex="0"><code>wlan0     Link encap:Ethernet  HWaddr E8:DE:27:67:05:6E  
           inet6 addr: fe80::eade:27ff:fe67:56e/64 Scope:Link
@@ -313,8 +312,8 @@ f9a6117b-8af2-400b-91ff-39986349f0c6
         Port ovs-lan
             Interface ovs-lan
                 type: internal
-        Port &quot;eth1&quot;
-            Interface &quot;eth1&quot;
+        Port &#34;eth1&#34;
+            Interface &#34;eth1&#34;
 </code></pre><p>手動執行 <code>ovs-vsctl add-port</code> 去新增 wlan0</p>
 <pre tabindex="0"><code>ovs-vsctl add-port ovs-lan wlan0
 </code></pre><p>這時候再用 ovs-vsctl show 就會看到 wlan0 加入到 openvswitch 中。使用無線裝置測試連線，可以順利取得 IP 並連上 internet。</p>
@@ -483,7 +482,7 @@ f9a6117b-8af2-400b-91ff-39986349f0c6
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

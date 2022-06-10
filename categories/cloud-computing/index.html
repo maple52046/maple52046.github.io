@@ -155,7 +155,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -217,46 +217,46 @@ if (!doNotTrack) {
             <div>
                 <p><p>利用 Saltstack 安裝 OpenStack Keystone。按照 <a href="http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html">OpenStack 官方安裝手冊</a>，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。</p>
 <p>這一個步驟，我把他寫成 Saltstack states 如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">waiting-keystone-startup</span>:
-  <span style="color:#f92672">cmd.run</span>:
-    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sleep 1</span>
-
-<span style="color:#f92672">registry-keystone-service</span>:
-  <span style="color:#f92672">keystone.service_present</span>:
-    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">keystone</span>
-    - <span style="color:#f92672">service_type</span>: <span style="color:#ae81ff">identity</span>
-    - <span style="color:#f92672">description</span>: <span style="color:#e6db74">&#34;OpenStack Identity&#34;</span>
-    - <span style="color:#f92672">require</span>:
-      - <span style="color:#f92672">cmd</span>: <span style="color:#ae81ff">waiting-keystone-startup</span>
-
-<span style="color:#f92672">registry-keystone-endpoint</span>:
-  <span style="color:#f92672">keystone.endpoint_present</span>:
-    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">keystone</span>
-    - <span style="color:#f92672">publicurl</span>: <span style="color:#ae81ff">http://host-01:5000/v2.0</span>
-    - <span style="color:#f92672">internalurl</span>: <span style="color:#ae81ff">http://host-01:5000/v2.0</span>
-    - <span style="color:#f92672">adminurl</span>: <span style="color:#ae81ff">http://host-01:35357/v2.0</span>
-    - <span style="color:#f92672">region</span>: <span style="color:#ae81ff">regionOne</span>
-    - <span style="color:#f92672">require</span>:
-      - <span style="color:#f92672">keystone</span>: <span style="color:#ae81ff">registry-keystone-service</span>
-</code></pre></div><p>結果執行時發生 KeyError:</p>
-<pre tabindex="0"><code>user@host-01:/srv/salt/openstack/keystone$ salt '*' state.sls openstack.keystone.registry
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">waiting-keystone-startup</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">cmd.run</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sleep 1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">registry-keystone-service</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">keystone.service_present</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">keystone</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">service_type</span>: <span style="color:#ae81ff">identity</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">description</span>: <span style="color:#e6db74">&#34;OpenStack Identity&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">require</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">cmd</span>: <span style="color:#ae81ff">waiting-keystone-startup</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">registry-keystone-endpoint</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">keystone.endpoint_present</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">keystone</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">publicurl</span>: <span style="color:#ae81ff">http://host-01:5000/v2.0</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">internalurl</span>: <span style="color:#ae81ff">http://host-01:5000/v2.0</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">adminurl</span>: <span style="color:#ae81ff">http://host-01:35357/v2.0</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">region</span>: <span style="color:#ae81ff">regionOne</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">require</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">keystone</span>: <span style="color:#ae81ff">registry-keystone-service</span>
+</span></span></code></pre></div><p>結果執行時發生 KeyError:</p>
+<pre tabindex="0"><code>user@host-01:/srv/salt/openstack/keystone$ salt &#39;*&#39; state.sls openstack.keystone.registry
 host-01:
     The minion function caused an exception: Traceback (most recent call last):
-      File &quot;/usr/lib/python2.7/dist-packages/salt/minion.py&quot;, line 1161, in _thread_return
+      File &#34;/usr/lib/python2.7/dist-packages/salt/minion.py&#34;, line 1161, in _thread_return
         return_data = func(*args, **kwargs)
-      File &quot;/usr/lib/python2.7/dist-packages/salt/modules/state.py&quot;, line 681, in sls
+      File &#34;/usr/lib/python2.7/dist-packages/salt/modules/state.py&#34;, line 681, in sls
         ret = st_.state.call_high(high_)
-      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 2067, in call_high
+      File &#34;/usr/lib/python2.7/dist-packages/salt/state.py&#34;, line 2067, in call_high
         ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))
-      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1623, in call_chunks
+      File &#34;/usr/lib/python2.7/dist-packages/salt/state.py&#34;, line 1623, in call_chunks
         running = self.call_chunk(low, running, chunks)
-      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 1769, in call_chunk
+      File &#34;/usr/lib/python2.7/dist-packages/salt/state.py&#34;, line 1769, in call_chunk
         self._mod_init(low)
-      File &quot;/usr/lib/python2.7/dist-packages/salt/state.py&quot;, line 612, in _mod_init
-        self.states['{0}.{1}'.format(low['state'], low['fun'])]  # pylint: disable=W0106
-      File &quot;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&quot;, line 90, in __getitem__
+      File &#34;/usr/lib/python2.7/dist-packages/salt/state.py&#34;, line 612, in _mod_init
+        self.states[&#39;{0}.{1}&#39;.format(low[&#39;state&#39;], low[&#39;fun&#39;])]  # pylint: disable=W0106
+      File &#34;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&#34;, line 90, in __getitem__
         raise KeyError(key)
-    KeyError: 'keystone.service_present'
+    KeyError: &#39;keystone.service_present&#39;
 </code></pre></p>
                 
                 <p><a href="/posts/debugging-saltstack-states/">Read more...</a></p>
@@ -278,7 +278,7 @@ host-01:
             <div>
                 <p><p>架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。</p>
 <pre tabindex="0"><code>root@localhost:~# glance --debug image-list
-curl -i -X GET -H 'User-Agent: python-glanceclient' -H 'Content-Type: application/octet-stream' -H 'Accept-Encoding: gzip, deflate, compress' -H 'Accept: */*' -H 'X-Auth-Token: ***' http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;sort_dir=asc&amp;limit=20
+curl -i -X GET -H &#39;User-Agent: python-glanceclient&#39; -H &#39;Content-Type: application/octet-stream&#39; -H &#39;Accept-Encoding: gzip, deflate, compress&#39; -H &#39;Accept: */*&#39; -H &#39;X-Auth-Token: ***&#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;sort_dir=asc&amp;limit=20
 Request returned failure status 401.
 Invalid OpenStack Identity credentials.
 </code></pre></p>
@@ -360,14 +360,14 @@ Invalid OpenStack Identity credentials.
             </h2>
             <div>
                 <p><p>Nova-compute 無法運行，在 log 中發現:</p>
-<pre tabindex="0"><code>2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 187, in doit
+<pre tabindex="0"><code>2015-02-11 15:34:05.511 30827 TRACE nova   File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 187, in doit
 2015-02-11 15:34:05.511 30827 TRACE nova     result = proxy_call(self._autowrap, f, *args, **kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 147, in proxy_call
+2015-02-11 15:34:05.511 30827 TRACE nova   File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 147, in proxy_call
 2015-02-11 15:34:05.511 30827 TRACE nova     rv = execute(f,*args,**kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 76, in tworker
+2015-02-11 15:34:05.511 30827 TRACE nova   File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 76, in tworker
 2015-02-11 15:34:05.511 30827 TRACE nova     rv = meth(*args,**kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/libvirt.py&quot;, line 2096, in vcpus
-2015-02-11 15:34:05.511 30827 TRACE nova     if ret == -1: raise libvirtError ('virDomainGetVcpus() failed', dom=self)
+2015-02-11 15:34:05.511 30827 TRACE nova   File &#34;/usr/lib/python2.7/dist-packages/libvirt.py&#34;, line 2096, in vcpus
+2015-02-11 15:34:05.511 30827 TRACE nova     if ret == -1: raise libvirtError (&#39;virDomainGetVcpus() failed&#39;, dom=self)
 2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process
 2015-02-11 15:34:05.511 30827 TRACE nova
 </code></pre></p>
@@ -551,7 +551,7 @@ Invalid OpenStack Identity credentials.
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

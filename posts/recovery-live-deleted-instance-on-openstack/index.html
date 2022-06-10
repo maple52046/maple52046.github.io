@@ -166,7 +166,7 @@ VM 一旦關機，instance 就會被刪掉 =&gt; user 的資料消失(除非 use
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -220,7 +220,7 @@ root@local# virsh suspend 39
  -     instance-000002c6              shut off
 </code></pre><h2 id="第二步">第二步</h2>
 <p>找到 VM 的 process id:</p>
-<pre tabindex="0"><code>root@local# ps aux |grep 'instance-000002d3'
+<pre tabindex="0"><code>root@local# ps aux |grep &#39;instance-000002d3&#39;
 root     22430  0.0  0.0   9388   940 pts/1    S+   09:12   0:00 grep --color=auto 2d3
 107      25534 12.9  5.9 13075024 1474148 ?    Sl   Sep17 6469:57 /usr/bin/kvm -name instance-000002d3 -S ...(以下省略)...
 </code></pre><p>從上述中的例子我們可以看到，<code>instance-000002d3</code> 的 process id 為 <strong>25534</strong>。根據 process id，切換當前目錄到 <code>/proc/$processid/fd</code>，此時就可以看到此 process 佔用了那些檔案:</p>
@@ -469,7 +469,7 @@ root@local# virsh list --all
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

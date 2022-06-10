@@ -2,7 +2,7 @@
 
 <html lang="zh-tw">
     <head>
-	<meta name="generator" content="Hugo 0.88.1" />
+	<meta name="generator" content="Hugo 0.100.1" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -156,7 +156,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -171,6 +171,35 @@ if (!doNotTrack) {
         
         
         
+        
+        <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/use-openvswitch-in-libvirt/">
+                    設定 Libvirt 使用 Open vSwitch
+                </a>
+            </h2>
+            <div>
+                <p><p>最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 <code>virsh define</code> 之後才能使用。</p>
+<p>每個 VM 都要手動設定真的很麻煩</p>
+<p>幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]</p></p>
+                
+                <p><a href="/posts/use-openvswitch-in-libvirt/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>August 12, 2014</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/libvirt">#libvirt</a>
+                
+                    <a class="tag" href="/tags/open-vswitch">#open vswitch</a>
+                
+            
+            </div> 
+           
+        </article>
         
         <article>
             <h2>
@@ -359,7 +388,7 @@ if (!doNotTrack) {
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

@@ -2,7 +2,7 @@
 
 <html lang="zh-tw">
     <head>
-	<meta name="generator" content="Hugo 0.88.1" />
+	<meta name="generator" content="Hugo 0.100.1" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -156,7 +156,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -171,6 +171,32 @@ if (!doNotTrack) {
         
         
         
+        
+        <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/force-confirm-gitlab-user/">
+                    暴力啟用 gitLab user
+                </a>
+            </h2>
+            <div>
+                <p><p>下這個標題不知道是不是很奇怪XD</p>
+<p>最近在為自己的 team 開發一個 management 系統，於是決定在 GitLAB 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&hellip;不小心找了個旁門左道 XD</p></p>
+                
+                <p><a href="/posts/force-confirm-gitlab-user/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>March 27, 2015</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/gitlab">#gitlab</a>
+                
+            
+            </div> 
+           
+        </article>
         
         <article>
             <h2>
@@ -315,14 +341,14 @@ if (!doNotTrack) {
             </h2>
             <div>
                 <p><p>Nova-compute 無法運行，在 log 中發現:</p>
-<pre tabindex="0"><code>2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 187, in doit
+<pre tabindex="0"><code>2015-02-11 15:34:05.511 30827 TRACE nova   File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 187, in doit
 2015-02-11 15:34:05.511 30827 TRACE nova     result = proxy_call(self._autowrap, f, *args, **kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 147, in proxy_call
+2015-02-11 15:34:05.511 30827 TRACE nova   File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 147, in proxy_call
 2015-02-11 15:34:05.511 30827 TRACE nova     rv = execute(f,*args,**kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&quot;, line 76, in tworker
+2015-02-11 15:34:05.511 30827 TRACE nova   File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 76, in tworker
 2015-02-11 15:34:05.511 30827 TRACE nova     rv = meth(*args,**kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &quot;/usr/lib/python2.7/dist-packages/libvirt.py&quot;, line 2096, in vcpus
-2015-02-11 15:34:05.511 30827 TRACE nova     if ret == -1: raise libvirtError ('virDomainGetVcpus() failed', dom=self)
+2015-02-11 15:34:05.511 30827 TRACE nova   File &#34;/usr/lib/python2.7/dist-packages/libvirt.py&#34;, line 2096, in vcpus
+2015-02-11 15:34:05.511 30827 TRACE nova     if ret == -1: raise libvirtError (&#39;virDomainGetVcpus() failed&#39;, dom=self)
 2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process
 2015-02-11 15:34:05.511 30827 TRACE nova
 </code></pre></p>
@@ -374,7 +400,7 @@ if (!doNotTrack) {
                 <p><p>最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:</p>
 <pre tabindex="0"><code>回應:	500 OOPS: priv_sock_get_cmd
 </code></pre><p>在 server 端，<code>/var/log/syslog</code> 裡面看到:</p>
-<pre tabindex="0"><code>Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&quot;vsftpd&quot; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
+<pre tabindex="0"><code>Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&#34;vsftpd&#34; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
 </code></pre></p>
                 
                 <p><a href="/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/">Read more...</a></p>
@@ -428,35 +454,6 @@ if (!doNotTrack) {
             <time>September 25, 2014</time>
 
             
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/use-openvswitch-in-libvirt/">
-                    設定 Libvirt 使用 Open vSwitch
-                </a>
-            </h2>
-            <div>
-                <p><p>最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 <code>virsh define</code> 之後才能使用。</p>
-<p>每個 VM 都要手動設定真的很麻煩</p>
-<p>幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]</p></p>
-                
-                <p><a href="/posts/use-openvswitch-in-libvirt/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>August 12, 2014</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/libvirt">#libvirt</a>
-                
-                    <a class="tag" href="/tags/open-vswitch">#open vswitch</a>
-                
             
             </div> 
            
@@ -593,7 +590,7 @@ if (!doNotTrack) {
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

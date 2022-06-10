@@ -164,7 +164,7 @@ OpenWRT version: 14.07
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -212,12 +212,12 @@ make
 <pre tabindex="0"><code>cd ~/crosscompile
 vi env.sh
 </code></pre><p>Content:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export STAGING_DIR<span style="color:#f92672">=</span>/home/maple/crosscompile/openwrt/staging_dir
-export TOOLCHAIN_DIR<span style="color:#f92672">=</span>$STAGING_DIR/toolchain-mips_34kc_gcc-4.8-linaro_uClibc-0.9.33.2
-export LDCFLAGS<span style="color:#f92672">=</span>$TOOLCHAIN_DIR/usr/lib
-export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$TOOLCHAIN_DIR/usr/lib
-export PATH<span style="color:#f92672">=</span>$TOOLCHAIN_DIR/bin:$PATH
-</code></pre></div><p>Change value of <strong>STAGING_DIR</strong> by the path of OpenWRT source code</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export STAGING_DIR<span style="color:#f92672">=</span>/home/maple/crosscompile/openwrt/staging_dir
+</span></span><span style="display:flex;"><span>export TOOLCHAIN_DIR<span style="color:#f92672">=</span>$STAGING_DIR/toolchain-mips_34kc_gcc-4.8-linaro_uClibc-0.9.33.2
+</span></span><span style="display:flex;"><span>export LDCFLAGS<span style="color:#f92672">=</span>$TOOLCHAIN_DIR/usr/lib
+</span></span><span style="display:flex;"><span>export LD_LIBRARY_PATH<span style="color:#f92672">=</span>$TOOLCHAIN_DIR/usr/lib
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>$TOOLCHAIN_DIR/bin:$PATH
+</span></span></code></pre></div><p>Change value of <strong>STAGING_DIR</strong> by the path of OpenWRT source code</p>
 <ul>
 <li>Source environment</li>
 </ul>
@@ -245,42 +245,42 @@ cd helloworld
 <li>Generate source code</li>
 </ul>
 <pre tabindex="0"><code>vi helloworld.c
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
-    printf(<span style="color:#e6db74">&#34;Hello World!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
-    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-}
-</code></pre></div><h3 id="compile-single-source-code">Compile single source code</h3>
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    printf(<span style="color:#e6db74">&#34;Hello World!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="compile-single-source-code">Compile single source code</h3>
 <pre tabindex="0"><code>mips-openwrt-linux-gcc -o helloworld helloworld.c
 </code></pre><h3 id="compile-with-makefile">Compile with Makefile</h3>
 <ul>
 <li>Generate <code>Makefile</code></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile">INCLUDE_DIR<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>TOOLCHAIN_DIR<span style="color:#66d9ef">)</span>/usr/include
-
-CC<span style="color:#f92672">=</span>mips-openwrt-linux-gcc
-
-CFLAGS<span style="color:#f92672">=</span> -std<span style="color:#f92672">=</span>gnu99
-LDFLAGS<span style="color:#f92672">=</span>-lbluetooth
-
-SOURCES<span style="color:#f92672">=</span>helloworld.c
-OBJS<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>SOURCES:.c<span style="color:#f92672">=</span>.o<span style="color:#66d9ef">)</span>
-
-<span style="color:#a6e22e">all</span><span style="color:#f92672">:</span> helloworld
-
-<span style="color:#a6e22e">helloworld.o</span><span style="color:#f92672">:</span> helloworld.c
-	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -I <span style="color:#66d9ef">$(</span>INCLUDE_DIR<span style="color:#66d9ef">)</span> -o $@ $&lt;
-
-<span style="color:#a6e22e">%.o</span><span style="color:#f92672">:</span> %.c %.h
-	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -I <span style="color:#66d9ef">$(</span>INCLUDE_DIR<span style="color:#66d9ef">)</span> -o $@ $&lt;
-
-<span style="color:#a6e22e">helloworld</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">$(</span>OBJS<span style="color:#66d9ef">)</span>
-	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>LDFLAGS<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -o helloworld <span style="color:#66d9ef">$(</span>OBJS<span style="color:#66d9ef">)</span>
-
-<span style="color:#a6e22e">clean</span><span style="color:#f92672">:</span>
-	rm *.o helloworld
-</code></pre></div><p>縮排必須是一格 tab，不能是空白鍵，否則會產生 <code>Makefile:17: *** missing separator.  Stop.</code> 錯誤。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span>INCLUDE_DIR<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>TOOLCHAIN_DIR<span style="color:#66d9ef">)</span>/usr/include
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>CC<span style="color:#f92672">=</span>mips-openwrt-linux-gcc
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>CFLAGS<span style="color:#f92672">=</span> -std<span style="color:#f92672">=</span>gnu99
+</span></span><span style="display:flex;"><span>LDFLAGS<span style="color:#f92672">=</span>-lbluetooth
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>SOURCES<span style="color:#f92672">=</span>helloworld.c
+</span></span><span style="display:flex;"><span>OBJS<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>SOURCES:.c<span style="color:#f92672">=</span>.o<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">all</span><span style="color:#f92672">:</span> helloworld
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">helloworld.o</span><span style="color:#f92672">:</span> helloworld.c
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -I <span style="color:#66d9ef">$(</span>INCLUDE_DIR<span style="color:#66d9ef">)</span> -o $@ $&lt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">%.o</span><span style="color:#f92672">:</span> %.c %.h
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -I <span style="color:#66d9ef">$(</span>INCLUDE_DIR<span style="color:#66d9ef">)</span> -o $@ $&lt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">helloworld</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">$(</span>OBJS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>LDFLAGS<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -o helloworld <span style="color:#66d9ef">$(</span>OBJS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">clean</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	rm *.o helloworld
+</span></span></code></pre></div><p>縮排必須是一格 tab，不能是空白鍵，否則會產生 <code>Makefile:17: *** missing separator.  Stop.</code> 錯誤。</p>
 <ul>
 <li>Execute <code>make</code> command <em>(You need activate environment parameter before this step)</em></li>
 </ul>
@@ -311,30 +311,30 @@ mkdir sniffex
 </code></pre><ul>
 <li>Generate <code>Makefile</code></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile">INCLUDE_DIR<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>TOOLCHAIN_DIR<span style="color:#66d9ef">)</span>/usr/include
-
-CC<span style="color:#f92672">=</span>mips-openwrt-linux-gcc
-
-CFLAGS<span style="color:#f92672">=</span> -Wall
-LDFLAGS<span style="color:#f92672">=</span>-lpcap
-
-SOURCES<span style="color:#f92672">=</span>sniffex.c
-OBJS<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>SOURCES:.c<span style="color:#f92672">=</span>.o<span style="color:#66d9ef">)</span>
-
-<span style="color:#a6e22e">all</span><span style="color:#f92672">:</span> sniffex
-
-<span style="color:#a6e22e">sniffex.o</span><span style="color:#f92672">:</span> sniffex.c
-	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -I <span style="color:#66d9ef">$(</span>INCLUDE_DIR<span style="color:#66d9ef">)</span> -o $@ $&lt;
-
-<span style="color:#a6e22e">%.o</span><span style="color:#f92672">:</span> %.c %.h
-	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -I <span style="color:#66d9ef">$(</span>INCLUDE_DIR<span style="color:#66d9ef">)</span> -o $@ $&lt;
-
-<span style="color:#a6e22e">sniffex</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">$(</span>OBJS<span style="color:#66d9ef">)</span>
-	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>LDFLAGS<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -o sniffex <span style="color:#66d9ef">$(</span>OBJS<span style="color:#66d9ef">)</span>
-
-<span style="color:#a6e22e">clean</span><span style="color:#f92672">:</span>
-	rm *.o sniffex
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-makefile" data-lang="makefile"><span style="display:flex;"><span>INCLUDE_DIR<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>TOOLCHAIN_DIR<span style="color:#66d9ef">)</span>/usr/include
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>CC<span style="color:#f92672">=</span>mips-openwrt-linux-gcc
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>CFLAGS<span style="color:#f92672">=</span> -Wall
+</span></span><span style="display:flex;"><span>LDFLAGS<span style="color:#f92672">=</span>-lpcap
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>SOURCES<span style="color:#f92672">=</span>sniffex.c
+</span></span><span style="display:flex;"><span>OBJS<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>SOURCES:.c<span style="color:#f92672">=</span>.o<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">all</span><span style="color:#f92672">:</span> sniffex
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">sniffex.o</span><span style="color:#f92672">:</span> sniffex.c
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -I <span style="color:#66d9ef">$(</span>INCLUDE_DIR<span style="color:#66d9ef">)</span> -o $@ $&lt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">%.o</span><span style="color:#f92672">:</span> %.c %.h
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -I <span style="color:#66d9ef">$(</span>INCLUDE_DIR<span style="color:#66d9ef">)</span> -o $@ $&lt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">sniffex</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">$(</span>OBJS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>LDFLAGS<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">$(</span>CFLAGS<span style="color:#66d9ef">)</span> -o sniffex <span style="color:#66d9ef">$(</span>OBJS<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">clean</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	rm *.o sniffex
+</span></span></code></pre></div><ul>
 <li>Execute <code>make</code> command <em>(You need source environment parameter before this step)</em></li>
 </ul>
 <p>Done</p>
@@ -490,7 +490,7 @@ OBJS<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>SOU
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

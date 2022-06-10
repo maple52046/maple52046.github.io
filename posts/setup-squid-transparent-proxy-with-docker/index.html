@@ -156,7 +156,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -173,7 +173,7 @@ if (!doNotTrack) {
         <p>Squid 作為 Transparent proxy 時，不但可以加快區域網絡內的速度、降低網路流量
 還可以控管區網內是否要開放/封鎖網站~~(監看區網內誰在玩FB或是看色情網站XD)~~</p>
 <p>通常 Transparent proxy 都會放在區網對外的那台 server 上，例如下圖：</p>
-<p><img src="http://user-image.logdown.io/user/10779/blog/10403/post/314634/N4mq1E37S767W0ZY5S3U_%E6%9C%AA%E5%91%BD%E5%90%8D.001.jpeg" alt="&ldquo;Squid Transparent Proxy&rdquo;"></p>
+<p><img src="http://user-image.logdown.io/user/10779/blog/10403/post/314634/N4mq1E37S767W0ZY5S3U_%E6%9C%AA%E5%91%BD%E5%90%8D.001.jpeg" alt="&amp;ldquo;Squid Transparent Proxy&amp;rdquo;"></p>
 <p>對於 Proxy , Transparent proxy 沒有概念的人，可以先看<a href="http://linux.vbird.org/linux_server/0420squid.php">鳥哥的文章</a>，這邊就很不負責的說不再贅述了((懶~</p>
 <h1 id="實驗環境">實驗環境</h1>
 <table>
@@ -207,7 +207,7 @@ if (!doNotTrack) {
 <h2 id="2-設定-memory-disk-option">2. 設定 Memory Disk (Option.)</h2>
 <p>既然 Squid 是一個 Proxy server，那通常就會有一個存放 cache 的地方。一般來說，如果 server 的 memory 夠大，將 cache 放到 memory 中是一個好選擇，可以讓效能快很多。</p>
 <pre tabindex="0"><code>$ sudo mkdir /var/spool/squid3
-$ echo &quot;tmpfs /var/spool/squid3/ tmpfs defaults,size=256m,mode=1777 0 0&quot; | sudo tee -a /etc/fstab
+$ echo &#34;tmpfs /var/spool/squid3/ tmpfs defaults,size=256m,mode=1777 0 0&#34; | sudo tee -a /etc/fstab
 $ sudo mount /var/spool/squid3
 </code></pre><p>ps: <strong><code>tee</code> 這個指令千萬別忘了加上 <code>-a</code>，免得 <code>/etc/fstab</code> 的內容會被覆蓋。</strong></p>
 <blockquote>
@@ -232,7 +232,7 @@ $ sudo mount /var/spool/squid3
 <p>利用 <code>docker ps</code> 來檢查 container 是否有在運作：</p>
 <pre tabindex="0"><code>sudo docker ps
 CONTAINER ID        IMAGE                     COMMAND                CREATED             STATUS              PORTS               NAMES
-2d8d9f19b25d        sameersbn/squid:3.3.8-4   &quot;/sbin/entrypoint.sh   2 hours ago         Up About an hour                        squid3
+2d8d9f19b25d        sameersbn/squid:3.3.8-4   &#34;/sbin/entrypoint.sh   2 hours ago         Up About an hour                        squid3
 </code></pre><p>如果想要看 log，有兩種方式：</p>
 <ol>
 <li>如果 <code>docker run</code> 的參數有加上 <code>-v &lt;&lt;some path in host server&gt;&gt;:/var/log/squid3</code> 就可以在實體機上看到 log 檔。 在我的範例中是 <code>/var/log/squid3/cache.log</code></li>
@@ -320,7 +320,7 @@ into your certificate request.
 What you are about to enter is what is called a Distinguished Name or a DN.
 There are quite a few fields but you can leave some blank
 For some fields there will be a default value,
-If you enter '.', the field will be left blank.
+If you enter &#39;.&#39;, the field will be left blank.
 -----
 Country Name (2 letter code) [AU]:TW
 State or Province Name (full name) [Some-State]:Taiwan
@@ -330,7 +330,7 @@ Organizational Unit Name (eg, section) []:SSLab
 Common Name (e.g. server FQDN or YOUR name) []:maple52046.twbbs.org.tw
 Email Address []:maple52046@gmail.com
 
-Please enter the following 'extra' attributes
+Please enter the following &#39;extra&#39; attributes
 to be sent with your certificate request
 A challenge password []:
 An optional company name []:
@@ -352,7 +352,7 @@ squid-proxy.crt  squid-proxy.key  squid-server.csr  squid-server.key
 <p>重新啟動 Squid server 以便套用新設定</p>
 <pre tabindex="0"><code>$ sudo docker restart squid3
 </code></pre><p>檢查一下 port 是否有在監聽：</p>
-<pre tabindex="0"><code>sudo netstat -tlnp | egrep '3128|3129'
+<pre tabindex="0"><code>sudo netstat -tlnp | egrep &#39;3128|3129&#39;
 </code></pre><h2 id="6-設定-iptables">6. 設定 Iptables</h2>
 <p>因為是 transparent proxy，所以還必須要加上 iptables nat rule，將 HTTP/HTTPs request 導入到 Squid 中：</p>
 <pre tabindex="0"><code>$ sudo iptables -t nat -A PREROUTING ! -d 10.0.0.1 -p tcp --dport 80 -j REDIRECT --to 3128
@@ -366,8 +366,8 @@ $ sudo iptables -t nat -A PREROUTING ! -d 10.0.0.1 -p tcp --dport 443 -j REDIREC
 <ol>
 <li>建立 <code>/etc/init/squid3.conf</code>，並新增以下內容：</li>
 </ol>
-<pre tabindex="0"><code>description &quot;Squid Proxy Server&quot;
-author &quot;Maple52046&quot;
+<pre tabindex="0"><code>description &#34;Squid Proxy Server&#34;
+author &#34;Maple52046&#34;
 start on filesystem and started docker
 stop on runlevel [!2345]
 respawn
@@ -555,7 +555,7 @@ sudo docker ps | grep squid3
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

@@ -159,7 +159,7 @@ sudo apt install oracle-java9-installer
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -233,36 +233,36 @@ sudo apt-src install oracle-java9-installer
 <li>將 <code>JAVA_VERSION_MINOR</code> (line 69) 修改成 <strong><code>11</code></strong></li>
 </ul>
 <p>Ex:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> ! $arch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;arm&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
-  JAVA_VERSION_MAJOR<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span> <span style="color:#75715e">#</span>
-  JAVA_VERSION_MINOR<span style="color:#f92672">=</span><span style="color:#ae81ff">181</span> <span style="color:#75715e">#must be modified for each release</span>
-  JAVA_VERSION_DATE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;04_nov_2015&#34;</span> <span style="color:#75715e">#no longer needed with b95</span>
-  J_DIR<span style="color:#f92672">=</span>jdk-9 <span style="color:#75715e">#must be modified for each release</span>
-  FILENAME<span style="color:#f92672">=</span>jdk-<span style="color:#e6db74">${</span>JAVA_VERSION_MAJOR<span style="color:#e6db74">}</span>_linux-<span style="color:#e6db74">${</span>dld<span style="color:#e6db74">}</span>_bin.tar.gz <span style="color:#75715e"># jdk-9_linux-x64_bin.tar.gz</span>
-  PARTNER_URL<span style="color:#f92672">=</span>http://download.oracle.com/otn-pub/java/jdk/<span style="color:#e6db74">${</span>JAVA_VERSION_MAJOR<span style="color:#e6db74">}</span>+<span style="color:#e6db74">${</span>JAVA_VERSION_MINOR<span style="color:#e6db74">}</span>/$FILENAME
-<span style="color:#66d9ef">else</span>
-  JAVA_VERSION_MAJOR<span style="color:#f92672">=</span>9.0.1 <span style="color:#75715e">#</span>
-  JAVA_VERSION_MINOR<span style="color:#f92672">=</span><span style="color:#ae81ff">11</span> <span style="color:#75715e">#must be modified for each release</span>
-  JAVA_VERSION_DATE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;04_nov_2015&#34;</span> <span style="color:#75715e">#no longer needed with b95</span>
-  J_DIR<span style="color:#f92672">=</span>jdk-9.0.1 <span style="color:#75715e">#must be modified for each release</span>
-  FILENAME<span style="color:#f92672">=</span>jdk-<span style="color:#e6db74">${</span>JAVA_VERSION_MAJOR<span style="color:#e6db74">}</span>_linux-<span style="color:#e6db74">${</span>dld<span style="color:#e6db74">}</span>_bin.tar.gz <span style="color:#75715e"># jdk-9+109_linux-arm64-vfp-hflt_bin.tar.gz</span>
-  PARTNER_URL<span style="color:#f92672">=</span>http://download.oracle.com/otn-pub/java/jdk/<span style="color:#e6db74">${</span>JAVA_VERSION_MAJOR<span style="color:#e6db74">}</span>+<span style="color:#e6db74">${</span>JAVA_VERSION_MINOR<span style="color:#e6db74">}</span>/$FILENAME
-<span style="color:#66d9ef">fi</span>
-</code></pre></div><h3 id="step-2">Step 2</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> ! $arch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;arm&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  JAVA_VERSION_MAJOR<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span> <span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>  JAVA_VERSION_MINOR<span style="color:#f92672">=</span><span style="color:#ae81ff">181</span> <span style="color:#75715e">#must be modified for each release</span>
+</span></span><span style="display:flex;"><span>  JAVA_VERSION_DATE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;04_nov_2015&#34;</span> <span style="color:#75715e">#no longer needed with b95</span>
+</span></span><span style="display:flex;"><span>  J_DIR<span style="color:#f92672">=</span>jdk-9 <span style="color:#75715e">#must be modified for each release</span>
+</span></span><span style="display:flex;"><span>  FILENAME<span style="color:#f92672">=</span>jdk-<span style="color:#e6db74">${</span>JAVA_VERSION_MAJOR<span style="color:#e6db74">}</span>_linux-<span style="color:#e6db74">${</span>dld<span style="color:#e6db74">}</span>_bin.tar.gz <span style="color:#75715e"># jdk-9_linux-x64_bin.tar.gz</span>
+</span></span><span style="display:flex;"><span>  PARTNER_URL<span style="color:#f92672">=</span>http://download.oracle.com/otn-pub/java/jdk/<span style="color:#e6db74">${</span>JAVA_VERSION_MAJOR<span style="color:#e6db74">}</span>+<span style="color:#e6db74">${</span>JAVA_VERSION_MINOR<span style="color:#e6db74">}</span>/$FILENAME
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>  JAVA_VERSION_MAJOR<span style="color:#f92672">=</span>9.0.1 <span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span>  JAVA_VERSION_MINOR<span style="color:#f92672">=</span><span style="color:#ae81ff">11</span> <span style="color:#75715e">#must be modified for each release</span>
+</span></span><span style="display:flex;"><span>  JAVA_VERSION_DATE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;04_nov_2015&#34;</span> <span style="color:#75715e">#no longer needed with b95</span>
+</span></span><span style="display:flex;"><span>  J_DIR<span style="color:#f92672">=</span>jdk-9.0.1 <span style="color:#75715e">#must be modified for each release</span>
+</span></span><span style="display:flex;"><span>  FILENAME<span style="color:#f92672">=</span>jdk-<span style="color:#e6db74">${</span>JAVA_VERSION_MAJOR<span style="color:#e6db74">}</span>_linux-<span style="color:#e6db74">${</span>dld<span style="color:#e6db74">}</span>_bin.tar.gz <span style="color:#75715e"># jdk-9+109_linux-arm64-vfp-hflt_bin.tar.gz</span>
+</span></span><span style="display:flex;"><span>  PARTNER_URL<span style="color:#f92672">=</span>http://download.oracle.com/otn-pub/java/jdk/<span style="color:#e6db74">${</span>JAVA_VERSION_MAJOR<span style="color:#e6db74">}</span>+<span style="color:#e6db74">${</span>JAVA_VERSION_MINOR<span style="color:#e6db74">}</span>/$FILENAME
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><h3 id="step-2">Step 2</h3>
 <p>根據 <a href="">Oracle 官網</a> 的 checksum 表：</p>
 <p><img src="https://i.imgur.com/K2ReH3E.png" alt=""></p>
 <p>修改 <strong>SHA256SUM_TGZ</strong> (line 24) 的值：</p>
 <p>Ex:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">case</span> <span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span> in
-<span style="color:#e6db74">&#39;i386&#39;</span>|<span style="color:#e6db74">&#39;i586&#39;</span>|<span style="color:#e6db74">&#39;i686&#39;</span><span style="color:#f92672">)</span>
-  <span style="color:#75715e">#arch=i386; dld=x86;</span>
-  <span style="color:#75715e">#SHA256SUM_TGZ=&#34;ba0c77644ece024cdb933571d79f0f035e91a9c9ab70de9c82446c9fbd000c97&#34; #must be modified for each release</span>
-  echo <span style="color:#e6db74">&#34;Error. Oracle Java 9 does not support 32bit.&#34;</span>
-  ;;
-<span style="color:#e6db74">&#39;amd64&#39;</span>  <span style="color:#f92672">)</span> arch<span style="color:#f92672">=</span>amd64; dld<span style="color:#f92672">=</span>x64;
-  SHA256SUM_TGZ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2cdaf0ff92d0829b510edd883a4ac8322c02f2fc1beae95d048b6716076bc014&#34;</span> <span style="color:#75715e">#must be modified for each release</span>
-  ;;
-</code></pre></div><h2 id="build-deb">Build deb</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">case</span> <span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span> in
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;i386&#39;</span>|<span style="color:#e6db74">&#39;i586&#39;</span>|<span style="color:#e6db74">&#39;i686&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#arch=i386; dld=x86;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#SHA256SUM_TGZ=&#34;ba0c77644ece024cdb933571d79f0f035e91a9c9ab70de9c82446c9fbd000c97&#34; #must be modified for each release</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;Error. Oracle Java 9 does not support 32bit.&#34;</span>
+</span></span><span style="display:flex;"><span>  ;;
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;amd64&#39;</span>  <span style="color:#f92672">)</span> arch<span style="color:#f92672">=</span>amd64; dld<span style="color:#f92672">=</span>x64;
+</span></span><span style="display:flex;"><span>  SHA256SUM_TGZ<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2cdaf0ff92d0829b510edd883a4ac8322c02f2fc1beae95d048b6716076bc014&#34;</span> <span style="color:#75715e">#must be modified for each release</span>
+</span></span><span style="display:flex;"><span>  ;;
+</span></span></code></pre></div><h2 id="build-deb">Build deb</h2>
 <p>接下來開始 build deb 檔：</p>
 <pre tabindex="0"><code>apt-src build oracle-java9-installer
 </code></pre><p>完成之後，會在目錄下看到三個 deb 檔：</p>
@@ -418,7 +418,7 @@ sudo apt install oracle-java9-set-default
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

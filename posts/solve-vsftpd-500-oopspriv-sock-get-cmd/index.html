@@ -45,7 +45,7 @@ if (!doNotTrack) {
 <meta property="og:description" content="最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:
 回應:	500 OOPS: priv_sock_get_cmd
 在 server 端，/var/log/syslog 裡面看到:
-Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&quot;vsftpd&quot; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
+Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&#34;vsftpd&#34; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
 " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
@@ -159,7 +159,7 @@ Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:1
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -176,7 +176,7 @@ Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:1
         <p>最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:</p>
 <pre tabindex="0"><code>回應:	500 OOPS: priv_sock_get_cmd
 </code></pre><p>在 server 端，<code>/var/log/syslog</code> 裡面看到:</p>
-<pre tabindex="0"><code>Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&quot;vsftpd&quot; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
+<pre tabindex="0"><code>Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&#34;vsftpd&#34; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
 </code></pre><p>原本以為是 chroot 設定錯誤，經過 google 一番後，找到了解答: <a href="http://chemdroid.net/en/ubuntu/23-vsftpd-500-oops-priv-sock-get-cmd">VSFTPD: &ldquo;500 OOPS: priv_sock_get_cmd&rdquo;</a></p>
 <p>原來是 vsftpd 3.0.0 以上的版本，搭配 Ubuntu 12.04(以上) x86_64 的 Kernel 時，會自動用到 <strong>seccomp</strong> 這個 kernel module。<em>(如果我沒有翻譯錯的話)</em></p>
 <p>但是 vsftpd 3.0.0 是個有很多 bug 的版本，所以&hellip;。</p>
@@ -193,7 +193,7 @@ Codename:	raring
 <ol>
 <li>新增 <code>seccomp_sandbox=NO</code> 到 <strong>/etc/vsftpd.conf</strong></li>
 </ol>
-<pre tabindex="0"><code>echo 'seccomp_sandbox=NO' &gt;&gt; /etc/vsftpd.conf
+<pre tabindex="0"><code>echo &#39;seccomp_sandbox=NO&#39; &gt;&gt; /etc/vsftpd.conf
 </code></pre><ol start="2">
 <li>重啟 vsftpd</li>
 </ol>
@@ -336,7 +336,7 @@ Codename:	raring
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

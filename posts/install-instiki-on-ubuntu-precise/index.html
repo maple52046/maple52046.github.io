@@ -174,7 +174,7 @@ Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻�
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -233,16 +233,16 @@ ruby bundle
 </code></pre><p>過程中可能會提示缺少那些 gem，例如: nokogiri、rack、&hellip;。錯誤提示大概是長得像這樣:</p>
 <pre tabindex="0"><code>Gem::RemoteFetcher::FetchError: SocketError: getaddrinfo: Name or service not known (http://rubygems.org/gems/rack-1.5.2.gem)
 An error occurred while installing rack (1.5.2), and Bundler cannot continue.
-Make sure that `gem install rack -v '1.5.2'` succeeds before bundling.
+Make sure that `gem install rack -v &#39;1.5.2&#39;` succeeds before bundling.
 </code></pre><p>一般來說，就是直接按照提示，直接用 gem install 補那些缺少的 gem 即可。</p>
-<pre tabindex="0"><code>gem install rack -v '1.5.2'
+<pre tabindex="0"><code>gem install rack -v &#39;1.5.2&#39;
 </code></pre><p>不過在安裝 nokogiri 時發現，直接執行 <strong>gem install nokogiri -v &lsquo;1.5.11&rsquo;</strong> 後，看似有順利安裝完，但是用 <strong>gem list</strong>，發現 nokogiri 依然沒有被安裝；同時再次執行 <strong>ruby bundle</strong>依然會提示缺少 nokogiri(1.5.11)</p>
 <p>幸好 lab 還有個 Ruby 大神可以迅速救我XD</p>
 <h3 id="gem-install-nokogiri">Gem install nokogiri</h3>
 <p>安裝 nokogiri 之前，要先裝兩個 package:</p>
 <pre tabindex="0"><code>apt-get install libxml2-dev libxslt-dev
 </code></pre><p>然後在安裝 nokogiri 時，加上 <strong>&ndash;use-system-libraries</strong> :</p>
-<pre tabindex="0"><code>gem install nokogiri -v '1.5.11' -- --use-system-libraries
+<pre tabindex="0"><code>gem install nokogiri -v &#39;1.5.11&#39; -- --use-system-libraries
 </code></pre><p>這時候用 gem list 檢查就能看到 nokogiri 已經成功安裝，再回頭重新執行 <strong>ruby bundle</strong></p>
 <h2 id="migrating-to-mysql">Migrating to MySQL</h2>
 <p>首先要先安裝 library:</p>
@@ -251,38 +251,38 @@ Make sure that `gem install rack -v '1.5.2'` succeeds before bundling.
 <pre tabindex="0"><code>gem install mysql2
 </code></pre><p><em>(官方教學使用 mysql，but Ruby大神建議用 mysql2，所以先聽大神的建議)</em></p>
 <p>設定 shell 環境變數 (bash):</p>
-<pre tabindex="0"><code>export RAILS_ENV='production'
+<pre tabindex="0"><code>export RAILS_ENV=&#39;production&#39;
 </code></pre><p>編輯 config/database.yml，設定 production 的部分:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">production</span>:
-	 <span style="color:#f92672">adapter</span>: <span style="color:#ae81ff">mysql2  </span>
-	 <span style="color:#f92672">database</span>: <span style="color:#ae81ff">instiki</span>
-	 <span style="color:#f92672">username</span>: <span style="color:#ae81ff">instiki  </span>
-	 <span style="color:#f92672">password</span>: <span style="color:#ae81ff">instiki</span>
-	 <span style="color:#f92672">host</span>: <span style="color:#ae81ff">127.0.0.1</span>
-	 <span style="color:#f92672">port</span>: <span style="color:#ae81ff">3306</span>
-</code></pre></div><p>然後登入到 mysql 中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">production</span>:
+</span></span><span style="display:flex;"><span>	 <span style="color:#f92672">adapter</span>: <span style="color:#ae81ff">mysql2  </span>
+</span></span><span style="display:flex;"><span>	 <span style="color:#f92672">database</span>: <span style="color:#ae81ff">instiki</span>
+</span></span><span style="display:flex;"><span>	 <span style="color:#f92672">username</span>: <span style="color:#ae81ff">instiki  </span>
+</span></span><span style="display:flex;"><span>	 <span style="color:#f92672">password</span>: <span style="color:#ae81ff">instiki</span>
+</span></span><span style="display:flex;"><span>	 <span style="color:#f92672">host</span>: <span style="color:#ae81ff">127.0.0.1</span>
+</span></span><span style="display:flex;"><span>	 <span style="color:#f92672">port</span>: <span style="color:#ae81ff">3306</span>
+</span></span></code></pre></div><p>然後登入到 mysql 中</p>
 <pre tabindex="0"><code>mysql -u root -p
 </code></pre><p>建立 database, user 並設定權限:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">database</span> instiki;
-<span style="color:#66d9ef">create</span> <span style="color:#66d9ef">user</span> <span style="color:#e6db74">&#39;instiki&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span> identified <span style="color:#66d9ef">by</span> <span style="color:#e6db74">&#39;instiki&#39;</span>;
-<span style="color:#66d9ef">grant</span> <span style="color:#66d9ef">all</span> <span style="color:#66d9ef">on</span> instiki.<span style="color:#f92672">*</span> <span style="color:#66d9ef">to</span> <span style="color:#e6db74">&#39;instiki&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span>;
-flush <span style="color:#66d9ef">privileges</span>;
-</code></pre></div><h2 id="setting-apache-and-passenger">Setting Apache and Passenger</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">database</span> instiki;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">create</span> <span style="color:#66d9ef">user</span> <span style="color:#e6db74">&#39;instiki&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span> identified <span style="color:#66d9ef">by</span> <span style="color:#e6db74">&#39;instiki&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">grant</span> <span style="color:#66d9ef">all</span> <span style="color:#66d9ef">on</span> instiki.<span style="color:#f92672">*</span> <span style="color:#66d9ef">to</span> <span style="color:#e6db74">&#39;instiki&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span>;
+</span></span><span style="display:flex;"><span>flush <span style="color:#66d9ef">privileges</span>;
+</span></span></code></pre></div><h2 id="setting-apache-and-passenger">Setting Apache and Passenger</h2>
 <p>先安裝 passenger</p>
 <pre tabindex="0"><code>gem install passenger
 </code></pre><p>執行 <strong>passenger-install-apache2-module</strong></p>
 <pre tabindex="0"><code>[root@wiki] instiki # passenger-install-apache2-module
 Welcome to the Phusion Passenger Apache 2 module installer, v4.0.52.
 
-This installer will guide you through the entire installation process. It shouldn't take more than 3 minutes in total.
+This installer will guide you through the entire installation process. It shouldn&#39;t take more than 3 minutes in total.
 
-Here's what you can expect from the installation process:
+Here&#39;s what you can expect from the installation process:
 
 1. The Apache 2 module will be installed for you.
-2. You'll learn how to configure Apache.
-3. You'll learn how to deploy a Ruby on Rails application.
+2. You&#39;ll learn how to configure Apache.
+3. You&#39;ll learn how to deploy a Ruby on Rails application.
 
-Don't worry if anything goes wrong. This installer will advise you on how to solve any problems.
+Don&#39;t worry if anything goes wrong. This installer will advise you on how to solve any problems.
 
 Press Enter to continue, or Ctrl-C to abort.
 
@@ -291,7 +291,7 @@ Press Enter to continue, or Ctrl-C to abort.
 Which languages are you interested in?
 
 Use  to select.
-If the menu doesn't display correctly, press '!'
+If the menu doesn&#39;t display correctly, press &#39;!&#39;
 
  ‣ ⬢ Ruby
    ⬢ Python
@@ -340,7 +340,7 @@ Checking for required software...
 * Checking for Apache Portable Runtime Utility (APU) development headers...
 	 Found: no
 
-Some required software is not installed. But don't worry, this installer will tell you how to install them. Press Enter to continue, or Ctrl-C to abort.
+Some required software is not installed. But don&#39;t worry, this installer will tell you how to install them. Press Enter to continue, or Ctrl-C to abort.
 </code></pre><p>根據檢查結果，發現部分 library/software 沒有安裝，因此在使用 apt-get 將缺少的 package 補起來:</p>
 <pre tabindex="0"><code>apt-get install libcurl4-openssl-dev apache2-prefork-dev libapr1-dev
 </code></pre><p>裝完之後，再重新執行一次 <strong>passenger-install-apache2-module</strong>，如果沒有缺少 library/software 的話，指令就會自動進行編譯的部分，完成之後，會出現以下訊息:</p>
@@ -493,7 +493,7 @@ Press ENTER to continue.
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

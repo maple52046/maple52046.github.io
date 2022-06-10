@@ -99,7 +99,7 @@ sudo apt install oracle-java9-installer
       <description>&lt;p&gt;在 KVM VM running 的中，執行了 &lt;code&gt;qemu-img snapshot -c ....&lt;/code&gt;，可能是沒有算好 image 的剩餘空間，也可能是某種 bug，總之，當 VM 關機後，就再也開不起來了。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;qemu-img info&lt;/code&gt; 會產生錯誤：&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Host1 # qemu-img info portal.img
-qemu-img: Could not open &#39;portal.img&#39;: Could not read snapshots: File too large
+qemu-img: Could not open &amp;#39;portal.img&amp;#39;: Could not read snapshots: File too large
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
@@ -163,7 +163,7 @@ Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
       <description>&lt;p&gt;最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;回應:	500 OOPS: priv_sock_get_cmd
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在 server 端，&lt;code&gt;/var/log/syslog&lt;/code&gt; 裡面看到:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&amp;quot;vsftpd&amp;quot; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&amp;#34;vsftpd&amp;#34; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     

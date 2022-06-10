@@ -15,7 +15,7 @@
       <guid>https://maple52046.github.io/posts/openstack-glance-image-list-401/</guid>
       <description>&lt;p&gt;架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;root@localhost:~# glance --debug image-list
-curl -i -X GET -H &#39;User-Agent: python-glanceclient&#39; -H &#39;Content-Type: application/octet-stream&#39; -H &#39;Accept-Encoding: gzip, deflate, compress&#39; -H &#39;Accept: */*&#39; -H &#39;X-Auth-Token: ***&#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;amp;sort_dir=asc&amp;amp;limit=20
+curl -i -X GET -H &amp;#39;User-Agent: python-glanceclient&amp;#39; -H &amp;#39;Content-Type: application/octet-stream&amp;#39; -H &amp;#39;Accept-Encoding: gzip, deflate, compress&amp;#39; -H &amp;#39;Accept: */*&amp;#39; -H &amp;#39;X-Auth-Token: ***&amp;#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;amp;sort_dir=asc&amp;amp;limit=20
 Request returned failure status 401.
 Invalid OpenStack Identity credentials.
 &lt;/code&gt;&lt;/pre&gt;</description>

@@ -158,7 +158,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -187,199 +187,199 @@ if (!doNotTrack) {
 <li>
 <p><code>drivers/cache.dart</code>:</p>
 <p><code>MyCache</code> 做為 abstraction layer 存取 ffcache api。其他程式用 <code>getCache</code> 函數取得 cache 實例。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:ffcache/ffcache.dart&#39;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../logger.dart&#39;</span> <span style="color:#66d9ef">as</span> logger;
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyCache</span> {
-  FFCache<span style="color:#f92672">?</span> _cache;
-  <span style="color:#66d9ef">bool</span> isReady <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
-
-  Future initialize() <span style="color:#66d9ef">async</span> {
-    logger.debug(<span style="color:#e6db74">&#39;initializing cache&#39;</span>);
-    _cache <span style="color:#f92672">=</span> FFCache();
-    <span style="color:#66d9ef">await</span> _cache<span style="color:#f92672">?</span>.init();
-    isReady <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
-  }
-
-  Future<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> hasKey(<span style="color:#66d9ef">String</span> key) {
-    <span style="color:#66d9ef">return</span> _cache<span style="color:#f92672">!</span>.has(key);
-  }
-
-  Future removeKey(<span style="color:#66d9ef">String</span> key) {
-    <span style="color:#66d9ef">return</span> _cache<span style="color:#f92672">!</span>.remove(key);
-  }
-
-  <span style="color:#75715e">// bytes data
-</span><span style="color:#75715e"></span>  Future getBytes(<span style="color:#66d9ef">String</span> key) <span style="color:#f92672">=&gt;</span> _cache<span style="color:#f92672">!</span>.getBytes(key);
-  Future putBytes(<span style="color:#66d9ef">String</span> key, List<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> bytes, Duration<span style="color:#f92672">?</span> timeout) {
-    <span style="color:#66d9ef">return</span> timeout <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>
-        <span style="color:#f92672">?</span> _cache<span style="color:#f92672">!</span>.setBytesWithTimeout(key, bytes, timeout)
-        <span style="color:#f92672">:</span> _cache<span style="color:#f92672">!</span>.setBytes(key, bytes);
-  }
-
-  <span style="color:#75715e">// json data
-</span><span style="color:#75715e"></span>  Future getJson(<span style="color:#66d9ef">String</span> key) <span style="color:#f92672">=&gt;</span> _cache<span style="color:#f92672">!</span>.getJSON(key);
-  Future putJson(<span style="color:#66d9ef">String</span> key, <span style="color:#66d9ef">dynamic</span> value, Duration<span style="color:#f92672">?</span> timeout) {
-    <span style="color:#66d9ef">return</span> timeout <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>
-        <span style="color:#f92672">?</span> _cache<span style="color:#f92672">!</span>.setJSONWithTimeout(key, value, timeout)
-        <span style="color:#f92672">:</span> _cache<span style="color:#f92672">!</span>.setJSON(key, value);
-  }
-}
-
-<span style="color:#66d9ef">final</span> _instant <span style="color:#f92672">=</span> MyCache();
-Future initCache() <span style="color:#66d9ef">async</span> {
-  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>_instant.isReady) {
-    <span style="color:#66d9ef">await</span> _instant.initialize();
-  }
-}
-
-MyCache getCache() {
-  <span style="color:#66d9ef">return</span> _instant;
-}
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:ffcache/ffcache.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../logger.dart&#39;</span> <span style="color:#66d9ef">as</span> logger;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyCache</span> {
+</span></span><span style="display:flex;"><span>  FFCache<span style="color:#f92672">?</span> _cache;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">bool</span> isReady <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Future initialize() <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>    logger.debug(<span style="color:#e6db74">&#39;initializing cache&#39;</span>);
+</span></span><span style="display:flex;"><span>    _cache <span style="color:#f92672">=</span> FFCache();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> _cache<span style="color:#f92672">?</span>.init();
+</span></span><span style="display:flex;"><span>    isReady <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Future<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> hasKey(<span style="color:#66d9ef">String</span> key) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> _cache<span style="color:#f92672">!</span>.has(key);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Future removeKey(<span style="color:#66d9ef">String</span> key) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> _cache<span style="color:#f92672">!</span>.remove(key);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// bytes data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  Future getBytes(<span style="color:#66d9ef">String</span> key) <span style="color:#f92672">=&gt;</span> _cache<span style="color:#f92672">!</span>.getBytes(key);
+</span></span><span style="display:flex;"><span>  Future putBytes(<span style="color:#66d9ef">String</span> key, List<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> bytes, Duration<span style="color:#f92672">?</span> timeout) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> timeout <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">?</span> _cache<span style="color:#f92672">!</span>.setBytesWithTimeout(key, bytes, timeout)
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> _cache<span style="color:#f92672">!</span>.setBytes(key, bytes);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// json data
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  Future getJson(<span style="color:#66d9ef">String</span> key) <span style="color:#f92672">=&gt;</span> _cache<span style="color:#f92672">!</span>.getJSON(key);
+</span></span><span style="display:flex;"><span>  Future putJson(<span style="color:#66d9ef">String</span> key, <span style="color:#66d9ef">dynamic</span> value, Duration<span style="color:#f92672">?</span> timeout) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> timeout <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">?</span> _cache<span style="color:#f92672">!</span>.setJSONWithTimeout(key, value, timeout)
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">:</span> _cache<span style="color:#f92672">!</span>.setJSON(key, value);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> _instant <span style="color:#f92672">=</span> MyCache();
+</span></span><span style="display:flex;"><span>Future initCache() <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>_instant.isReady) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> _instant.initialize();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>MyCache getCache() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> _instant;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
 <li>
 <p><code>image_provider.dart</code>:</p>
 <ul>
 <li>獲取圖片與 metadata 的程式邏輯放到 <code>_loadAsync</code> 函數裡，拿到圖片資料之後再 call <code>instantiateImageCodec</code> 繪圖。</li>
 <li>存取 cache 中的資料需要 cache key, 我做法是用圖片的 MD5 值(由後端提供)，沒有就用 URL 的 MD5。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:convert&#39;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:io&#39;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:typed_data&#39;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:ui&#39;</span> <span style="color:#66d9ef">as</span> ui <span style="color:#66d9ef">show</span> Codec;
-
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:crypto/crypto.dart&#39;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/foundation.dart&#39;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/widgets.dart&#39;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:http/http.dart&#39;</span> <span style="color:#66d9ef">as</span> http;
-
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../apis.dart&#39;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../constants.dart&#39;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../drivers/cache.dart&#39;</span>;
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../logger.dart&#39;</span> <span style="color:#66d9ef">as</span> logger;
-<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../models.dart&#39;</span>;
-
-<span style="color:#66d9ef">const</span> _utf8encoder <span style="color:#f92672">=</span> Utf8Encoder();
-<span style="color:#66d9ef">String</span> md5sum(<span style="color:#66d9ef">String</span> key) {
-  <span style="color:#66d9ef">var</span> content <span style="color:#f92672">=</span> _utf8encoder.convert(key);
-  <span style="color:#66d9ef">var</span> digest <span style="color:#f92672">=</span> md5.convert(content);
-  <span style="color:#66d9ef">return</span> digest.toString();
-}
-
-<span style="color:#66d9ef">var</span> _cache <span style="color:#f92672">=</span> getCache();
-Future<span style="color:#f92672">&lt;</span>Uint8List<span style="color:#f92672">&gt;</span> getBytes(<span style="color:#66d9ef">String</span> key) <span style="color:#66d9ef">async</span> {
-  <span style="color:#66d9ef">var</span> exist <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> _cache.hasKey(key);
-  <span style="color:#66d9ef">if</span> (exist) {
-    <span style="color:#66d9ef">var</span> bytes <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> _cache.getBytes(key);
-    <span style="color:#66d9ef">return</span> Uint8List.fromList(bytes);
-  }
-  <span style="color:#66d9ef">return</span> Uint8List(<span style="color:#ae81ff">0</span>);
-}
-
-Future saveBytes(<span style="color:#66d9ef">String</span> key, Uint8List bytes, Duration timeout) {
-  <span style="color:#66d9ef">return</span> _cache.putBytes(key, bytes, timeout);
-}
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyImageProvider</span> <span style="color:#66d9ef">extends</span> ImageProvider<span style="color:#f92672">&lt;</span>MyImageProvider<span style="color:#f92672">&gt;</span> {
-  <span style="color:#66d9ef">final</span> BuildContext context;
-  <span style="color:#66d9ef">final</span> MyMedia media;
-  <span style="color:#66d9ef">final</span> Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">&gt;</span> headers;
-  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">double</span> scale;
-  <span style="color:#66d9ef">final</span> Duration timeout;
-  MyImageProvider({
-    required <span style="color:#66d9ef">this</span>.context,
-    required <span style="color:#66d9ef">this</span>.media,
-    <span style="color:#66d9ef">this</span>.headers <span style="color:#f92672">=</span> <span style="color:#66d9ef">const</span> {},
-    <span style="color:#66d9ef">this</span>.scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span>,
-    <span style="color:#66d9ef">this</span>.timeout <span style="color:#f92672">=</span> <span style="color:#66d9ef">const</span> Duration(hours: <span style="color:#ae81ff">1</span>),
-  });
-
-  <span style="color:#960050;background-color:#1e0010">@</span>override
-  Future<span style="color:#f92672">&lt;</span>MyImageProvider<span style="color:#f92672">&gt;</span> obtainKey(ImageConfiguration configuration) {
-    <span style="color:#66d9ef">return</span> SynchronousFuture<span style="color:#f92672">&lt;</span>MyImageProvider<span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">this</span>);
-  }
-
-  <span style="color:#960050;background-color:#1e0010">@</span>override
-  <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">get</span> hashCode <span style="color:#f92672">=&gt;</span> hashValues(media.mediaId, scale);
-
-  <span style="color:#960050;background-color:#1e0010">@</span>override
-  <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">==</span>(<span style="color:#66d9ef">dynamic</span> other) {
-    <span style="color:#66d9ef">if</span> (other.runtimeType <span style="color:#f92672">!=</span> runtimeType) {
-      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
-    }
-    <span style="color:#66d9ef">final</span> MyImageProvider _type <span style="color:#f92672">=</span> other;
-    <span style="color:#66d9ef">return</span> media.mediaId <span style="color:#f92672">==</span> _type.media.mediaId <span style="color:#f92672">&amp;&amp;</span> scale <span style="color:#f92672">==</span> _type.scale;
-  }
-
-  Future<span style="color:#f92672">&lt;</span>ui.Codec<span style="color:#f92672">&gt;</span> _loadAsync(MyImageProvider key) <span style="color:#66d9ef">async</span> {
-    <span style="color:#66d9ef">assert</span>(key <span style="color:#f92672">==</span> <span style="color:#66d9ef">this</span>);
-
-    <span style="color:#75715e">// 先看 cache 裡面有沒有
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> cacheKey <span style="color:#f92672">=</span> media.checksum <span style="color:#f92672">??</span> md5sum(media.presigned);
-    <span style="color:#66d9ef">var</span> cachedBytes <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> getBytes(cacheKey);
-    <span style="color:#66d9ef">if</span> (cachedBytes.isNotEmpty) {
-      <span style="color:#66d9ef">return</span> PaintingBinding.instance
-          .instantiateImageCodec(cachedBytes)
-          .catchError(
-        (err) {
-          logger.error(<span style="color:#e6db74">&#39;unexpected image error (cache)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">$</span>err<span style="color:#e6db74">&#39;</span>);
-          _cache.removeKey(cacheKey);
-          <span style="color:#66d9ef">throw</span> err;
-        },
-      );
-    }
-
-    <span style="color:#75715e">// 從線上抓圖片
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> api <span style="color:#f92672">=</span> MyAPI.of(context)<span style="color:#f92672">!</span>;
-    <span style="color:#66d9ef">var</span> url <span style="color:#f92672">=</span> media.presigned <span style="color:#f92672">??</span> api.presignedMediaUrl(media.mediaId);
-    Uint8List<span style="color:#f92672">?</span> bytes;
-    <span style="color:#66d9ef">while</span> (bytes<span style="color:#f92672">?</span>.isEmpty <span style="color:#f92672">??</span> <span style="color:#66d9ef">true</span>) {
-      <span style="color:#66d9ef">var</span> resp <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> http.<span style="color:#66d9ef">get</span>(Uri.parse(url), headers: headers);
-      <span style="color:#66d9ef">switch</span> (resp.statusCode) {
-        <span style="color:#66d9ef">case</span> HttpStatus.ok:
-          bytes <span style="color:#f92672">=</span> resp.bodyBytes;
-          <span style="color:#66d9ef">if</span> (bytes.isEmpty) {
-            <span style="color:#66d9ef">throw</span> Exception(<span style="color:#e6db74">&#39;Invalid image, url: </span><span style="color:#e6db74">$</span>url<span style="color:#e6db74">&#39;</span>);
-          }
-          saveBytes(cacheKey, bytes, timeout);
-          <span style="color:#66d9ef">break</span>;
-        <span style="color:#66d9ef">case</span> HttpStatus.forbidden:
-          url <span style="color:#f92672">=</span> api.presignedMediaUrl(media.mediaId);
-          <span style="color:#66d9ef">break</span>;
-        <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
-          <span style="color:#66d9ef">throw</span> Exception(
-              <span style="color:#e6db74">&#39;HTTP request failed, statusCode: </span><span style="color:#e6db74">${</span>resp.statusCode<span style="color:#e6db74">}</span><span style="color:#e6db74">, url: </span><span style="color:#e6db74">$</span>url<span style="color:#e6db74">&#39;</span>);
-      }
-    }
-
-    <span style="color:#75715e">// 另一種寫法 (不知道有什麼區別)
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// import &#39;dart:ui&#39; as ui show instantiateImageCodec;
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// return ui.instantiateImageCodec(bytes);
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> PaintingBinding.instance.instantiateImageCodec(bytes<span style="color:#f92672">!</span>);
-  }
-
-  <span style="color:#960050;background-color:#1e0010">@</span>override
-  ImageStreamCompleter load(MyImageProvider key, DecoderCallback decode) {
-    <span style="color:#66d9ef">return</span> MultiFrameImageStreamCompleter(codec: _loadAsync(key), scale: scale);
-  }
-}
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:convert&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:io&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:typed_data&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:ui&#39;</span> <span style="color:#66d9ef">as</span> ui <span style="color:#66d9ef">show</span> Codec;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:crypto/crypto.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/foundation.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/widgets.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:http/http.dart&#39;</span> <span style="color:#66d9ef">as</span> http;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../apis.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../constants.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../drivers/cache.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../logger.dart&#39;</span> <span style="color:#66d9ef">as</span> logger;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;../models.dart&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> _utf8encoder <span style="color:#f92672">=</span> Utf8Encoder();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">String</span> md5sum(<span style="color:#66d9ef">String</span> key) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> content <span style="color:#f92672">=</span> _utf8encoder.convert(key);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> digest <span style="color:#f92672">=</span> md5.convert(content);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> digest.toString();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> _cache <span style="color:#f92672">=</span> getCache();
+</span></span><span style="display:flex;"><span>Future<span style="color:#f92672">&lt;</span>Uint8List<span style="color:#f92672">&gt;</span> getBytes(<span style="color:#66d9ef">String</span> key) <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">var</span> exist <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> _cache.hasKey(key);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (exist) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> bytes <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> _cache.getBytes(key);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Uint8List.fromList(bytes);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> Uint8List(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Future saveBytes(<span style="color:#66d9ef">String</span> key, Uint8List bytes, Duration timeout) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> _cache.putBytes(key, bytes, timeout);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyImageProvider</span> <span style="color:#66d9ef">extends</span> ImageProvider<span style="color:#f92672">&lt;</span>MyImageProvider<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> BuildContext context;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> MyMedia media;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span>, <span style="color:#66d9ef">String</span><span style="color:#f92672">&gt;</span> headers;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">double</span> scale;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> Duration timeout;
+</span></span><span style="display:flex;"><span>  MyImageProvider({
+</span></span><span style="display:flex;"><span>    required <span style="color:#66d9ef">this</span>.context,
+</span></span><span style="display:flex;"><span>    required <span style="color:#66d9ef">this</span>.media,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.headers <span style="color:#f92672">=</span> <span style="color:#66d9ef">const</span> {},
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.timeout <span style="color:#f92672">=</span> <span style="color:#66d9ef">const</span> Duration(hours: <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Future<span style="color:#f92672">&lt;</span>MyImageProvider<span style="color:#f92672">&gt;</span> obtainKey(ImageConfiguration configuration) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> SynchronousFuture<span style="color:#f92672">&lt;</span>MyImageProvider<span style="color:#f92672">&gt;</span>(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">int</span> <span style="color:#66d9ef">get</span> hashCode <span style="color:#f92672">=&gt;</span> hashValues(media.mediaId, scale);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">bool</span> <span style="color:#66d9ef">operator</span> <span style="color:#f92672">==</span>(<span style="color:#66d9ef">dynamic</span> other) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (other.runtimeType <span style="color:#f92672">!=</span> runtimeType) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> MyImageProvider _type <span style="color:#f92672">=</span> other;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> media.mediaId <span style="color:#f92672">==</span> _type.media.mediaId <span style="color:#f92672">&amp;&amp;</span> scale <span style="color:#f92672">==</span> _type.scale;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Future<span style="color:#f92672">&lt;</span>ui.Codec<span style="color:#f92672">&gt;</span> _loadAsync(MyImageProvider key) <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">assert</span>(key <span style="color:#f92672">==</span> <span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 先看 cache 裡面有沒有
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> cacheKey <span style="color:#f92672">=</span> media.checksum <span style="color:#f92672">??</span> md5sum(media.presigned);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> cachedBytes <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> getBytes(cacheKey);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (cachedBytes.isNotEmpty) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> PaintingBinding.instance
+</span></span><span style="display:flex;"><span>          .instantiateImageCodec(cachedBytes)
+</span></span><span style="display:flex;"><span>          .catchError(
+</span></span><span style="display:flex;"><span>        (err) {
+</span></span><span style="display:flex;"><span>          logger.error(<span style="color:#e6db74">&#39;unexpected image error (cache)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">$</span>err<span style="color:#e6db74">&#39;</span>);
+</span></span><span style="display:flex;"><span>          _cache.removeKey(cacheKey);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">throw</span> err;
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>      );
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 從線上抓圖片
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> api <span style="color:#f92672">=</span> MyAPI.of(context)<span style="color:#f92672">!</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> url <span style="color:#f92672">=</span> media.presigned <span style="color:#f92672">??</span> api.presignedMediaUrl(media.mediaId);
+</span></span><span style="display:flex;"><span>    Uint8List<span style="color:#f92672">?</span> bytes;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (bytes<span style="color:#f92672">?</span>.isEmpty <span style="color:#f92672">??</span> <span style="color:#66d9ef">true</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">var</span> resp <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> http.<span style="color:#66d9ef">get</span>(Uri.parse(url), headers: headers);
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">switch</span> (resp.statusCode) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> HttpStatus.ok:
+</span></span><span style="display:flex;"><span>          bytes <span style="color:#f92672">=</span> resp.bodyBytes;
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> (bytes.isEmpty) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> Exception(<span style="color:#e6db74">&#39;Invalid image, url: </span><span style="color:#e6db74">$</span>url<span style="color:#e6db74">&#39;</span>);
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>          saveBytes(cacheKey, bytes, timeout);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> HttpStatus.forbidden:
+</span></span><span style="display:flex;"><span>          url <span style="color:#f92672">=</span> api.presignedMediaUrl(media.mediaId);
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">throw</span> Exception(
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#39;HTTP request failed, statusCode: </span><span style="color:#e6db74">${</span>resp.statusCode<span style="color:#e6db74">}</span><span style="color:#e6db74">, url: </span><span style="color:#e6db74">$</span>url<span style="color:#e6db74">&#39;</span>);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 另一種寫法 (不知道有什麼區別)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// import &#39;dart:ui&#39; as ui show instantiateImageCodec;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// return ui.instantiateImageCodec(bytes);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> PaintingBinding.instance.instantiateImageCodec(bytes<span style="color:#f92672">!</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  ImageStreamCompleter load(MyImageProvider key, DecoderCallback decode) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> MultiFrameImageStreamCompleter(codec: _loadAsync(key), scale: scale);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
 </ul>
 <p>這樣就可以用了。使用的方式：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">Image(
-    image: MyImageProvider(media: data),
-    fit: BoxFit.cover,
-);
-</code></pre></div><p>或:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">Container(
-    decoration: BoxDecoration(
-      image: DecorationImage(
-          image: MyImageProvider(media: data),
-          fit: BoxFit.cover,
-      ),
-    ),
-);
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>Image(
+</span></span><span style="display:flex;"><span>    image: MyImageProvider(media: data),
+</span></span><span style="display:flex;"><span>    fit: BoxFit.cover,
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>或:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>Container(
+</span></span><span style="display:flex;"><span>    decoration: BoxDecoration(
+</span></span><span style="display:flex;"><span>      image: DecorationImage(
+</span></span><span style="display:flex;"><span>          image: MyImageProvider(media: data),
+</span></span><span style="display:flex;"><span>          fit: BoxFit.cover,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div>
         </p>
     </div>
 
@@ -519,7 +519,7 @@ Future saveBytes(<span style="color:#66d9ef">String</span> key, Uint8List bytes,
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

@@ -155,7 +155,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -211,19 +211,19 @@ if (!doNotTrack) {
 </code></pre><ol start="3">
 <li>安裝並執行 tox (當前版本可以跳過此步驟)</li>
 </ol>
-<pre tabindex="0"><code>root@rally:~# pip install 'tox==1.6.1'
+<pre tabindex="0"><code>root@rally:~# pip install &#39;tox==1.6.1&#39;
 root@rally:~# tox
 </code></pre><h2 id="deployment-initialization">Deployment initialization</h2>
 <p>安裝完 Rally 之後，再進行下一步之前，必須要確定該 host 可以使用 OpenStack API</p>
 <p>建立 OpenStack credentials (openrc)，然後看看 keystone client 是否可已使用:</p>
 <p>建立 RC file:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export OS_TENANT_NAME<span style="color:#f92672">=</span>admin
-export OS_USERNAE<span style="color:#f92672">=</span>admin
-export OS_PASSWORD<span style="color:#f92672">=</span>myStackAdmin
-export OS_AUTH_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://myopenstack:5000/v2.0/&#34;</span>
-export OS_SERVICE_ENDPOINT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://myopenstack:35357/v2.0&#34;</span>
-export OS_SERVICE_TOKEN<span style="color:#f92672">=</span>myOpenStackAdminToken28143
-</code></pre></div><p>測試 keystone 指令是否能使用:  <em>(keystone client 已經在 install_rally.sh 的時候就安裝了，不需要額外裝)</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export OS_TENANT_NAME<span style="color:#f92672">=</span>admin
+</span></span><span style="display:flex;"><span>export OS_USERNAE<span style="color:#f92672">=</span>admin
+</span></span><span style="display:flex;"><span>export OS_PASSWORD<span style="color:#f92672">=</span>myStackAdmin
+</span></span><span style="display:flex;"><span>export OS_AUTH_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://myopenstack:5000/v2.0/&#34;</span>
+</span></span><span style="display:flex;"><span>export OS_SERVICE_ENDPOINT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://myopenstack:35357/v2.0&#34;</span>
+</span></span><span style="display:flex;"><span>export OS_SERVICE_TOKEN<span style="color:#f92672">=</span>myOpenStackAdminToken28143
+</span></span></code></pre></div><p>測試 keystone 指令是否能使用:  <em>(keystone client 已經在 install_rally.sh 的時候就安裝了，不需要額外裝)</em></p>
 <pre tabindex="0"><code>root@localhost:~# source openrc
 root@localhost:~# keystone tenant-list
 ... (省略) ...
@@ -231,18 +231,18 @@ root@localhost:~# keystone tenant-list
 <h3 id="step-1">Step 1</h3>
 <p>首先，複製 samples 裡面的 existing.json，並修改參數</p>
 <pre tabindex="0"><code>root@rally:~# cp rally/samples/deployments/existing.json ./
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;ExistingCloud&#34;</span>,
-    <span style="color:#f92672">&#34;auth_url&#34;</span>: <span style="color:#e6db74">&#34;http://myopenstack:5000/v2.0/&#34;</span>,
-    <span style="color:#f92672">&#34;region_name&#34;</span>: <span style="color:#e6db74">&#34;RegionOne&#34;</span>,
-    <span style="color:#f92672">&#34;endpoint_type&#34;</span>: <span style="color:#e6db74">&#34;public&#34;</span>,
-    <span style="color:#f92672">&#34;admin&#34;</span>: {
-        <span style="color:#f92672">&#34;username&#34;</span>: <span style="color:#e6db74">&#34;admin&#34;</span>,
-        <span style="color:#f92672">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;myStackAdmin&#34;</span>,
-        <span style="color:#f92672">&#34;tenant_name&#34;</span>: <span style="color:#e6db74">&#34;benchmark&#34;</span>
-    }
-}
-</code></pre></div><ul>
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;ExistingCloud&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;auth_url&#34;</span>: <span style="color:#e6db74">&#34;http://myopenstack:5000/v2.0/&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;region_name&#34;</span>: <span style="color:#e6db74">&#34;RegionOne&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;endpoint_type&#34;</span>: <span style="color:#e6db74">&#34;public&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;admin&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;username&#34;</span>: <span style="color:#e6db74">&#34;admin&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;myStackAdmin&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;tenant_name&#34;</span>: <span style="color:#e6db74">&#34;benchmark&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
 <li>type 的部分不能換改</li>
 <li><strong>auth_url</strong> 這個參數只要使用 public url 的就可以了</li>
 <li>User 一定要是具有 admin role 的 user；tenant 則不一定要特地建立專門使用的，因為測試的過程不會使用到自己的 tenant。</li>
@@ -297,42 +297,42 @@ root@rally:~#
 <p>從 sample 中複製 benchmark task 範例</p>
 <pre tabindex="0"><code>cp samples/tasks/scenarios/nova/boot-and-delete.json ./task-1.json
 </code></pre><p>修改 task 內容</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;NovaServers.boot_and_delete_server&#34;</span>: [
-        {
-            <span style="color:#f92672">&#34;args&#34;</span>: {
-                <span style="color:#f92672">&#34;flavor&#34;</span>: {
-                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;m1.tiny&#34;</span>
-                },
-                <span style="color:#f92672">&#34;image&#34;</span>: {
-                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;CirrOS 0.3.3&#34;</span>
-                },
-                <span style="color:#f92672">&#34;force_delete&#34;</span>: <span style="color:#66d9ef">false</span>
-            },
-            <span style="color:#f92672">&#34;runner&#34;</span>: {
-                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;constant&#34;</span>,
-                <span style="color:#f92672">&#34;times&#34;</span>: <span style="color:#ae81ff">10</span>,
-                <span style="color:#f92672">&#34;concurrency&#34;</span>: <span style="color:#ae81ff">2</span>
-            },
-            <span style="color:#f92672">&#34;context&#34;</span>: {
-                <span style="color:#f92672">&#34;users&#34;</span>: {
-                    <span style="color:#f92672">&#34;tenants&#34;</span>: <span style="color:#ae81ff">3</span>,
-                    <span style="color:#f92672">&#34;users_per_tenant&#34;</span>: <span style="color:#ae81ff">2</span>
-                }
-            }
-        }
-    ]
-}
-</code></pre></div><p>Flavor name、image name 可以用 rally show [option] 去抓取。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;NovaServers.boot_and_delete_server&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;args&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;flavor&#34;</span>: {
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;m1.tiny&#34;</span>
+</span></span><span style="display:flex;"><span>                },
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;image&#34;</span>: {
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;CirrOS 0.3.3&#34;</span>
+</span></span><span style="display:flex;"><span>                },
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;force_delete&#34;</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;runner&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;constant&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;times&#34;</span>: <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;concurrency&#34;</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;context&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;users&#34;</span>: {
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&#34;tenants&#34;</span>: <span style="color:#ae81ff">3</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&#34;users_per_tenant&#34;</span>: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Flavor name、image name 可以用 rally show [option] 去抓取。
 另外，根據 OpenStack Wiki 的<a href="https://wiki.openstack.org/wiki/Rally/Concepts">資料</a>， flavor 與 image 可以改用提供 id、uuid 的方式。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;args&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
-   <span style="color:#f92672">&#34;flavor_id&#34;</span>: <span style="color:#ae81ff">42</span>,
-    <span style="color:#f92672">&#34;image_id&#34;</span>: <span style="color:#e6db74">&#34;73257560-c59b-4275-a1ec-ab140e5b9979&#34;</span>
-}<span style="color:#960050;background-color:#1e0010">,</span>
-</code></pre></div><h2 id="step-2-1">Step 2</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#e6db74">&#34;args&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&#34;flavor_id&#34;</span>: <span style="color:#ae81ff">42</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;image_id&#34;</span>: <span style="color:#e6db74">&#34;73257560-c59b-4275-a1ec-ab140e5b9979&#34;</span>
+</span></span><span style="display:flex;"><span>}<span style="color:#960050;background-color:#1e0010">,</span>
+</span></span></code></pre></div><h2 id="step-2-1">Step 2</h2>
 <p>接下來，執行 <code>rally -v task start &lt;task json file&gt; --tag &lt;task name&gt;</code></p>
 <p>最後會出現:</p>
-<pre tabindex="0"><code>root@rally:~# rally -v task start task-1.json --tag &quot;Task 1&quot;
+<pre tabindex="0"><code>root@rally:~# rally -v task start task-1.json --tag &#34;Task 1&#34;
 
 ... (過程省略) ...
 
@@ -343,15 +343,15 @@ Task 9148f0ee-d5d6-42a7-a44f-d8cd81b6d309: finished
 test scenario NovaServers.boot_and_delete_server
 args position 0
 args values:
-{u'args': {u'flavor': {u'name': u'm1.tiny'},
-           u'force_delete': False,
-           u'image': {u'name': u'CirrOS 0.3.3'}},
- u'context': {u'users': {u'project_domain': u'default',
-                         u'resource_management_workers': 30,
-                         u'tenants': 3,
-                         u'user_domain': u'default',
-                         u'users_per_tenant': 2}},
- u'runner': {u'concurrency': 2, u'times': 10, u'type': u'constant'}}
+{u&#39;args&#39;: {u&#39;flavor&#39;: {u&#39;name&#39;: u&#39;m1.tiny&#39;},
+           u&#39;force_delete&#39;: False,
+           u&#39;image&#39;: {u&#39;name&#39;: u&#39;CirrOS 0.3.3&#39;}},
+ u&#39;context&#39;: {u&#39;users&#39;: {u&#39;project_domain&#39;: u&#39;default&#39;,
+                         u&#39;resource_management_workers&#39;: 30,
+                         u&#39;tenants&#39;: 3,
+                         u&#39;user_domain&#39;: u&#39;default&#39;,
+                         u&#39;users_per_tenant&#39;: 2}},
+ u&#39;runner&#39;: {u&#39;concurrency&#39;: 2, u&#39;times&#39;: 10, u&#39;type&#39;: u&#39;constant&#39;}}
 +--------------------+-----------+-----------+-----------+---------------+---------------+---------+-------+
 | action             | min (sec) | avg (sec) | max (sec) | 90 percentile | 95 percentile | success | count |
 +--------------------+-----------+-----------+-----------+---------------+---------------+---------+-------+
@@ -380,42 +380,42 @@ root@rally:~#
 <p>執行命令 <code>rally deployment create --filename=&lt;json file&gt; --name=&lt;name of Openstack deployment&gt;</code> 時發生以下錯誤:</p>
 <pre tabindex="0"><code>root@rally:~# rally deployment create --filename=mystack.json --name=myStack
 2015-02-24 03:11:33.579 23212 ERROR rally.api [-] Deployment 59dc5f2c-a83a-42d8-bf49-777ff5e32783: Schema validation error.
-Config schema validation error: {'admin': {'username': 'admin', 'password': 'myStackAdmin', 'tenant': 'benchmark'}, 'auth_url': 'http://myopenstack:5000/v2.0/', 'type': 'ExistingCloud'} is not valid under any of the given schemas
+Config schema validation error: {&#39;admin&#39;: {&#39;username&#39;: &#39;admin&#39;, &#39;password&#39;: &#39;myStackAdmin&#39;, &#39;tenant&#39;: &#39;benchmark&#39;}, &#39;auth_url&#39;: &#39;http://myopenstack:5000/v2.0/&#39;, &#39;type&#39;: &#39;ExistingCloud&#39;} is not valid under any of the given schemas
 
-Failed validating 'anyOf' in schema:
-    {'anyOf': [{'properties': {'admin': {'$ref': '#/definitions/user'}},
-                'required': ['type', 'auth_url', 'admin']},
-               {'required': ['type', 'auth_url', 'users'],
-                'users': {'items': {'$ref': '#/definitions/user'},
-                          'type': 'array'}}],
-     'definitions': {'user': {'oneOf': [{'properties': {'tenant_name': {'type': 'string'}},
-                                         'required': ['username',
-                                                      'password',
-                                                      'tenant_name']},
-                                        {'properties': {'project_domain_name': {'type': 'string'},
-                                                        'project_name': {'type': 'string'},
-                                                        'user_domain_name': {'type': 'string'}},
-                                         'required': ['username',
-                                                      'password',
-                                                      'project_name']}],
-                              'properties': {'password': {'type': 'string'},
-                                             'username': {'type': 'string'}},
-                              'type': 'object'}},
-     'properties': {'auth_url': {'type': 'string'},
-                    'endpoint_type': {'enum': ['admin',
-                                               'internal',
-                                               'public'],
-                                      'type': 'string'},
-                    'region_name': {'type': 'string'},
-                    'type': {'type': 'string'}},
-     'type': 'object'}
+Failed validating &#39;anyOf&#39; in schema:
+    {&#39;anyOf&#39;: [{&#39;properties&#39;: {&#39;admin&#39;: {&#39;$ref&#39;: &#39;#/definitions/user&#39;}},
+                &#39;required&#39;: [&#39;type&#39;, &#39;auth_url&#39;, &#39;admin&#39;]},
+               {&#39;required&#39;: [&#39;type&#39;, &#39;auth_url&#39;, &#39;users&#39;],
+                &#39;users&#39;: {&#39;items&#39;: {&#39;$ref&#39;: &#39;#/definitions/user&#39;},
+                          &#39;type&#39;: &#39;array&#39;}}],
+     &#39;definitions&#39;: {&#39;user&#39;: {&#39;oneOf&#39;: [{&#39;properties&#39;: {&#39;tenant_name&#39;: {&#39;type&#39;: &#39;string&#39;}},
+                                         &#39;required&#39;: [&#39;username&#39;,
+                                                      &#39;password&#39;,
+                                                      &#39;tenant_name&#39;]},
+                                        {&#39;properties&#39;: {&#39;project_domain_name&#39;: {&#39;type&#39;: &#39;string&#39;},
+                                                        &#39;project_name&#39;: {&#39;type&#39;: &#39;string&#39;},
+                                                        &#39;user_domain_name&#39;: {&#39;type&#39;: &#39;string&#39;}},
+                                         &#39;required&#39;: [&#39;username&#39;,
+                                                      &#39;password&#39;,
+                                                      &#39;project_name&#39;]}],
+                              &#39;properties&#39;: {&#39;password&#39;: {&#39;type&#39;: &#39;string&#39;},
+                                             &#39;username&#39;: {&#39;type&#39;: &#39;string&#39;}},
+                              &#39;type&#39;: &#39;object&#39;}},
+     &#39;properties&#39;: {&#39;auth_url&#39;: {&#39;type&#39;: &#39;string&#39;},
+                    &#39;endpoint_type&#39;: {&#39;enum&#39;: [&#39;admin&#39;,
+                                               &#39;internal&#39;,
+                                               &#39;public&#39;],
+                                      &#39;type&#39;: &#39;string&#39;},
+                    &#39;region_name&#39;: {&#39;type&#39;: &#39;string&#39;},
+                    &#39;type&#39;: {&#39;type&#39;: &#39;string&#39;}},
+     &#39;type&#39;: &#39;object&#39;}
 
 On instance:
-    {'admin': {'password': 'myStackAdmin',
-               'tenant': 'benchmark',
-               'username': 'admin'},
-     'auth_url': 'http://myopenstack:5000/v2.0/',
-     'type': 'ExistingCloud'}.
+    {&#39;admin&#39;: {&#39;password&#39;: &#39;myStackAdmin&#39;,
+               &#39;tenant&#39;: &#39;benchmark&#39;,
+               &#39;username&#39;: &#39;admin&#39;},
+     &#39;auth_url&#39;: &#39;http://myopenstack:5000/v2.0/&#39;,
+     &#39;type&#39;: &#39;ExistingCloud&#39;}.
 root@rally:~#
 </code></pre><p>這時候執行 <code>rally deployment list</code> 可以看到 deployment 的狀態是 failed</p>
 <pre tabindex="0"><code>root@rally:~# rally deployment list
@@ -448,7 +448,7 @@ HINTS:
 root@rally:~#
 </code></pre><p>但是要做其他動作就會發生錯誤，例如:</p>
 <pre tabindex="0"><code>root@rally:~# rally deployment check
-Authentication Issues: user rally doesn't have 'admin' role.
+Authentication Issues: user rally doesn&#39;t have &#39;admin&#39; role.
 </code></pre><p><strong>這是因為<a href="https://wiki.openstack.org/wiki/Rally/HowTo#Step_1._Deployment_initialization_.28use_existing_cloud.29">OpenStack Wiki 教學文</a>裡，deployment.json 少了一些參數。如果是直接從 source code 裡面的 sample 中複製並修改，就不會發生這個問題。</strong></p>
 <hr>
 <h2 id="connectionrefused-unable-to-establish-connection-openstack-api-endpoint">ConnectionRefused: Unable to establish connection OpenStack API endpoint</h2>
@@ -457,32 +457,32 @@ keystone endpoints are valid and following services are available:
 Command failed, please check log for more info
 2015-02-24 03:48:00.930 24945 CRITICAL rally [-] ConnectionRefused: Unable to establish connection to http://quanta-42.sslab.cs.nthu.edu.tw:35357/v2.0/OS-KSADM/services
 2015-02-24 03:48:00.930 24945 TRACE rally Traceback (most recent call last):
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/bin/rally&quot;, line 10, in &lt;module&gt;
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/bin/rally&#34;, line 10, in &lt;module&gt;
 2015-02-24 03:48:00.930 24945 TRACE rally     sys.exit(main())
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/rally/cmd/main.py&quot;, line 42, in main
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/rally/cmd/main.py&#34;, line 42, in main
 2015-02-24 03:48:00.930 24945 TRACE rally     return cliutils.run(sys.argv, categories)
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/rally/cmd/cliutils.py&quot;, line 318, in run
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/rally/cmd/cliutils.py&#34;, line 318, in run
 2015-02-24 03:48:00.930 24945 TRACE rally     ret = fn(*fn_args, **fn_kwargs)
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;&lt;string&gt;&quot;, line 2, in check
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/rally/cmd/envutils.py&quot;, line 66, in default_from_global
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;&lt;string&gt;&#34;, line 2, in check
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/rally/cmd/envutils.py&#34;, line 66, in default_from_global
 2015-02-24 03:48:00.930 24945 TRACE rally     return f(*args, **kwargs)
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/rally/cmd/commands/deployment.py&quot;, line 248, in check
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/rally/cmd/commands/deployment.py&#34;, line 248, in check
 2015-02-24 03:48:00.930 24945 TRACE rally     for service in client.services.list():
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/v2_0/services.py&quot;, line 32, in list
-2015-02-24 03:48:00.930 24945 TRACE rally     return self._list(&quot;/OS-KSADM/services&quot;, &quot;OS-KSADM:services&quot;)
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/base.py&quot;, line 113, in _list
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/keystoneclient/v2_0/services.py&#34;, line 32, in list
+2015-02-24 03:48:00.930 24945 TRACE rally     return self._list(&#34;/OS-KSADM/services&#34;, &#34;OS-KSADM:services&#34;)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/keystoneclient/base.py&#34;, line 113, in _list
 2015-02-24 03:48:00.930 24945 TRACE rally     resp, body = self.client.get(url, **kwargs)
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/adapter.py&quot;, line 164, in get
-2015-02-24 03:48:00.930 24945 TRACE rally     return self.request(url, 'GET', **kwargs)
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/adapter.py&quot;, line 200, in request
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/keystoneclient/adapter.py&#34;, line 164, in get
+2015-02-24 03:48:00.930 24945 TRACE rally     return self.request(url, &#39;GET&#39;, **kwargs)
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/keystoneclient/adapter.py&#34;, line 200, in request
 2015-02-24 03:48:00.930 24945 TRACE rally     resp = super(LegacyJsonAdapter, self).request(*args, **kwargs)
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/adapter.py&quot;, line 89, in request
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/keystoneclient/adapter.py&#34;, line 89, in request
 2015-02-24 03:48:00.930 24945 TRACE rally     return self.session.request(url, method, **kwargs)
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/utils.py&quot;, line 318, in inner
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/keystoneclient/utils.py&#34;, line 318, in inner
 2015-02-24 03:48:00.930 24945 TRACE rally     return func(*args, **kwargs)
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/session.py&quot;, line 369, in request
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/keystoneclient/session.py&#34;, line 369, in request
 2015-02-24 03:48:00.930 24945 TRACE rally     resp = send(**kwargs)
-2015-02-24 03:48:00.930 24945 TRACE rally   File &quot;/usr/local/lib/python2.7/dist-packages/keystoneclient/session.py&quot;, line 412, in _send_request
+2015-02-24 03:48:00.930 24945 TRACE rally   File &#34;/usr/local/lib/python2.7/dist-packages/keystoneclient/session.py&#34;, line 412, in _send_request
 2015-02-24 03:48:00.930 24945 TRACE rally     raise exceptions.ConnectionRefused(msg)
 2015-02-24 03:48:00.930 24945 TRACE rally ConnectionRefused: Unable to establish connection to http://quanta-42:35357/v2.0/OS-KSADM/services
 2015-02-24 03:48:00.930 24945 TRACE rally
@@ -627,7 +627,7 @@ root@rally:~#
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

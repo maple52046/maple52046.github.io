@@ -159,7 +159,7 @@ Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -183,17 +183,17 @@ Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
 <h2 id="increase-the-size-of-neighbour-table">Increase the size of neighbour table</h2>
 <p>這大概是搜尋到最多的解法，簡單來說就是直接增加 neighbour table 的大小。</p>
 <p>設定 <code>/etc/sysctl.conf</code> :</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>neigh<span style="color:#f92672">.</span>default<span style="color:#f92672">.</span>gc_thresh1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">4096</span>
-net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>neigh<span style="color:#f92672">.</span>default<span style="color:#f92672">.</span>gc_thresh2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">8192</span>
-net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>neigh<span style="color:#f92672">.</span>default<span style="color:#f92672">.</span>gc_thresh3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">8192</span>
-</code></pre></div><p>然後在執行 <code>sysctl -p</code> 讓設定值生效。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>neigh<span style="color:#f92672">.</span>default<span style="color:#f92672">.</span>gc_thresh1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">4096</span>
+</span></span><span style="display:flex;"><span>net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>neigh<span style="color:#f92672">.</span>default<span style="color:#f92672">.</span>gc_thresh2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">8192</span>
+</span></span><span style="display:flex;"><span>net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>neigh<span style="color:#f92672">.</span>default<span style="color:#f92672">.</span>gc_thresh3 <span style="color:#f92672">=</span> <span style="color:#ae81ff">8192</span>
+</span></span></code></pre></div><p>然後在執行 <code>sysctl -p</code> 讓設定值生效。</p>
 <p>在網路上搜尋到的範例大多都是設定成 512, 1024, 2048。這些設定對我的平台一點效果都沒有，必須要設定到 4096, 8192 才夠用。</p>
 <h2 id="disable-ipv6">Disable IPv6</h2>
 <p>原本我是在 <code>/etc/sysctl.conf</code> 中加入以下設定來關閉 IPv6：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>conf<span style="color:#f92672">.</span>all<span style="color:#f92672">.</span>disable_ipv6 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>conf<span style="color:#f92672">.</span>default<span style="color:#f92672">.</span>disable_ipv6 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>conf<span style="color:#f92672">.</span>lo<span style="color:#f92672">.</span>disable_ipv6 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-</code></pre></div><p>但是很顯然的，這並沒有真正的關閉 IPv6。到比較像是單純隱藏 IPv6 的感覺。最好的證明就是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>conf<span style="color:#f92672">.</span>all<span style="color:#f92672">.</span>disable_ipv6 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>conf<span style="color:#f92672">.</span>default<span style="color:#f92672">.</span>disable_ipv6 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>conf<span style="color:#f92672">.</span>lo<span style="color:#f92672">.</span>disable_ipv6 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>但是很顯然的，這並沒有真正的關閉 IPv6。到比較像是單純隱藏 IPv6 的感覺。最好的證明就是：</p>
 <ol>
 <li><code>netstat -tnlup</code> 可以看到部分 service 依然監聽 IPv6</li>
 <li>Neighbour table overflow 的狀況出現</li>
@@ -202,8 +202,8 @@ net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>c
 <ol>
 <li>編輯 <code>/etc/default/grub</code>, 並且在 <code>GRUB_CMDLINE_LINUX</code> 的設定中加入 <code>ipv6.disable=1</code></li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">GRUB_CMDLINE_LINUX<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ipv6.disable=1&#34;</span>
-</code></pre></div><ol start="2">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>GRUB_CMDLINE_LINUX<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ipv6.disable=1&#34;</span>
+</span></span></code></pre></div><ol start="2">
 <li>更新 grub <code>update-grub</code></li>
 <li>Reboot</li>
 </ol>
@@ -213,12 +213,12 @@ net<span style="color:#f92672">.</span>ipv6<span style="color:#f92672">.</span>c
 <li>先前加的 sysctl 參數，不論是 disable IPv6 還是 increase neighbour table size 都直接失效。</li>
 </ul>
 <pre tabindex="0"><code>root@localhost:~ # sysctl -p
-error: &quot;net.ipv6.conf.all.disable_ipv6&quot; is an unknown key
-error: &quot;net.ipv6.conf.default.disable_ipv6&quot; is an unknown key
-error: &quot;net.ipv6.conf.lo.disable_ipv6&quot; is an unknown key
-error: &quot;net.ipv6.neigh.default.gc_thresh1&quot; is an unknown key
-error: &quot;net.ipv6.neigh.default.gc_thresh2&quot; is an unknown key
-error: &quot;net.ipv6.neigh.default.gc_thresh3&quot; is an unknown key
+error: &#34;net.ipv6.conf.all.disable_ipv6&#34; is an unknown key
+error: &#34;net.ipv6.conf.default.disable_ipv6&#34; is an unknown key
+error: &#34;net.ipv6.conf.lo.disable_ipv6&#34; is an unknown key
+error: &#34;net.ipv6.neigh.default.gc_thresh1&#34; is an unknown key
+error: &#34;net.ipv6.neigh.default.gc_thresh2&#34; is an unknown key
+error: &#34;net.ipv6.neigh.default.gc_thresh3&#34; is an unknown key
 </code></pre><p>即使將 disable_ipv6 都設定為 0 ，也無法啟用 IPv6。</p>
 <h2 id="現況與採取方案">現況與採取方案</h2>
 <p>一開始先採用了第一個方案，但是數值設太小了，沒多久系統又爆出一樣的 error；於是採取的第二個方案，在 grub 的參數上增加 <code>ipv6.disable=1</code>。結果 syslog 終於沒有在看到這個 error，但是 syslog 中出現另外一個錯誤：</p>
@@ -378,7 +378,7 @@ Apr 28 06:50:53 host-42 ovs-vsctl: 00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

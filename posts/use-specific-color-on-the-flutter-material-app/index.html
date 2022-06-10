@@ -156,7 +156,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -182,37 +182,37 @@ if (!doNotTrack) {
 <li>宣告 <code>MaterialColor</code>。第一個是參數是16進位的整數，這裡用到上圖的 hex 值，將 <code>#6C3483</code> 改成 <code>0xFF6C3483</code>；第二個參數是 color swatch，這是一個 <code>int</code>/<code>Color</code> 組成的 <code>Map</code>，這裡用 <code>Color.fromRGBO</code> 並代入上圖的 RGB。</li>
 </ol>
 <p>以下是完整的範例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, Color<span style="color:#f92672">&gt;</span> purpleColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">const</span> {
-  <span style="color:#ae81ff">50</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">1</span>),
-  <span style="color:#ae81ff">100</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">2</span>),
-  <span style="color:#ae81ff">200</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">3</span>),
-  <span style="color:#ae81ff">300</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">4</span>),
-  <span style="color:#ae81ff">400</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">5</span>),
-  <span style="color:#ae81ff">500</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">6</span>),
-  <span style="color:#ae81ff">600</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">7</span>),
-  <span style="color:#ae81ff">700</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">8</span>),
-  <span style="color:#ae81ff">800</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">9</span>),
-  <span style="color:#ae81ff">900</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, <span style="color:#ae81ff">1</span>),
-};
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
-  <span style="color:#960050;background-color:#1e0010">@</span>override
-  Widget build(BuildContext context) {
-    <span style="color:#66d9ef">final</span> purple <span style="color:#f92672">=</span> MaterialColor(<span style="color:#ae81ff">0xFF6C3483</span>, purpleColor);
-
-    <span style="color:#66d9ef">return</span> MaterialApp(
-      title: <span style="color:#e6db74">&#39;MyShop&#39;</span>,
-      theme: ThemeData(
-        primarySwatch: purple,
-        accentColor: Colors.deepOrange,
-        fontFamily: <span style="color:#e6db74">&#39;Lato&#39;</span>,
-        bottomAppBarColor: purple,
-      ),
-      home: ProductsOverflowScreen(),
-    );
-  }
-}
-</code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>Map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, Color<span style="color:#f92672">&gt;</span> purpleColor <span style="color:#f92672">=</span> <span style="color:#66d9ef">const</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">50</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">100</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">200</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">300</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">400</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">5</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">500</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">6</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">600</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">7</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">700</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">8</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">800</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, .<span style="color:#ae81ff">9</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">900</span><span style="color:#f92672">:</span> Color.fromRGBO(<span style="color:#ae81ff">108</span>, <span style="color:#ae81ff">52</span>, <span style="color:#ae81ff">131</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> purple <span style="color:#f92672">=</span> MaterialColor(<span style="color:#ae81ff">0xFF6C3483</span>, purpleColor);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> MaterialApp(
+</span></span><span style="display:flex;"><span>      title: <span style="color:#e6db74">&#39;MyShop&#39;</span>,
+</span></span><span style="display:flex;"><span>      theme: ThemeData(
+</span></span><span style="display:flex;"><span>        primarySwatch: purple,
+</span></span><span style="display:flex;"><span>        accentColor: Colors.deepOrange,
+</span></span><span style="display:flex;"><span>        fontFamily: <span style="color:#e6db74">&#39;Lato&#39;</span>,
+</span></span><span style="display:flex;"><span>        bottomAppBarColor: purple,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      home: ProductsOverflowScreen(),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
 <p>參考資料：</p>
 <ul>
 <li><a href="https://medium.com/py-bits/turn-any-color-to-material-color-for-flutter-d8e8e037a837">Turn any color to Material Color for flutter</a></li>
@@ -354,7 +354,7 @@ if (!doNotTrack) {
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

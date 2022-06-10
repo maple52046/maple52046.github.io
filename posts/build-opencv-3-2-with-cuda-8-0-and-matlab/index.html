@@ -155,7 +155,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -183,21 +183,21 @@ if (!doNotTrack) {
 所以解決方法就是重新編譯 OpenCV 並且啟用 TIFF。</p>
 <h2 id="error-2">Error 2</h2>
 <p>重新編譯 OpenCV 時，出現錯誤:</p>
-<pre tabindex="0"><code>/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadDirectory@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFWriteEncodedStrip@LIBTIFF_4.0'
-/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFIsTiled@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFOpen@LIBTIFF_4.0'
-/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadEncodedStrip@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFSetField@LIBTIFF_4.0'
-/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFWriteScanline@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFGetField@LIBTIFF_4.0'
-/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFScanlineSize@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFNumberOfStrips@LIBTIFF_4.0'
-/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFSetWarningHandler@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFSetErrorHandler@LIBTIFF_4.0'
-/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadEncodedTile@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFReadRGBATile@LIBTIFF_4.0'
-/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFClose@LIBTIFF_4.0' /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFRGBAImageOK@LIBTIFF_4.0'
-/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to `TIFFReadRGBAStrip@LIBTIFF_4.0'
+<pre tabindex="0"><code>/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadDirectory@LIBTIFF_4.0&#39; /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFWriteEncodedStrip@LIBTIFF_4.0&#39;
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFIsTiled@LIBTIFF_4.0&#39; /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFOpen@LIBTIFF_4.0&#39;
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadEncodedStrip@LIBTIFF_4.0&#39; /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFSetField@LIBTIFF_4.0&#39;
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFWriteScanline@LIBTIFF_4.0&#39; /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFGetField@LIBTIFF_4.0&#39;
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFScanlineSize@LIBTIFF_4.0&#39; /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFNumberOfStrips@LIBTIFF_4.0&#39;
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFSetWarningHandler@LIBTIFF_4.0&#39; /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFSetErrorHandler@LIBTIFF_4.0&#39;
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFReadEncodedTile@LIBTIFF_4.0&#39; /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFReadRGBATile@LIBTIFF_4.0&#39;
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to TIFFClose@LIBTIFF_4.0&#39; /usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference toTIFFRGBAImageOK@LIBTIFF_4.0&#39;
+/usr/local/lib/libopencv_imgcodecs.so.3.1.0: undefined reference to `TIFFReadRGBAStrip@LIBTIFF_4.0&#39;
 collect2: error: ld returned 1 exit status
-tools/CMakeFiles/compute_image_mean.dir/build.make:134: recipe for target 'tools/compute_image_mean' failed
+tools/CMakeFiles/compute_image_mean.dir/build.make:134: recipe for target &#39;tools/compute_image_mean&#39; failed
 make[2]: *** [tools/compute_image_mean] Error 1
-CMakeFiles/Makefile2:473: recipe for target 'tools/CMakeFiles/compute_image_mean.dir/all' failed
+CMakeFiles/Makefile2:473: recipe for target &#39;tools/CMakeFiles/compute_image_mean.dir/all&#39; failed
 make[1]: *** [tools/CMakeFiles/compute_image_mean.dir/all] Error 2
-Makefile:127: recipe for target 'all' failed
+Makefile:127: recipe for target &#39;all&#39; failed
 make: *** [all] Error 2
 </code></pre><p>同樣根據 error 1 的參考資料：https://github.com/BVLC/caffe/issues/4436。
 在 <code>CMakeCache.txt</code> 裡面發現：<code>WITH_TIFF=ON</code>, <code>BUILD_TIFF=OFF</code>。
@@ -255,10 +255,10 @@ export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 <p>Matlab 是要版權的，因此這裡不再贅述。
 本文是安裝 Matlab R2015b。裝完之後，將 Matlab 的環境設定到 <code>~/.bashrc</code> 中。
 例如：</p>
-<pre tabindex="0"><code>export PATH=&quot;$PATH:/usr/local/MATLAB/R2015b/bin&quot;
-export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:/usr/local/MATLAB/R2015b/bin/glnxa64&quot;
-export C_INCLUDE_PATH=&quot;$C_INCLUDE_PATH:/usr/local/MATLAB/R2015b/extern/include&quot;
-export LIBRARY_PATH=&quot;$LIBRARY_PATH:/usr/local/MATLAB/R2015b/bin/glnxa64&quot;
+<pre tabindex="0"><code>export PATH=&#34;$PATH:/usr/local/MATLAB/R2015b/bin&#34;
+export LD_LIBRARY_PATH=&#34;$LD_LIBRARY_PATH:/usr/local/MATLAB/R2015b/bin/glnxa64&#34;
+export C_INCLUDE_PATH=&#34;$C_INCLUDE_PATH:/usr/local/MATLAB/R2015b/extern/include&#34;
+export LIBRARY_PATH=&#34;$LIBRARY_PATH:/usr/local/MATLAB/R2015b/bin/glnxa64&#34;
 </code></pre><p>然後套用新的設定:</p>
 <pre tabindex="0"><code>source ~/.bashrc
 </code></pre><h2 id="compile-and-install-opencv-32">Compile and Install OpenCV 3.2</h2>
@@ -288,7 +288,7 @@ make -j4 1&gt; /dev/null
 </code></pre><blockquote>
 <p><code>checkinstall</code> 預設在產生 deb 檔之後會順便安裝。不過，個人習慣是先加上 <code>--install=no</code>，然後在 deb 檔產生之後再手動安裝。</p>
 </blockquote>
-<p><img src="http://i.imgur.com/ejD4hRc.png" alt="Make OPENCV deb with checkinstall (圖片忘了加上 &ndash;install=no)"></p>
+<p><img src="http://i.imgur.com/ejD4hRc.png" alt="Make OPENCV deb with checkinstall (圖片忘了加上 &amp;ndash;install=no)"></p>
 <p>一開始先輸入 package 的介紹。
 接下來會跳出一個列表，輸入 0 ~ 13 的數字去修改資訊：</p>
 <p><img src="http://i.imgur.com/WDTNhr1.png" alt="Make OPENCV deb with checkinstall"></p>
@@ -448,7 +448,7 @@ make -j4 1&gt; /dev/null
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

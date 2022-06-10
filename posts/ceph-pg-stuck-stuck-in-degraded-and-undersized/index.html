@@ -155,7 +155,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -201,7 +201,7 @@ pg 0.25 is stuck stale for 59834.916645, current state stale+active+undersized+d
 pg 0.24 is stuck stale for 59834.916647, current state stale+active+undersized+degraded+remapped, last acting [0]
 </code></pre><p>想要利用 <code>ceph pg &lt;pgid&gt; query</code> 查看 pg 的詳細資訊，卻出現 error：</p>
 <pre tabindex="0"><code>$ ceph pg 0.24 query
-Error ENOENT: i don't have pgid 0.24
+Error ENOENT: i don&#39;t have pgid 0.24
 </code></pre><p>猜測問題產生的原因，可能是我在建置這一套 Ceph cluster 時，曾經把所有的 OSD 都移出重建。可能移除時沒有把資料清乾淨；或是我移除的方法不對，&hellip;等原因。</p>
 <hr>
 <h1 id="solution">Solution</h1>
@@ -211,17 +211,17 @@ pg 0.24 now creating, ok
 </code></pre><p>這個 pg 就會轉成 <code>creating</code>，過一段時間，等 <code>creating</code>完成之後，就可以 query 出那個 pg 的資訊：</p>
 <pre tabindex="0"><code>$ ceph pg 0.24 query
 {
-    &quot;state&quot;: &quot;active+clean&quot;,
-    &quot;snap_trimq&quot;: &quot;[]&quot;,
-    &quot;epoch&quot;: 94,
-    &quot;up&quot;: [
+    &#34;state&#34;: &#34;active+clean&#34;,
+    &#34;snap_trimq&#34;: &#34;[]&#34;,
+    &#34;epoch&#34;: 94,
+    &#34;up&#34;: [
         2,
         4
     ],
 
     ... (省略)...
 
-    &quot;agent_state&quot;: {}
+    &#34;agent_state&#34;: {}
 }
 </code></pre><p>同時，<code>ceph -s</code>也可以看到少了有狀況的 pg：</p>
 <pre tabindex="0"><code>cluster 1a1d374a-c6e9-48cb-9b45-525a6fdaa91e
@@ -244,7 +244,7 @@ pg 0.24 now creating, ok
               26 stale+active+undersized+degraded
 </code></pre><hr>
 <p>如果有問題的 pg 數量很多，可以用 for loop 去跑：</p>
-<pre tabindex="0"><code>for pg in `ceph health detail | grep &quot;stale+active+undersized+degraded&quot; | awk '{print $2}' | sort | uniq`;
+<pre tabindex="0"><code>for pg in `ceph health detail | grep &#34;stale+active+undersized+degraded&#34; | awk &#39;{print $2}&#39; | sort | uniq`;
 do
   ceph pg force_create_pg $pg
 done
@@ -401,7 +401,7 @@ done
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>

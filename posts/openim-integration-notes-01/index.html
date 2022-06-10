@@ -157,7 +157,7 @@ if (!doNotTrack) {
     <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
     <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
 </nav>
@@ -196,49 +196,49 @@ if (!doNotTrack) {
 <p>OpenIM 需要一些第三方的軟體，包含: MySQL/MariaDB, MongoDB, Kafka, ETCD, Redis, &hellip; 等。
 我主要是採用 helm 部署 bitnami 版本上去 (etcd 除外)。</p>
 <p>部署的命令大致上是：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm -n openim install infra01 bitnami/mariadb --values mariadb.yml
-helm -n openim install infra02 bitnami/mongodb --values mongodb.yml
-helm -n openim install infra03 bitnami/redis --values redis.yml
-<span style="color:#75715e"># helm -n openim install infra04 bitnami/zookeeper --values zookeeper.yml</span>
-helm -n openim install infra05 bitnami/kafka --values kafka.yml
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm -n openim install infra01 bitnami/mariadb --values mariadb.yml
+</span></span><span style="display:flex;"><span>helm -n openim install infra02 bitnami/mongodb --values mongodb.yml
+</span></span><span style="display:flex;"><span>helm -n openim install infra03 bitnami/redis --values redis.yml
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># helm -n openim install infra04 bitnami/zookeeper --values zookeeper.yml</span>
+</span></span><span style="display:flex;"><span>helm -n openim install infra05 bitnami/kafka --values kafka.yml
+</span></span></code></pre></div><blockquote>
 <p>bitnami/kafka 可以順便部署 zookeeper，請自行決定。</p>
 </blockquote>
 <blockquote>
 <p>Etcd 則不適合用 bitnami 版本部署，個人猜測可能是因為 bitnami 有預設帳號, 但是 <strong>OpenIM 目前的版本還不支援 etcd 設置帳號</strong>，因此我在這裡先採用裸機部署，以後再找解決方案。</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone -b v3.5.0 https://github.com/etcd-io/etcd.git
-cd etcd/
-./build.sh
-./bin/etcd --listen-client-urls<span style="color:#f92672">=</span>http://10.60.31.91:22379 --advertise-client-urls<span style="color:#f92672">=</span>http://127.0.0.1:22379
-</code></pre></div><h3 id="openim-配置">OpenIM 配置</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone -b v3.5.0 https://github.com/etcd-io/etcd.git
+</span></span><span style="display:flex;"><span>cd etcd/
+</span></span><span style="display:flex;"><span>./build.sh
+</span></span><span style="display:flex;"><span>./bin/etcd --listen-client-urls<span style="color:#f92672">=</span>http://10.60.31.91:22379 --advertise-client-urls<span style="color:#f92672">=</span>http://127.0.0.1:22379
+</span></span></code></pre></div><h3 id="openim-配置">OpenIM 配置</h3>
 <p>官方提供了 <a href="http://public.msypy.xyz/k8syamls/openim/latest/configmap.yaml"><code>configmap.yaml</code></a> template，下載後按照自己的環境修改，再 apply 上去即可。以下重點提示幾個&quot;坑&quot;:</p>
 <ul>
 <li>MySQL</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">mysql</span>:
-  <span style="color:#f92672">dbMysqlUserName</span>: <span style="color:#ae81ff">root</span> <span style="color:#75715e">#不能修改</span>
-  <span style="color:#f92672">dbMysqlPassword</span>: <span style="color:#ae81ff">ewjriwejirwe</span> <span style="color:#75715e">#root 密碼</span>
-</code></pre></div><p>MySQL 帳密必須是 root 帳密，否則一開始就無法運行。我猜測是建表的問題，但即使 <code>grant all privileges</code>，依然無法解決。最後還是必須改回去 root。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">mysql</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">dbMysqlUserName</span>: <span style="color:#ae81ff">root</span> <span style="color:#75715e">#不能修改</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">dbMysqlPassword</span>: <span style="color:#ae81ff">ewjriwejirwe</span> <span style="color:#75715e">#root 密碼</span>
+</span></span></code></pre></div><p>MySQL 帳密必須是 root 帳密，否則一開始就無法運行。我猜測是建表的問題，但即使 <code>grant all privileges</code>，依然無法解決。最後還是必須改回去 root。</p>
 <ul>
 <li>Manager Secret</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">manager</span>:
-  <span style="color:#75715e">#app管理员userID和对应的secret  建议修改。 用于管理后台登录，也可以用户管理后台对应的api</span>
-  <span style="color:#f92672">appManagerUid</span>: [ <span style="color:#e6db74">&#34;xxxxxxxxx&#34;</span> ]
-  <span style="color:#f92672">secrets</span>: [ <span style="color:#e6db74">&#34;abc123456&#34;</span> ]
-
-<span style="color:#f92672">secret</span>: <span style="color:#ae81ff">arwsef234s9w</span>
-</code></pre></div><p>Call admin API 時，如果參數代入 <code>manager.appManagerUid</code> 以及 <code>manager.secrets</code><em>(<code>abc123456</code>)</em>，<code>open_im_api</code> 卻返回 401 <code>not authorized</code>。這時候就需要將 <code>manager.secrets</code> 換成 <code>secret</code><em>(<code>arwsef234s9w</code>)</em>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">manager</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#app管理员userID和对应的secret  建议修改。 用于管理后台登录，也可以用户管理后台对应的api</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">appManagerUid</span>: [ <span style="color:#e6db74">&#34;xxxxxxxxx&#34;</span> ]
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">secrets</span>: [ <span style="color:#e6db74">&#34;abc123456&#34;</span> ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">secret</span>: <span style="color:#ae81ff">arwsef234s9w</span>
+</span></span></code></pre></div><p>Call admin API 時，如果參數代入 <code>manager.appManagerUid</code> 以及 <code>manager.secrets</code><em>(<code>abc123456</code>)</em>，<code>open_im_api</code> 卻返回 401 <code>not authorized</code>。這時候就需要將 <code>manager.secrets</code> 換成 <code>secret</code><em>(<code>arwsef234s9w</code>)</em>。</p>
 <h3 id="部署-openim">部署 OpenIM</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n openim apply configmap.yaml
-kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_api.yaml
-kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_auth.yaml
-kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_user.yaml
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n openim apply configmap.yaml
+</span></span><span style="display:flex;"><span>kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_api.yaml
+</span></span><span style="display:flex;"><span>kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_auth.yaml
+</span></span><span style="display:flex;"><span>kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statefulsets/open_im_user.yaml
+</span></span></code></pre></div><blockquote>
 <p>如果要從 cluster 之外 call <code>open_im_api</code> , 記得要修改 service/api，將 <code>ClusterIP</code> 改成 <code>LoadBalancer</code>。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl -n openim edit svc/api
-</code></pre></div><p>或是設置 ingress 等，請按照自己的平台做設置。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n openim edit svc/api
+</span></span></code></pre></div><p>或是設置 ingress 等，請按照自己的平台做設置。</p>
 </blockquote>
 <h2 id="整合開發">整合開發</h2>
 <p>完整的程式碼就先不放了，現在也沒有空寫 demo，因此就將部分的業務程式碼修改一下放上來。</p>
@@ -246,357 +246,357 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
 <p>依照調用順序，以下展示關鍵的程式碼:</p>
 <h3 id="取得管理員-token">取得管理員 token</h3>
 <p>基本上這個 API 需要注意的就是 manager secret，如果代錯了，就會有 error。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">apis</span>
-
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;bytes&#34;</span>
-	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
-	<span style="color:#e6db74">&#34;errors&#34;</span>
-	<span style="color:#e6db74">&#34;fmt&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/google/uuid&#34;</span>
-	<span style="color:#e6db74">&#34;go.uber.org/zap&#34;</span>
-	<span style="color:#e6db74">&#34;io/ioutil&#34;</span>
-	<span style="color:#e6db74">&#34;net/http&#34;</span>
-	<span style="color:#e6db74">&#34;net/url&#34;</span>
-)
-
-<span style="color:#66d9ef">const</span> (
-	<span style="color:#a6e22e">MANAGER_UID</span>    = <span style="color:#e6db74">&#34;xxxxxxxxx&#34;</span>
-	<span style="color:#a6e22e">MANAGER_SECRET</span> = <span style="color:#e6db74">&#34;abc123456&#34;</span>
-	<span style="color:#a6e22e">OPENIM_API</span>     = <span style="color:#e6db74">&#34;http://w.x.y.z:10000&#34;</span>
-)
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">adminToken</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">UserId</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
-	<span style="color:#a6e22e">Token</span>     <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;token&#34;`</span>
-	<span style="color:#a6e22e">ExpiredAt</span> <span style="color:#66d9ef">int64</span>  <span style="color:#e6db74">`json:&#34;expiredTime&#34;`</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">getAdminTokenRequest</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">UserId</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
-	<span style="color:#a6e22e">Platform</span>  <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`json:&#34;platform&#34;`</span>
-	<span style="color:#a6e22e">RequestId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span> <span style="color:#e6db74">`json:&#34;operationID&#34;`</span>
-	<span style="color:#a6e22e">Secret</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;secret&#34;`</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">getAdminTokenResponse</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">Data</span>    <span style="color:#a6e22e">adminToken</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
-	<span style="color:#a6e22e">ErrCode</span> <span style="color:#66d9ef">int</span>        <span style="color:#e6db74">`json:&#34;errCode&#34;`</span>
-	<span style="color:#a6e22e">ErrMsg</span>  <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`json:&#34;errMsg&#34;`</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetOpenIMAdminToken</span>(<span style="color:#a6e22e">logger</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Logger</span>) (<span style="color:#a6e22e">secret</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
-
-	<span style="color:#66d9ef">var</span> (
-		<span style="color:#a6e22e">api</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">URL</span>
-		<span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
-		<span style="color:#a6e22e">resp</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Response</span>
-	)
-
-    <span style="color:#75715e">/* 可以在這裡增加程式，從 redis 中讀取已存的 token */</span>
-
-	<span style="color:#a6e22e">_api</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">OPENIM_API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/auth/user_token&#34;</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">api</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">api</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;parse openim api failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;api&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">api</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#a6e22e">payload</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getAdminTokenRequest</span>{
-		<span style="color:#a6e22e">UserId</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">MANAGER_UID</span>,
-		<span style="color:#a6e22e">Platform</span>:  <span style="color:#ae81ff">8</span>,
-		<span style="color:#a6e22e">RequestId</span>: <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">New</span>(),
-		<span style="color:#a6e22e">Secret</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">MANAGER_SECRET</span>,
-	}
-
-	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">payload</span>)
-	<span style="color:#a6e22e">_logger</span> = <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">With</span>(<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;operation_id&#34;</span>, <span style="color:#a6e22e">payload</span>.<span style="color:#a6e22e">RequestId</span>.<span style="color:#a6e22e">String</span>()))
-
-	<span style="color:#75715e">// logger.Debug(&#34;show request&#34;, zap.String(&#34;url&#34;, api.String()))
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// fmt.Println(string(data))
-</span><span style="color:#75715e"></span>
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Post</span>(<span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#e6db74">&#34;application/json&#34;</span>, <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>)); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;call openim api failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;url&#34;</span>, <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>()),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;payload&#34;</span>, <span style="color:#a6e22e">data</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;decode http response failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#75715e">// logger.Debug(&#34;show response&#34;)
-</span><span style="color:#75715e"></span>	<span style="color:#75715e">// fmt.Println(string(data))
-</span><span style="color:#75715e"></span>
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#a6e22e">getAdminTokenResponse</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;unmarshal openim response failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;response&#34;</span>, <span style="color:#a6e22e">data</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
-		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrMsg</span>)
-		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;openim api response error&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Intp</span>(<span style="color:#e6db74">&#34;code&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-    <span style="color:#75715e">/* 可以在這裡增加程式，將 token 存入 redis */</span>
-
-	<span style="color:#a6e22e">secret</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>.<span style="color:#a6e22e">Token</span>
-	<span style="color:#66d9ef">return</span>
-}
-</code></pre></div><h3 id="查詢用戶是否註冊">查詢用戶是否註冊</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">apis</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;bytes&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;errors&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/google/uuid&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;go.uber.org/zap&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;io/ioutil&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/url&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">MANAGER_UID</span>    = <span style="color:#e6db74">&#34;xxxxxxxxx&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">MANAGER_SECRET</span> = <span style="color:#e6db74">&#34;abc123456&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">OPENIM_API</span>     = <span style="color:#e6db74">&#34;http://w.x.y.z:10000&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">adminToken</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">UserId</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Token</span>     <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;token&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ExpiredAt</span> <span style="color:#66d9ef">int64</span>  <span style="color:#e6db74">`json:&#34;expiredTime&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">getAdminTokenRequest</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">UserId</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Platform</span>  <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`json:&#34;platform&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">RequestId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span> <span style="color:#e6db74">`json:&#34;operationID&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Secret</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;secret&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">getAdminTokenResponse</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Data</span>    <span style="color:#a6e22e">adminToken</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ErrCode</span> <span style="color:#66d9ef">int</span>        <span style="color:#e6db74">`json:&#34;errCode&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ErrMsg</span>  <span style="color:#66d9ef">string</span>     <span style="color:#e6db74">`json:&#34;errMsg&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetOpenIMAdminToken</span>(<span style="color:#a6e22e">logger</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Logger</span>) (<span style="color:#a6e22e">secret</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">api</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">URL</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Response</span>
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 可以在這裡增加程式，從 redis 中讀取已存的 token */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_api</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">OPENIM_API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/auth/user_token&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">api</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">api</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;parse openim api failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;api&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">api</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">payload</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">getAdminTokenRequest</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">UserId</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">MANAGER_UID</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Platform</span>:  <span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">RequestId</span>: <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">New</span>(),
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Secret</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">MANAGER_SECRET</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">payload</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_logger</span> = <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">With</span>(<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;operation_id&#34;</span>, <span style="color:#a6e22e">payload</span>.<span style="color:#a6e22e">RequestId</span>.<span style="color:#a6e22e">String</span>()))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// logger.Debug(&#34;show request&#34;, zap.String(&#34;url&#34;, api.String()))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// fmt.Println(string(data))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Post</span>(<span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#e6db74">&#34;application/json&#34;</span>, <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>)); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;call openim api failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;url&#34;</span>, <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>()),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;payload&#34;</span>, <span style="color:#a6e22e">data</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;decode http response failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// logger.Debug(&#34;show response&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// fmt.Println(string(data))
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#a6e22e">getAdminTokenResponse</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;unmarshal openim response failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;response&#34;</span>, <span style="color:#a6e22e">data</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrMsg</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;openim api response error&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Intp</span>(<span style="color:#e6db74">&#34;code&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* 可以在這裡增加程式，將 token 存入 redis */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">secret</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span>.<span style="color:#a6e22e">Token</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="查詢用戶是否註冊">查詢用戶是否註冊</h3>
 <p>這個 API 的重點是，要將 manager token 放到 header 中，而且設置對應的字段為 <code>token</code>。其他應該沒什麼需要解釋的。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">apis</span>
-
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;bytes&#34;</span>
-	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
-	<span style="color:#e6db74">&#34;errors&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/google/uuid&#34;</span>
-	<span style="color:#e6db74">&#34;go.uber.org/zap&#34;</span>
-	<span style="color:#e6db74">&#34;io/ioutil&#34;</span>
-	<span style="color:#e6db74">&#34;net/http&#34;</span>
-	<span style="color:#e6db74">&#34;net/url&#34;</span>
-)
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">userRegistered</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">UserID</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
-	<span style="color:#a6e22e">Status</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;accountStatus&#34;`</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">checkUserRegisteredRequest</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">RequestId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span> <span style="color:#e6db74">`json:&#34;operationID&#34;`</span>
-	<span style="color:#a6e22e">UserList</span>  []<span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;checkUserIDList&#34;`</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">checkUserRegisteredResponse</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">Data</span>    []<span style="color:#a6e22e">userRegistered</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
-	<span style="color:#a6e22e">ErrCode</span> <span style="color:#66d9ef">int</span>              <span style="color:#e6db74">`json:&#34;errCode&#34;`</span>
-	<span style="color:#a6e22e">ErrMsg</span>  <span style="color:#66d9ef">string</span>           <span style="color:#e6db74">`json:&#34;errMsg&#34;`</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">CheckOpenIMUserRegistered</span>(<span style="color:#a6e22e">logger</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Logger</span>, <span style="color:#a6e22e">user_id</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>) (<span style="color:#a6e22e">registered</span> <span style="color:#66d9ef">bool</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
-
-	<span style="color:#66d9ef">var</span> (
-		<span style="color:#a6e22e">api</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">URL</span>
-		<span style="color:#a6e22e">client</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Client</span>{}
-		<span style="color:#a6e22e">data</span>   []<span style="color:#66d9ef">byte</span>
-		<span style="color:#a6e22e">req</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>
-		<span style="color:#a6e22e">resp</span>   <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Response</span>
-		<span style="color:#a6e22e">token</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-	)
-
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">token</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">GetOpenIMAdminToken</span>(<span style="color:#a6e22e">logger</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#a6e22e">_api</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">OPENIM_API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/manager/account_check&#34;</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">api</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">api</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;parse openim api failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;url&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">api</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#a6e22e">payload</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">checkUserRegisteredRequest</span>{
-		<span style="color:#a6e22e">RequestId</span>: <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">New</span>(),
-		<span style="color:#a6e22e">UserList</span>:  []<span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>{<span style="color:#a6e22e">user_id</span>},
-	}
-
-	<span style="color:#a6e22e">_logger</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">With</span>(
-		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;user&#34;</span>, <span style="color:#a6e22e">user_id</span>),
-		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;operation_id&#34;</span>, <span style="color:#a6e22e">payload</span>.<span style="color:#a6e22e">RequestId</span>.<span style="color:#a6e22e">String</span>()),
-	)
-
-	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">payload</span>)
-	<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">NewRequest</span>(<span style="color:#e6db74">&#34;POST&#34;</span>, <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>))
-	<span style="color:#75715e">// req.Header.Set(&#34;Authorization&#34;, &#34;Bearer &#34;+*token)
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;token&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">token</span>)
-	<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Do</span>(<span style="color:#a6e22e">req</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;check openim user registered failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;api&#34;</span>, <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>()),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;payload&#34;</span>, <span style="color:#a6e22e">data</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;decode http response failed&#34;</span>, <span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>))
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#a6e22e">checkUserRegisteredResponse</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;unmarshal openim response failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;response&#34;</span>, <span style="color:#a6e22e">data</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
-		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrMsg</span>)
-		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;check openim user registered status failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Intp</span>(<span style="color:#e6db74">&#34;code&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> {
-		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">UserID</span> <span style="color:#f92672">==</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">user_id</span> {
-			<span style="color:#a6e22e">registered</span> = <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">Status</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;registered&#34;</span>
-			<span style="color:#66d9ef">break</span>
-		}
-	}
-
-	<span style="color:#66d9ef">return</span>
-}
-</code></pre></div><h3 id="註冊用戶">註冊用戶</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">apis</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;bytes&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;errors&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/google/uuid&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;go.uber.org/zap&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;io/ioutil&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/url&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">userRegistered</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">UserID</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Status</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;accountStatus&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">checkUserRegisteredRequest</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">RequestId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span> <span style="color:#e6db74">`json:&#34;operationID&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">UserList</span>  []<span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;checkUserIDList&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">checkUserRegisteredResponse</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Data</span>    []<span style="color:#a6e22e">userRegistered</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ErrCode</span> <span style="color:#66d9ef">int</span>              <span style="color:#e6db74">`json:&#34;errCode&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ErrMsg</span>  <span style="color:#66d9ef">string</span>           <span style="color:#e6db74">`json:&#34;errMsg&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">CheckOpenIMUserRegistered</span>(<span style="color:#a6e22e">logger</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Logger</span>, <span style="color:#a6e22e">user_id</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>) (<span style="color:#a6e22e">registered</span> <span style="color:#66d9ef">bool</span>, <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">api</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">URL</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">client</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Client</span>{}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">data</span>   []<span style="color:#66d9ef">byte</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">req</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span>   <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Response</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">token</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">token</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">GetOpenIMAdminToken</span>(<span style="color:#a6e22e">logger</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_api</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">OPENIM_API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/manager/account_check&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">api</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">api</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;parse openim api failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;url&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">api</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">payload</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">checkUserRegisteredRequest</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">RequestId</span>: <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">New</span>(),
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">UserList</span>:  []<span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>{<span style="color:#a6e22e">user_id</span>},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_logger</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">With</span>(
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;user&#34;</span>, <span style="color:#a6e22e">user_id</span>),
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;operation_id&#34;</span>, <span style="color:#a6e22e">payload</span>.<span style="color:#a6e22e">RequestId</span>.<span style="color:#a6e22e">String</span>()),
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">payload</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">NewRequest</span>(<span style="color:#e6db74">&#34;POST&#34;</span>, <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// req.Header.Set(&#34;Authorization&#34;, &#34;Bearer &#34;+*token)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;token&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">token</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;Content-Type&#34;</span>, <span style="color:#e6db74">&#34;application/json&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Do</span>(<span style="color:#a6e22e">req</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;check openim user registered failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;api&#34;</span>, <span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>()),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;payload&#34;</span>, <span style="color:#a6e22e">data</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;decode http response failed&#34;</span>, <span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>))
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#a6e22e">checkUserRegisteredResponse</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;unmarshal openim response failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;response&#34;</span>, <span style="color:#a6e22e">data</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrMsg</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;check openim user registered status failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Intp</span>(<span style="color:#e6db74">&#34;code&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">data</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Data</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">UserID</span> <span style="color:#f92672">==</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">user_id</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">registered</span> = <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">Status</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;registered&#34;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="註冊用戶">註冊用戶</h3>
 <ul>
 <li><code>myAccount</code> 是我的內部資料結構。其他應該也不用解釋XD</li>
 <li><code>platform</code> 的數值可以參考: <a href="https://doc.rentsoft.cn/#/server_doc/public">OpenIM字段说明</a></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">apis</span>
-
-<span style="color:#f92672">import</span> (
-	<span style="color:#e6db74">&#34;bytes&#34;</span>
-	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
-	<span style="color:#e6db74">&#34;fmt&#34;</span>
-	<span style="color:#e6db74">&#34;github.com/google/uuid&#34;</span>
-	<span style="color:#e6db74">&#34;go.uber.org/zap&#34;</span>
-	<span style="color:#e6db74">&#34;io/ioutil&#34;</span>
-	<span style="color:#e6db74">&#34;net/http&#34;</span>
-	<span style="color:#e6db74">&#34;net/url&#34;</span>
-)
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">registerUser</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">ExpiredAt</span> <span style="color:#66d9ef">int64</span>  <span style="color:#e6db74">`json:&#34;expiredTime&#34;`</span>
-	<span style="color:#a6e22e">Token</span>     <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;token&#34;`</span>
-	<span style="color:#a6e22e">UserId</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">registerUserRequest</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#75715e">// required fields
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">UserID</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
-	<span style="color:#a6e22e">UserName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;nickname&#34;`</span>
-	<span style="color:#a6e22e">Platform</span>  <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`json:&#34;platform&#34;`</span>
-	<span style="color:#a6e22e">RequestId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span> <span style="color:#e6db74">`json:&#34;operationID&#34;`</span>
-	<span style="color:#a6e22e">Secret</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;secret&#34;`</span>
-
-	<span style="color:#75715e">// additional
-</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">AvatorURL</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;faceURL,omitempty&#34;`</span>
-	<span style="color:#a6e22e">Birthday</span>  <span style="color:#66d9ef">int</span>     <span style="color:#e6db74">`json:&#34;int&#34;`</span>
-	<span style="color:#a6e22e">EMail</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;email,omitempty&#34;`</span>
-	<span style="color:#a6e22e">Ex</span>        <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;ex,omitempty&#34;`</span>
-	<span style="color:#a6e22e">Gender</span>    <span style="color:#66d9ef">int</span>     <span style="color:#e6db74">`json:&#34;gender&#34;`</span>
-	<span style="color:#a6e22e">Phone</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;phoneNumber,omitempty&#34;`</span>
-}
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">registerUserResponse</span> <span style="color:#66d9ef">struct</span> {
-	<span style="color:#a6e22e">Data</span>    <span style="color:#a6e22e">registerUser</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
-	<span style="color:#a6e22e">ErrCode</span> <span style="color:#66d9ef">int</span>          <span style="color:#e6db74">`json:&#34;errCode&#34;`</span>
-	<span style="color:#a6e22e">ErrMsg</span>  <span style="color:#66d9ef">string</span>       <span style="color:#e6db74">`json:&#34;errMsg&#34;`</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">RegisterOpenIMUser</span>(<span style="color:#a6e22e">logger</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Logger</span>, <span style="color:#a6e22e">user</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">myAccount</span>) (<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
-
-	<span style="color:#66d9ef">var</span> (
-		<span style="color:#a6e22e">api</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">URL</span>
-		<span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
-		<span style="color:#a6e22e">resp</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Response</span>
-	)
-
-	<span style="color:#a6e22e">_api</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">OPENIM_API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/auth/user_register&#34;</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">api</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">_api</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;parse openim api endpoint failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;url&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">_api</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#a6e22e">member</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">registerUserRequest</span>{
-		<span style="color:#a6e22e">UserID</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">UserId</span>,
-		<span style="color:#a6e22e">UserName</span>:  <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Name</span>,
-		<span style="color:#a6e22e">Platform</span>:  <span style="color:#ae81ff">7</span>, <span style="color:#75715e">// 0, 1, 7, ... 都可以
-</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">RequestId</span>: <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">New</span>(),
-		<span style="color:#a6e22e">Secret</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">settings</span>.<span style="color:#a6e22e">OPENIM</span>.<span style="color:#a6e22e">Secret</span>,
-		<span style="color:#a6e22e">Gender</span>:    <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Gender</span>,
-	}
-
-	<span style="color:#a6e22e">_logger</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">With</span>(
-		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;user&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">UserId</span>),
-		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;operation_id&#34;</span>, <span style="color:#a6e22e">member</span>.<span style="color:#a6e22e">RequestId</span>.<span style="color:#a6e22e">String</span>()),
-	)
-
-	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">member</span>)
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Post</span>(<span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#e6db74">&#34;application/json&#34;</span>, <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>)); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;register openim user failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;payload&#34;</span>, <span style="color:#a6e22e">data</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;decode http response failed&#34;</span>, <span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>))
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#a6e22e">registerUserResponse</span>
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;unmarshal openim response failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;response&#34;</span>, <span style="color:#a6e22e">data</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-		<span style="color:#66d9ef">return</span>
-	}
-
-	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
-		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrMsg</span>)
-		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
-			<span style="color:#e6db74">&#34;register openim user failed&#34;</span>,
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Intp</span>(<span style="color:#e6db74">&#34;code&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span>),
-			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
-		)
-	}
-	<span style="color:#66d9ef">return</span>
-}
-</code></pre></div><p>Call 完之後就可以在資料庫中看到用戶註冊的資料了:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">apis</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;bytes&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;encoding/json&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/google/uuid&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;go.uber.org/zap&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;io/ioutil&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/http&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net/url&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">registerUser</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ExpiredAt</span> <span style="color:#66d9ef">int64</span>  <span style="color:#e6db74">`json:&#34;expiredTime&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Token</span>     <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;token&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">UserId</span>    <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">registerUserRequest</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// required fields
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">UserID</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;userID&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">UserName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;nickname&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Platform</span>  <span style="color:#66d9ef">int</span>       <span style="color:#e6db74">`json:&#34;platform&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">RequestId</span> <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">UUID</span> <span style="color:#e6db74">`json:&#34;operationID&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Secret</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>   <span style="color:#e6db74">`json:&#34;secret&#34;`</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// additional
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">AvatorURL</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;faceURL,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Birthday</span>  <span style="color:#66d9ef">int</span>     <span style="color:#e6db74">`json:&#34;int&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">EMail</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;email,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Ex</span>        <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;ex,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Gender</span>    <span style="color:#66d9ef">int</span>     <span style="color:#e6db74">`json:&#34;gender&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Phone</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;phoneNumber,omitempty&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">registerUserResponse</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Data</span>    <span style="color:#a6e22e">registerUser</span> <span style="color:#e6db74">`json:&#34;data&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ErrCode</span> <span style="color:#66d9ef">int</span>          <span style="color:#e6db74">`json:&#34;errCode&#34;`</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ErrMsg</span>  <span style="color:#66d9ef">string</span>       <span style="color:#e6db74">`json:&#34;errMsg&#34;`</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">RegisterOpenIMUser</span>(<span style="color:#a6e22e">logger</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Logger</span>, <span style="color:#a6e22e">user</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">myAccount</span>) (<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">api</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">URL</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">data</span> []<span style="color:#66d9ef">byte</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resp</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Response</span>
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_api</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">OPENIM_API</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/auth/user_register&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">api</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">Parse</span>(<span style="color:#a6e22e">_api</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;parse openim api endpoint failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;url&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">_api</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">member</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">registerUserRequest</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">UserID</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">UserId</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">UserName</span>:  <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Name</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Platform</span>:  <span style="color:#ae81ff">7</span>, <span style="color:#75715e">// 0, 1, 7, ... 都可以
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">RequestId</span>: <span style="color:#a6e22e">uuid</span>.<span style="color:#a6e22e">New</span>(),
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Secret</span>:    <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">settings</span>.<span style="color:#a6e22e">OPENIM</span>.<span style="color:#a6e22e">Secret</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Gender</span>:    <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">Gender</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">_logger</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">logger</span>.<span style="color:#a6e22e">With</span>(
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Stringp</span>(<span style="color:#e6db74">&#34;user&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">UserId</span>),
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;operation_id&#34;</span>, <span style="color:#a6e22e">member</span>.<span style="color:#a6e22e">RequestId</span>.<span style="color:#a6e22e">String</span>()),
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">member</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resp</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Post</span>(<span style="color:#a6e22e">api</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#e6db74">&#34;application/json&#34;</span>, <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>)); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;register openim user failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;payload&#34;</span>, <span style="color:#a6e22e">data</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">resp</span>.<span style="color:#a6e22e">Body</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;decode http response failed&#34;</span>, <span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>))
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#a6e22e">registerUserResponse</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Unmarshal</span>(<span style="color:#a6e22e">data</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;unmarshal openim response failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">ByteString</span>(<span style="color:#e6db74">&#34;response&#34;</span>, <span style="color:#a6e22e">data</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrMsg</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_logger</span>.<span style="color:#a6e22e">Error</span>(
+</span></span><span style="display:flex;"><span>			<span style="color:#e6db74">&#34;register openim user failed&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Intp</span>(<span style="color:#e6db74">&#34;code&#34;</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">ErrCode</span>),
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">zap</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>),
+</span></span><span style="display:flex;"><span>		)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Call 完之後就可以在資料庫中看到用戶註冊的資料了:</p>
 <pre tabindex="0"><code>MariaDB [openIM_v2]&gt; select * from users;
 +--------------------------------------+-------------+----------+--------+--------------+---------------------+-------+------+---------------------+------------------+
 | user_id                              | name        | face_url | gender | phone_number | birth               | email | ex   | create_time         | app_manger_level |
@@ -608,16 +608,16 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
 </code></pre><h2 id="troubleshooting">Troubleshooting</h2>
 <h3 id="802-db-failed">802 db failed</h3>
 <p>Call API 時返回錯誤:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;errCode&#34;</span>: <span style="color:#ae81ff">802</span>,
-    <span style="color:#f92672">&#34;errMsg&#34;</span>: <span style="color:#e6db74">&#34;db failed&#34;</span>,
-    <span style="color:#f92672">&#34;data&#34;</span>: {
-        <span style="color:#f92672">&#34;userID&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxx&#34;</span>,
-        <span style="color:#f92672">&#34;token&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
-        <span style="color:#f92672">&#34;expiredTime&#34;</span>: <span style="color:#ae81ff">0</span>
-    }
-}
-</code></pre></div><p>這個錯誤只是 <code>open_im_api</code> 自身返回的錯誤訊息，並不一定是後端真正遇到的問題。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;errCode&#34;</span>: <span style="color:#ae81ff">802</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;errMsg&#34;</span>: <span style="color:#e6db74">&#34;db failed&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;data&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;userID&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxx&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;token&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;expiredTime&#34;</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>這個錯誤只是 <code>open_im_api</code> 自身返回的錯誤訊息，並不一定是後端真正遇到的問題。
 目前遇到有以下兩種狀況, <code>open_im_api</code> 會返回 <code>802 db failed</code>:</p>
 <ol>
 <li>操作管理員用戶 (例如獲取 manager token), 但是 MySQL 裡面沒有 admin 的帳號</li>
@@ -640,31 +640,31 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
 <p><img src="https://i.imgur.com/lTe1RH9.png" alt="Imgur"></p>
 <p>原來正確的密碼是 helm 自己產生的, 而不是我設置的。設置成正確的密碼後，砍掉重建 <code>open_im_auth</code> 的 pod，問題就解決了。
 順便展示下正確的回傳結構:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;errCode&#34;</span>: <span style="color:#ae81ff">0</span>,
-    <span style="color:#f92672">&#34;errMsg&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
-    <span style="color:#f92672">&#34;data&#34;</span>: {
-        <span style="color:#f92672">&#34;userID&#34;</span>: <span style="color:#e6db74">&#34;transcend&#34;</span>,
-        <span style="color:#f92672">&#34;token&#34;</span>: <span style="color:#e6db74">&#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVSUQiOiJ0cmFuc2NlbmQiLCJQbGF0Zm9ybSI6IiIsImV4cCI6MTk2ODgwNzg1MSwibmJmIjoxNjUzNDQ3ODUxLCJpYXQiOjE2NTM0NDc4NTF9.zt8NhC3zhBsyq6SH35CI16lMKvXGYxqeIClCy4QKmM8&#34;</span>,
-        <span style="color:#f92672">&#34;expiredTime&#34;</span>: <span style="color:#ae81ff">1968807851</span>
-    }
-}
-</code></pre></div><h3 id="500-getuseridfromtoken-failed">500 GetUserIDFromToken failed</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;errCode&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;errMsg&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;data&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;userID&#34;</span>: <span style="color:#e6db74">&#34;transcend&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;token&#34;</span>: <span style="color:#e6db74">&#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVSUQiOiJ0cmFuc2NlbmQiLCJQbGF0Zm9ybSI6IiIsImV4cCI6MTk2ODgwNzg1MSwibmJmIjoxNjUzNDQ3ODUxLCJpYXQiOjE2NTM0NDc4NTF9.zt8NhC3zhBsyq6SH35CI16lMKvXGYxqeIClCy4QKmM8&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;expiredTime&#34;</span>: <span style="color:#ae81ff">1968807851</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="500-getuseridfromtoken-failed">500 GetUserIDFromToken failed</h3>
 <p>在 call <code>/manager/account_check</code> 檢查用戶是否已經註冊到 OpenIM 時，<code>open_im_api</code> 返回:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-    <span style="color:#f92672">&#34;errCode&#34;</span>: <span style="color:#ae81ff">500</span>,
-    <span style="color:#f92672">&#34;errMsg&#34;</span>: <span style="color:#e6db74">&#34;GetUserIDFromToken failed&#34;</span>
-}
-</code></pre></div><p>追查 <code>open_im_api</code> 找到以下相關日誌:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;errCode&#34;</span>: <span style="color:#ae81ff">500</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;errMsg&#34;</span>: <span style="color:#e6db74">&#34;GetUserIDFromToken failed&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>追查 <code>open_im_api</code> 找到以下相關日誌:</p>
 <p><img src="https://i.imgur.com/ovralnD.png" alt="Imgur"></p>
 <p>乍看之下還以為是我程式中的 http request 沒有帶入 token (或是 token 不完整)。但是檢查了一下程式碼，怎麼看都沒有問題。於是 trace 日誌，調用鏈的起始點是 <code>manage/management_user.go</code> 的第100行，最後在 <a href="https://github.com/OpenIMSDK/Open-IM-Server/blob/b978b6756e7558e3508bdb8bdd4ea3d7c51f79a1/internal/api/manage/management_user.go#L108"><code>internal/api/manage/manage_user.go</code></a> 找到了答案:</p>
 <p><img src="https://i.imgur.com/LuolBPr.png" alt="Imgur"></p>
 <p>原來 OpenIM 在 header 尋找的字段是 <code>token: xxxxxxxxx</code>，而不是一般我們習慣的 <code>Authorization: Bearer xxxxxx</code>。</p>
 <p>因此, 只需要修改程式碼來配合即可解決：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">NewRequest</span>(<span style="color:#e6db74">&#34;POST&#34;</span>, <span style="color:#a6e22e">_url</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>))
-<span style="color:#75715e">// req.Header.Set(&#34;Authorization&#34;, &#34;Bearer &#34;+*token)
-</span><span style="color:#75715e"></span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;token&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">token</span>)
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">req</span>, <span style="color:#a6e22e">_</span> = <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">NewRequest</span>(<span style="color:#e6db74">&#34;POST&#34;</span>, <span style="color:#a6e22e">_url</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">NewReader</span>(<span style="color:#a6e22e">data</span>))
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// req.Header.Set(&#34;Authorization&#34;, &#34;Bearer &#34;+*token)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">Header</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#e6db74">&#34;token&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">token</span>)
+</span></span></code></pre></div>
         </p>
     </div>
 
@@ -808,7 +808,7 @@ kubectl -n openim apply -f http://public.msypy.xyz/k8syamls/openim/latest/statef
         <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
 	</div>
 
-	<script src="https://maple52046.github.io/js/main.min.c1aee25a817e9beb1f9c4afd9d62311227a7f5e46720e404dc1dda97281f47f2.js" integrity="sha256-wa7iWoF+m+sfnEr9nWIxEien9eRnIOQE3B3alygfR/I=" crossorigin="anonymous"></script>
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
 </footer>
 
     </body>
