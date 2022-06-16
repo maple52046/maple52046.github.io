@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>暴力啟用 gitLab user | 世界的盡頭</title>
+    <title>暴力啟用 gitlab user | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -42,9 +42,9 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="暴力啟用 gitLab user" />
+      <meta property="og:title" content="暴力啟用 gitlab user" />
 <meta property="og:description" content="下這個標題不知道是不是很奇怪XD
-最近在為自己的 team 開發一個 management 系統，於是決定在 GitLAB 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&hellip;不小心找了個旁門左道 XD" />
+最近在為自己的 team 開發一個 management 系統，於是決定在 gitlab 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&hellip;不小心找了個旁門左道 XD" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://maple52046.github.io/posts/force-confirm-gitlab-user/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2015-03-27T15:38:23+08:00" />
@@ -165,16 +165,16 @@ if (!doNotTrack) {
         <div id="content" class="content-container">
         
 
-<h1 class="post-title">暴力啟用 gitLab user</h1>
+<h1 class="post-title">暴力啟用 gitlab user</h1>
     
     <time>March 27, 2015</time>
     
     <div class="article-content">
         <p>
         <p>下這個標題不知道是不是很奇怪XD</p>
-<p>最近在為自己的 team 開發一個 management 系統，於是決定在 GitLAB 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&hellip;不小心找了個旁門左道 XD</p>
+<p>最近在為自己的 team 開發一個 management 系統，於是決定在 gitlab 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&hellip;不小心找了個旁門左道 XD</p>
 <h2 id="step-1">Step 1</h2>
-<p>首先，要先登入 MySQL，找到 Gitlab 所使用的資料庫，然後再找到 <code>users</code> 這個資料表。使用 <code>describe users</code> 查看該資料表的結構:</p>
+<p>首先，要先登入 MySQL，找到 gitlab 所使用的資料庫，然後再找到 <code>users</code> 這個資料表。使用 <code>describe users</code> 查看該資料表的結構:</p>
 <pre tabindex="0"><code>mysql&gt; describe users;
 +--------------------------+--------------+------+-----+---------+----------------+
 | Field                    | Type         | Null | Key | Default | Extra          |

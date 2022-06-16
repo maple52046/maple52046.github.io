@@ -8,13 +8,13 @@
     <language>zh-tw</language>
     <lastBuildDate>Fri, 27 Mar 2015 15:38:23 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/tags/gitlab/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>暴力啟用 gitLab user</title>
+      <title>暴力啟用 gitlab user</title>
       <link>https://maple52046.github.io/posts/force-confirm-gitlab-user/</link>
       <pubDate>Fri, 27 Mar 2015 15:38:23 +0800</pubDate>
       
       <guid>https://maple52046.github.io/posts/force-confirm-gitlab-user/</guid>
       <description>&lt;p&gt;下這個標題不知道是不是很奇怪XD&lt;/p&gt;
-&lt;p&gt;最近在為自己的 team 開發一個 management 系統，於是決定在 GitLAB 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&amp;hellip;不小心找了個旁門左道 XD&lt;/p&gt;</description>
+&lt;p&gt;最近在為自己的 team 開發一個 management 系統，於是決定在 gitlab 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&amp;hellip;不小心找了個旁門左道 XD&lt;/p&gt;</description>
     </item>
     
   </channel>

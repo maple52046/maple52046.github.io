@@ -100,7 +100,7 @@
       <pubDate>Sat, 25 Apr 2020 19:20:05 +0000</pubDate>
       
       <guid>https://maple52046.github.io/posts/mujoco-installation/</guid>
-      <description>&lt;p&gt;本文紀錄在 Linux 環境 (Ubuntu) 上安裝 MuJoco 以及 mujoco_py 的方法。&lt;/p&gt;</description>
+      <description>&lt;p&gt;本文紀錄在 Ubuntu 上安裝 MuJoco 以及 mujoco_py 的方法。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -350,13 +350,13 @@ Invalid OpenStack Identity credentials.
     </item>
     
     <item>
-      <title>暴力啟用 gitLab user</title>
+      <title>暴力啟用 gitlab user</title>
       <link>https://maple52046.github.io/posts/force-confirm-gitlab-user/</link>
       <pubDate>Fri, 27 Mar 2015 15:38:23 +0800</pubDate>
       
       <guid>https://maple52046.github.io/posts/force-confirm-gitlab-user/</guid>
       <description>&lt;p&gt;下這個標題不知道是不是很奇怪XD&lt;/p&gt;
-&lt;p&gt;最近在為自己的 team 開發一個 management 系統，於是決定在 GitLAB 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&amp;hellip;不小心找了個旁門左道 XD&lt;/p&gt;</description>
+&lt;p&gt;最近在為自己的 team 開發一個 management 系統，於是決定在 gitlab 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&amp;hellip;不小心找了個旁門左道 XD&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -374,7 +374,24 @@ Invalid OpenStack Identity credentials.
       <pubDate>Thu, 05 Mar 2015 17:05:00 +0000</pubDate>
       
       <guid>https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/</guid>
-      <description>&lt;p&gt;雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 &lt;a href=&#34;https://github.com/openwrt/packages/tree/master/net/openvswitch&#34;&gt;Open vSwitch&lt;/a&gt; 的身影。但是實際上，在官方的 &lt;a href=&#34;https://downloads.openwrt.org/barrier_breaker/14.07/&#34;&gt;repository&lt;/a&gt; 中並沒有 Open vSwitch。因此決定自行編譯。&lt;/p&gt;</description>
+      <description>&lt;p&gt;雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 &lt;a href=&#34;https://github.com/openwrt/packages/tree/master/net/openvswitch&#34;&gt;Open vSwitch&lt;/a&gt; 的身影。但是實際上，在官方的 &lt;a href=&#34;https://downloads.openwrt.org/barrier_breaker/14.07/&#34;&gt;repository&lt;/a&gt; 中並沒有 Open vSwitch。因此決定自行編譯。&lt;/p&gt;
+&lt;h1 id=&#34;實驗環境&#34;&gt;&lt;strong&gt;實驗環境&lt;/strong&gt;&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;編譯環境&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;
+&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;
+&lt;li&gt;Open vSwitch version: 2.3.1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;路由器&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.tp-link.tw/products/details/?model=TL-WR1043ND&#34;&gt;TP-Link TL-WR1043ND&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description>
     </item>
     
     <item>
