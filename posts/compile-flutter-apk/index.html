@@ -255,7 +255,7 @@ Android (phone)
 </span></span></code></pre></div><p>照步驟改完重新編譯即可。</p>
 <h2 id="openjdk-version">OpenJDK Version</h2>
 <p>第一個錯誤訊息沒有保存到，依稀記得是類似語法錯誤。猜測可能是 jdk 版本太老舊。但是更新了系統的 jdk 依然沒效，仔細看編譯的過程才發現 flutter 是使用 android studio 自帶的 jdk，而非 system path 裡的。</p>
-<p>解決的方法：</p>
+<p>我的解決方法：</p>
 <ol>
 <li>打開 <a href="https://docs.gradle.org/current/userguide/compatibility.html">Compatibility Matrix</a> 查詢當前 gradle 對應的 jdk 版本：</li>
 </ol>
@@ -313,6 +313,9 @@ Android (phone)
 <ol start="2">
 <li>安裝完 OpenJDK 之後，接下來就是更換 jdk。這裡提供我的(有點暴力)作法:</li>
 </ol>
+<blockquote>
+<p>注意: 替換掉 OpenJDK 版本可能會讓 Android Studio 無法使用，因此如果習慣用 Android Studio 開發的朋友請謹慎。另外最好也做一個備份。</p>
+</blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /Applications/Android Studio.app/Contents/jre
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># tar jcf ~/Downloads/AndroidStudioJDK_backup.tar.bz2 Contents/</span>
 </span></span><span style="display:flex;"><span>rm -rf Contents
