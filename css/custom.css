@@ -6,3 +6,7 @@
 img {
 	width: 100%;
 }
+
+body{
+  font-family: 'cwTeXYen','Noto Sans TC',sans-serif !important;
+}
