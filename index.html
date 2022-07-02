@@ -176,6 +176,47 @@ if (!doNotTrack) {
         
         <article>
             <h2>
+                <a href="https://maple52046.github.io/posts/using-nestedscrollview-and-valuelistener-in-flutter/">
+                    在 Flutter 中使用 NestedScrollView 與 CustomScrollView
+                </a>
+            </h2>
+            <div>
+                <p><p>最近在修改 app 的個人頁，遇到的需求：</p>
+<ol>
+<li>Tab bar 切出圓角</li>
+<li>Tab bar 可以滑動，滑到 app bar 的時候固定住</li>
+</ol>
+<p>用文字說不太清楚，下面直接看圖：</p>
+<p><img src="https://i.imgur.com/CxZ6jxL.png" alt="Imgur"></p>
+<p>頁面的 components 有：</p>
+<ul>
+<li>App bar</li>
+<li>個人資訊區</li>
+<li>Tab bar</li>
+<li>Tab view</li>
+</ul>
+<p>Tab view 裡是可滾動的內容, 這裡放了兩種類型：grid 與 list。
+當用戶向上滑動時，app bar 固定不動，tab bar 往上滑動到 tab bar 時固定不動，下方 tab view 保持可滑動。如下圖：</p>
+<p><img src="https://i.imgur.com/o63DCh9.png" alt="Imgur"></p></p>
+                
+                <p><a href="/posts/using-nestedscrollview-and-valuelistener-in-flutter/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>July 1, 2022</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/flutter">#flutter</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
                 <a href="https://maple52046.github.io/posts/compile-flutter-apk/">
                     編譯 Flutter APK
                 </a>
@@ -477,36 +518,6 @@ sudo apt install oracle-java9-installer
                     <a class="tag" href="/tags/matlab">#matlab</a>
                 
                     <a class="tag" href="/tags/opencv">#opencv</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/notes-openstack-heat-usage/">
-                    OpenStack Heat 使用筆記
-                </a>
-            </h2>
-            <div>
-                <p><p>Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。</p>
-<p>Heat 用 <strong>resource</strong> 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 <code>default</code>。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 <code>default</code> 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。</p>
-<p>Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 <code>block_device_mapping</code> 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。</p>
-<p>這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 <strong>resource</strong>，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 <strong>state</strong> 來配置 Linux。</p></p>
-                
-                <p><a href="/posts/notes-openstack-heat-usage/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>June 30, 2016</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/heat">#heat</a>
-                
-                    <a class="tag" href="/tags/openstack">#openstack</a>
                 
             
             </div> 

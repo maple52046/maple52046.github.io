@@ -176,6 +176,40 @@ if (!doNotTrack) {
         
         <article>
             <h2>
+                <a href="https://maple52046.github.io/posts/openstack-glance-image-list-401/">
+                    OpenStack Glance Image-list 401
+                </a>
+            </h2>
+            <div>
+                <p><p>架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。</p>
+<pre tabindex="0"><code>root@localhost:~# glance --debug image-list
+curl -i -X GET -H &#39;User-Agent: python-glanceclient&#39; -H &#39;Content-Type: application/octet-stream&#39; -H &#39;Accept-Encoding: gzip, deflate, compress&#39; -H &#39;Accept: */*&#39; -H &#39;X-Auth-Token: ***&#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;sort_dir=asc&amp;limit=20
+Request returned failure status 401.
+Invalid OpenStack Identity credentials.
+</code></pre></p>
+                
+                <p><a href="/posts/openstack-glance-image-list-401/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>April 8, 2015</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/glance">#glance</a>
+                
+                    <a class="tag" href="/tags/juno">#juno</a>
+                
+                    <a class="tag" href="/tags/openstack">#openstack</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
                 <a href="https://maple52046.github.io/posts/force-confirm-gitlab-user/">
                     暴力啟用 gitlab user
                 </a>
@@ -433,46 +467,6 @@ if (!doNotTrack) {
                 
                     <a class="tag" href="/tags/vsftpd">#vsftpd</a>
                 
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/">
-                    Install Instiki on Ubuntu 12.04
-                </a>
-            </h2>
-            <div>
-                <p><p>Instiki 是一個用 Ruby 開發的 wiki 系統，特色是非常的 light weight、可以使用 <strong>Markdown</strong> 語法等。詳細介紹就暫時略過。</p>
-<p>本次安裝的環境如下:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Operating system</th>
-<th style="text-align:center">Ruby version</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Ubuntu 12.04</td>
-<td style="text-align:center">1.9.1 (install by RVM)</td>
-</tr>
-</tbody>
-</table>
-<h1 id="安裝步驟">安裝步驟</h1>
-<h2 id="configure-ruby-environment">Configure Ruby environment</h2>
-<p>Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻煩，因此決定採用跟官網一樣的版本。
-不過 Ubuntu 預設的版本已經是 1.9.3 (?) 以上了，況且根據之前搞 CloudFoundry 的經驗，Ruby 的版本最好還是用 RVM 來進行管理。</p></p>
-                
-                <p><a href="/posts/install-instiki-on-ubuntu-precise/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>September 25, 2014</time>
-
-            
             
             </div> 
            

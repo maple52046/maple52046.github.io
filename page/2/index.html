@@ -176,6 +176,36 @@ if (!doNotTrack) {
         
         <article>
             <h2>
+                <a href="https://maple52046.github.io/posts/notes-openstack-heat-usage/">
+                    OpenStack Heat 使用筆記
+                </a>
+            </h2>
+            <div>
+                <p><p>Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。</p>
+<p>Heat 用 <strong>resource</strong> 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 <code>default</code>。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 <code>default</code> 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。</p>
+<p>Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 <code>block_device_mapping</code> 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。</p>
+<p>這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 <strong>resource</strong>，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 <strong>state</strong> 來配置 Linux。</p></p>
+                
+                <p><a href="/posts/notes-openstack-heat-usage/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>June 30, 2016</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/heat">#heat</a>
+                
+                    <a class="tag" href="/tags/openstack">#openstack</a>
+                
+            
+            </div> 
+           
+        </article>
+        
+        <article>
+            <h2>
                 <a href="https://maple52046.github.io/posts/change-comment-color-in-vim/">
                     調整 vim 註解顏色
                 </a>
@@ -477,40 +507,6 @@ Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
                     <a class="tag" href="/tags/openstack">#openstack</a>
                 
                     <a class="tag" href="/tags/ubuntu">#ubuntu</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/openstack-glance-image-list-401/">
-                    OpenStack Glance Image-list 401
-                </a>
-            </h2>
-            <div>
-                <p><p>架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。</p>
-<pre tabindex="0"><code>root@localhost:~# glance --debug image-list
-curl -i -X GET -H &#39;User-Agent: python-glanceclient&#39; -H &#39;Content-Type: application/octet-stream&#39; -H &#39;Accept-Encoding: gzip, deflate, compress&#39; -H &#39;Accept: */*&#39; -H &#39;X-Auth-Token: ***&#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;sort_dir=asc&amp;limit=20
-Request returned failure status 401.
-Invalid OpenStack Identity credentials.
-</code></pre></p>
-                
-                <p><a href="/posts/openstack-glance-image-list-401/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>April 8, 2015</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/glance">#glance</a>
-                
-                    <a class="tag" href="/tags/juno">#juno</a>
-                
-                    <a class="tag" href="/tags/openstack">#openstack</a>
                 
             
             </div> 
