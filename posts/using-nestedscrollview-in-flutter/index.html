@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+
+<html lang="zh-tw">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no"/>
+
+    <title>在 Flutter 中使用 NestedScrollView 與 CustomScrollView | 世界的盡頭</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <meta name="theme-color" content="#ffffff">
+    <meta content="flutter customscrollview, flutter nestedscrollview, flutter sliver tabbar" name="keywords">
+
+    
+    
+    
+    <link rel="stylesheet" href="https://maple52046.github.io/css/main.min.e34415025514319010e741089e6920454053855755ba465f66943ad102d2cb08.css"/>
+
+    
+    
+    
+    
+
+    
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosanstc.css">
+    <link type="text/css" rel="stylesheet" href="/css/custom.css">
+
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-GC1G5TJVGY', { 'anonymize_ip': false });
+}
+</script>
+
+      <meta property="og:title" content="在 Flutter 中使用 NestedScrollView 與 CustomScrollView" />
+<meta property="og:description" content="最近在修改 app 的個人頁，遇到的需求：
+
+Tab bar 切出圓角
+Tab bar 可以滑動，滑到 app bar 的時候固定住
+
+用文字說不太清楚，下面直接看圖：
+
+頁面的 components 有：
+
+App bar
+個人資訊區
+Tab bar
+Tab view
+
+Tab view 裡是可滾動的內容, 這裡放了兩種類型：grid 與 list。
+當用戶向上滑動時，app bar 固定不動，tab bar 往上滑動到 tab bar 時固定不動，下方 tab view 保持可滑動。如下圖：
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/using-nestedscrollview-in-flutter/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-01T19:30:23+08:00" />
+<meta property="article:modified_time" content="2022-07-01T19:30:23+08:00" /><meta property="og:site_name" content="世界的盡頭" />
+
+</head>
+
+    <body>
+        
+<nav>
+  <header>
+    <div class="site-title">
+        <a href="/">世界的盡頭</a>
+    </div>  
+</header>
+
+  <div class="nav-menu">
+  
+  <a class="color-link nav-link" href="https://maple52046.github.io/index.xml" target="_blank" rel="noopener" type="application/rss+xml">RSS</a>
+</div>
+<footer class="footer">
+	<div class="social-icons">
+        
+    <a class="social-icon" href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="Email">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M25.2794292,5.59128519 L14,16.8707144 L2.72057081,5.59128519 C3.06733103,5.30237414 3.51336915,5.12857603 4,5.12857603 L24,5.12857603 C24.4866308,5.12857603 24.932669,5.30237414 25.2794292,5.59128519 Z M25.9956978,6.99633695 C25.998551,7.04004843 26,7.08414302 26,7.12857603 L26,20.871424 C26,21.0798433 25.9681197,21.2808166 25.9089697,21.4697335 L18.7156355,14.2763993 L25.9956978,6.99633695 Z M24.9498374,22.6319215 C24.6672737,22.7846939 24.3437653,22.871424 24,22.871424 L4,22.871424 C3.5268522,22.871424 3.09207889,22.7071233 2.74962118,22.432463 L10.0950247,15.0870594 L13.9848068,18.9768415 L14.1878486,18.7737996 L14.2030419,18.7889929 L17.6549753,15.3370594 L24.9498374,22.6319215 Z M2.00810114,21.0526627 C2.00273908,20.9929669 2,20.9325153 2,20.871424 L2,7.12857603 C2,7.08414302 2.00144896,7.04004843 2.00430222,6.99633695 L9.03436454,14.0263993 L2.00810114,21.0526627 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.instagram.com/bill0155/" target="_blank" rel="noopener" title="Instagram">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+             <path d="M14.0000238,2.00378571 C17.2579762,2.00378571 17.6665,2.01759524 18.9460238,2.07597619 C20.222881,2.13421429 21.0949286,2.33702381 21.8579762,2.63359524 C22.6468333,2.94011905 23.3158333,3.35030952 23.9827857,4.01721429 C24.6496905,4.68416667 25.059881,5.35316667 25.3664524,6.14202381 C25.6629762,6.90507143 25.8657857,7.77711905 25.9240238,9.05397619 C25.9824048,10.3335 25.9962143,10.7420238 25.9962143,14.0000238 C25.9962143,17.2579762 25.9824048,17.6665 25.9240238,18.9460238 C25.8657857,20.222881 25.6629762,21.0949286 25.3664524,21.8579762 C25.059881,22.6468333 24.6496905,23.3158333 23.9827857,23.9827857 C23.3158333,24.6496905 22.6468333,25.059881 21.8579762,25.3664524 C21.0949286,25.6629762 20.222881,25.8657857 18.9460238,25.9240238 C17.6665,25.9824048 17.2579762,25.9962143 14.0000238,25.9962143 C10.7420238,25.9962143 10.3335,25.9824048 9.05397619,25.9240238 C7.77711905,25.8657857 6.90507143,25.6629762 6.14202381,25.3664524 C5.35316667,25.059881 4.68416667,24.6496905 4.01721429,23.9827857 C3.35030952,23.3158333 2.94011905,22.6468333 2.63359524,21.8579762 C2.33702381,21.0949286 2.13421429,20.222881 2.07597619,18.9460238 C2.01759524,17.6665 2.00378571,17.2579762 2.00378571,14.0000238 C2.00378571,10.7420238 2.01759524,10.3335 2.07597619,9.05397619 C2.13421429,7.77711905 2.33702381,6.90507143 2.63359524,6.14202381 C2.94011905,5.35316667 3.35030952,4.68416667 4.01721429,4.01721429 C4.68416667,3.35030952 5.35316667,2.94011905 6.14202381,2.63359524 C6.90507143,2.33702381 7.77711905,2.13421429 9.05397619,2.07597619 C10.3335,2.01759524 10.7420238,2.00378571 14.0000238,2.00378571 Z M14.0000238,4.1652619 C10.796881,4.1652619 10.4174524,4.1775 9.1525,4.23521429 C7.98288095,4.28854762 7.34769048,4.48397619 6.92497619,4.6482619 C6.36502381,4.86588095 5.96540476,5.12583333 5.54564286,5.54564286 C5.12583333,5.96540476 4.86588095,6.36502381 4.6482619,6.92497619 C4.48397619,7.34769048 4.28854762,7.98288095 4.23521429,9.1525 C4.1775,10.4174524 4.1652619,10.796881 4.1652619,14.0000238 C4.1652619,17.203119 4.1775,17.5825476 4.23521429,18.8475 C4.28854762,20.017119 4.48397619,20.6523095 4.6482619,21.0750238 C4.86588095,21.6349762 5.12588095,22.0345952 5.54564286,22.4543571 C5.96540476,22.8741667 6.36502381,23.134119 6.92497619,23.3517381 C7.34769048,23.5160238 7.98288095,23.7114524 9.1525,23.7647857 C10.4173095,23.8225 10.7966429,23.8347381 14.0000238,23.8347381 C17.2033571,23.8347381 17.5827381,23.8225 18.8475,23.7647857 C20.017119,23.7114524 20.6523095,23.5160238 21.0750238,23.3517381 C21.6349762,23.134119 22.0345952,22.8741667 22.4543571,22.4543571 C22.8741667,22.0345952 23.134119,21.6349762 23.3517381,21.0750238 C23.5160238,20.6523095 23.7114524,20.017119 23.7647857,18.8475 C23.8225,17.5825476 23.8347381,17.203119 23.8347381,14.0000238 C23.8347381,10.796881 23.8225,10.4174524 23.7647857,9.1525 C23.7114524,7.98288095 23.5160238,7.34769048 23.3517381,6.92497619 C23.134119,6.36502381 22.8741667,5.96540476 22.4543571,5.54564286 C22.0345952,5.12583333 21.6349762,4.86588095 21.0750238,4.6482619 C20.6523095,4.48397619 20.017119,4.28854762 18.8475,4.23521429 C17.5825476,4.1775 17.203119,4.1652619 14.0000238,4.1652619 Z M14.0000238,17.9987381 C16.2084524,17.9987381 17.9987381,16.2084524 17.9987381,14.0000238 C17.9987381,11.7915476 16.2084524,10.0012619 14.0000238,10.0012619 C11.7915476,10.0012619 10.0012619,11.7915476 10.0012619,14.0000238 C10.0012619,16.2084524 11.7915476,17.9987381 14.0000238,17.9987381 Z M14.0000238,7.83978571 C17.4022143,7.83978571 20.1602143,10.5977857 20.1602143,14.0000238 C20.1602143,17.4022143 17.4022143,20.1602143 14.0000238,20.1602143 C10.5977857,20.1602143 7.83978571,17.4022143 7.83978571,14.0000238 C7.83978571,10.5977857 10.5977857,7.83978571 14.0000238,7.83978571 Z M21.8431667,7.59640476 C21.8431667,8.39145238 21.1986429,9.03592857 20.4035952,9.03592857 C19.6085952,9.03592857 18.9640714,8.39145238 18.9640714,7.59640476 C18.9640714,6.80135714 19.6085952,6.15683333 20.4035952,6.15683333 C21.1986429,6.15683333 21.8431667,6.80135714 21.8431667,7.59640476 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.linkedin.com/in/kuchenhao" target="_blank" rel="noopener" title="LinkedIn">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M2,3.654102 C2,2.69908141 2.79442509,1.92397846 3.77383592,1.92397846 L24.2261641,1.92397846 C25.2058917,1.92397846 26,2.69908141 26,3.654102 L26,24.3462148 C26,25.3015521 25.2058917,26.0760215 24.2261641,26.0760215 L3.77383592,26.0760215 C2.79442509,26.0760215 2,25.3015521 2,24.3465315 L2,3.65378524 L2,3.654102 Z M9.27526132,22.1415901 L9.27526132,11.2356668 L5.65030092,11.2356668 L5.65030092,22.1415901 L9.27557808,22.1415901 L9.27526132,22.1415901 Z M7.46341463,9.74691162 C8.72727273,9.74691162 9.51409566,8.90940767 9.51409566,7.86284447 C9.49033893,6.79252455 8.72727273,5.97846056 7.48748812,5.97846056 C6.24675325,5.97846056 5.43649034,6.79252455 5.43649034,7.86284447 C5.43649034,8.90940767 6.22299652,9.74691162 7.4396579,9.74691162 L7.46309788,9.74691162 L7.46341463,9.74691162 Z M11.2815965,22.1415901 L14.9062401,22.1415901 L14.9062401,16.0519481 C14.9062401,15.7263225 14.9299968,15.4000634 15.0256573,15.1675641 C15.2876148,14.5159962 15.8840672,13.8416218 16.8856509,13.8416218 C18.1970225,13.8416218 18.7218879,14.8416218 18.7218879,16.3078872 L18.7218879,22.1415901 L22.3465315,22.1415901 L22.3465315,15.8885017 C22.3465315,12.5388027 20.5584416,10.9800443 18.1735825,10.9800443 C16.2182452,10.9800443 15.3595185,12.072854 14.8824834,12.8172315 L14.9065569,12.8172315 L14.9065569,11.2359835 L11.2819132,11.2359835 C11.3291099,12.2591067 11.2815965,22.1419069 11.2815965,22.1419069 L11.2815965,22.1415901 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <a class="social-icon" href="https://github.com/maple52046" target="_blank" rel="noopener" title="GitHub">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M13.9988029,1.32087331 C6.82105037,1.32087331 1,7.14112562 1,14.3212723 C1,20.0649109 4.72454649,24.9370678 9.89038951,26.6560892 C10.5408085,26.7757983 10.7778323,26.374374 10.7778323,26.0296121 C10.7778323,25.7215609 10.7666595,24.9035493 10.760275,23.8189856 C7.14426471,24.6042767 6.38131925,22.0760223 6.38131925,22.0760223 C5.78995672,20.5740732 4.93762853,20.1742451 4.93762853,20.1742451 C3.75729765,19.3682044 5.02701126,19.3841656 5.02701126,19.3841656 C6.33183953,19.4759425 7.01817121,20.7241085 7.01817121,20.7241085 C8.17775254,22.7104801 10.0611744,22.1366749 10.8017741,21.8038838 C10.919887,20.9643246 11.2558703,20.3913175 11.6269683,20.066507 C8.74038491,19.7385043 5.70536235,18.6228163 5.70536235,13.6413251 C5.70536235,12.2223743 6.21213051,11.0611968 7.04370914,10.1530044 C6.90963504,9.82420367 6.46351945,8.50181809 7.17139875,6.71256734 C7.17139875,6.71256734 8.26234691,6.36301702 10.7459099,8.04532771 C11.78259,7.75642995 12.8950858,7.61277914 14.000399,7.60719272 C15.1049142,7.61277914 16.2166119,7.75642995 17.2548881,8.04532771 C19.736855,6.36301702 20.8262071,6.71256734 20.8262071,6.71256734 C21.5356825,8.50181809 21.0895669,9.82420367 20.9562909,10.1530044 C21.7894656,11.0611968 22.2922435,12.2223743 22.2922435,13.6413251 C22.2922435,18.6355852 19.2524325,19.734514 16.3570705,20.0561322 C16.8231376,20.4575564 17.2389269,21.2508282 17.2389269,22.4638795 C17.2389269,24.2012564 17.2229657,25.603448 17.2229657,26.0296121 C17.2229657,26.3775663 17.4575954,26.7821827 18.116793,26.6552912 C23.2786458,24.9322794 27,20.0633148 27,14.3212723 C27,7.14112562 21.1789496,1.32087331 13.9988029,1.32087331"></path>
+        </svg>
+    </a>
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+</div>
+
+
+
+
+    <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
+    <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
+
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
+</footer>
+
+</nav>
+
+        <div id="content" class="content-container">
+        
+
+<h1 class="post-title">在 Flutter 中使用 NestedScrollView 與 CustomScrollView</h1>
+    
+    <time>July 1, 2022</time>
+    
+    <div class="article-content">
+        <p>
+        <p>最近在修改 app 的個人頁，遇到的需求：</p>
+<ol>
+<li>Tab bar 切出圓角</li>
+<li>Tab bar 可以滑動，滑到 app bar 的時候固定住</li>
+</ol>
+<p>用文字說不太清楚，下面直接看圖：</p>
+<p><img src="https://i.imgur.com/CxZ6jxL.png" alt="Imgur"></p>
+<p>頁面的 components 有：</p>
+<ul>
+<li>App bar</li>
+<li>個人資訊區</li>
+<li>Tab bar</li>
+<li>Tab view</li>
+</ul>
+<p>Tab view 裡是可滾動的內容, 這裡放了兩種類型：grid 與 list。
+當用戶向上滑動時，app bar 固定不動，tab bar 往上滑動到 tab bar 時固定不動，下方 tab view 保持可滑動。如下圖：</p>
+<p><img src="https://i.imgur.com/o63DCh9.png" alt="Imgur"></p>
+<p>放上我的 demo project 以供參考: <a href="https://github.com/maple52046/demo20220701">demo20220701</a>。</p>
+<h1 id="app-bar-與個人資訊區">App bar 與個人資訊區</h1>
+<p>一般在網上看到的範例都是用 <a href="https://api.flutter.dev/flutter/material/SliverAppBar-class.html">SliverAppBar</a>，設定 <code>pinned</code> 為 <code>true</code>，然後將個人資訊區放到 <code>flexibleSpace</code>。</p>
+<p>但是實作的過程中發現，這個方法非常的不好用。原因在於 <code>flexibleSpace</code> 還需要搭配設定 <code>expandedHeight</code> 去指定高度。而我的個人資訊中包含了非固定長度的自介，因此就需要提前計算自介區的高度然後調整 <code>expandedHeight</code>。</p>
+<p>為了省麻煩，我決定將自介包裝成 sliver 放到 appbar 底下。</p>
+<blockquote>
+<p>謎之音: 如果 <code>flexibleSpace</code> 只放頭像跟統計，那為何不乾脆放棄 <code>flexibleSpace</code>，全部都弄成 sliver，這樣連 <code>expandedHeight</code> 都可以省略了？</p>
+</blockquote>
+<p>既然 app bar 與 tab bar 之間有 widgets，那麼 tab bar 就不能放到 app bar 的 <code>bottom</code>，它必須也是獨立的 sliver。</p>
+<blockquote>
+<p>謎之音：既然 app bar 需要一直固定在上方，那現在還有需要使用 SliverAppBar 嗎？</p>
+</blockquote>
+<h1 id="sliver-tab-bar">Sliver Tab bar</h1>
+<p>Flutter 的 <a href="https://api.flutter.dev/flutter/material/TabBar-class.html">TabBar</a> 並不是一個 sliver widget，再加上我需要讓 tab bar 在滑動的過程中可以固定到上方，因此就需要搭配使用 <code>SliverPersistentHeader</code>。</p>
+<p><code>SliverPersistentHeader</code> 需要帶入 <code>SliverPersistentHeaderDelegate</code> 類型的 <code>delegate</code>。這裡我參考網路上的範例，做了一份自己的：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/material.dart&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SliverTabBarDelegate</span> <span style="color:#66d9ef">extends</span> SliverPersistentHeaderDelegate {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> Color backgroundColor;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> TabBar tabBar;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> Radius topRadius;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> SliverTabBarDelegate({
+</span></span><span style="display:flex;"><span>    required <span style="color:#66d9ef">this</span>.tabBar,
+</span></span><span style="display:flex;"><span>    required <span style="color:#66d9ef">this</span>.backgroundColor,
+</span></span><span style="display:flex;"><span>    required <span style="color:#66d9ef">this</span>.topRadius,
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">double</span> <span style="color:#66d9ef">get</span> minExtent <span style="color:#f92672">=&gt;</span> tabBar.preferredSize.height;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">double</span> <span style="color:#66d9ef">get</span> maxExtent <span style="color:#f92672">=&gt;</span> tabBar.preferredSize.height;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(context, shrinkOffset, overlapsContent) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Container(
+</span></span><span style="display:flex;"><span>      decoration: BoxDecoration(
+</span></span><span style="display:flex;"><span>        borderRadius: BorderRadius.only(
+</span></span><span style="display:flex;"><span>          topLeft: topRadius,
+</span></span><span style="display:flex;"><span>          topRight: topRadius,
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        color: backgroundColor,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      child: tabBar,
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">bool</span> shouldRebuild(SliverTabBarDelegate oldDelegate) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> tabBar <span style="color:#f92672">!=</span> oldDelegate.tabBar;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
+<li>在參數中直接帶入 <code>TabBar</code> widget，然後高度就直接從 widget 中抓就可以了。</li>
+<li>業務需求需要切 tab bar 的圓角，因此參數額外加上 radius，然後在 <code>build</code> 中設定 border radius。</li>
+<li>另外帶入 tab bar 本身的底色，以便於區分 scaffold 後面的背景色。</li>
+</ul>
+<p>有了 delegate 之後，就可以把 tab bar 製作成 sliver widget：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>SliverPersistentHeader(
+</span></span><span style="display:flex;"><span>  delegate: SliverTabBarDelegate(
+</span></span><span style="display:flex;"><span>    tabBar: TabBar(controller: _tabController, tabs: _tabs),
+</span></span><span style="display:flex;"><span>    topRadius: _topRadius,
+</span></span><span style="display:flex;"><span>    backgroundColor: Colors.white,
+</span></span><span style="display:flex;"><span>  ),
+</span></span><span style="display:flex;"><span>  pinned: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><h1 id="customscrollview">CustomScrollView</h1>
+<p>看一下目前為止的架構：</p>
+<p><img src="https://i.imgur.com/nv3RxRf.png" alt="Imgur"></p>
+<p>AppBar 是不是 sliver 已經無所謂了，個人還是喜歡原本的方式，因此不採用 SliverAppBar；Tab view 是不是 sliver 則視實作的方式決定。Profile 與 tab bar 則確定是 sliver widgets。</p>
+<p>這種場景一般會直接用 <a href="https://api.flutter.dev/flutter/widgets/CustomScrollView-class.html">CustomScrollView</a> 建構頁面。例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>SafeArea(
+</span></span><span style="display:flex;"><span>  bottom: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  child: DefaultTabController(
+</span></span><span style="display:flex;"><span>    initialIndex: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    length: _tabs.length,
+</span></span><span style="display:flex;"><span>    child: CustomScrollView(
+</span></span><span style="display:flex;"><span>      slivers: [
+</span></span><span style="display:flex;"><span>        SliverToBoxAdapter(
+</span></span><span style="display:flex;"><span>          child: Profile(bio: bio, socialStatisticData: statistic),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> SliverPersistentHeader(
+</span></span><span style="display:flex;"><span>          delegate: SliverTabBarDelegate(
+</span></span><span style="display:flex;"><span>            tabBar: TabBar(tabs: _tabs),
+</span></span><span style="display:flex;"><span>            topRadius: _topRadius,
+</span></span><span style="display:flex;"><span>            backgroundColor: Colors.white,
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>          pinned: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> SliverFillRemaining(
+</span></span><span style="display:flex;"><span>          child: ColoredBox(
+</span></span><span style="display:flex;"><span>            color: Color.fromRGBO(<span style="color:#ae81ff">234</span>, <span style="color:#ae81ff">236</span>, <span style="color:#ae81ff">238</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>            child: TabBarView(
+</span></span><span style="display:flex;"><span>              children: [
+</span></span><span style="display:flex;"><span>                ContentGrid(
+</span></span><span style="display:flex;"><span>                  itemCount: <span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>                  itemColor: Color.fromRGBO(<span style="color:#ae81ff">245</span>, <span style="color:#ae81ff">183</span>, <span style="color:#ae81ff">177</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>                ),
+</span></span><span style="display:flex;"><span>                ContentList(
+</span></span><span style="display:flex;"><span>                  itemCount: <span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>                  itemColor: Color.fromRGBO(<span style="color:#ae81ff">169</span>, <span style="color:#ae81ff">223</span>, <span style="color:#ae81ff">191</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>              ],
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>  ),
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>但是這樣做會產生兩個問題：</p>
+<ol>
+<li>Scrolling 被切成了兩部份: profile + tab bar、<code>TabBarView</code>。<code>TabBarView</code> 中的 grid 與 list 上下滑動不會一起帶動 tab bar，這樣使用起來體驗很奇怪；但是如果在 grid/list 裡指定 <code>physics: NeverScrollableScrollPhysics()</code> 則會造成列表無法捲動到底部。</li>
+<li>當 grid/list 往上滑時，本應該隱藏在 tab bar 後的內容，會出現在 tab bar 的圓角旁邊，這樣視覺上就很差：</li>
+</ol>
+<p><img src="https://i.imgur.com/pn0QAKU.jpg" alt="Imgur"></p>
+<h1 id="nestedscrollview--valuelistener">NestedScrollView + ValueListener</h1>
+<p>上面第一個問題很好解決，就是採用 <code>NestedScrollView</code>，將 profile 與 tab bar 放到 <code>headerSliverBuilder</code>；<code>TabBarView</code> 直接放在 <code>body</code> 中，不需要包裝成 sliver。同時，任何 <code>physics</code> 都不需要調整。</p>
+<p>但是第二個問題呢？ 我本來想到的解決方案是：當 grid/list 內容捲到 tab bar 後面時，就同時一起切圓角：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/material.dart&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;models/statistics.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;widgets/lists.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;widgets/grids.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;widgets/profiles.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;widgets/utils/scaffolds.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;widgets/utils/tabbars.dart&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> _tabs <span style="color:#f92672">=</span> [Tab(text: <span style="color:#e6db74">&#39;Grid&#39;</span>), Tab(text: <span style="color:#e6db74">&#39;List&#39;</span>)];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> _topRadius <span style="color:#f92672">=</span> Radius.circular(<span style="color:#ae81ff">40</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyHomePage</span> <span style="color:#66d9ef">extends</span> StatefulWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">String</span> bio;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">String</span> name;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> SocialStatisticData statistic;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> MyHomePage({
+</span></span><span style="display:flex;"><span>    required <span style="color:#66d9ef">this</span>.name,
+</span></span><span style="display:flex;"><span>    required <span style="color:#66d9ef">this</span>.bio,
+</span></span><span style="display:flex;"><span>    required <span style="color:#66d9ef">this</span>.statistic,
+</span></span><span style="display:flex;"><span>    Key<span style="color:#f92672">?</span> key,
+</span></span><span style="display:flex;"><span>  }) <span style="color:#f92672">:</span> <span style="color:#66d9ef">super</span>(key: key);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  State<span style="color:#f92672">&lt;</span>MyHomePage<span style="color:#f92672">&gt;</span> createState() <span style="color:#f92672">=&gt;</span> _MyHomePageState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">_MyHomePageState</span> <span style="color:#66d9ef">extends</span> State<span style="color:#f92672">&lt;</span>MyHomePage<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> ValueNotifier<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> _innerTabScrolled <span style="color:#f92672">=</span> ValueNotifier(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ColorfulScaffold(
+</span></span><span style="display:flex;"><span>      backgroundColor: <span style="color:#66d9ef">const</span> Color.fromRGBO(<span style="color:#ae81ff">250</span>, <span style="color:#ae81ff">250</span>, <span style="color:#ae81ff">250</span>, <span style="color:#ae81ff">0.3</span>),
+</span></span><span style="display:flex;"><span>      gradient: <span style="color:#66d9ef">const</span> LinearGradient(colors: [
+</span></span><span style="display:flex;"><span>        Color.fromRGBO(<span style="color:#ae81ff">247</span>, <span style="color:#ae81ff">220</span>, <span style="color:#ae81ff">111</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>        Color.fromRGBO(<span style="color:#ae81ff">243</span>, <span style="color:#ae81ff">156</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>      ]),
+</span></span><span style="display:flex;"><span>      appBar: AppBar(
+</span></span><span style="display:flex;"><span>        title: Text(widget.name),
+</span></span><span style="display:flex;"><span>        backgroundColor: Colors.transparent,
+</span></span><span style="display:flex;"><span>        elevation: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      body: SafeArea(
+</span></span><span style="display:flex;"><span>        bottom: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        child: DefaultTabController(
+</span></span><span style="display:flex;"><span>          length: _tabs.length,
+</span></span><span style="display:flex;"><span>          child: NestedScrollView(
+</span></span><span style="display:flex;"><span>            headerSliverBuilder: (context, innerBoxScrolled) {
+</span></span><span style="display:flex;"><span>              _innerTabScrolled.value <span style="color:#f92672">=</span> innerBoxScrolled;
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">return</span> [
+</span></span><span style="display:flex;"><span>                SliverToBoxAdapter(
+</span></span><span style="display:flex;"><span>                  child: Profile(
+</span></span><span style="display:flex;"><span>                    bio: widget.bio,
+</span></span><span style="display:flex;"><span>                    socialStatisticData: widget.statistic,
+</span></span><span style="display:flex;"><span>                  ),
+</span></span><span style="display:flex;"><span>                ),
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">const</span> SliverPersistentHeader(
+</span></span><span style="display:flex;"><span>                  delegate: SliverTabBarDelegate(
+</span></span><span style="display:flex;"><span>                    tabBar: TabBar(tabs: _tabs),
+</span></span><span style="display:flex;"><span>                    topRadius: _topRadius,
+</span></span><span style="display:flex;"><span>                    backgroundColor: Colors.white,
+</span></span><span style="display:flex;"><span>                  ),
+</span></span><span style="display:flex;"><span>                  pinned: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>                ),
+</span></span><span style="display:flex;"><span>              ];
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            body: ValueListenableBuilder<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>(
+</span></span><span style="display:flex;"><span>              valueListenable: _innerTabScrolled,
+</span></span><span style="display:flex;"><span>              builder: (_, value, child) <span style="color:#f92672">=&gt;</span> ClipRRect(
+</span></span><span style="display:flex;"><span>                borderRadius: value
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">?</span> <span style="color:#66d9ef">const</span> BorderRadius.only(
+</span></span><span style="display:flex;"><span>                        topLeft: _topRadius,
+</span></span><span style="display:flex;"><span>                        topRight: _topRadius,
+</span></span><span style="display:flex;"><span>                      )
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">:</span> BorderRadius.zero,
+</span></span><span style="display:flex;"><span>                child: child,
+</span></span><span style="display:flex;"><span>              ),
+</span></span><span style="display:flex;"><span>              child: <span style="color:#66d9ef">const</span> ColoredBox(
+</span></span><span style="display:flex;"><span>                color: Color.fromRGBO(<span style="color:#ae81ff">234</span>, <span style="color:#ae81ff">236</span>, <span style="color:#ae81ff">238</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>                child: TabBarView(
+</span></span><span style="display:flex;"><span>                  children: [
+</span></span><span style="display:flex;"><span>                    ContentGrid(
+</span></span><span style="display:flex;"><span>                      itemCount: <span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>                      itemColor: Color.fromRGBO(<span style="color:#ae81ff">245</span>, <span style="color:#ae81ff">183</span>, <span style="color:#ae81ff">177</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>                    ),
+</span></span><span style="display:flex;"><span>                    ContentList(
+</span></span><span style="display:flex;"><span>                      itemCount: <span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>                      itemColor: Color.fromRGBO(<span style="color:#ae81ff">169</span>, <span style="color:#ae81ff">223</span>, <span style="color:#ae81ff">191</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>                    )
+</span></span><span style="display:flex;"><span>                  ],
+</span></span><span style="display:flex;"><span>                ),
+</span></span><span style="display:flex;"><span>              ),
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>當 <code>innerBoxScrolled</code> 為 <code>true</code> 時，就是 body 上滑到 <code>headerSliverBuilder</code> 的 slivers 裡了。這時候就裁切 <code>TabBarView</code>。</p>
+<p>理論上應該可以完美解決我的需求。但是，夢想很美好，現實很殘酷，跑出來的結果變成：</p>
+<p><img src="https://i.imgur.com/uKzlCwN.gif" alt="Imgur"></p>
+<p>實際上是 body 觸及頂部的時候，<code>innerBoxScrolled</code> 才變更為 <code>true</code>。於是就變成這樣瞬間切圓角的搞笑畫面。</p>
+<blockquote>
+<p>這個是慢動作，滑快一點的話就看不出來了?! XD</p>
+</blockquote>
+<h1 id="nestedscrollview--customscrollview">NestedScrollView + CustomScrollView</h1>
+<p>在經過一番思考與嘗試之後，我將架構調整如下：</p>
+<p><img src="https://i.imgur.com/HU3Au11.png" alt="Imgur"></p>
+<ul>
+<li>外層依然使用 <code>NestedScrollView</code>，因為我們需要它來協調整體的 scrolling。</li>
+<li><code>headerSliverBuilder</code> 只放 profile</li>
+<li><code>TabBar</code> 與 <code>TabBarView</code> 同時放到 <code>NestedScrollView</code> 的 body 中。但是為了讓 <code>TabBar</code> 保留 pinned 到頂層的功能，因此這裡還是得要包裝成 sliver widget，然後連同 <code>TabBarView</code> (sliver) 一起放到 <code>CustomScrollView</code> 裡。</li>
+<li>直接剪裁 <code>CustomScrollView</code> 圓角即可，grid/list 都是 child，因此不會跑出去。</li>
+</ul>
+<p>這個方式有兩個重點：</p>
+<ul>
+<li><strong><code>NestedScrollView</code> 與 <code>CustomScrollView</code> 的 scroll controller 必須要設為同一個</strong></li>
+<li><strong><code>CustomScrollView</code> 的 <code>physics</code> 必須設為 <code>NeverScrollableScrollPhysics</code></strong></li>
+</ul>
+<p>兩者缺一不可，否則依然還是會有上下 scrolling 不同步的問題。</p>
+<p>最終的程式碼：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter/material.dart&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;models/statistics.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;widgets/lists.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;widgets/grids.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;widgets/profiles.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;widgets/utils/scaffolds.dart&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;widgets/utils/tabbars.dart&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> _tabs <span style="color:#f92672">=</span> [Tab(text: <span style="color:#e6db74">&#39;Grid&#39;</span>), Tab(text: <span style="color:#e6db74">&#39;List&#39;</span>)];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> _topRadius <span style="color:#f92672">=</span> Radius.circular(<span style="color:#ae81ff">20</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyHomePage</span> <span style="color:#66d9ef">extends</span> StatefulWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">String</span> bio;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">String</span> name;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> SocialStatisticData statistic;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> MyHomePage({
+</span></span><span style="display:flex;"><span>    required <span style="color:#66d9ef">this</span>.name,
+</span></span><span style="display:flex;"><span>    required <span style="color:#66d9ef">this</span>.bio,
+</span></span><span style="display:flex;"><span>    required <span style="color:#66d9ef">this</span>.statistic,
+</span></span><span style="display:flex;"><span>    Key<span style="color:#f92672">?</span> key,
+</span></span><span style="display:flex;"><span>  }) <span style="color:#f92672">:</span> <span style="color:#66d9ef">super</span>(key: key);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  State<span style="color:#f92672">&lt;</span>MyHomePage<span style="color:#f92672">&gt;</span> createState() <span style="color:#f92672">=&gt;</span> _MyHomePageState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">_MyHomePageState</span> <span style="color:#66d9ef">extends</span> State<span style="color:#f92672">&lt;</span>MyHomePage<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> _scrollController <span style="color:#f92672">=</span> ScrollController();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> dispose() {
+</span></span><span style="display:flex;"><span>    _scrollController.dispose();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">super</span>.dispose();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ColorfulScaffold(
+</span></span><span style="display:flex;"><span>      backgroundColor: <span style="color:#66d9ef">const</span> Color.fromRGBO(<span style="color:#ae81ff">250</span>, <span style="color:#ae81ff">250</span>, <span style="color:#ae81ff">250</span>, <span style="color:#ae81ff">0.3</span>),
+</span></span><span style="display:flex;"><span>      gradient: <span style="color:#66d9ef">const</span> LinearGradient(colors: [
+</span></span><span style="display:flex;"><span>        Color.fromRGBO(<span style="color:#ae81ff">247</span>, <span style="color:#ae81ff">220</span>, <span style="color:#ae81ff">111</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>        Color.fromRGBO(<span style="color:#ae81ff">243</span>, <span style="color:#ae81ff">156</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>      ]),
+</span></span><span style="display:flex;"><span>      appBar: AppBar(
+</span></span><span style="display:flex;"><span>        title: Text(widget.name),
+</span></span><span style="display:flex;"><span>        backgroundColor: Colors.transparent,
+</span></span><span style="display:flex;"><span>        elevation: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      body: SafeArea(
+</span></span><span style="display:flex;"><span>        bottom: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        child: NestedScrollView(
+</span></span><span style="display:flex;"><span>          controller: _scrollController,
+</span></span><span style="display:flex;"><span>          headerSliverBuilder: (context, _) <span style="color:#f92672">=&gt;</span> [
+</span></span><span style="display:flex;"><span>            SliverToBoxAdapter(
+</span></span><span style="display:flex;"><span>              child: Profile(
+</span></span><span style="display:flex;"><span>                bio: widget.bio,
+</span></span><span style="display:flex;"><span>                socialStatisticData: widget.statistic,
+</span></span><span style="display:flex;"><span>              ),
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>          ],
+</span></span><span style="display:flex;"><span>          body: ClipRRect(
+</span></span><span style="display:flex;"><span>            borderRadius: <span style="color:#66d9ef">const</span> BorderRadius.only(
+</span></span><span style="display:flex;"><span>              topLeft: _topRadius,
+</span></span><span style="display:flex;"><span>              topRight: _topRadius,
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>            child: ColoredBox(
+</span></span><span style="display:flex;"><span>              color: Colors.white,
+</span></span><span style="display:flex;"><span>              child: DefaultTabController(
+</span></span><span style="display:flex;"><span>                length: _tabs.length,
+</span></span><span style="display:flex;"><span>                child: CustomScrollView(
+</span></span><span style="display:flex;"><span>                  physics: <span style="color:#66d9ef">const</span> NeverScrollableScrollPhysics(),
+</span></span><span style="display:flex;"><span>                  controller: _scrollController,
+</span></span><span style="display:flex;"><span>                  slivers: <span style="color:#66d9ef">const</span> [
+</span></span><span style="display:flex;"><span>                    SliverPersistentHeader(
+</span></span><span style="display:flex;"><span>                      delegate: SliverTabBarDelegate(
+</span></span><span style="display:flex;"><span>                        tabBar: TabBar(tabs: _tabs),
+</span></span><span style="display:flex;"><span>                        topRadius: Radius.zero,
+</span></span><span style="display:flex;"><span>                        backgroundColor: Colors.white,
+</span></span><span style="display:flex;"><span>                      ),
+</span></span><span style="display:flex;"><span>                      pinned: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>                    ),
+</span></span><span style="display:flex;"><span>                    SliverTabBarView(
+</span></span><span style="display:flex;"><span>                      color: Color.fromRGBO(<span style="color:#ae81ff">234</span>, <span style="color:#ae81ff">236</span>, <span style="color:#ae81ff">238</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>                      children: [
+</span></span><span style="display:flex;"><span>                        ContentGrid(
+</span></span><span style="display:flex;"><span>                          itemCount: <span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>                          itemColor: Color.fromRGBO(<span style="color:#ae81ff">245</span>, <span style="color:#ae81ff">183</span>, <span style="color:#ae81ff">177</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>                        ),
+</span></span><span style="display:flex;"><span>                        ContentList(
+</span></span><span style="display:flex;"><span>                          itemCount: <span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>                          itemColor: Color.fromRGBO(<span style="color:#ae81ff">169</span>, <span style="color:#ae81ff">223</span>, <span style="color:#ae81ff">191</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>                        )
+</span></span><span style="display:flex;"><span>                      ],
+</span></span><span style="display:flex;"><span>                    ),
+</span></span><span style="display:flex;"><span>                  ],
+</span></span><span style="display:flex;"><span>                ),
+</span></span><span style="display:flex;"><span>              ),
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>最終的成果：</p>
+<p><img src="https://i.imgur.com/m50Xqsz.gif" alt="Imgur"></p>
+<h1 id="參考資料">參考資料</h1>
+<ul>
+<li><a href="https://book.flutterchina.club/chapter6/nestedscrollview.html#_6-12-1-nestedscrollview">嵌套可滚动组件 NestedScrollView</a></li>
+<li><a href="https://abhishekdoshi26.medium.com/rebuild-your-widget-without-setstate-valuenotifier-bd7c1bf7a96b">Rebuild your widget without setState — ValueNotifier!</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1516957">神奇的ScrollPhysics与Simulation</a></li>
+<li><a href="https://www.jianshu.com/p/1904a1657522">flutter SliverAppBar + Tabbar + TabView使用</a></li>
+<li><a href="https://stackoverflow.com/questions/68640078/tabbarview-inside-sliver-with-stickyheader">TabBarView inside Sliver with StickyHeader</a></li>
+</ul>
+        </p>
+    </div>
+
+    
+
+        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
+        <script type='text/javascript'>
+            const kofiId = 'maple52046';
+            kofiwidget2.init('Support Me on Ko-fi', '#29abe0', kofiId);
+            kofiwidget2.draw();
+        </script> 
+
+    
+
+    <div class="page-footer">
+        
+        <hr class="footer-divider">
+        
+            <a class="tag" href="/tags/flutter">#flutter</a>
+        
+      
+    </div>
+
+    
+        <div id="utterance_thread">
+        <script
+            async
+            src="https://utteranc.es/client.js"
+            repo="maple52046/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+        >
+        </script>
+        </div>
+    
+
+    
+
+
+        
+        </div>
+        <footer class="footer-mobile">
+	<div class="social-icons">
+        
+    <a class="social-icon" href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="Email">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M25.2794292,5.59128519 L14,16.8707144 L2.72057081,5.59128519 C3.06733103,5.30237414 3.51336915,5.12857603 4,5.12857603 L24,5.12857603 C24.4866308,5.12857603 24.932669,5.30237414 25.2794292,5.59128519 Z M25.9956978,6.99633695 C25.998551,7.04004843 26,7.08414302 26,7.12857603 L26,20.871424 C26,21.0798433 25.9681197,21.2808166 25.9089697,21.4697335 L18.7156355,14.2763993 L25.9956978,6.99633695 Z M24.9498374,22.6319215 C24.6672737,22.7846939 24.3437653,22.871424 24,22.871424 L4,22.871424 C3.5268522,22.871424 3.09207889,22.7071233 2.74962118,22.432463 L10.0950247,15.0870594 L13.9848068,18.9768415 L14.1878486,18.7737996 L14.2030419,18.7889929 L17.6549753,15.3370594 L24.9498374,22.6319215 Z M2.00810114,21.0526627 C2.00273908,20.9929669 2,20.9325153 2,20.871424 L2,7.12857603 C2,7.08414302 2.00144896,7.04004843 2.00430222,6.99633695 L9.03436454,14.0263993 L2.00810114,21.0526627 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.instagram.com/bill0155/" target="_blank" rel="noopener" title="Instagram">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+             <path d="M14.0000238,2.00378571 C17.2579762,2.00378571 17.6665,2.01759524 18.9460238,2.07597619 C20.222881,2.13421429 21.0949286,2.33702381 21.8579762,2.63359524 C22.6468333,2.94011905 23.3158333,3.35030952 23.9827857,4.01721429 C24.6496905,4.68416667 25.059881,5.35316667 25.3664524,6.14202381 C25.6629762,6.90507143 25.8657857,7.77711905 25.9240238,9.05397619 C25.9824048,10.3335 25.9962143,10.7420238 25.9962143,14.0000238 C25.9962143,17.2579762 25.9824048,17.6665 25.9240238,18.9460238 C25.8657857,20.222881 25.6629762,21.0949286 25.3664524,21.8579762 C25.059881,22.6468333 24.6496905,23.3158333 23.9827857,23.9827857 C23.3158333,24.6496905 22.6468333,25.059881 21.8579762,25.3664524 C21.0949286,25.6629762 20.222881,25.8657857 18.9460238,25.9240238 C17.6665,25.9824048 17.2579762,25.9962143 14.0000238,25.9962143 C10.7420238,25.9962143 10.3335,25.9824048 9.05397619,25.9240238 C7.77711905,25.8657857 6.90507143,25.6629762 6.14202381,25.3664524 C5.35316667,25.059881 4.68416667,24.6496905 4.01721429,23.9827857 C3.35030952,23.3158333 2.94011905,22.6468333 2.63359524,21.8579762 C2.33702381,21.0949286 2.13421429,20.222881 2.07597619,18.9460238 C2.01759524,17.6665 2.00378571,17.2579762 2.00378571,14.0000238 C2.00378571,10.7420238 2.01759524,10.3335 2.07597619,9.05397619 C2.13421429,7.77711905 2.33702381,6.90507143 2.63359524,6.14202381 C2.94011905,5.35316667 3.35030952,4.68416667 4.01721429,4.01721429 C4.68416667,3.35030952 5.35316667,2.94011905 6.14202381,2.63359524 C6.90507143,2.33702381 7.77711905,2.13421429 9.05397619,2.07597619 C10.3335,2.01759524 10.7420238,2.00378571 14.0000238,2.00378571 Z M14.0000238,4.1652619 C10.796881,4.1652619 10.4174524,4.1775 9.1525,4.23521429 C7.98288095,4.28854762 7.34769048,4.48397619 6.92497619,4.6482619 C6.36502381,4.86588095 5.96540476,5.12583333 5.54564286,5.54564286 C5.12583333,5.96540476 4.86588095,6.36502381 4.6482619,6.92497619 C4.48397619,7.34769048 4.28854762,7.98288095 4.23521429,9.1525 C4.1775,10.4174524 4.1652619,10.796881 4.1652619,14.0000238 C4.1652619,17.203119 4.1775,17.5825476 4.23521429,18.8475 C4.28854762,20.017119 4.48397619,20.6523095 4.6482619,21.0750238 C4.86588095,21.6349762 5.12588095,22.0345952 5.54564286,22.4543571 C5.96540476,22.8741667 6.36502381,23.134119 6.92497619,23.3517381 C7.34769048,23.5160238 7.98288095,23.7114524 9.1525,23.7647857 C10.4173095,23.8225 10.7966429,23.8347381 14.0000238,23.8347381 C17.2033571,23.8347381 17.5827381,23.8225 18.8475,23.7647857 C20.017119,23.7114524 20.6523095,23.5160238 21.0750238,23.3517381 C21.6349762,23.134119 22.0345952,22.8741667 22.4543571,22.4543571 C22.8741667,22.0345952 23.134119,21.6349762 23.3517381,21.0750238 C23.5160238,20.6523095 23.7114524,20.017119 23.7647857,18.8475 C23.8225,17.5825476 23.8347381,17.203119 23.8347381,14.0000238 C23.8347381,10.796881 23.8225,10.4174524 23.7647857,9.1525 C23.7114524,7.98288095 23.5160238,7.34769048 23.3517381,6.92497619 C23.134119,6.36502381 22.8741667,5.96540476 22.4543571,5.54564286 C22.0345952,5.12583333 21.6349762,4.86588095 21.0750238,4.6482619 C20.6523095,4.48397619 20.017119,4.28854762 18.8475,4.23521429 C17.5825476,4.1775 17.203119,4.1652619 14.0000238,4.1652619 Z M14.0000238,17.9987381 C16.2084524,17.9987381 17.9987381,16.2084524 17.9987381,14.0000238 C17.9987381,11.7915476 16.2084524,10.0012619 14.0000238,10.0012619 C11.7915476,10.0012619 10.0012619,11.7915476 10.0012619,14.0000238 C10.0012619,16.2084524 11.7915476,17.9987381 14.0000238,17.9987381 Z M14.0000238,7.83978571 C17.4022143,7.83978571 20.1602143,10.5977857 20.1602143,14.0000238 C20.1602143,17.4022143 17.4022143,20.1602143 14.0000238,20.1602143 C10.5977857,20.1602143 7.83978571,17.4022143 7.83978571,14.0000238 C7.83978571,10.5977857 10.5977857,7.83978571 14.0000238,7.83978571 Z M21.8431667,7.59640476 C21.8431667,8.39145238 21.1986429,9.03592857 20.4035952,9.03592857 C19.6085952,9.03592857 18.9640714,8.39145238 18.9640714,7.59640476 C18.9640714,6.80135714 19.6085952,6.15683333 20.4035952,6.15683333 C21.1986429,6.15683333 21.8431667,6.80135714 21.8431667,7.59640476 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <a class="social-icon" href="https://www.linkedin.com/in/kuchenhao" target="_blank" rel="noopener" title="LinkedIn">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M2,3.654102 C2,2.69908141 2.79442509,1.92397846 3.77383592,1.92397846 L24.2261641,1.92397846 C25.2058917,1.92397846 26,2.69908141 26,3.654102 L26,24.3462148 C26,25.3015521 25.2058917,26.0760215 24.2261641,26.0760215 L3.77383592,26.0760215 C2.79442509,26.0760215 2,25.3015521 2,24.3465315 L2,3.65378524 L2,3.654102 Z M9.27526132,22.1415901 L9.27526132,11.2356668 L5.65030092,11.2356668 L5.65030092,22.1415901 L9.27557808,22.1415901 L9.27526132,22.1415901 Z M7.46341463,9.74691162 C8.72727273,9.74691162 9.51409566,8.90940767 9.51409566,7.86284447 C9.49033893,6.79252455 8.72727273,5.97846056 7.48748812,5.97846056 C6.24675325,5.97846056 5.43649034,6.79252455 5.43649034,7.86284447 C5.43649034,8.90940767 6.22299652,9.74691162 7.4396579,9.74691162 L7.46309788,9.74691162 L7.46341463,9.74691162 Z M11.2815965,22.1415901 L14.9062401,22.1415901 L14.9062401,16.0519481 C14.9062401,15.7263225 14.9299968,15.4000634 15.0256573,15.1675641 C15.2876148,14.5159962 15.8840672,13.8416218 16.8856509,13.8416218 C18.1970225,13.8416218 18.7218879,14.8416218 18.7218879,16.3078872 L18.7218879,22.1415901 L22.3465315,22.1415901 L22.3465315,15.8885017 C22.3465315,12.5388027 20.5584416,10.9800443 18.1735825,10.9800443 C16.2182452,10.9800443 15.3595185,12.072854 14.8824834,12.8172315 L14.9065569,12.8172315 L14.9065569,11.2359835 L11.2819132,11.2359835 C11.3291099,12.2591067 11.2815965,22.1419069 11.2815965,22.1419069 L11.2815965,22.1415901 Z"></path>
+        </svg>
+    </a>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <a class="social-icon" href="https://github.com/maple52046" target="_blank" rel="noopener" title="GitHub">
+        <svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" fill="#ABABAB" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
+            <path d="M13.9988029,1.32087331 C6.82105037,1.32087331 1,7.14112562 1,14.3212723 C1,20.0649109 4.72454649,24.9370678 9.89038951,26.6560892 C10.5408085,26.7757983 10.7778323,26.374374 10.7778323,26.0296121 C10.7778323,25.7215609 10.7666595,24.9035493 10.760275,23.8189856 C7.14426471,24.6042767 6.38131925,22.0760223 6.38131925,22.0760223 C5.78995672,20.5740732 4.93762853,20.1742451 4.93762853,20.1742451 C3.75729765,19.3682044 5.02701126,19.3841656 5.02701126,19.3841656 C6.33183953,19.4759425 7.01817121,20.7241085 7.01817121,20.7241085 C8.17775254,22.7104801 10.0611744,22.1366749 10.8017741,21.8038838 C10.919887,20.9643246 11.2558703,20.3913175 11.6269683,20.066507 C8.74038491,19.7385043 5.70536235,18.6228163 5.70536235,13.6413251 C5.70536235,12.2223743 6.21213051,11.0611968 7.04370914,10.1530044 C6.90963504,9.82420367 6.46351945,8.50181809 7.17139875,6.71256734 C7.17139875,6.71256734 8.26234691,6.36301702 10.7459099,8.04532771 C11.78259,7.75642995 12.8950858,7.61277914 14.000399,7.60719272 C15.1049142,7.61277914 16.2166119,7.75642995 17.2548881,8.04532771 C19.736855,6.36301702 20.8262071,6.71256734 20.8262071,6.71256734 C21.5356825,8.50181809 21.0895669,9.82420367 20.9562909,10.1530044 C21.7894656,11.0611968 22.2922435,12.2223743 22.2922435,13.6413251 C22.2922435,18.6355852 19.2524325,19.734514 16.3570705,20.0561322 C16.8231376,20.4575564 17.2389269,21.2508282 17.2389269,22.4638795 C17.2389269,24.2012564 17.2229657,25.603448 17.2229657,26.0296121 C17.2229657,26.3775663 17.4575954,26.7821827 18.116793,26.6552912 C23.2786458,24.9322794 27,20.0633148 27,14.3212723 C27,7.14112562 21.1789496,1.32087331 13.9988029,1.32087331"></path>
+        </svg>
+    </a>
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+</div>
+
+
+
+
+	<div class="footer-mobile-links">
+        <p><a href="https://github.com/kimcc/hugo-theme-noteworthy" target="_blank" rel="noopener">Noteworthy theme</a></p>
+		<span class="divider-bar">|</span>
+        <p><a href="https://gohugo.io" target="_blank" rel="noopener">Built with Hugo</a></p>
+	</div>
+
+	<script src="https://maple52046.github.io/js/main.min.8a9c7b3eb6ed1b2bc3a94a07e48106fa909a676e6d0b240fed1985b3afd7de9c.js" integrity="sha256-ipx7PrbtGyvDqUoH5IEG+pCaZ25tCyQP7RmFs6/X3pw=" crossorigin="anonymous"></script>
+</footer>
+
+    </body>
+</html>
