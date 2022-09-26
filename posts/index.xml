@@ -6,7 +6,24 @@
     <description>Recent content in Posts on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-hant</language>
-    <lastBuildDate>Fri, 01 Jul 2022 19:30:23 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Sep 2022 16:13:48 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Compile OpenWRT With OpenClash</title>
+      <link>https://maple52046.github.io/posts/compile-openwrt-with-openclash/</link>
+      <pubDate>Mon, 26 Sep 2022 16:13:48 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/compile-openwrt-with-openclash/</guid>
+      <description>&lt;p&gt;最近朋友希望弄一台翻牆路由器放在辦公室用，於是買了一台 Netgear R6300 v2。買來刷了 DD-WRT 後才發現問題：安裝不了 &lt;a href=&#34;https://github.com/vernesong/OpenClash&#34;&gt;OpenClash&lt;/a&gt;。&lt;code&gt;ipkg&lt;/code&gt; 連 update 都不行了，就更不用說安裝了。&lt;/p&gt;
+&lt;p&gt;參考 DD-WRT 官網 development 的 &lt;a href=&#34;https://wiki.dd-wrt.com/wiki/index.php/Development#Firmware_Modification_Kit&#34;&gt;Firmware Modification Kit&lt;/a&gt;，將 openclash 的 ipk 解壓縮後放進 firmware 一起重編。編譯完後的 fireware 的確是有包含 OpenClash，但是刷到 AP 重啟後卻消失了，不論是 web 介面還是 ssh 進去都一樣。懶得花太多時間了，於是重新拾回 OpenWRT。&lt;/p&gt;
+&lt;p&gt;For R6300v2 的 OpenWRT 在 wifi 上有很大的問題：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;5G 完全不能用&lt;/li&gt;
+&lt;li&gt;2.4G 可以用，但是目前實測很不穩 (ping 掉封包、高延遲)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;實在不想花太多時間在翻牆上，而且電腦可以插網路線，不影響工作，於是就選擇 OpenWRT 吧。&lt;/p&gt;
+&lt;p&gt;但是安裝 OpenClash 時又遇到的問題，&lt;code&gt;luci-app-openclash_0.45.59-beta_all.ipk&lt;/code&gt; 的相依性 package 包含了 &lt;code&gt;dnsmasq-full&lt;/code&gt;，然而官網提供的 fireware 預設已經有了 &lt;code&gt;dnsmasq&lt;/code&gt;，這兩個是衝突的。如果 &lt;code&gt;opkg install&lt;/code&gt; 加上 &lt;code&gt;--nodeps&lt;/code&gt; 是可以解決。安裝完後的 OpenClash 是可以使用的。不過對於系統潔癖/強迫症患者來說，這裡提供了重新編譯的解法。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>在 Flutter 中使用 NestedScrollView 與 CustomScrollView</title>
       <link>https://maple52046.github.io/posts/using-nestedscrollview-in-flutter/</link>

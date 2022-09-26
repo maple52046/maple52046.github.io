@@ -2,13 +2,12 @@
 
 <html lang="zh-hant">
     <head>
-	<meta name="generator" content="Hugo 0.100.1" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>世界的盡頭</title>
+    <title>Compile OpenWRT With OpenClash | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -16,7 +15,7 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
     <meta name="theme-color" content="#ffffff">
-    <meta content="" name="keywords">
+    <meta content="編譯 openwrt, 編譯 openclash, 翻牆路由器, openwrt with openclash, openwrt for netgear r6300v2, netgear r6300v2" name="keywords">
 
     
     
@@ -33,8 +32,6 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
 
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/index.xml" title="世界的盡頭" />
-    
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
 var doNotTrack = false;
@@ -46,10 +43,20 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="世界的盡頭" />
-<meta property="og:description" content="一個人的時候只是怕想妳" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/>
+      <meta property="og:title" content="Compile OpenWRT With OpenClash" />
+<meta property="og:description" content="最近朋友希望弄一台翻牆路由器放在辦公室用，於是買了一台 Netgear R6300 v2。買來刷了 DD-WRT 後才發現問題：安裝不了 OpenClash。ipkg 連 update 都不行了，就更不用說安裝了。
+參考 DD-WRT 官網 development 的 Firmware Modification Kit，將 openclash 的 ipk 解壓縮後放進 firmware 一起重編。編譯完後的 fireware 的確是有包含 OpenClash，但是刷到 AP 重啟後卻消失了，不論是 web 介面還是 ssh 進去都一樣。懶得花太多時間了，於是重新拾回 OpenWRT。
+For R6300v2 的 OpenWRT 在 wifi 上有很大的問題：
+
+5G 完全不能用
+2.4G 可以用，但是目前實測很不穩 (ping 掉封包、高延遲)
+
+實在不想花太多時間在翻牆上，而且電腦可以插網路線，不影響工作，於是就選擇 OpenWRT 吧。
+但是安裝 OpenClash 時又遇到的問題，luci-app-openclash_0.45.59-beta_all.ipk 的相依性 package 包含了 dnsmasq-full，然而官網提供的 fireware 預設已經有了 dnsmasq，這兩個是衝突的。如果 opkg install 加上 --nodeps 是可以解決。安裝完後的 OpenClash 是可以使用的。不過對於系統潔癖/強迫症患者來說，這裡提供了重新編譯的解法。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://maple52046.github.io/posts/compile-openwrt-with-openclash/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-09-26T16:13:48+08:00" />
+<meta property="article:modified_time" content="2022-09-26T16:13:48+08:00" />
 
 </head>
 
@@ -176,197 +183,137 @@ if (!doNotTrack) {
 
         <div id="content" class="content-container">
         
-<div class = "article-content">
-        
-        
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/">
-                    解決 vsftpd: &#34;500 OOPS: priv_sock_get_cmd&#34;
-                </a>
-            </h2>
-            <div>
-                <p><p>最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:</p>
-<pre tabindex="0"><code>回應:	500 OOPS: priv_sock_get_cmd
-</code></pre><p>在 server 端，<code>/var/log/syslog</code> 裡面看到:</p>
-<pre tabindex="0"><code>Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&#34;vsftpd&#34; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
-</code></pre></p>
-                
-                <p><a href="/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>December 25, 2014</time>
 
-            
-            
-                
-                    <a class="tag" href="/tags/vsftpd">#vsftpd</a>
-                
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/">
-                    Install Instiki on Ubuntu 12.04
-                </a>
-            </h2>
-            <div>
-                <p><p>Instiki 是一個用 Ruby 開發的 wiki 系統，特色是非常的 light weight、可以使用 <strong>Markdown</strong> 語法等。詳細介紹就暫時略過。</p>
-<p>本次安裝的環境如下:</p>
+<h1 class="post-title">Compile OpenWRT With OpenClash</h1>
+    
+    <time>September 26, 2022</time>
+    
+    <div class="article-content">
+        <p>
+        <p>最近朋友希望弄一台翻牆路由器放在辦公室用，於是買了一台 Netgear R6300 v2。買來刷了 DD-WRT 後才發現問題：安裝不了 <a href="https://github.com/vernesong/OpenClash">OpenClash</a>。<code>ipkg</code> 連 update 都不行了，就更不用說安裝了。</p>
+<p>參考 DD-WRT 官網 development 的 <a href="https://wiki.dd-wrt.com/wiki/index.php/Development#Firmware_Modification_Kit">Firmware Modification Kit</a>，將 openclash 的 ipk 解壓縮後放進 firmware 一起重編。編譯完後的 fireware 的確是有包含 OpenClash，但是刷到 AP 重啟後卻消失了，不論是 web 介面還是 ssh 進去都一樣。懶得花太多時間了，於是重新拾回 OpenWRT。</p>
+<p>For R6300v2 的 OpenWRT 在 wifi 上有很大的問題：</p>
+<ol>
+<li>5G 完全不能用</li>
+<li>2.4G 可以用，但是目前實測很不穩 (ping 掉封包、高延遲)</li>
+</ol>
+<p>實在不想花太多時間在翻牆上，而且電腦可以插網路線，不影響工作，於是就選擇 OpenWRT 吧。</p>
+<p>但是安裝 OpenClash 時又遇到的問題，<code>luci-app-openclash_0.45.59-beta_all.ipk</code> 的相依性 package 包含了 <code>dnsmasq-full</code>，然而官網提供的 fireware 預設已經有了 <code>dnsmasq</code>，這兩個是衝突的。如果 <code>opkg install</code> 加上 <code>--nodeps</code> 是可以解決。安裝完後的 OpenClash 是可以使用的。不過對於系統潔癖/強迫症患者來說，這裡提供了重新編譯的解法。</p>
+<h2 id="版本">版本</h2>
 <table>
 <thead>
 <tr>
-<th style="text-align:center">Operating system</th>
-<th style="text-align:center">Ruby version</th>
+<th style="text-align:center">Item</th>
+<th style="text-align:center">Version</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">Ubuntu 12.04</td>
-<td style="text-align:center">1.9.1 (install by RVM)</td>
+<td style="text-align:center">Operating system</td>
+<td style="text-align:center">Debian testing</td>
+</tr>
+<tr>
+<td style="text-align:center">OpenWRT</td>
+<td style="text-align:center">v22.03.0</td>
+</tr>
+<tr>
+<td style="text-align:center">OpenClash</td>
+<td style="text-align:center">v0.45.59-beta</td>
 </tr>
 </tbody>
 </table>
-<h1 id="安裝步驟">安裝步驟</h1>
-<h2 id="configure-ruby-environment">Configure Ruby environment</h2>
-<p>Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻煩，因此決定採用跟官網一樣的版本。
-不過 Ubuntu 預設的版本已經是 1.9.3 (?) 以上了，況且根據之前搞 CloudFoundry 的經驗，Ruby 的版本最好還是用 RVM 來進行管理。</p></p>
-                
-                <p><a href="/posts/install-instiki-on-ubuntu-precise/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>September 25, 2014</time>
-
-            
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/use-openvswitch-in-libvirt/">
-                    設定 Libvirt 使用 Open vSwitch
-                </a>
-            </h2>
-            <div>
-                <p><p>最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 <code>virsh define</code> 之後才能使用。</p>
-<p>每個 VM 都要手動設定真的很麻煩</p>
-<p>幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]</p></p>
-                
-                <p><a href="/posts/use-openvswitch-in-libvirt/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>August 12, 2014</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/libvirt">#libvirt</a>
-                
-                    <a class="tag" href="/tags/open-vswitch">#open vswitch</a>
-                
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/concepts-of-hadoop-nodes/">
-                    Hadoop SecondaryNameNode 、CheckpointNode 與 Backup Node 觀念整理
-                </a>
-            </h2>
-            <div>
-                <p><p>為了要管理 lab 裡的 Hadoop cluster，針對 Hadoop 的 NameNode、SecondaryNameNode、CheckpointNode 與 BackupNode 做個了survay。</p>
-<h1 id="namenode">NameNode</h1>
-<p>Hadoop 的 metadata 是存放在運行 Namenode 的 server 的 memory 裡面，而 Namenode 的工作就是將 clients 對 metadata 的讀寫修改紀錄在<strong>edits</strong>裡。</p>
-<p>當 Namenode 被啟動的時候，會先合併 HDFS 上的 fsimage 與 edits，取得完整的 metadata。此時，原本的 fsimage 會被更新。</p>
-<p>之後，在 NameNode 運作的期間，client 對 metadata 的 access 還是只會記錄在新的 edits 裡，直到下一次 NameNode restart 的時候，周而復始的更新 fsimage、產生新的 edits。</p></p>
-                
-                <p><a href="/posts/concepts-of-hadoop-nodes/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>November 18, 2013</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/hadoop">#hadoop</a>
-                
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/">
-                    復原 OpenStack 中被刪除的 instance
-                </a>
-            </h2>
-            <div>
-                <p><p>上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。</p>
-<p>Unstall 時已經很習慣用 apt-get <strong>&ndash;purge</strong> install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 <code>/var/lib/nova/instance</code> 用 ceph 分享給所有 compute。</p>
-<p>所以&hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。</p>
-<p>所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。
-這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。</p>
-<p>回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?</p>
+<h2 id="前置工作">前置工作</h2>
+<pre tabindex="0"><code>sudo apt install build-essential gawk gcc-multilib flex git gettext libncurses5-dev libssl-dev python3-distutils rsync unzip zlib1g-dev clang
+wget https://github.com/vernesong/OpenClash/archive/refs/tags/v0.45.59-beta.tar.gz
+git clone https://git.openwrt.org/openwrt/openwrt.git
+cd openwrt/
+git checkout v22.03.0
+tar zxf ../v0.45.59-beta.tar.gz -C package/
+./scripts/feeds update -a
+./scripts/feeds install -a
+make menuconfig
+</code></pre><p>執行完後就會進入選擇畫面：</p>
+<p><img src="https://i.imgur.com/FOFbaqS.png" alt="Make menuconfig"></p>
+<h2 id="config-選項">Config 選項：</h2>
 <ul>
-<li>VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)</li>
-<li>VM 一旦關機，instance 就會被刪掉 =&gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)</li>
+<li><code>Target System</code> 選擇 <code>Broadcom BCM47xx/53xx (ARM)</code></li>
+<li><code>Target Profile</code> 選擇 <code>NETGEAR R6300 v2</code></li>
+<li><code>LuCI</code> -&gt; <code>3. Applications</code> -&gt; <code>luci-app-openclash</code>
+<img src="https://i.imgur.com/lfAYSO9.png" alt="Enable luci-app-openclash"></li>
+<li><code>LuCI</code> -&gt; <code>1. Collections</code> -&gt; <code>luci</code>
+<img src="https://i.imgur.com/lfAYSO9.png" alt="Enable luci"></li>
+<li><code>Base system</code> -&gt; <code>dnsmasq</code> (<strong>取消選擇</strong>)
+<img src="https://i.imgur.com/BMWGDlQ.png" alt="Disable dnsmasq"></li>
 </ul>
-<p>萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =</p>
-<p>萬幸的是我終於找到方法了</p></p>
-                
-                <p><a href="/posts/recovery-live-deleted-instance-on-openstack/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>October 21, 2013</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/openstack">#openstack</a>
-                
-                    <a class="tag" href="/tags/libvirt">#libvirt</a>
-                
-            
-            </div>
-
-        </article>
-        
+<p>然後退出並保存配置為 <code>.config</code></p>
+<h2 id="編譯">編譯</h2>
+<pre tabindex="0"><code>make package/feeds/luci/luci-base/compile V=99
+make V=s
+</code></pre><p>編譯完後 firmware 放在 <code>bin/targets/bcm53xx/generic/</code>，檔名為 <code>openwrt-bcm53xx-generic-netgear_r6300-v2-squashfs.chk</code></p>
+<p>之後就可以從 web 頁面或是 <code>sysupgrade</code> 指令刷 firmware。刷完後，web 介面上就可以看到 OpenClash UI：</p>
+<p><img src="https://i.imgur.com/1F1A081.png" alt="OpenClash UI"></p>
+<blockquote>
+<p>一開始是沒有 config，service 狀態應該是 stop 而非上圖的 running。還需要進行配置</p>
+</blockquote>
+<h2 id="配置">配置</h2>
+<p>順便紀錄下簡單的配置順序</p>
+<ol>
+<li>先到 <code>Config Manage</code> 頁面，上傳你的 clash 配置檔</li>
+<li>然後切換到 <code>Global Settings</code>，在標籤群組下方的 <code> Current Config File</code> 選擇剛剛上傳的配置，並點擊 <code>Switch Config</code></li>
+</ol>
+<p><img src="https://i.imgur.com/pN9tqe0.png" alt="Switch clash config"></p>
+<blockquote>
+<p>其他選項有些我靠直覺的設置的，但是我也不熟悉，為了不要誤導，這裡就不列出了</p>
+</blockquote>
+<p>配置完後，回到 <code>Overviews</code> 然後點擊頁面下方 <code>Enable OpenClash</code> 按鈕：</p>
+<p><img src="https://i.imgur.com/kNp1Udm.png" alt="Enable OpenClash on LuCI"></p>
+<p>等待 OpenClash 啟動即可 (需要等幾分鐘)</p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://www.right.com.cn/forum/thread-1086753-1-1.html">请问编译出错bash: po2lmo: command not found怎么弄</a></li>
+<li><a href="https://openwrt.org/docs/guide-developer/toolchain/install-buildsystem">Build system setup</a></li>
+</ul>
+        </p>
     </div>
+
+    
+
+        <script type='text/javascript' src='https://ko-fi.com/widgets/widget_2.js'></script>
+        <script type='text/javascript'>
+            const kofiId = 'maple52046';
+            kofiwidget2.init('Support Me on Ko-fi', '#29abe0', kofiId);
+            kofiwidget2.draw();
+        </script> 
+
+    
+
+    <div class="page-footer">
         
-        <div class="paginator">
+        <hr class="footer-divider">
         
+            <a class="tag" href="/tags/openwrt">#openwrt</a>
         
-        <p>Page 4 of 4</p>
-        <div class="paginator-group">
-            
-            <a class="color-link" href="/page/3/">
-                    <svg width="13px" height="9px" viewBox="0 0 13 9" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
-                        <g class="color-arrow" fill="#63BDA2" fill-rule="nonzero">
-                            <polygon id="Path" points="1.75929935 4.50000282 5.3292523 7.62371165 4.6707477 8.37628835 0.240700645 4.49999718 4.67081049 0.623709205 5.32930951 1.37629079"></polygon>
-                            <polygon id="Path" points="13 4 13 5 1 5 1 4"></polygon>
-                        </g>
-                </svg>
-                Newer
-            </a>
-            
-            
+            <a class="tag" href="/tags/openclash">#openclash</a>
+        
+      
+    </div>
+
+    
+        <div id="utterance_thread">
+        <script
+            async
+            src="https://utteranc.es/client.js"
+            repo="maple52046/blog-comments"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+        >
+        </script>
         </div>
-        
-    </div>
+    
+
+    
+
 
         
         </div>
