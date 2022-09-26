@@ -187,21 +187,77 @@ if (!doNotTrack) {
                 </a>
             </h2>
             <div>
-                <p><p>最近朋友希望弄一台翻牆路由器放在辦公室用，於是買了一台 Netgear R6300 v2。買來刷了 DD-WRT 後才發現問題：安裝不了 <a href="https://github.com/vernesong/OpenClash">OpenClash</a>。<code>ipkg</code> 連 update 都不行了，就更不用說安裝了。</p>
-<p>參考 DD-WRT 官網 development 的 <a href="https://wiki.dd-wrt.com/wiki/index.php/Development#Firmware_Modification_Kit">Firmware Modification Kit</a>，將 openclash 的 ipk 解壓縮後放進 firmware 一起重編。編譯完後的 fireware 的確是有包含 OpenClash，但是刷到 AP 重啟後卻消失了，不論是 web 介面還是 ssh 進去都一樣。懶得花太多時間了，於是重新拾回 OpenWRT。</p>
-<p>For R6300v2 的 OpenWRT 在 wifi 上有很大的問題：</p>
+                <p><p>最近朋友希望弄一台翻牆路由器放在辦公室用，於是買了一台 Netgear R6300 v2。刷了 DD-WRT 後才發現問題：安裝不了 <a href="https://github.com/vernesong/OpenClash">OpenClash</a>，<code>ipkg</code> 連 update 都不行了，就更不用說安裝。</p>
+<p>參考 DD-WRT 官網 development 的 <a href="https://wiki.dd-wrt.com/wiki/index.php/Development#Firmware_Modification_Kit">Firmware Modification Kit</a>，將 OpenClash 的 ipk 解壓縮後放進 firmware 一起重編。編譯完後的 fireware 貌似是含有 OpenClash，但是刷到 AP 後卻消失了，web 介面沒有相關的 UI、ssh 進去後也找不到。</p>
+<p>重新拾回 OpenWRT，先刷了官網 for R6300v2 的 firmware，在 wifi 上遇到很大的問題：</p>
 <ol>
 <li>5G 完全不能用</li>
 <li>2.4G 可以用，但是目前實測很不穩 (ping 掉封包、高延遲)</li>
 </ol>
-<p>實在不想花太多時間在翻牆上，而且電腦可以插網路線，不影響工作，於是就選擇 OpenWRT 吧。</p>
-<p>但是安裝 OpenClash 時又遇到的問題，<code>luci-app-openclash_0.45.59-beta_all.ipk</code> 的相依性 package 包含了 <code>dnsmasq-full</code>，然而官網提供的 fireware 預設已經有了 <code>dnsmasq</code>，這兩個是衝突的。如果 <code>opkg install</code> 加上 <code>--nodeps</code> 是可以解決。安裝完後的 OpenClash 是可以使用的。不過對於系統潔癖/強迫症患者來說，這裡提供了重新編譯的解法。</p></p>
+<p>實在不想花太多時間在翻牆上，而且電腦可以插網路線，不影響工作，於是就選擇 OpenWRT。</p>
+<p>但是安裝 OpenClash 時又遇到的問題，<code>luci-app-openclash_0.45.59-beta_all.ipk</code> 的相依性 packages 包含了 <code>dnsmasq-full</code>，而官網提供的 firmware 預設已經有了 <code>dnsmasq</code>，這兩個是衝突的。如果 <code>opkg install</code> 加上 <code>--nodeps</code> 是可以解決，安裝完後的 OpenClash 也是可以使用的。不過對於系統潔癖/強迫症患者來說，這裡提供了重新編譯的解法。</p></p>
                 
                 <p><a href="/posts/compile-openwrt-with-openclash/">Read more...</a></p>
                 
             </div>
             <div class="post-footer">
             <time>September 26, 2022</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/compile-openwrt-x86-kvm-guest/">
+                    Compile OpenWRT x86 (KVM guest, VirtualBox)
+                </a>
+            </h2>
+            <div>
+                <p><p>編譯 x86 版的 OpenWRT 與之前的方式雷同，基本上差別的就在於 <code>make menuconfig</code> 的時候要作一些額外的修改。</p>
+<p>詳細的 OpenWRT 編譯流程請參考：<a href="http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch">Compile OpenWRT with Open vSwitch</a>，本篇不再贅述。</p></p>
+                
+                <p><a href="/posts/compile-openwrt-x86-kvm-guest/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>May 7, 2015</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/">
+                    Compile OpenWRT with Open vSwitch
+                </a>
+            </h2>
+            <div>
+                <p><p>雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 <a href="https://github.com/openwrt/packages/tree/master/net/openvswitch">Open vSwitch</a> 的身影。但是實際上，在官方的 <a href="https://downloads.openwrt.org/barrier_breaker/14.07/">repository</a> 中並沒有 Open vSwitch。因此決定自行編譯。</p>
+<h1 id="實驗環境"><strong>實驗環境</strong></h1>
+<ul>
+<li>
+<p>編譯環境</p>
+<ul>
+<li>Operating System: Ubuntu 14.04 x64</li>
+<li>OpenWRT version: 14.07</li>
+<li>Open vSwitch version: 2.3.1</li>
+</ul>
+</li>
+<li>
+<p>路由器</p>
+<ul>
+<li><a href="http://www.tp-link.tw/products/details/?model=TL-WR1043ND">TP-Link TL-WR1043ND</a></li>
+</ul>
+</li>
+</ul></p>
+                
+                <p><a href="/posts/compile-openwrt-with-open-vswitch/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>March 5, 2015</time>
             </div> 
         </article>
     

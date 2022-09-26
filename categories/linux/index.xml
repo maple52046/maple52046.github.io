@@ -104,16 +104,6 @@ qemu-img: Could not open &amp;#39;portal.img&amp;#39;: Could not read snapshots:
     </item>
     
     <item>
-      <title>Compile OpenWRT x86 (KVM guest, VirtualBox)</title>
-      <link>https://maple52046.github.io/posts/compile-openwrt-x86-kvm-guest/</link>
-      <pubDate>Thu, 07 May 2015 11:45:00 +0000</pubDate>
-      
-      <guid>https://maple52046.github.io/posts/compile-openwrt-x86-kvm-guest/</guid>
-      <description>&lt;p&gt;編譯 x86 版的 OpenWRT 與之前的方式雷同，基本上差別的就在於 &lt;code&gt;make menuconfig&lt;/code&gt; 的時候要作一些額外的修改。&lt;/p&gt;
-&lt;p&gt;詳細的 OpenWRT 編譯流程請參考：&lt;a href=&#34;http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch&#34;&gt;Compile OpenWRT with Open vSwitch&lt;/a&gt;，本篇不再贅述。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
       <title>IPv6 Neighbour table overflow</title>
       <link>https://maple52046.github.io/posts/ipv6-neighbour-table-overflow/</link>
       <pubDate>Fri, 01 May 2015 12:07:00 +0000</pubDate>
@@ -143,32 +133,6 @@ Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
       
       <guid>https://maple52046.github.io/posts/configure-open-vswitch-in-openwrt/</guid>
       <description>&lt;p&gt;當你安裝完 Open vSwitch 或是燒了一個&lt;a href=&#34;http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch&#34;&gt;內建 Open vSwitch 的 OpenWRT&lt;/a&gt; 後，接下來要將網卡綁到 Open vSwitch 上。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Compile OpenWRT with Open vSwitch</title>
-      <link>https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/</link>
-      <pubDate>Thu, 05 Mar 2015 17:05:00 +0000</pubDate>
-      
-      <guid>https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/</guid>
-      <description>&lt;p&gt;雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 &lt;a href=&#34;https://github.com/openwrt/packages/tree/master/net/openvswitch&#34;&gt;Open vSwitch&lt;/a&gt; 的身影。但是實際上，在官方的 &lt;a href=&#34;https://downloads.openwrt.org/barrier_breaker/14.07/&#34;&gt;repository&lt;/a&gt; 中並沒有 Open vSwitch。因此決定自行編譯。&lt;/p&gt;
-&lt;h1 id=&#34;實驗環境&#34;&gt;&lt;strong&gt;實驗環境&lt;/strong&gt;&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;編譯環境&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;
-&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;
-&lt;li&gt;Open vSwitch version: 2.3.1&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;路由器&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.tp-link.tw/products/details/?model=TL-WR1043ND&#34;&gt;TP-Link TL-WR1043ND&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;</description>
     </item>
     
     <item>
