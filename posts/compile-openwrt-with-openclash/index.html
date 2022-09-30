@@ -223,7 +223,7 @@ if (!doNotTrack) {
 </tbody>
 </table>
 <h2 id="前置工作">前置工作</h2>
-<pre tabindex="0"><code>sudo apt install build-essential gawk gcc-multilib flex git gettext libncurses5-dev libssl-dev python3-distutils rsync unzip zlib1g-dev clang
+<pre tabindex="0"><code>sudo apt install build-essential gawk gcc-multilib flex git gettext libncurses5-dev libssl-dev python3-distutils rsync unzip zlib1g-dev clang wget file musl-dev
 wget https://github.com/vernesong/OpenClash/archive/refs/tags/v0.45.59-beta.tar.gz
 git clone https://git.openwrt.org/openwrt/openwrt.git
 cd openwrt/
@@ -247,7 +247,8 @@ make menuconfig
 </ul>
 <p>然後保存配置為 <code>.config</code> 並退出</p>
 <h2 id="編譯">編譯</h2>
-<pre tabindex="0"><code>make package/feeds/luci/luci-base/compile V=99
+<pre tabindex="0"><code>make prepare
+make package/feeds/luci/luci-base/compile V=99
 make V=s
 </code></pre><p>編譯完後 firmware 放在 <code>bin/targets/bcm53xx/generic/</code>，檔名為 <code>openwrt-bcm53xx-generic-netgear_r6300-v2-squashfs.chk</code></p>
 <p>之後就可以從 web 頁面或是 <code>sysupgrade</code> 指令刷 firmware。刷完後，web 介面上就可以看到 OpenClash ui：</p>
@@ -255,7 +256,7 @@ make V=s
 <blockquote>
 <p>刷完後若無配置，service 狀態應該是 stop 而非上圖的 running。</p>
 </blockquote>
-<h2 id="配置">配置</h2>
+<h2 id="設定-openclash">設定 OpenClash</h2>
 <p>順便紀錄下簡單的配置順序</p>
 <ol>
 <li>先到 <code>Config Manage</code> 頁面，上傳你的 clash 配置檔</li>
@@ -268,10 +269,16 @@ make V=s
 <p>配置完後，回到 <code>Overviews</code> 然後點擊頁面下方 <code>Enable OpenClash</code> 按鈕：</p>
 <p><img src="https://i.imgur.com/kNp1Udm.png" alt="Enable OpenClash on LuCI"></p>
 <p>等待服務啟動與檢驗即可 (需要等幾分鐘)。</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="cp-cannot-stat-rootopenwrtstaging_dirtoolchain-arm_cortex-a9_gcc-1120_musl_eabilibld-musl-so-no-such-file-or-directory"><code>cp: cannot stat '/root/openwrt/staging_dir/toolchain-arm_cortex-a9_gcc-11.2.0_musl_eabi/lib/ld-musl-*.so*': No such file or directory</code></h3>
+<p>編譯時可能會出現以下錯誤：</p>
+<p><img src="https://i.imgur.com/K2Cg83C.png" alt=""></p>
+<p>本來沒有這個問題，但是前幾天更新了系統後就出現了(gcc/musl版本都升級了)。但，即使改放到 docker 裡指定了 <a href="https://gist.github.com/maple52046/00db60a7c2dc53b39b050ecb6e48d68c">gcc 11.2.0</a> 也是一樣的。Google了一下看到別人說是 sdk/toolchain 的問題。根據這個線索最後找到的解法是：先執行 <code>make prepare</code> 把 toolchain 編譯好就可以了。</p>
 <h2 id="參考資料">參考資料</h2>
 <ul>
-<li><a href="https://www.right.com.cn/forum/thread-1086753-1-1.html">请问编译出错bash: po2lmo: command not found怎么弄</a></li>
 <li><a href="https://openwrt.org/docs/guide-developer/toolchain/install-buildsystem">Build system setup</a></li>
+<li><a href="https://www.right.com.cn/forum/thread-1086753-1-1.html">请问编译出错bash: po2lmo: command not found怎么弄</a></li>
+<li><a href="https://github.com/mchome/openwrt-dogcom/issues/6">cp: cannot stat &lsquo;/root/openwrt/staging_dir/toolchain-mipsel_24kc_gcc-7.3.0_musl/lib/ld-musl-<em>.so</em>&rsquo;: No such file or directory #6</a></li>
 </ul>
         </p>
     </div>
@@ -294,8 +301,6 @@ make V=s
             <a class="tag" href="/tags/openwrt">#openwrt</a>
         
             <a class="tag" href="/tags/openclash">#openclash</a>
-        
-            <a class="tag" href="/tags/clash">#clash</a>
         
       
     </div>
