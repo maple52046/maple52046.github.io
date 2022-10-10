@@ -182,6 +182,40 @@ if (!doNotTrack) {
     
     <article>
             <h2>
+                <a href="https://maple52046.github.io/posts/dart-convert-protobuf-structure-in-json/">
+                    Dart 轉換 json 中的 protobuf 結構
+                </a>
+            </h2>
+            <div>
+                <p><p>最近開始將 flutter app 的後端由 restful api 逐步轉成 grpc，轉換的過程中為了同時兼容舊的 api，在原本的 json 結構中替換並嵌入了 protobuf 結構。結果在 json 序列化時 (<code>flutter packages pub run build_runner build</code>) 出現了類似以下錯誤：</p>
+<pre tabindex="0"><code>[INFO] Generating build script completed, took 569ms
+[INFO] Reading cached asset graph completed, took 77ms
+[INFO] Checking for updates since last build completed, took 640ms
+[SEVERE] json_serializable on lib/models/plustwo.dart:
+
+Expecting a `fromJson` constructor with exactly one positional parameter. The only extra parameters allowed are functions of the form `T Function(Object?) fromJsonT` where `T` is a type parameter of the target type.
+package:client/proto/calculator.pb.dart:40:28
+   ╷
+40 │   factory PlusTwoIntResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =&gt; create()..mergeFromJson(i, r);
+   │                            ^^^^^^^^
+   ╵
+[INFO] Running build completed, took 5.1s
+[INFO] Caching finalized dependency graph completed, took 48ms
+[SEVERE] Failed after 5.2s
+</code></pre></p>
+                
+                <p><a href="/posts/dart-convert-protobuf-structure-in-json/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>October 10, 2022</time>
+            </div> 
+        </article>
+    
+  
+    
+    <article>
+            <h2>
                 <a href="https://maple52046.github.io/posts/using-nestedscrollview-in-flutter/">
                     在 Flutter 中使用 NestedScrollView 與 CustomScrollView
                 </a>

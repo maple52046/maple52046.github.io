@@ -2,13 +2,12 @@
 
 <html lang="zh-hant">
     <head>
-	<meta name="generator" content="Hugo 0.100.1" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>世界的盡頭</title>
+    <title>protobuf | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -33,7 +32,7 @@
     <link type="text/css" rel="stylesheet" href="/css/custom.css">
 
     
-    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/index.xml" title="世界的盡頭" />
+    <link rel="alternate" type="application/rss+xml" href="https://maple52046.github.io/tags/protobuf/index.xml" title="世界的盡頭" />
     
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
 <script>
@@ -46,10 +45,10 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="世界的盡頭" />
+      <meta property="og:title" content="protobuf" />
 <meta property="og:description" content="一個人的時候只是怕想妳" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://maple52046.github.io/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/>
+<meta property="og:url" content="https://maple52046.github.io/tags/protobuf/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/>
 
 </head>
 
@@ -176,11 +175,12 @@ if (!doNotTrack) {
 
         <div id="content" class="content-container">
         
-<div class = "article-content">
-        
-        
-        
-        <article>
+
+  <h1>Tagged "protobuf"</h1>
+  
+  
+    
+    <article>
             <h2>
                 <a href="https://maple52046.github.io/posts/dart-convert-protobuf-structure-in-json/">
                     Dart 轉換 json 中的 protobuf 結構
@@ -209,369 +209,10 @@ package:client/proto/calculator.pb.dart:40:28
             </div>
             <div class="post-footer">
             <time>October 10, 2022</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/dart">#dart</a>
-                
-                    <a class="tag" href="/tags/flutter">#flutter</a>
-                
-                    <a class="tag" href="/tags/protobuf">#protobuf</a>
-                
-                    <a class="tag" href="/tags/grpc">#grpc</a>
-                
-                    <a class="tag" href="/tags/restful">#restful</a>
-                
-            
-            </div>
-
+            </div> 
         </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/compile-openwrt-with-openclash/">
-                    Compile OpenWRT With OpenClash
-                </a>
-            </h2>
-            <div>
-                <p><p>最近朋友希望弄一台翻牆路由器放在辦公室用，於是買了一台 Netgear R6300 v2。刷了 DD-WRT 後才發現問題：安裝不了 <a href="https://github.com/vernesong/OpenClash">OpenClash</a>，<code>ipkg</code> 連 update 都不行了，就更不用說安裝。</p>
-<p>參考 DD-WRT 官網 development 的 <a href="https://wiki.dd-wrt.com/wiki/index.php/Development#Firmware_Modification_Kit">Firmware Modification Kit</a>，將 OpenClash 的 ipk 解壓縮後放進 firmware 一起重編。編譯完後的 fireware 貌似是含有 OpenClash，但是刷到 AP 後卻消失了，web 介面沒有相關的 UI、ssh 進去後也找不到。</p>
-<p>重新拾回 OpenWRT，先刷了官網 for R6300v2 的 firmware，在 wifi 上遇到很大的問題：</p>
-<ol>
-<li>5G 完全不能用</li>
-<li>2.4G 可以用，但是目前實測很不穩 (ping 掉封包、高延遲)</li>
-</ol>
-<p>實在不想花太多時間在翻牆上，而且電腦可以插網路線，不影響工作，於是就選擇 OpenWRT。</p>
-<p>但是安裝 OpenClash 時又遇到的問題，<code>luci-app-openclash_0.45.59-beta_all.ipk</code> 的相依性 packages 包含了 <code>dnsmasq-full</code>，而官網提供的 firmware 預設已經有了 <code>dnsmasq</code>，這兩個是衝突的。如果 <code>opkg install</code> 加上 <code>--nodeps</code> 是可以解決，安裝完後的 OpenClash 也是可以使用的。不過對於系統潔癖/強迫症患者來說，這裡提供了重新編譯的解法。</p></p>
-                
-                <p><a href="/posts/compile-openwrt-with-openclash/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>September 26, 2022</time>
+    
 
-            
-            
-                
-                    <a class="tag" href="/tags/openwrt">#openwrt</a>
-                
-                    <a class="tag" href="/tags/openclash">#openclash</a>
-                
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/using-nestedscrollview-in-flutter/">
-                    在 Flutter 中使用 NestedScrollView 與 CustomScrollView
-                </a>
-            </h2>
-            <div>
-                <p><p>最近在修改 app 的個人頁，遇到的需求：</p>
-<ol>
-<li>Tab bar 切出圓角</li>
-<li>Tab bar 可以滑動，滑到 app bar 的時候固定住</li>
-</ol>
-<p>用文字說不太清楚，下面直接看圖：</p>
-<p><img src="https://i.imgur.com/CxZ6jxL.png" alt="Imgur"></p>
-<p>頁面的 components 有：</p>
-<ul>
-<li>App bar</li>
-<li>個人資訊區</li>
-<li>Tab bar</li>
-<li>Tab view</li>
-</ul>
-<p>Tab view 裡是可滾動的內容, 這裡放了兩種類型：grid 與 list。
-當用戶向上滑動時，app bar 固定不動，tab bar 往上滑動到 tab bar 時固定不動，下方 tab view 保持可滑動。如下圖：</p>
-<p><img src="https://i.imgur.com/o63DCh9.png" alt="Imgur"></p></p>
-                
-                <p><a href="/posts/using-nestedscrollview-in-flutter/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>July 1, 2022</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/flutter">#flutter</a>
-                
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/compile-flutter-apk/">
-                    編譯 Flutter APK
-                </a>
-            </h2>
-            <div>
-                <p><p>本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。</p>
-<p>版本資訊:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">#</th>
-<th style="text-align:left">Version</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">Flutter</td>
-<td style="text-align:left">3.0.1</td>
-</tr>
-<tr>
-<td style="text-align:left">Host OS</td>
-<td style="text-align:left">MacOS Big Sur (11.3.1)</td>
-</tr>
-<tr>
-<td style="text-align:left">Android Studio</td>
-<td style="text-align:left">2020.3 (AI-203.7717.56.2031.7678000)</td>
-</tr>
-<tr>
-<td style="text-align:left">Android Platform Tool</td>
-<td style="text-align:left">r33.0.2</td>
-</tr>
-<tr>
-<td style="text-align:left">OpenJDK</td>
-<td style="text-align:left">18.0.1.1</td>
-</tr>
-<tr>
-<td style="text-align:left">Android (phone)</td>
-<td style="text-align:left">11</td>
-</tr>
-</tbody>
-</table></p>
-                
-                <p><a href="/posts/compile-flutter-apk/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>June 10, 2022</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/flutter">#flutter</a>
-                
-                    <a class="tag" href="/tags/grandle">#grandle</a>
-                
-                    <a class="tag" href="/tags/apk">#apk</a>
-                
-                    <a class="tag" href="/tags/android">#android</a>
-                
-                    <a class="tag" href="/tags/adb">#adb</a>
-                
-                    <a class="tag" href="/tags/kotlin">#kotlin</a>
-                
-                    <a class="tag" href="/tags/openjdk">#openjdk</a>
-                
-                    <a class="tag" href="/tags/openim">#openim</a>
-                
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/customize-flutter-image-provider/">
-                    客製化 Flutter Image Provider
-                </a>
-            </h2>
-            <div>
-                <p><p>之前在 flutter app 中使用 <a href="https://pub.dev/packages/optimized_cached_image">Optimized Cached Image</a> 來展示圖片，選擇他的原因也很簡單，因為當時剛學 flutter 沒多久就要直接上陣了。先選一個看起來簡單好用的再說；而且他還可以設置 cache key，避免重複抓取，感覺起來就不錯。</p>
-<p>然而後來圖片一多起來之後，就發現問題了，往往 app 打開滑沒幾下就 crash。看 log 是 OOM 問題，上網查了一下，有人說是 memory leak。大致上就是 image disposed 之後，沒有正確的釋放 ram，app 佔用的 ram 越來越多，就直接觸發 OOM killer。測試了一下原生的 NetworkImage 沒有這個問題。所以應該就是 Optimized Cached Image 的問題了。</p>
-<p>另外就是在我的程式裡，widget 只拿到 media id，需要先到後端去查 media 的 presigned url 返回給 app，app 再用 presigned url 抓圖片資料。也就是原來的程式碼裡一直都是 future builder + image，這造成的問題就是頁面一刷新就要重新抓 presigned url，大大降低了效率，也大大提升了後端的負載。</p>
-<p>因此決定客製化一個業務專用的 image provider。</p></p>
-                
-                <p><a href="/posts/customize-flutter-image-provider/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>May 27, 2022</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/flutter">#flutter</a>
-                
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/openim-integration-notes-01/">
-                    OpenIM 整合(踩坑)筆記 01
-                </a>
-            </h2>
-            <div>
-                <p><p><a href="https://doc.rentsoft.cn/#/introduce/production_introduce">OpenIM</a> 號稱是由一群前微信等技術專家一起出來打造的開源 IM 系統。撇開政治不談，個人覺得微信在 IM 領域確實是佼佼者，因此決定整合 OpenIM 到現有的產品中，以減少浪費時間重複造輪子。</p>
-<p>本篇目標是串連原有的帳號系統與 OpenIM 的帳號系統，完成 <strong>自動註冊用戶到 OpenIM</strong> (下圖中的第 3 ~ 4 步驟)。</p>
-<p><img src="https://doc.rentsoft.cn/images/server-register.png" alt="Open-IM用户注册"></p></p>
-                
-                <p><a href="/posts/openim-integration-notes-01/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>May 25, 2022</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/openim">#openim</a>
-                
-                    <a class="tag" href="/tags/golang">#golang</a>
-                
-                    <a class="tag" href="/tags/k3s">#k3s</a>
-                
-                    <a class="tag" href="/tags/etcd">#etcd</a>
-                
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/">
-                    在 Flutter MaterialApp 中使用指定顏色
-                </a>
-            </h2>
-            <div>
-                <p><p>使用 Flutter MaterialApp 時，如果直接使用 <code>Color.fromRGBO</code> 指定 ThemeData 的 <code>primarySwatch</code> 會出現類型錯誤。這是因為 <code>primarySwatch</code> 接收的類型是 <code>MaterialColor</code> 而不是 <code>Color</code>：</p>
-<p><img src="https://i.imgur.com/8oO6cvG.png" alt="Imgur"></p></p>
-                
-                <p><a href="/posts/use-specific-color-on-the-flutter-material-app/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>October 28, 2021</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/flutter">#flutter</a>
-                
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/mujoco-installation/">
-                    MuJoco and mujoco_py Installation
-                </a>
-            </h2>
-            <div>
-                <p><p>本文紀錄在 Ubuntu 上安裝 MuJoco 以及 mujoco_py 的方法。</p></p>
-                
-                <p><a href="/posts/mujoco-installation/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>April 25, 2020</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/python">#python</a>
-                
-                    <a class="tag" href="/tags/mujoco">#mujoco</a>
-                
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/enable-pxe-boot-on-intel-nic-under-rhel/">
-                    Enable PXE boot on Intel NIC under RHEL
-                </a>
-            </h2>
-            <div>
-                <p><p>最近遇到一個奇怪的問題：在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡;
-但是進入到 OS 之後，網卡就出現了並且能正常運作。</p></p>
-                
-                <p><a href="/posts/enable-pxe-boot-on-intel-nic-under-rhel/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>April 22, 2018</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/pxe">#pxe</a>
-                
-                    <a class="tag" href="/tags/rhel">#rhel</a>
-                
-            
-            </div>
-
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/install-ubuntu-in-uefi-mode-with-debootstrap/">
-                    Install Ubuntu in UEFI mode with debootstrap
-                </a>
-            </h2>
-            <div>
-                <p><p>在 UEFI 模式下使用 LiveCD 安裝 Ubuntu，安裝完成後卻總是卡在 grub。</p></p>
-                
-                <p><a href="/posts/install-ubuntu-in-uefi-mode-with-debootstrap/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>November 3, 2017</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/ubuntu">#ubuntu</a>
-                
-                    <a class="tag" href="/tags/uefi">#uefi</a>
-                
-                    <a class="tag" href="/tags/debootstrap">#debootstrap</a>
-                
-            
-            </div>
-
-        </article>
-        
-    </div>
-        
-        <div class="paginator">
-        
-        
-        <p>Page 1 of 4</p>
-        <div class="paginator-group">
-            
-            
-                <a class="color-link older" href="/page/2/">
-                    Older
-                    <svg width="13px" height="9px" viewBox="0 0 13 9" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">
-                            <g class="color-arrow" fill="#63BDA2" fill-rule="nonzero">
-                                <polygon points="7.6707477 1.37628835 8.3292523 0.623711653 12.7592994 4.50000282 8.32918951 8.37629079 7.67069049 7.62370921 11.2407006 4.49999718"></polygon>
-                                <polygon id="Path" points="0 5 0 4 12 4 12 5"></polygon>
-                            </g>
-                    </svg>
-
-                </a>
-            
-        </div>
-        
-    </div>
 
         
         </div>

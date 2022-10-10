@@ -6,7 +6,31 @@
     <description>Recent content in flutter on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-hant</language>
-    <lastBuildDate>Fri, 01 Jul 2022 19:30:23 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/tags/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Oct 2022 23:22:51 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/tags/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dart 轉換 json 中的 protobuf 結構</title>
+      <link>https://maple52046.github.io/posts/dart-convert-protobuf-structure-in-json/</link>
+      <pubDate>Mon, 10 Oct 2022 23:22:51 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/dart-convert-protobuf-structure-in-json/</guid>
+      <description>&lt;p&gt;最近開始將 flutter app 的後端由 restful api 逐步轉成 grpc，轉換的過程中為了同時兼容舊的 api，在原本的 json 結構中替換並嵌入了 protobuf 結構。結果在 json 序列化時 (&lt;code&gt;flutter packages pub run build_runner build&lt;/code&gt;) 出現了類似以下錯誤：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[INFO] Generating build script completed, took 569ms
+[INFO] Reading cached asset graph completed, took 77ms
+[INFO] Checking for updates since last build completed, took 640ms
+[SEVERE] json_serializable on lib/models/plustwo.dart:
+
+Expecting a `fromJson` constructor with exactly one positional parameter. The only extra parameters allowed are functions of the form `T Function(Object?) fromJsonT` where `T` is a type parameter of the target type.
+package:client/proto/calculator.pb.dart:40:28
+   ╷
+40 │   factory PlusTwoIntResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =&amp;gt; create()..mergeFromJson(i, r);
+   │                            ^^^^^^^^
+   ╵
+[INFO] Running build completed, took 5.1s
+[INFO] Caching finalized dependency graph completed, took 48ms
+[SEVERE] Failed after 5.2s
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
     <item>
       <title>在 Flutter 中使用 NestedScrollView 與 CustomScrollView</title>
       <link>https://maple52046.github.io/posts/using-nestedscrollview-in-flutter/</link>
