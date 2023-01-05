@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pigeon on 世界的盡頭</title>
+    <link>https://maple52046.github.io/tags/pigeon/</link>
+    <description>Recent content in pigeon on 世界的盡頭</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-hant</language>
+    <lastBuildDate>Thu, 05 Jan 2023 10:30:07 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/tags/pigeon/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用 Flutter Pigeon 開發 Objective-C plugin</title>
+      <link>https://maple52046.github.io/posts/create-objc-plugin-for-flutter-with-pigeon/</link>
+      <pubDate>Thu, 05 Jan 2023 10:30:07 +0800</pubDate>
+      
+      <guid>https://maple52046.github.io/posts/create-objc-plugin-for-flutter-with-pigeon/</guid>
+      <description>&lt;p&gt;最近在為 app 整合整合其他公司的 sdk，對方只提供 java / objective-c 的方案。因此得自己做 native plugin 開發。&lt;/p&gt;
+&lt;p&gt;Google 了一番 flutter native plugin 開發，基本都提到了 &lt;a href=&#34;https://pub.dev/packages/pigeon&#34;&gt;Pigeon&lt;/a&gt; 這個套件。使用 pigeon 可以：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;同時規範 android/ios native plugin 的 api (長什麼樣子、怎麼傳參數)&lt;/li&gt;
+&lt;li&gt;自動產生 dart code&lt;/li&gt;
+&lt;li&gt;自動綁定 flutter 與 native 之間的通信&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;網路上的文章，大多都將 pigeon 用於單獨的 plugin 開發。而我則因為一些因素，將 peigon 用於現有的 project 裡。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
