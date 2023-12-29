@@ -6,12 +6,12 @@
     <description>Recent content in vsftpd on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-hant</language>
-    <lastBuildDate>Thu, 25 Dec 2014 17:26:57 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/tags/vsftpd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Dec 2014 17:26:57 +0800</lastBuildDate>
+    <atom:link href="https://maple52046.github.io/tags/vsftpd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>解決 vsftpd: &#34;500 OOPS: priv_sock_get_cmd&#34;</title>
       <link>https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/</link>
       <pubDate>Thu, 25 Dec 2014 17:26:57 +0800</pubDate>
-      
       <guid>https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/</guid>
       <description>&lt;p&gt;最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;回應:	500 OOPS: priv_sock_get_cmd
@@ -19,6 +19,5 @@
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&amp;#34;vsftpd&amp;#34; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
-    
   </channel>
 </rss>

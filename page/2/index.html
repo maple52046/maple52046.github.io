@@ -2,7 +2,7 @@
 
 <html lang="zh-hant">
     <head>
-	<meta name="generator" content="Hugo 0.109.0">
+	<meta name="generator" content="Hugo 0.120.4">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,6 +50,7 @@ if (!doNotTrack) {
 <meta property="og:description" content="一個人的時候只是怕想妳" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://maple52046.github.io/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/>
+
 </head>
 
     <body>
@@ -183,6 +184,34 @@ if (!doNotTrack) {
         
         
         
+        
+        <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/enable-pxe-boot-on-intel-nic-under-rhel/">
+                    Enable PXE boot on Intel NIC under RHEL
+                </a>
+            </h2>
+            <div>
+                <p><p>最近遇到一個奇怪的問題：在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡;
+但是進入到 OS 之後，網卡就出現了並且能正常運作。</p></p>
+                
+                <p><a href="/posts/enable-pxe-boot-on-intel-nic-under-rhel/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>April 22, 2018</time>
+
+            
+            
+                
+                    <a class="tag" href="/tags/pxe">#pxe</a>
+                
+                    <a class="tag" href="/tags/rhel">#rhel</a>
+                
+            
+            </div> 
+           
+        </article>
         
         <article>
             <h2>
@@ -480,35 +509,6 @@ host-01:
                     <a class="tag" href="/tags/openstack">#openstack</a>
                 
                     <a class="tag" href="/tags/saltstack">#saltstack</a>
-                
-            
-            </div> 
-           
-        </article>
-        
-        <article>
-            <h2>
-                <a href="https://maple52046.github.io/posts/solve-qcow2-file-too-large-could-not-read-snapshots/">
-                    解決 qcow2 image : Could not read snapshots. File too large
-                </a>
-            </h2>
-            <div>
-                <p><p>在 KVM VM running 的中，執行了 <code>qemu-img snapshot -c ....</code>，可能是沒有算好 image 的剩餘空間，也可能是某種 bug，總之，當 VM 關機後，就再也開不起來了。</p>
-<p><code>qemu-img info</code> 會產生錯誤：</p>
-<pre tabindex="0"><code>Host1 # qemu-img info portal.img
-qemu-img: Could not open &#39;portal.img&#39;: Could not read snapshots: File too large
-</code></pre></p>
-                
-                <p><a href="/posts/solve-qcow2-file-too-large-could-not-read-snapshots/">Read more...</a></p>
-                
-            </div>
-            <div class="post-footer">
-            <time>July 22, 2015</time>
-
-            
-            
-                
-                    <a class="tag" href="/tags/qemu">#qemu</a>
                 
             
             </div> 

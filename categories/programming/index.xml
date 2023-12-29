@@ -6,12 +6,79 @@
     <description>Recent content in Programming on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-hant</language>
-    <lastBuildDate>Fri, 01 Jul 2022 19:30:23 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/categories/programming/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 29 Dec 2023 21:41:53 +0800</lastBuildDate>
+    <atom:link href="https://maple52046.github.io/categories/programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>解決在 Flutter 使用 Catcher 時遇到 WidgetsFlutterBinding 初始化的問題</title>
+      <link>https://maple52046.github.io/posts/solve-widgetsflutterbinding-issue-in-flutter-with-catcher/</link>
+      <pubDate>Fri, 29 Dec 2023 21:41:53 +0800</pubDate>
+      <guid>https://maple52046.github.io/posts/solve-widgetsflutterbinding-issue-in-flutter-with-catcher/</guid>
+      <description>&lt;p&gt;最近引入 &lt;a href=&#34;https://github.com/jhomlala/catcher&#34;&gt;Catcher&lt;/a&gt; 來搜集 app 發生的錯誤訊息。按照 github 上的範例修改了 main function，初始化 Catcher:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-dart&#34; data-lang=&#34;dart&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; main() &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  WidgetsFlutterBinding.ensureInitialized();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Catcher(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    debugConfig: CatcherOptions(SilentReportMode(), [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      ConsoleHandler(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableApplicationParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableDeviceParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableCustomParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableStackTrace: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      ),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ]),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    releaseConfig: CatcherOptions(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      SilentReportMode(),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        HttpHandler(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          HttpRequestType.post,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          Uri.parse(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;https://x.y.z&amp;#39;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableApplicationParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableCustomParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableDeviceParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableStackTrace: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      ],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ),
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    runAppFunction: initApp,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    navigatorKey: myRootNavKey,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  );
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Future&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; initApp() &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;/*
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    此處省略一萬個 sdk 初始化步驟 .......
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;  */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  runApp(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; RootApp());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;結果運行時 console 顯示錯誤：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;flutter: [2023-12-29 20:47:21.680324 | Catcher | INFO] Setup localization lazily!
+flutter: [2023-12-29 20:47:21.694254 | Catcher | INFO] ============================ CATCHER LOG ============================
+flutter: [2023-12-29 20:47:21.694391 | Catcher | INFO] Crash occurred on 2023-12-29 20:47:21.687161
+flutter: [2023-12-29 20:47:21.694430 | Catcher | INFO]
+flutter: [2023-12-29 20:47:21.694508 | Catcher | INFO] ---------- ERROR ----------
+flutter: [2023-12-29 20:47:21.694635 | Catcher | INFO] Zone mismatch.
+The Flutter bindings were initialized in a different zone than is now being used. This will likely cause confusion and bugs as any zone-specific configuration will inconsistently use the configuration of the original binding initialization zone or this zone based on hard-to-predict factors such as which zone was active when a particular callback was set.
+It is important to use the same zone when calling `ensureInitialized` on the binding as when calling `runApp` later.
+To make this warning fatal, set BindingBase.debugZoneErrorsAreFatal to true before the bindings are initialized (i.e. as the first statement in `void main() { }`).
+flutter: [2023-12-29 20:47:21.694679 | Catcher | INFO]
+flutter: [2023-12-29 20:47:21.694899 | Catcher | INFO] ------- STACK TRACE -------
+flutter: [2023-12-29 20:47:21.695005 | Catcher | INFO] #0      BindingBase.debugCheckZone.&amp;lt;anonymous closure&amp;gt; (package:flutter/src/foundation/binding.dart:503:29)
+flutter: [2023-12-29 20:47:21.695041 | Catcher | INFO] #1      BindingBase.debugCheckZone (package:flutter/src/foundation/binding.dart:508:6)
+flutter: [2023-12-29 20:47:21.695076 | Catcher | INFO] #2      runApp (package:flutter/src/widgets/binding.dart:1093:18)
+flutter: [2023-12-29 20:47:21.695120 | Catcher | INFO] #3      initApp (package:arena/main.dart:225:3)
+flutter: [2023-12-29 20:47:21.695152 | Catcher | INFO] &amp;lt;asynchronous suspension&amp;gt;
+flutter: [2023-12-29 20:47:21.695183 | Catcher | INFO] #4      main.&amp;lt;anonymous closure&amp;gt;.&amp;lt;anonymous closure&amp;gt; (package:arena/main.dart:108:37)
+flutter: [2023-12-29 20:47:21.695213 | Catcher | INFO] &amp;lt;asynchronous suspension&amp;gt;
+flutter: [2023-12-29 20:47:21.695270 | Catcher | INFO]
+flutter: [2023-12-29 20:47:21.695330 | Catcher | INFO] ======================================================================
+flutter: [2023-12-29 20:47:21.695767 | Catcher | INFO] Report result: true
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
     <item>
       <title>在 Flutter 中使用 NestedScrollView 與 CustomScrollView</title>
       <link>https://maple52046.github.io/posts/using-nestedscrollview-in-flutter/</link>
       <pubDate>Fri, 01 Jul 2022 19:30:23 +0800</pubDate>
-      
       <guid>https://maple52046.github.io/posts/using-nestedscrollview-in-flutter/</guid>
       <description>&lt;p&gt;最近在修改 app 的個人頁，遇到的需求：&lt;/p&gt;
 &lt;ol&gt;
@@ -31,12 +98,10 @@
 當用戶向上滑動時，app bar 固定不動，tab bar 往上滑動到 tab bar 時固定不動，下方 tab view 保持可滑動。如下圖：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://i.imgur.com/o63DCh9.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>編譯 Flutter APK</title>
       <link>https://maple52046.github.io/posts/compile-flutter-apk/</link>
       <pubDate>Fri, 10 Jun 2022 10:12:20 +0800</pubDate>
-      
       <guid>https://maple52046.github.io/posts/compile-flutter-apk/</guid>
       <description>&lt;p&gt;本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。&lt;/p&gt;
 &lt;p&gt;版本資訊:&lt;/p&gt;
@@ -75,33 +140,27 @@
 &lt;/tbody&gt;
 &lt;/table&gt;</description>
     </item>
-    
     <item>
       <title>OpenIM 整合(踩坑)筆記 01</title>
       <link>https://maple52046.github.io/posts/openim-integration-notes-01/</link>
       <pubDate>Wed, 25 May 2022 18:40:10 +0800</pubDate>
-      
       <guid>https://maple52046.github.io/posts/openim-integration-notes-01/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://doc.rentsoft.cn/#/introduce/production_introduce&#34;&gt;OpenIM&lt;/a&gt; 號稱是由一群前微信等技術專家一起出來打造的開源 IM 系統。撇開政治不談，個人覺得微信在 IM 領域確實是佼佼者，因此決定整合 OpenIM 到現有的產品中，以減少浪費時間重複造輪子。&lt;/p&gt;
 &lt;p&gt;本篇目標是串連原有的帳號系統與 OpenIM 的帳號系統，完成 &lt;strong&gt;自動註冊用戶到 OpenIM&lt;/strong&gt; (下圖中的第 3 ~ 4 步驟)。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://doc.rentsoft.cn/images/server-register.png&#34; alt=&#34;Open-IM用户注册&#34;&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>在 Flutter MaterialApp 中使用指定顏色</title>
       <link>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</link>
       <pubDate>Thu, 28 Oct 2021 20:36:27 +0800</pubDate>
-      
       <guid>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</guid>
       <description>&lt;p&gt;使用 Flutter MaterialApp 時，如果直接使用 &lt;code&gt;Color.fromRGBO&lt;/code&gt; 指定 ThemeData 的 &lt;code&gt;primarySwatch&lt;/code&gt; 會出現類型錯誤。這是因為 &lt;code&gt;primarySwatch&lt;/code&gt; 接收的類型是 &lt;code&gt;MaterialColor&lt;/code&gt; 而不是 &lt;code&gt;Color&lt;/code&gt;：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://i.imgur.com/8oO6cvG.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Cross-compile for OpenWRT</title>
       <link>https://maple52046.github.io/posts/cross-compile-for-openwrt/</link>
       <pubDate>Thu, 14 May 2015 09:55:00 +0000</pubDate>
-      
       <guid>https://maple52046.github.io/posts/cross-compile-for-openwrt/</guid>
       <description>&lt;p&gt;這是一個實驗，在 Ubuntu 上編譯可以在 OpenWRT 上運行的程式。
 參考並修改別人的方式，完成了幾個簡單的範例。&lt;/p&gt;
@@ -114,6 +173,5 @@
 &lt;/li&gt;
 &lt;/ul&gt;</description>
     </item>
-    
   </channel>
 </rss>

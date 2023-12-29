@@ -6,21 +6,19 @@
     <description>Recent content in ubuntu on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-hant</language>
-    <lastBuildDate>Fri, 03 Nov 2017 15:28:19 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Nov 2017 15:28:19 +0000</lastBuildDate>
+    <atom:link href="https://maple52046.github.io/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Install Ubuntu in UEFI mode with debootstrap</title>
       <link>https://maple52046.github.io/posts/install-ubuntu-in-uefi-mode-with-debootstrap/</link>
       <pubDate>Fri, 03 Nov 2017 15:28:19 +0000</pubDate>
-      
       <guid>https://maple52046.github.io/posts/install-ubuntu-in-uefi-mode-with-debootstrap/</guid>
       <description>&lt;p&gt;在 UEFI 模式下使用 LiveCD 安裝 Ubuntu，安裝完成後卻總是卡在 grub。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Fix the Oracle Java installation on Ubuntu 16.04</title>
       <link>https://maple52046.github.io/posts/fix-the-oracle-java-installation-on-ubuntu-16-04/</link>
       <pubDate>Thu, 19 Oct 2017 08:38:53 +0000</pubDate>
-      
       <guid>https://maple52046.github.io/posts/fix-the-oracle-java-installation-on-ubuntu-16-04/</guid>
       <description>&lt;p&gt;在 Ubuntu 透過 &lt;a href=&#34;https://launchpad.net/~webupd8team/+archive/ubuntu/java&#34;&gt;WebUpd8 team ppa&lt;/a&gt; 安裝 Java：&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo add-apt-repository ppa:webupd8team/java
@@ -28,12 +26,10 @@ sudo apt update
 sudo apt install oracle-java9-installer
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;安裝的過程中遇到 404 Not found 問題。&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Ubuntu 上使用 ffmpeg 將 DVD 轉成 mp4</title>
       <link>https://maple52046.github.io/posts/convert-dvd-to-mp4-with-ffmpeg-on-ubuntu/</link>
       <pubDate>Sat, 23 Jan 2016 00:14:00 +0000</pubDate>
-      
       <guid>https://maple52046.github.io/posts/convert-dvd-to-mp4-with-ffmpeg-on-ubuntu/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.ffmpeg.org/&#34;&gt;FFmpeg&lt;/a&gt; 是一套跨平臺開發原始碼的影音轉換軟體。
 利用 FFmpeg 我們可以在 Linux 上將 DVD 轉換成 mp4 或是其他格式。&lt;/p&gt;
@@ -42,12 +38,10 @@ sudo apt install oracle-java9-installer
 &lt;p&gt;如果要從 PPA 安裝，請參考： &lt;a href=&#34;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&#34;&gt;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;不過我是採用編譯的方式：https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>IPv6 Neighbour table overflow</title>
       <link>https://maple52046.github.io/posts/ipv6-neighbour-table-overflow/</link>
       <pubDate>Fri, 01 May 2015 12:07:00 +0000</pubDate>
-      
       <guid>https://maple52046.github.io/posts/ipv6-neighbour-table-overflow/</guid>
       <description>&lt;p&gt;這兩天一直在 syslog 上看到 &lt;code&gt;Neighbour table overflow&lt;/code&gt;&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-syslog&#34; data-lang=&#34;syslog&#34;&gt;Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressed
@@ -55,6 +49,5 @@ Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;每兩分鐘就出現6~7筆,數量非常的多
 如果不處理它，放任它繼續增長，過一兩天後系統就會 kernel panic。&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

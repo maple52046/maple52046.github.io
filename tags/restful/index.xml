@@ -6,12 +6,12 @@
     <description>Recent content in restful on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-hant</language>
-    <lastBuildDate>Mon, 10 Oct 2022 23:22:51 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/tags/restful/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Oct 2022 23:22:51 +0800</lastBuildDate>
+    <atom:link href="https://maple52046.github.io/tags/restful/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Dart 轉換 json 中的 protobuf 結構</title>
       <link>https://maple52046.github.io/posts/dart-convert-protobuf-structure-in-json/</link>
       <pubDate>Mon, 10 Oct 2022 23:22:51 +0800</pubDate>
-      
       <guid>https://maple52046.github.io/posts/dart-convert-protobuf-structure-in-json/</guid>
       <description>&lt;p&gt;最近開始將 flutter app 的後端由 restful api 逐步轉成 grpc，轉換的過程中為了同時兼容舊的 api，在原本的 json 結構中替換並嵌入了 protobuf 結構。結果在 json 序列化時 (&lt;code&gt;flutter packages pub run build_runner build&lt;/code&gt;) 出現了類似以下錯誤：&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[INFO] Generating build script completed, took 569ms
@@ -30,6 +30,5 @@ package:client/proto/calculator.pb.dart:40:28
 [SEVERE] Failed after 5.2s
 &lt;/code&gt;&lt;/pre&gt;</description>
     </item>
-    
   </channel>
 </rss>

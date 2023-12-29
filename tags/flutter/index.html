@@ -49,6 +49,7 @@ if (!doNotTrack) {
 <meta property="og:description" content="一個人的時候只是怕想妳" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://maple52046.github.io/tags/flutter/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/>
+
 </head>
 
     <body>
@@ -177,6 +178,85 @@ if (!doNotTrack) {
 
   <h1>Tagged "flutter"</h1>
   
+  
+    
+    <article>
+            <h2>
+                <a href="https://maple52046.github.io/posts/solve-widgetsflutterbinding-issue-in-flutter-with-catcher/">
+                    解決在 Flutter 使用 Catcher 時遇到 WidgetsFlutterBinding 初始化的問題
+                </a>
+            </h2>
+            <div>
+                <p><p>最近引入 <a href="https://github.com/jhomlala/catcher">Catcher</a> 來搜集 app 發生的錯誤訊息。按照 github 上的範例修改了 main function，初始化 Catcher:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main() <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>  WidgetsFlutterBinding.ensureInitialized();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Catcher(
+</span></span><span style="display:flex;"><span>    debugConfig: CatcherOptions(SilentReportMode(), [
+</span></span><span style="display:flex;"><span>      ConsoleHandler(
+</span></span><span style="display:flex;"><span>        enableApplicationParameters: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        enableDeviceParameters: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        enableCustomParameters: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        enableStackTrace: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    ]),
+</span></span><span style="display:flex;"><span>    releaseConfig: CatcherOptions(
+</span></span><span style="display:flex;"><span>      SilentReportMode(),
+</span></span><span style="display:flex;"><span>      [
+</span></span><span style="display:flex;"><span>        HttpHandler(
+</span></span><span style="display:flex;"><span>          HttpRequestType.post,
+</span></span><span style="display:flex;"><span>          Uri.parse(<span style="color:#e6db74">&#39;https://x.y.z&#39;</span>),
+</span></span><span style="display:flex;"><span>          enableApplicationParameters: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>          enableCustomParameters: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>          enableDeviceParameters: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>          enableStackTrace: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    runAppFunction: initApp,
+</span></span><span style="display:flex;"><span>    navigatorKey: myRootNavKey,
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Future<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;</span> initApp() <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    此處省略一萬個 sdk 初始化步驟 .......
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">  */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  runApp(<span style="color:#66d9ef">const</span> RootApp());
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>結果運行時 console 顯示錯誤：</p>
+<pre tabindex="0"><code>flutter: [2023-12-29 20:47:21.680324 | Catcher | INFO] Setup localization lazily!
+flutter: [2023-12-29 20:47:21.694254 | Catcher | INFO] ============================ CATCHER LOG ============================
+flutter: [2023-12-29 20:47:21.694391 | Catcher | INFO] Crash occurred on 2023-12-29 20:47:21.687161
+flutter: [2023-12-29 20:47:21.694430 | Catcher | INFO]
+flutter: [2023-12-29 20:47:21.694508 | Catcher | INFO] ---------- ERROR ----------
+flutter: [2023-12-29 20:47:21.694635 | Catcher | INFO] Zone mismatch.
+The Flutter bindings were initialized in a different zone than is now being used. This will likely cause confusion and bugs as any zone-specific configuration will inconsistently use the configuration of the original binding initialization zone or this zone based on hard-to-predict factors such as which zone was active when a particular callback was set.
+It is important to use the same zone when calling `ensureInitialized` on the binding as when calling `runApp` later.
+To make this warning fatal, set BindingBase.debugZoneErrorsAreFatal to true before the bindings are initialized (i.e. as the first statement in `void main() { }`).
+flutter: [2023-12-29 20:47:21.694679 | Catcher | INFO]
+flutter: [2023-12-29 20:47:21.694899 | Catcher | INFO] ------- STACK TRACE -------
+flutter: [2023-12-29 20:47:21.695005 | Catcher | INFO] #0      BindingBase.debugCheckZone.&lt;anonymous closure&gt; (package:flutter/src/foundation/binding.dart:503:29)
+flutter: [2023-12-29 20:47:21.695041 | Catcher | INFO] #1      BindingBase.debugCheckZone (package:flutter/src/foundation/binding.dart:508:6)
+flutter: [2023-12-29 20:47:21.695076 | Catcher | INFO] #2      runApp (package:flutter/src/widgets/binding.dart:1093:18)
+flutter: [2023-12-29 20:47:21.695120 | Catcher | INFO] #3      initApp (package:arena/main.dart:225:3)
+flutter: [2023-12-29 20:47:21.695152 | Catcher | INFO] &lt;asynchronous suspension&gt;
+flutter: [2023-12-29 20:47:21.695183 | Catcher | INFO] #4      main.&lt;anonymous closure&gt;.&lt;anonymous closure&gt; (package:arena/main.dart:108:37)
+flutter: [2023-12-29 20:47:21.695213 | Catcher | INFO] &lt;asynchronous suspension&gt;
+flutter: [2023-12-29 20:47:21.695270 | Catcher | INFO]
+flutter: [2023-12-29 20:47:21.695330 | Catcher | INFO] ======================================================================
+flutter: [2023-12-29 20:47:21.695767 | Catcher | INFO] Report result: true
+</code></pre></p>
+                
+                <p><a href="/posts/solve-widgetsflutterbinding-issue-in-flutter-with-catcher/">Read more...</a></p>
+                
+            </div>
+            <div class="post-footer">
+            <time>December 29, 2023</time>
+            </div> 
+        </article>
+    
   
     
     <article>

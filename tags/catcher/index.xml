@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>flutter on 世界的盡頭</title>
-    <link>https://maple52046.github.io/tags/flutter/</link>
-    <description>Recent content in flutter on 世界的盡頭</description>
+    <title>catcher on 世界的盡頭</title>
+    <link>https://maple52046.github.io/tags/catcher/</link>
+    <description>Recent content in catcher on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-hant</language>
     <lastBuildDate>Fri, 29 Dec 2023 21:41:53 +0800</lastBuildDate>
-    <atom:link href="https://maple52046.github.io/tags/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://maple52046.github.io/tags/catcher/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>解決在 Flutter 使用 Catcher 時遇到 WidgetsFlutterBinding 初始化的問題</title>
       <link>https://maple52046.github.io/posts/solve-widgetsflutterbinding-issue-in-flutter-with-catcher/</link>
@@ -74,125 +74,6 @@ flutter: [2023-12-29 20:47:21.695270 | Catcher | INFO]
 flutter: [2023-12-29 20:47:21.695330 | Catcher | INFO] ======================================================================
 flutter: [2023-12-29 20:47:21.695767 | Catcher | INFO] Report result: true
 &lt;/code&gt;&lt;/pre&gt;</description>
-    </item>
-    <item>
-      <title>使用 Flutter Pigeon 開發 Objective-C plugin</title>
-      <link>https://maple52046.github.io/posts/create-objc-plugin-for-flutter-with-pigeon/</link>
-      <pubDate>Thu, 05 Jan 2023 10:30:07 +0800</pubDate>
-      <guid>https://maple52046.github.io/posts/create-objc-plugin-for-flutter-with-pigeon/</guid>
-      <description>&lt;p&gt;最近在為 app 整合整合其他公司的 sdk，對方只提供 java / objective-c 的方案。因此得自己做 native plugin 開發。&lt;/p&gt;
-&lt;p&gt;Google 了一番 flutter native plugin 開發，基本都提到了 &lt;a href=&#34;https://pub.dev/packages/pigeon&#34;&gt;Pigeon&lt;/a&gt; 這個套件。使用 pigeon 可以：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;同時規範 android/ios native plugin 的 api (長什麼樣子、怎麼傳參數)&lt;/li&gt;
-&lt;li&gt;自動產生 dart code&lt;/li&gt;
-&lt;li&gt;自動綁定 flutter 與 native 之間的通信&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;網路上的文章，大多都將 pigeon 用於單獨的 plugin 開發。而我則因為一些因素，將 peigon 用於現有的 project 裡。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Dart 轉換 json 中的 protobuf 結構</title>
-      <link>https://maple52046.github.io/posts/dart-convert-protobuf-structure-in-json/</link>
-      <pubDate>Mon, 10 Oct 2022 23:22:51 +0800</pubDate>
-      <guid>https://maple52046.github.io/posts/dart-convert-protobuf-structure-in-json/</guid>
-      <description>&lt;p&gt;最近開始將 flutter app 的後端由 restful api 逐步轉成 grpc，轉換的過程中為了同時兼容舊的 api，在原本的 json 結構中替換並嵌入了 protobuf 結構。結果在 json 序列化時 (&lt;code&gt;flutter packages pub run build_runner build&lt;/code&gt;) 出現了類似以下錯誤：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[INFO] Generating build script completed, took 569ms
-[INFO] Reading cached asset graph completed, took 77ms
-[INFO] Checking for updates since last build completed, took 640ms
-[SEVERE] json_serializable on lib/models/plustwo.dart:
-
-Expecting a `fromJson` constructor with exactly one positional parameter. The only extra parameters allowed are functions of the form `T Function(Object?) fromJsonT` where `T` is a type parameter of the target type.
-package:client/proto/calculator.pb.dart:40:28
-   ╷
-40 │   factory PlusTwoIntResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =&amp;gt; create()..mergeFromJson(i, r);
-   │                            ^^^^^^^^
-   ╵
-[INFO] Running build completed, took 5.1s
-[INFO] Caching finalized dependency graph completed, took 48ms
-[SEVERE] Failed after 5.2s
-&lt;/code&gt;&lt;/pre&gt;</description>
-    </item>
-    <item>
-      <title>在 Flutter 中使用 NestedScrollView 與 CustomScrollView</title>
-      <link>https://maple52046.github.io/posts/using-nestedscrollview-in-flutter/</link>
-      <pubDate>Fri, 01 Jul 2022 19:30:23 +0800</pubDate>
-      <guid>https://maple52046.github.io/posts/using-nestedscrollview-in-flutter/</guid>
-      <description>&lt;p&gt;最近在修改 app 的個人頁，遇到的需求：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Tab bar 切出圓角&lt;/li&gt;
-&lt;li&gt;Tab bar 可以滑動，滑到 app bar 的時候固定住&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;用文字說不太清楚，下面直接看圖：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/CxZ6jxL.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;
-&lt;p&gt;頁面的 components 有：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;App bar&lt;/li&gt;
-&lt;li&gt;個人資訊區&lt;/li&gt;
-&lt;li&gt;Tab bar&lt;/li&gt;
-&lt;li&gt;Tab view&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Tab view 裡是可滾動的內容, 這裡放了兩種類型：grid 與 list。
-當用戶向上滑動時，app bar 固定不動，tab bar 往上滑動到 tab bar 時固定不動，下方 tab view 保持可滑動。如下圖：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/o63DCh9.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>編譯 Flutter APK</title>
-      <link>https://maple52046.github.io/posts/compile-flutter-apk/</link>
-      <pubDate>Fri, 10 Jun 2022 10:12:20 +0800</pubDate>
-      <guid>https://maple52046.github.io/posts/compile-flutter-apk/</guid>
-      <description>&lt;p&gt;本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。&lt;/p&gt;
-&lt;p&gt;版本資訊:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;#&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Version&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Flutter&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;3.0.1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Host OS&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;MacOS Big Sur (11.3.1)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android Studio&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;2020.3 (AI-203.7717.56.2031.7678000)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android Platform Tool&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;r33.0.2&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;OpenJDK&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;18.0.1.1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android (phone)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;11&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;</description>
-    </item>
-    <item>
-      <title>客製化 Flutter Image Provider</title>
-      <link>https://maple52046.github.io/posts/customize-flutter-image-provider/</link>
-      <pubDate>Fri, 27 May 2022 17:57:53 +0800</pubDate>
-      <guid>https://maple52046.github.io/posts/customize-flutter-image-provider/</guid>
-      <description>&lt;p&gt;之前在 flutter app 中使用 &lt;a href=&#34;https://pub.dev/packages/optimized_cached_image&#34;&gt;Optimized Cached Image&lt;/a&gt; 來展示圖片，選擇他的原因也很簡單，因為當時剛學 flutter 沒多久就要直接上陣了。先選一個看起來簡單好用的再說；而且他還可以設置 cache key，避免重複抓取，感覺起來就不錯。&lt;/p&gt;
-&lt;p&gt;然而後來圖片一多起來之後，就發現問題了，往往 app 打開滑沒幾下就 crash。看 log 是 OOM 問題，上網查了一下，有人說是 memory leak。大致上就是 image disposed 之後，沒有正確的釋放 ram，app 佔用的 ram 越來越多，就直接觸發 OOM killer。測試了一下原生的 NetworkImage 沒有這個問題。所以應該就是 Optimized Cached Image 的問題了。&lt;/p&gt;
-&lt;p&gt;另外就是在我的程式裡，widget 只拿到 media id，需要先到後端去查 media 的 presigned url 返回給 app，app 再用 presigned url 抓圖片資料。也就是原來的程式碼裡一直都是 future builder + image，這造成的問題就是頁面一刷新就要重新抓 presigned url，大大降低了效率，也大大提升了後端的負載。&lt;/p&gt;
-&lt;p&gt;因此決定客製化一個業務專用的 image provider。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>在 Flutter MaterialApp 中使用指定顏色</title>
-      <link>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</link>
-      <pubDate>Thu, 28 Oct 2021 20:36:27 +0800</pubDate>
-      <guid>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</guid>
-      <description>&lt;p&gt;使用 Flutter MaterialApp 時，如果直接使用 &lt;code&gt;Color.fromRGBO&lt;/code&gt; 指定 ThemeData 的 &lt;code&gt;primarySwatch&lt;/code&gt; 會出現類型錯誤。這是因為 &lt;code&gt;primarySwatch&lt;/code&gt; 接收的類型是 &lt;code&gt;MaterialColor&lt;/code&gt; 而不是 &lt;code&gt;Color&lt;/code&gt;：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/8oO6cvG.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

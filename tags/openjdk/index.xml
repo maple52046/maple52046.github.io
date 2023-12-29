@@ -6,12 +6,12 @@
     <description>Recent content in openjdk on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-hant</language>
-    <lastBuildDate>Fri, 10 Jun 2022 10:12:20 +0800</lastBuildDate><atom:link href="https://maple52046.github.io/tags/openjdk/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Jun 2022 10:12:20 +0800</lastBuildDate>
+    <atom:link href="https://maple52046.github.io/tags/openjdk/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>編譯 Flutter APK</title>
       <link>https://maple52046.github.io/posts/compile-flutter-apk/</link>
       <pubDate>Fri, 10 Jun 2022 10:12:20 +0800</pubDate>
-      
       <guid>https://maple52046.github.io/posts/compile-flutter-apk/</guid>
       <description>&lt;p&gt;本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。&lt;/p&gt;
 &lt;p&gt;版本資訊:&lt;/p&gt;
@@ -50,6 +50,5 @@
 &lt;/tbody&gt;
 &lt;/table&gt;</description>
     </item>
-    
   </channel>
 </rss>

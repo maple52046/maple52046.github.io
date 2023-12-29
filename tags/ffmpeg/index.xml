@@ -6,12 +6,12 @@
     <description>Recent content in ffmpeg on 世界的盡頭</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-hant</language>
-    <lastBuildDate>Sat, 23 Jan 2016 00:14:00 +0000</lastBuildDate><atom:link href="https://maple52046.github.io/tags/ffmpeg/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 23 Jan 2016 00:14:00 +0000</lastBuildDate>
+    <atom:link href="https://maple52046.github.io/tags/ffmpeg/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Ubuntu 上使用 ffmpeg 將 DVD 轉成 mp4</title>
       <link>https://maple52046.github.io/posts/convert-dvd-to-mp4-with-ffmpeg-on-ubuntu/</link>
       <pubDate>Sat, 23 Jan 2016 00:14:00 +0000</pubDate>
-      
       <guid>https://maple52046.github.io/posts/convert-dvd-to-mp4-with-ffmpeg-on-ubuntu/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.ffmpeg.org/&#34;&gt;FFmpeg&lt;/a&gt; 是一套跨平臺開發原始碼的影音轉換軟體。
 利用 FFmpeg 我們可以在 Linux 上將 DVD 轉換成 mp4 或是其他格式。&lt;/p&gt;
@@ -20,6 +20,5 @@
 &lt;p&gt;如果要從 PPA 安裝，請參考： &lt;a href=&#34;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&#34;&gt;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;不過我是採用編譯的方式：https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
