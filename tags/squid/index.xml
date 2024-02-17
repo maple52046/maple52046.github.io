@@ -13,8 +13,7 @@
       <link>https://maple52046.github.io/posts/setup-squid-transparent-proxy-with-docker/</link>
       <pubDate>Thu, 19 Nov 2015 17:09:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/setup-squid-transparent-proxy-with-docker/</guid>
-      <description>&lt;p&gt;Squid 作為 Transparent proxy 時，不但可以加快區域網絡內的速度、降低網路流量
-還可以控管區網內是否要開放/封鎖網站~~(監看區網內誰在玩FB或是看色情網站XD)~~&lt;/p&gt;</description>
+      <description>&lt;p&gt;Squid 作為 Transparent proxy 時，不但可以加快區域網絡內的速度、降低網路流量&#xA;還可以控管區網內是否要開放/封鎖網站~~(監看區網內誰在玩FB或是看色情網站XD)~~&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

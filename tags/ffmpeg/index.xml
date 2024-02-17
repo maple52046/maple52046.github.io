@@ -13,12 +13,7 @@
       <link>https://maple52046.github.io/posts/convert-dvd-to-mp4-with-ffmpeg-on-ubuntu/</link>
       <pubDate>Sat, 23 Jan 2016 00:14:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/convert-dvd-to-mp4-with-ffmpeg-on-ubuntu/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.ffmpeg.org/&#34;&gt;FFmpeg&lt;/a&gt; 是一套跨平臺開發原始碼的影音轉換軟體。
-利用 FFmpeg 我們可以在 Linux 上將 DVD 轉換成 mp4 或是其他格式。&lt;/p&gt;
-&lt;p&gt;Ubuntu 15.04 以上可以直接以 apt-get 安裝。不過我的平臺是 Ubuntu 14.04。
-因此只能通過兩種方式安裝: ppa、手動編譯。&lt;/p&gt;
-&lt;p&gt;如果要從 PPA 安裝，請參考： &lt;a href=&#34;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&#34;&gt;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;不過我是採用編譯的方式：https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.ffmpeg.org/&#34;&gt;FFmpeg&lt;/a&gt; 是一套跨平臺開發原始碼的影音轉換軟體。&#xA;利用 FFmpeg 我們可以在 Linux 上將 DVD 轉換成 mp4 或是其他格式。&lt;/p&gt;&#xA;&lt;p&gt;Ubuntu 15.04 以上可以直接以 apt-get 安裝。不過我的平臺是 Ubuntu 14.04。&#xA;因此只能通過兩種方式安裝: ppa、手動編譯。&lt;/p&gt;&#xA;&lt;p&gt;如果要從 PPA 安裝，請參考： &lt;a href=&#34;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&#34;&gt;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;不過我是採用編譯的方式：https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

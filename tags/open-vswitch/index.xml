@@ -20,33 +20,14 @@
       <link>https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/</link>
       <pubDate>Thu, 05 Mar 2015 17:05:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/</guid>
-      <description>&lt;p&gt;雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 &lt;a href=&#34;https://github.com/openwrt/packages/tree/master/net/openvswitch&#34;&gt;Open vSwitch&lt;/a&gt; 的身影。但是實際上，在官方的 &lt;a href=&#34;https://downloads.openwrt.org/barrier_breaker/14.07/&#34;&gt;repository&lt;/a&gt; 中並沒有 Open vSwitch。因此決定自行編譯。&lt;/p&gt;
-&lt;h1 id=&#34;實驗環境&#34;&gt;&lt;strong&gt;實驗環境&lt;/strong&gt;&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;編譯環境&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;
-&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;
-&lt;li&gt;Open vSwitch version: 2.3.1&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;路由器&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.tp-link.tw/products/details/?model=TL-WR1043ND&#34;&gt;TP-Link TL-WR1043ND&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;</description>
+      <description>&lt;p&gt;雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 &lt;a href=&#34;https://github.com/openwrt/packages/tree/master/net/openvswitch&#34;&gt;Open vSwitch&lt;/a&gt; 的身影。但是實際上，在官方的 &lt;a href=&#34;https://downloads.openwrt.org/barrier_breaker/14.07/&#34;&gt;repository&lt;/a&gt; 中並沒有 Open vSwitch。因此決定自行編譯。&lt;/p&gt;&#xA;&lt;h1 id=&#34;實驗環境&#34;&gt;&lt;strong&gt;實驗環境&lt;/strong&gt;&lt;/h1&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;編譯環境&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;&#xA;&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;&#xA;&lt;li&gt;Open vSwitch version: 2.3.1&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;路由器&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;http://www.tp-link.tw/products/details/?model=TL-WR1043ND&#34;&gt;TP-Link TL-WR1043ND&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>設定 Libvirt 使用 Open vSwitch</title>
       <link>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</link>
       <pubDate>Tue, 12 Aug 2014 03:22:59 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</guid>
-      <description>&lt;p&gt;最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 &lt;code&gt;virsh define&lt;/code&gt; 之後才能使用。&lt;/p&gt;
-&lt;p&gt;每個 VM 都要手動設定真的很麻煩&lt;/p&gt;
-&lt;p&gt;幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]&lt;/p&gt;</description>
+      <description>&lt;p&gt;最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 &lt;code&gt;virsh define&lt;/code&gt; 之後才能使用。&lt;/p&gt;&#xA;&lt;p&gt;每個 VM 都要手動設定真的很麻煩&lt;/p&gt;&#xA;&lt;p&gt;幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

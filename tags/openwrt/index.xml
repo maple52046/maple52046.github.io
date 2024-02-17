@@ -13,39 +13,21 @@
       <link>https://maple52046.github.io/posts/compile-openwrt-with-openclash/</link>
       <pubDate>Mon, 26 Sep 2022 16:13:48 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/compile-openwrt-with-openclash/</guid>
-      <description>&lt;p&gt;最近朋友希望弄一台翻牆路由器放在辦公室用，於是買了一台 Netgear R6300 v2。刷了 DD-WRT 後才發現問題：安裝不了 &lt;a href=&#34;https://github.com/vernesong/OpenClash&#34;&gt;OpenClash&lt;/a&gt;，&lt;code&gt;ipkg&lt;/code&gt; 連 update 都不行了，就更不用說安裝。&lt;/p&gt;
-&lt;p&gt;參考 DD-WRT 官網 development 的 &lt;a href=&#34;https://wiki.dd-wrt.com/wiki/index.php/Development#Firmware_Modification_Kit&#34;&gt;Firmware Modification Kit&lt;/a&gt;，將 OpenClash 的 ipk 解壓縮後放進 firmware 一起重編。編譯完後的 fireware 貌似是含有 OpenClash，但是刷到 AP 後卻消失了，web 介面沒有相關的 UI、ssh 進去後也找不到。&lt;/p&gt;
-&lt;p&gt;重新拾回 OpenWRT，先刷了官網 for R6300v2 的 firmware，在 wifi 上遇到很大的問題：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;5G 完全不能用&lt;/li&gt;
-&lt;li&gt;2.4G 可以用，但是目前實測很不穩 (ping 掉封包、高延遲)&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;實在不想花太多時間在翻牆上，而且電腦可以插網路線，不影響工作，於是就選擇 OpenWRT。&lt;/p&gt;
-&lt;p&gt;但是安裝 OpenClash 時又遇到的問題，&lt;code&gt;luci-app-openclash_0.45.59-beta_all.ipk&lt;/code&gt; 的相依性 packages 包含了 &lt;code&gt;dnsmasq-full&lt;/code&gt;，而官網提供的 firmware 預設已經有了 &lt;code&gt;dnsmasq&lt;/code&gt;，這兩個是衝突的。如果 &lt;code&gt;opkg install&lt;/code&gt; 加上 &lt;code&gt;--nodeps&lt;/code&gt; 是可以解決，安裝完後的 OpenClash 也是可以使用的。不過對於系統潔癖/強迫症患者來說，這裡提供了重新編譯的解法。&lt;/p&gt;</description>
+      <description>&lt;p&gt;最近朋友希望弄一台翻牆路由器放在辦公室用，於是買了一台 Netgear R6300 v2。刷了 DD-WRT 後才發現問題：安裝不了 &lt;a href=&#34;https://github.com/vernesong/OpenClash&#34;&gt;OpenClash&lt;/a&gt;，&lt;code&gt;ipkg&lt;/code&gt; 連 update 都不行了，就更不用說安裝。&lt;/p&gt;&#xA;&lt;p&gt;參考 DD-WRT 官網 development 的 &lt;a href=&#34;https://wiki.dd-wrt.com/wiki/index.php/Development#Firmware_Modification_Kit&#34;&gt;Firmware Modification Kit&lt;/a&gt;，將 OpenClash 的 ipk 解壓縮後放進 firmware 一起重編。編譯完後的 fireware 貌似是含有 OpenClash，但是刷到 AP 後卻消失了，web 介面沒有相關的 UI、ssh 進去後也找不到。&lt;/p&gt;&#xA;&lt;p&gt;重新拾回 OpenWRT，先刷了官網 for R6300v2 的 firmware，在 wifi 上遇到很大的問題：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;5G 完全不能用&lt;/li&gt;&#xA;&lt;li&gt;2.4G 可以用，但是目前實測很不穩 (ping 掉封包、高延遲)&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;實在不想花太多時間在翻牆上，而且電腦可以插網路線，不影響工作，於是就選擇 OpenWRT。&lt;/p&gt;&#xA;&lt;p&gt;但是安裝 OpenClash 時又遇到的問題，&lt;code&gt;luci-app-openclash_0.45.59-beta_all.ipk&lt;/code&gt; 的相依性 packages 包含了 &lt;code&gt;dnsmasq-full&lt;/code&gt;，而官網提供的 firmware 預設已經有了 &lt;code&gt;dnsmasq&lt;/code&gt;，這兩個是衝突的。如果 &lt;code&gt;opkg install&lt;/code&gt; 加上 &lt;code&gt;--nodeps&lt;/code&gt; 是可以解決，安裝完後的 OpenClash 也是可以使用的。不過對於系統潔癖/強迫症患者來說，這裡提供了重新編譯的解法。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Cross-compile for OpenWRT</title>
       <link>https://maple52046.github.io/posts/cross-compile-for-openwrt/</link>
       <pubDate>Thu, 14 May 2015 09:55:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/cross-compile-for-openwrt/</guid>
-      <description>&lt;p&gt;這是一個實驗，在 Ubuntu 上編譯可以在 OpenWRT 上運行的程式。
-參考並修改別人的方式，完成了幾個簡單的範例。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;編譯環境：
-&lt;ul&gt;
-&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;
-&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;</description>
+      <description>&lt;p&gt;這是一個實驗，在 Ubuntu 上編譯可以在 OpenWRT 上運行的程式。&#xA;參考並修改別人的方式，完成了幾個簡單的範例。&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;編譯環境：&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;&#xA;&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Compile OpenWRT x86 (KVM guest, VirtualBox)</title>
       <link>https://maple52046.github.io/posts/compile-openwrt-x86-kvm-guest/</link>
       <pubDate>Thu, 07 May 2015 11:45:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/compile-openwrt-x86-kvm-guest/</guid>
-      <description>&lt;p&gt;編譯 x86 版的 OpenWRT 與之前的方式雷同，基本上差別的就在於 &lt;code&gt;make menuconfig&lt;/code&gt; 的時候要作一些額外的修改。&lt;/p&gt;
-&lt;p&gt;詳細的 OpenWRT 編譯流程請參考：&lt;a href=&#34;http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch&#34;&gt;Compile OpenWRT with Open vSwitch&lt;/a&gt;，本篇不再贅述。&lt;/p&gt;</description>
+      <description>&lt;p&gt;編譯 x86 版的 OpenWRT 與之前的方式雷同，基本上差別的就在於 &lt;code&gt;make menuconfig&lt;/code&gt; 的時候要作一些額外的修改。&lt;/p&gt;&#xA;&lt;p&gt;詳細的 OpenWRT 編譯流程請參考：&lt;a href=&#34;http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch&#34;&gt;Compile OpenWRT with Open vSwitch&lt;/a&gt;，本篇不再贅述。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Configure Open vSwitch in OpenWRT</title>
@@ -59,24 +41,7 @@
       <link>https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/</link>
       <pubDate>Thu, 05 Mar 2015 17:05:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/</guid>
-      <description>&lt;p&gt;雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 &lt;a href=&#34;https://github.com/openwrt/packages/tree/master/net/openvswitch&#34;&gt;Open vSwitch&lt;/a&gt; 的身影。但是實際上，在官方的 &lt;a href=&#34;https://downloads.openwrt.org/barrier_breaker/14.07/&#34;&gt;repository&lt;/a&gt; 中並沒有 Open vSwitch。因此決定自行編譯。&lt;/p&gt;
-&lt;h1 id=&#34;實驗環境&#34;&gt;&lt;strong&gt;實驗環境&lt;/strong&gt;&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;編譯環境&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;
-&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;
-&lt;li&gt;Open vSwitch version: 2.3.1&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;路由器&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.tp-link.tw/products/details/?model=TL-WR1043ND&#34;&gt;TP-Link TL-WR1043ND&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;</description>
+      <description>&lt;p&gt;雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 &lt;a href=&#34;https://github.com/openwrt/packages/tree/master/net/openvswitch&#34;&gt;Open vSwitch&lt;/a&gt; 的身影。但是實際上，在官方的 &lt;a href=&#34;https://downloads.openwrt.org/barrier_breaker/14.07/&#34;&gt;repository&lt;/a&gt; 中並沒有 Open vSwitch。因此決定自行編譯。&lt;/p&gt;&#xA;&lt;h1 id=&#34;實驗環境&#34;&gt;&lt;strong&gt;實驗環境&lt;/strong&gt;&lt;/h1&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;編譯環境&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;&#xA;&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;&#xA;&lt;li&gt;Open vSwitch version: 2.3.1&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;路由器&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;http://www.tp-link.tw/products/details/?model=TL-WR1043ND&#34;&gt;TP-Link TL-WR1043ND&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
   </channel>
 </rss>

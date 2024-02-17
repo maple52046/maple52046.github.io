@@ -13,27 +13,14 @@
       <link>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</link>
       <pubDate>Tue, 12 Aug 2014 03:22:59 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</guid>
-      <description>&lt;p&gt;最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 &lt;code&gt;virsh define&lt;/code&gt; 之後才能使用。&lt;/p&gt;
-&lt;p&gt;每個 VM 都要手動設定真的很麻煩&lt;/p&gt;
-&lt;p&gt;幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]&lt;/p&gt;</description>
+      <description>&lt;p&gt;最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 &lt;code&gt;virsh define&lt;/code&gt; 之後才能使用。&lt;/p&gt;&#xA;&lt;p&gt;每個 VM 都要手動設定真的很麻煩&lt;/p&gt;&#xA;&lt;p&gt;幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]&lt;/p&gt;</description>
     </item>
     <item>
       <title>復原 OpenStack 中被刪除的 instance</title>
       <link>https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/</link>
       <pubDate>Mon, 21 Oct 2013 21:25:11 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/</guid>
-      <description>&lt;p&gt;上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。&lt;/p&gt;
-&lt;p&gt;Unstall 時已經很習慣用 apt-get &lt;strong&gt;&amp;ndash;purge&lt;/strong&gt; install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 &lt;code&gt;/var/lib/nova/instance&lt;/code&gt; 用 ceph 分享給所有 compute。&lt;/p&gt;
-&lt;p&gt;所以&amp;hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。&lt;/p&gt;
-&lt;p&gt;所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。
-這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。&lt;/p&gt;
-&lt;p&gt;回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)&lt;/li&gt;
-&lt;li&gt;VM 一旦關機，instance 就會被刪掉 =&amp;gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =&lt;/p&gt;
-&lt;p&gt;萬幸的是我終於找到方法了&lt;/p&gt;</description>
+      <description>&lt;p&gt;上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。&lt;/p&gt;&#xA;&lt;p&gt;Unstall 時已經很習慣用 apt-get &lt;strong&gt;&amp;ndash;purge&lt;/strong&gt; install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 &lt;code&gt;/var/lib/nova/instance&lt;/code&gt; 用 ceph 分享給所有 compute。&lt;/p&gt;&#xA;&lt;p&gt;所以&amp;hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。&lt;/p&gt;&#xA;&lt;p&gt;所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。&#xA;這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。&lt;/p&gt;&#xA;&lt;p&gt;回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)&lt;/li&gt;&#xA;&lt;li&gt;VM 一旦關機，instance 就會被刪掉 =&amp;gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =&lt;/p&gt;&#xA;&lt;p&gt;萬幸的是我終於找到方法了&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -13,9 +13,7 @@
       <link>https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/</link>
       <pubDate>Wed, 11 Feb 2015 16:36:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/</guid>
-      <description>&lt;p&gt;早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 &lt;code&gt;nova reboot --hard &amp;lt;server&amp;gt;&lt;/code&gt; 的方式，想要開啟instance 卻失敗，在 &lt;code&gt;/var/log/nova/nova-compute.log&lt;/code&gt; 中看到以下錯誤訊息:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 &lt;code&gt;nova reboot --hard &amp;lt;server&amp;gt;&lt;/code&gt; 的方式，想要開啟instance 卻失敗，在 &lt;code&gt;/var/log/nova/nova-compute.log&lt;/code&gt; 中看到以下錯誤訊息:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
   </channel>
 </rss>

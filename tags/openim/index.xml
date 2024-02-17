@@ -13,51 +13,14 @@
       <link>https://maple52046.github.io/posts/compile-flutter-apk/</link>
       <pubDate>Fri, 10 Jun 2022 10:12:20 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/compile-flutter-apk/</guid>
-      <description>&lt;p&gt;本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。&lt;/p&gt;
-&lt;p&gt;版本資訊:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;#&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Version&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Flutter&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;3.0.1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Host OS&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;MacOS Big Sur (11.3.1)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android Studio&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;2020.3 (AI-203.7717.56.2031.7678000)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android Platform Tool&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;r33.0.2&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;OpenJDK&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;18.0.1.1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android (phone)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;11&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;</description>
+      <description>&lt;p&gt;本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。&lt;/p&gt;&#xA;&lt;p&gt;版本資訊:&lt;/p&gt;&#xA;&lt;table&gt;&#xA;&lt;thead&gt;&#xA;&lt;tr&gt;&#xA;&lt;th style=&#34;text-align:left&#34;&gt;#&lt;/th&gt;&#xA;&lt;th style=&#34;text-align:left&#34;&gt;Version&lt;/th&gt;&#xA;&lt;/tr&gt;&#xA;&lt;/thead&gt;&#xA;&lt;tbody&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Flutter&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;3.0.1&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Host OS&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;MacOS Big Sur (11.3.1)&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Android Studio&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;2020.3 (AI-203.7717.56.2031.7678000)&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Android Platform Tool&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;r33.0.2&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;OpenJDK&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;18.0.1.1&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Android (phone)&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;11&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;/tbody&gt;&#xA;&lt;/table&gt;</description>
     </item>
     <item>
       <title>OpenIM 整合(踩坑)筆記 01</title>
       <link>https://maple52046.github.io/posts/openim-integration-notes-01/</link>
       <pubDate>Wed, 25 May 2022 18:40:10 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/openim-integration-notes-01/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://doc.rentsoft.cn/#/introduce/production_introduce&#34;&gt;OpenIM&lt;/a&gt; 號稱是由一群前微信等技術專家一起出來打造的開源 IM 系統。撇開政治不談，個人覺得微信在 IM 領域確實是佼佼者，因此決定整合 OpenIM 到現有的產品中，以減少浪費時間重複造輪子。&lt;/p&gt;
-&lt;p&gt;本篇目標是串連原有的帳號系統與 OpenIM 的帳號系統，完成 &lt;strong&gt;自動註冊用戶到 OpenIM&lt;/strong&gt; (下圖中的第 3 ~ 4 步驟)。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://doc.rentsoft.cn/images/server-register.png&#34; alt=&#34;Open-IM用户注册&#34;&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://doc.rentsoft.cn/#/introduce/production_introduce&#34;&gt;OpenIM&lt;/a&gt; 號稱是由一群前微信等技術專家一起出來打造的開源 IM 系統。撇開政治不談，個人覺得微信在 IM 領域確實是佼佼者，因此決定整合 OpenIM 到現有的產品中，以減少浪費時間重複造輪子。&lt;/p&gt;&#xA;&lt;p&gt;本篇目標是串連原有的帳號系統與 OpenIM 的帳號系統，完成 &lt;strong&gt;自動註冊用戶到 OpenIM&lt;/strong&gt; (下圖中的第 3 ~ 4 步驟)。&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://doc.rentsoft.cn/images/server-register.png&#34; alt=&#34;Open-IM用户注册&#34;&gt;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

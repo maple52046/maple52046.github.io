@@ -13,8 +13,7 @@
       <link>https://maple52046.github.io/posts/enable-pxe-boot-on-intel-nic-under-rhel/</link>
       <pubDate>Sun, 22 Apr 2018 14:45:10 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/enable-pxe-boot-on-intel-nic-under-rhel/</guid>
-      <description>&lt;p&gt;最近遇到一個奇怪的問題：在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡;
-但是進入到 OS 之後，網卡就出現了並且能正常運作。&lt;/p&gt;</description>
+      <description>&lt;p&gt;最近遇到一個奇怪的問題：在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡;&#xA;但是進入到 OS 之後，網卡就出現了並且能正常運作。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

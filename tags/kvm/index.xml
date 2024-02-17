@@ -13,8 +13,7 @@
       <link>https://maple52046.github.io/posts/compile-openwrt-x86-kvm-guest/</link>
       <pubDate>Thu, 07 May 2015 11:45:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/compile-openwrt-x86-kvm-guest/</guid>
-      <description>&lt;p&gt;編譯 x86 版的 OpenWRT 與之前的方式雷同，基本上差別的就在於 &lt;code&gt;make menuconfig&lt;/code&gt; 的時候要作一些額外的修改。&lt;/p&gt;
-&lt;p&gt;詳細的 OpenWRT 編譯流程請參考：&lt;a href=&#34;http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch&#34;&gt;Compile OpenWRT with Open vSwitch&lt;/a&gt;，本篇不再贅述。&lt;/p&gt;</description>
+      <description>&lt;p&gt;編譯 x86 版的 OpenWRT 與之前的方式雷同，基本上差別的就在於 &lt;code&gt;make menuconfig&lt;/code&gt; 的時候要作一些額外的修改。&lt;/p&gt;&#xA;&lt;p&gt;詳細的 OpenWRT 編譯流程請參考：&lt;a href=&#34;http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch&#34;&gt;Compile OpenWRT with Open vSwitch&lt;/a&gt;，本篇不再贅述。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -56,7 +56,7 @@ if (!doNotTrack) {
 實在不想花太多時間在翻牆上，而且電腦可以插網路線，不影響工作，於是就選擇 OpenWRT。
 但是安裝 OpenClash 時又遇到的問題，luci-app-openclash_0.45.59-beta_all.ipk 的相依性 packages 包含了 dnsmasq-full，而官網提供的 firmware 預設已經有了 dnsmasq，這兩個是衝突的。如果 opkg install 加上 --nodeps 是可以解決，安裝完後的 OpenClash 也是可以使用的。不過對於系統潔癖/強迫症患者來說，這裡提供了重新編譯的解法。" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://maple52046.github.io/posts/compile-openwrt-with-openclash/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png"/><meta property="article:section" content="posts" />
+<meta property="og:url" content="https://maple52046.github.io/posts/compile-openwrt-with-openclash/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-09-26T16:13:48+08:00" />
 <meta property="article:modified_time" content="2022-09-26T16:13:48+08:00" />
 
@@ -68,11 +68,6 @@ if (!doNotTrack) {
   <header>
     <div class="site-title">
         <a href="/">世界的盡頭</a>
-    </div>
-    <div style="text-align:center;padding-bottom: 12px;" width="100%">
-        <div class="circle">
-            <img height="200" width="200" src="https://avatars.githubusercontent.com/u/17018720?v=4" alt="Chen-Hao Ku">
-        </div>
     </div>
     
     <div class="description">

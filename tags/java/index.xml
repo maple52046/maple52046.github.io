@@ -13,11 +13,7 @@
       <link>https://maple52046.github.io/posts/fix-the-oracle-java-installation-on-ubuntu-16-04/</link>
       <pubDate>Thu, 19 Oct 2017 08:38:53 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/fix-the-oracle-java-installation-on-ubuntu-16-04/</guid>
-      <description>&lt;p&gt;在 Ubuntu 透過 &lt;a href=&#34;https://launchpad.net/~webupd8team/+archive/ubuntu/java&#34;&gt;WebUpd8 team ppa&lt;/a&gt; 安裝 Java：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo add-apt-repository ppa:webupd8team/java
-sudo apt update
-sudo apt install oracle-java9-installer
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;安裝的過程中遇到 404 Not found 問題。&lt;/p&gt;</description>
+      <description>&lt;p&gt;在 Ubuntu 透過 &lt;a href=&#34;https://launchpad.net/~webupd8team/+archive/ubuntu/java&#34;&gt;WebUpd8 team ppa&lt;/a&gt; 安裝 Java：&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo add-apt-repository ppa:webupd8team/java&#xA;sudo apt update&#xA;sudo apt install oracle-java9-installer&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;安裝的過程中遇到 404 Not found 問題。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

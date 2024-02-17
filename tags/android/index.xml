@@ -13,42 +13,7 @@
       <link>https://maple52046.github.io/posts/compile-flutter-apk/</link>
       <pubDate>Fri, 10 Jun 2022 10:12:20 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/compile-flutter-apk/</guid>
-      <description>&lt;p&gt;本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。&lt;/p&gt;
-&lt;p&gt;版本資訊:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;#&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Version&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Flutter&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;3.0.1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Host OS&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;MacOS Big Sur (11.3.1)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android Studio&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;2020.3 (AI-203.7717.56.2031.7678000)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android Platform Tool&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;r33.0.2&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;OpenJDK&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;18.0.1.1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android (phone)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;11&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;</description>
+      <description>&lt;p&gt;本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。&lt;/p&gt;&#xA;&lt;p&gt;版本資訊:&lt;/p&gt;&#xA;&lt;table&gt;&#xA;&lt;thead&gt;&#xA;&lt;tr&gt;&#xA;&lt;th style=&#34;text-align:left&#34;&gt;#&lt;/th&gt;&#xA;&lt;th style=&#34;text-align:left&#34;&gt;Version&lt;/th&gt;&#xA;&lt;/tr&gt;&#xA;&lt;/thead&gt;&#xA;&lt;tbody&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Flutter&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;3.0.1&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Host OS&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;MacOS Big Sur (11.3.1)&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Android Studio&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;2020.3 (AI-203.7717.56.2031.7678000)&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Android Platform Tool&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;r33.0.2&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;OpenJDK&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;18.0.1.1&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Android (phone)&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;11&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;/tbody&gt;&#xA;&lt;/table&gt;</description>
     </item>
   </channel>
 </rss>

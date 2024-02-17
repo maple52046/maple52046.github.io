@@ -13,82 +13,28 @@
       <link>https://maple52046.github.io/posts/notes-openstack-heat-usage/</link>
       <pubDate>Thu, 30 Jun 2016 15:48:16 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/notes-openstack-heat-usage/</guid>
-      <description>&lt;p&gt;Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。&lt;/p&gt;
-&lt;p&gt;Heat 用 &lt;strong&gt;resource&lt;/strong&gt; 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 &lt;code&gt;default&lt;/code&gt;。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 &lt;code&gt;default&lt;/code&gt; 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。&lt;/p&gt;
-&lt;p&gt;Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 &lt;code&gt;block_device_mapping&lt;/code&gt; 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。&lt;/p&gt;
-&lt;p&gt;這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 &lt;strong&gt;resource&lt;/strong&gt;，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 &lt;strong&gt;state&lt;/strong&gt; 來配置 Linux。&lt;/p&gt;</description>
+      <description>&lt;p&gt;Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。&lt;/p&gt;&#xA;&lt;p&gt;Heat 用 &lt;strong&gt;resource&lt;/strong&gt; 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 &lt;code&gt;default&lt;/code&gt;。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 &lt;code&gt;default&lt;/code&gt; 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。&lt;/p&gt;&#xA;&lt;p&gt;Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 &lt;code&gt;block_device_mapping&lt;/code&gt; 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。&lt;/p&gt;&#xA;&lt;p&gt;這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 &lt;strong&gt;resource&lt;/strong&gt;，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 &lt;strong&gt;state&lt;/strong&gt; 來配置 Linux。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Debugging Saltstack States</title>
       <link>https://maple52046.github.io/posts/debugging-saltstack-states/</link>
       <pubDate>Fri, 16 Oct 2015 12:54:13 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/debugging-saltstack-states/</guid>
-      <description>&lt;p&gt;利用 Saltstack 安裝 OpenStack Keystone。按照 &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html&#34;&gt;OpenStack 官方安裝手冊&lt;/a&gt;，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。&lt;/p&gt;
-&lt;p&gt;這一個步驟，我把他寫成 Saltstack states 如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;waiting-keystone-startup&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;cmd.run&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;sleep 1&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-service&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.service_present&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;service_type&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;identity&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;description&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;OpenStack Identity&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#f92672&#34;&gt;cmd&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;waiting-keystone-startup&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-endpoint&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.endpoint_present&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;publicurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;internalurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;adminurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:35357/v2.0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;region&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;regionOne&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#f92672&#34;&gt;keystone&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;registry-keystone-service&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;結果執行時發生 KeyError:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;user@host-01:/srv/salt/openstack/keystone$ salt &amp;#39;*&amp;#39; state.sls openstack.keystone.registry
-host-01:
-    The minion function caused an exception: Traceback (most recent call last):
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/minion.py&amp;#34;, line 1161, in _thread_return
-        return_data = func(*args, **kwargs)
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/modules/state.py&amp;#34;, line 681, in sls
-        ret = st_.state.call_high(high_)
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 2067, in call_high
-        ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 1623, in call_chunks
-        running = self.call_chunk(low, running, chunks)
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 1769, in call_chunk
-        self._mod_init(low)
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 612, in _mod_init
-        self.states[&amp;#39;{0}.{1}&amp;#39;.format(low[&amp;#39;state&amp;#39;], low[&amp;#39;fun&amp;#39;])]  # pylint: disable=W0106
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&amp;#34;, line 90, in __getitem__
-        raise KeyError(key)
-    KeyError: &amp;#39;keystone.service_present&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;利用 Saltstack 安裝 OpenStack Keystone。按照 &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html&#34;&gt;OpenStack 官方安裝手冊&lt;/a&gt;，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。&lt;/p&gt;&#xA;&lt;p&gt;這一個步驟，我把他寫成 Saltstack states 如下：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;waiting-keystone-startup&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;cmd.run&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;sleep 1&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-service&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.service_present&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;service_type&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;identity&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;description&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;OpenStack Identity&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#f92672&#34;&gt;cmd&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;waiting-keystone-startup&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-endpoint&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.endpoint_present&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;publicurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;internalurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;adminurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:35357/v2.0&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;region&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;regionOne&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#f92672&#34;&gt;keystone&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;registry-keystone-service&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;結果執行時發生 KeyError:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;user@host-01:/srv/salt/openstack/keystone$ salt &amp;#39;*&amp;#39; state.sls openstack.keystone.registry&#xA;host-01:&#xA;    The minion function caused an exception: Traceback (most recent call last):&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/minion.py&amp;#34;, line 1161, in _thread_return&#xA;        return_data = func(*args, **kwargs)&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/modules/state.py&amp;#34;, line 681, in sls&#xA;        ret = st_.state.call_high(high_)&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 2067, in call_high&#xA;        ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 1623, in call_chunks&#xA;        running = self.call_chunk(low, running, chunks)&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 1769, in call_chunk&#xA;        self._mod_init(low)&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 612, in _mod_init&#xA;        self.states[&amp;#39;{0}.{1}&amp;#39;.format(low[&amp;#39;state&amp;#39;], low[&amp;#39;fun&amp;#39;])]  # pylint: disable=W0106&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&amp;#34;, line 90, in __getitem__&#xA;        raise KeyError(key)&#xA;    KeyError: &amp;#39;keystone.service_present&amp;#39;&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>IPv6 Neighbour table overflow</title>
       <link>https://maple52046.github.io/posts/ipv6-neighbour-table-overflow/</link>
       <pubDate>Fri, 01 May 2015 12:07:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/ipv6-neighbour-table-overflow/</guid>
-      <description>&lt;p&gt;這兩天一直在 syslog 上看到 &lt;code&gt;Neighbour table overflow&lt;/code&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-syslog&#34; data-lang=&#34;syslog&#34;&gt;Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressed
-Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;每兩分鐘就出現6~7筆,數量非常的多
-如果不處理它，放任它繼續增長，過一兩天後系統就會 kernel panic。&lt;/p&gt;</description>
+      <description>&lt;p&gt;這兩天一直在 syslog 上看到 &lt;code&gt;Neighbour table overflow&lt;/code&gt;&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-syslog&#34; data-lang=&#34;syslog&#34;&gt;Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressed&#xA;Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;每兩分鐘就出現6~7筆,數量非常的多&#xA;如果不處理它，放任它繼續增長，過一兩天後系統就會 kernel panic。&lt;/p&gt;</description>
     </item>
     <item>
       <title>OpenStack Glance Image-list 401</title>
       <link>https://maple52046.github.io/posts/openstack-glance-image-list-401/</link>
       <pubDate>Wed, 08 Apr 2015 16:12:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/openstack-glance-image-list-401/</guid>
-      <description>&lt;p&gt;架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;root@localhost:~# glance --debug image-list
-curl -i -X GET -H &amp;#39;User-Agent: python-glanceclient&amp;#39; -H &amp;#39;Content-Type: application/octet-stream&amp;#39; -H &amp;#39;Accept-Encoding: gzip, deflate, compress&amp;#39; -H &amp;#39;Accept: */*&amp;#39; -H &amp;#39;X-Auth-Token: ***&amp;#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;amp;sort_dir=asc&amp;amp;limit=20
-Request returned failure status 401.
-Invalid OpenStack Identity credentials.
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;root@localhost:~# glance --debug image-list&#xA;curl -i -X GET -H &amp;#39;User-Agent: python-glanceclient&amp;#39; -H &amp;#39;Content-Type: application/octet-stream&amp;#39; -H &amp;#39;Accept-Encoding: gzip, deflate, compress&amp;#39; -H &amp;#39;Accept: */*&amp;#39; -H &amp;#39;X-Auth-Token: ***&amp;#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;amp;sort_dir=asc&amp;amp;limit=20&#xA;Request returned failure status 401.&#xA;Invalid OpenStack Identity credentials.&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>Install Rally 筆記 (OpenStack benchmark)</title>
@@ -102,27 +48,14 @@ Invalid OpenStack Identity credentials.
       <link>https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/</link>
       <pubDate>Wed, 11 Feb 2015 16:36:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/</guid>
-      <description>&lt;p&gt;早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 &lt;code&gt;nova reboot --hard &amp;lt;server&amp;gt;&lt;/code&gt; 的方式，想要開啟instance 卻失敗，在 &lt;code&gt;/var/log/nova/nova-compute.log&lt;/code&gt; 中看到以下錯誤訊息:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 &lt;code&gt;nova reboot --hard &amp;lt;server&amp;gt;&lt;/code&gt; 的方式，想要開啟instance 卻失敗，在 &lt;code&gt;/var/log/nova/nova-compute.log&lt;/code&gt; 中看到以下錯誤訊息:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>復原 OpenStack 中被刪除的 instance</title>
       <link>https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/</link>
       <pubDate>Mon, 21 Oct 2013 21:25:11 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/</guid>
-      <description>&lt;p&gt;上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。&lt;/p&gt;
-&lt;p&gt;Unstall 時已經很習慣用 apt-get &lt;strong&gt;&amp;ndash;purge&lt;/strong&gt; install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 &lt;code&gt;/var/lib/nova/instance&lt;/code&gt; 用 ceph 分享給所有 compute。&lt;/p&gt;
-&lt;p&gt;所以&amp;hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。&lt;/p&gt;
-&lt;p&gt;所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。
-這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。&lt;/p&gt;
-&lt;p&gt;回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)&lt;/li&gt;
-&lt;li&gt;VM 一旦關機，instance 就會被刪掉 =&amp;gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =&lt;/p&gt;
-&lt;p&gt;萬幸的是我終於找到方法了&lt;/p&gt;</description>
+      <description>&lt;p&gt;上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。&lt;/p&gt;&#xA;&lt;p&gt;Unstall 時已經很習慣用 apt-get &lt;strong&gt;&amp;ndash;purge&lt;/strong&gt; install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 &lt;code&gt;/var/lib/nova/instance&lt;/code&gt; 用 ceph 分享給所有 compute。&lt;/p&gt;&#xA;&lt;p&gt;所以&amp;hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。&lt;/p&gt;&#xA;&lt;p&gt;所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。&#xA;這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。&lt;/p&gt;&#xA;&lt;p&gt;回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)&lt;/li&gt;&#xA;&lt;li&gt;VM 一旦關機，instance 就會被刪掉 =&amp;gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =&lt;/p&gt;&#xA;&lt;p&gt;萬幸的是我終於找到方法了&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

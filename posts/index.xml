@@ -13,210 +13,63 @@
       <link>https://maple52046.github.io/posts/solve-widgetsflutterbinding-issue-in-flutter-with-catcher/</link>
       <pubDate>Fri, 29 Dec 2023 21:41:53 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/solve-widgetsflutterbinding-issue-in-flutter-with-catcher/</guid>
-      <description>&lt;p&gt;最近引入 &lt;a href=&#34;https://github.com/jhomlala/catcher&#34;&gt;Catcher&lt;/a&gt; 來搜集 app 發生的錯誤訊息。按照 github 上的範例修改了 main function，初始化 Catcher:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-dart&#34; data-lang=&#34;dart&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; main() &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  WidgetsFlutterBinding.ensureInitialized();
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Catcher(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    debugConfig: CatcherOptions(SilentReportMode(), [
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      ConsoleHandler(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableApplicationParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableDeviceParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableCustomParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableStackTrace: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      ),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ]),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    releaseConfig: CatcherOptions(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      SilentReportMode(),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      [
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        HttpHandler(
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          HttpRequestType.post,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          Uri.parse(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;https://x.y.z&amp;#39;&lt;/span&gt;),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableApplicationParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableCustomParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableDeviceParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableStackTrace: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      ],
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ),
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    runAppFunction: initApp,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    navigatorKey: myRootNavKey,
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  );
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Future&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; initApp() &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;/*
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    此處省略一萬個 sdk 初始化步驟 .......
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;  */&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  runApp(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; RootApp());
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;結果運行時 console 顯示錯誤：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;flutter: [2023-12-29 20:47:21.680324 | Catcher | INFO] Setup localization lazily!
-flutter: [2023-12-29 20:47:21.694254 | Catcher | INFO] ============================ CATCHER LOG ============================
-flutter: [2023-12-29 20:47:21.694391 | Catcher | INFO] Crash occurred on 2023-12-29 20:47:21.687161
-flutter: [2023-12-29 20:47:21.694430 | Catcher | INFO]
-flutter: [2023-12-29 20:47:21.694508 | Catcher | INFO] ---------- ERROR ----------
-flutter: [2023-12-29 20:47:21.694635 | Catcher | INFO] Zone mismatch.
-The Flutter bindings were initialized in a different zone than is now being used. This will likely cause confusion and bugs as any zone-specific configuration will inconsistently use the configuration of the original binding initialization zone or this zone based on hard-to-predict factors such as which zone was active when a particular callback was set.
-It is important to use the same zone when calling `ensureInitialized` on the binding as when calling `runApp` later.
-To make this warning fatal, set BindingBase.debugZoneErrorsAreFatal to true before the bindings are initialized (i.e. as the first statement in `void main() { }`).
-flutter: [2023-12-29 20:47:21.694679 | Catcher | INFO]
-flutter: [2023-12-29 20:47:21.694899 | Catcher | INFO] ------- STACK TRACE -------
-flutter: [2023-12-29 20:47:21.695005 | Catcher | INFO] #0      BindingBase.debugCheckZone.&amp;lt;anonymous closure&amp;gt; (package:flutter/src/foundation/binding.dart:503:29)
-flutter: [2023-12-29 20:47:21.695041 | Catcher | INFO] #1      BindingBase.debugCheckZone (package:flutter/src/foundation/binding.dart:508:6)
-flutter: [2023-12-29 20:47:21.695076 | Catcher | INFO] #2      runApp (package:flutter/src/widgets/binding.dart:1093:18)
-flutter: [2023-12-29 20:47:21.695120 | Catcher | INFO] #3      initApp (package:arena/main.dart:225:3)
-flutter: [2023-12-29 20:47:21.695152 | Catcher | INFO] &amp;lt;asynchronous suspension&amp;gt;
-flutter: [2023-12-29 20:47:21.695183 | Catcher | INFO] #4      main.&amp;lt;anonymous closure&amp;gt;.&amp;lt;anonymous closure&amp;gt; (package:arena/main.dart:108:37)
-flutter: [2023-12-29 20:47:21.695213 | Catcher | INFO] &amp;lt;asynchronous suspension&amp;gt;
-flutter: [2023-12-29 20:47:21.695270 | Catcher | INFO]
-flutter: [2023-12-29 20:47:21.695330 | Catcher | INFO] ======================================================================
-flutter: [2023-12-29 20:47:21.695767 | Catcher | INFO] Report result: true
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;最近引入 &lt;a href=&#34;https://github.com/jhomlala/catcher&#34;&gt;Catcher&lt;/a&gt; 來搜集 app 發生的錯誤訊息。按照 github 上的範例修改了 main function，初始化 Catcher:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-dart&#34; data-lang=&#34;dart&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; main() &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  WidgetsFlutterBinding.ensureInitialized();&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  Catcher(&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    debugConfig: CatcherOptions(SilentReportMode(), [&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      ConsoleHandler(&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableApplicationParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableDeviceParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableCustomParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        enableStackTrace: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      ),&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ]),&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    releaseConfig: CatcherOptions(&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      SilentReportMode(),&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      [&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        HttpHandler(&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          HttpRequestType.post,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          Uri.parse(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;https://x.y.z&amp;#39;&lt;/span&gt;),&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableApplicationParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableCustomParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableDeviceParameters: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          enableStackTrace: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        ),&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      ],&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    ),&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    runAppFunction: initApp,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    navigatorKey: myRootNavKey,&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  );&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Future&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; initApp() &lt;span style=&#34;color:#66d9ef&#34;&gt;async&lt;/span&gt; {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;/*&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;    此處省略一萬個 sdk 初始化步驟 .......&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;  */&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  runApp(&lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; RootApp());&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;結果運行時 console 顯示錯誤：&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;flutter: [2023-12-29 20:47:21.680324 | Catcher | INFO] Setup localization lazily!&#xA;flutter: [2023-12-29 20:47:21.694254 | Catcher | INFO] ============================ CATCHER LOG ============================&#xA;flutter: [2023-12-29 20:47:21.694391 | Catcher | INFO] Crash occurred on 2023-12-29 20:47:21.687161&#xA;flutter: [2023-12-29 20:47:21.694430 | Catcher | INFO]&#xA;flutter: [2023-12-29 20:47:21.694508 | Catcher | INFO] ---------- ERROR ----------&#xA;flutter: [2023-12-29 20:47:21.694635 | Catcher | INFO] Zone mismatch.&#xA;The Flutter bindings were initialized in a different zone than is now being used. This will likely cause confusion and bugs as any zone-specific configuration will inconsistently use the configuration of the original binding initialization zone or this zone based on hard-to-predict factors such as which zone was active when a particular callback was set.&#xA;It is important to use the same zone when calling `ensureInitialized` on the binding as when calling `runApp` later.&#xA;To make this warning fatal, set BindingBase.debugZoneErrorsAreFatal to true before the bindings are initialized (i.e. as the first statement in `void main() { }`).&#xA;flutter: [2023-12-29 20:47:21.694679 | Catcher | INFO]&#xA;flutter: [2023-12-29 20:47:21.694899 | Catcher | INFO] ------- STACK TRACE -------&#xA;flutter: [2023-12-29 20:47:21.695005 | Catcher | INFO] #0      BindingBase.debugCheckZone.&amp;lt;anonymous closure&amp;gt; (package:flutter/src/foundation/binding.dart:503:29)&#xA;flutter: [2023-12-29 20:47:21.695041 | Catcher | INFO] #1      BindingBase.debugCheckZone (package:flutter/src/foundation/binding.dart:508:6)&#xA;flutter: [2023-12-29 20:47:21.695076 | Catcher | INFO] #2      runApp (package:flutter/src/widgets/binding.dart:1093:18)&#xA;flutter: [2023-12-29 20:47:21.695120 | Catcher | INFO] #3      initApp (package:arena/main.dart:225:3)&#xA;flutter: [2023-12-29 20:47:21.695152 | Catcher | INFO] &amp;lt;asynchronous suspension&amp;gt;&#xA;flutter: [2023-12-29 20:47:21.695183 | Catcher | INFO] #4      main.&amp;lt;anonymous closure&amp;gt;.&amp;lt;anonymous closure&amp;gt; (package:arena/main.dart:108:37)&#xA;flutter: [2023-12-29 20:47:21.695213 | Catcher | INFO] &amp;lt;asynchronous suspension&amp;gt;&#xA;flutter: [2023-12-29 20:47:21.695270 | Catcher | INFO]&#xA;flutter: [2023-12-29 20:47:21.695330 | Catcher | INFO] ======================================================================&#xA;flutter: [2023-12-29 20:47:21.695767 | Catcher | INFO] Report result: true&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>使用 Flutter Pigeon 開發 Objective-C plugin</title>
       <link>https://maple52046.github.io/posts/create-objc-plugin-for-flutter-with-pigeon/</link>
       <pubDate>Thu, 05 Jan 2023 10:30:07 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/create-objc-plugin-for-flutter-with-pigeon/</guid>
-      <description>&lt;p&gt;最近在為 app 整合整合其他公司的 sdk，對方只提供 java / objective-c 的方案。因此得自己做 native plugin 開發。&lt;/p&gt;
-&lt;p&gt;Google 了一番 flutter native plugin 開發，基本都提到了 &lt;a href=&#34;https://pub.dev/packages/pigeon&#34;&gt;Pigeon&lt;/a&gt; 這個套件。使用 pigeon 可以：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;同時規範 android/ios native plugin 的 api (長什麼樣子、怎麼傳參數)&lt;/li&gt;
-&lt;li&gt;自動產生 dart code&lt;/li&gt;
-&lt;li&gt;自動綁定 flutter 與 native 之間的通信&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;網路上的文章，大多都將 pigeon 用於單獨的 plugin 開發。而我則因為一些因素，將 peigon 用於現有的 project 裡。&lt;/p&gt;</description>
+      <description>&lt;p&gt;最近在為 app 整合整合其他公司的 sdk，對方只提供 java / objective-c 的方案。因此得自己做 native plugin 開發。&lt;/p&gt;&#xA;&lt;p&gt;Google 了一番 flutter native plugin 開發，基本都提到了 &lt;a href=&#34;https://pub.dev/packages/pigeon&#34;&gt;Pigeon&lt;/a&gt; 這個套件。使用 pigeon 可以：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;同時規範 android/ios native plugin 的 api (長什麼樣子、怎麼傳參數)&lt;/li&gt;&#xA;&lt;li&gt;自動產生 dart code&lt;/li&gt;&#xA;&lt;li&gt;自動綁定 flutter 與 native 之間的通信&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;網路上的文章，大多都將 pigeon 用於單獨的 plugin 開發。而我則因為一些因素，將 peigon 用於現有的 project 裡。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Dart 轉換 json 中的 protobuf 結構</title>
       <link>https://maple52046.github.io/posts/dart-convert-protobuf-structure-in-json/</link>
       <pubDate>Mon, 10 Oct 2022 23:22:51 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/dart-convert-protobuf-structure-in-json/</guid>
-      <description>&lt;p&gt;最近開始將 flutter app 的後端由 restful api 逐步轉成 grpc，轉換的過程中為了同時兼容舊的 api，在原本的 json 結構中替換並嵌入了 protobuf 結構。結果在 json 序列化時 (&lt;code&gt;flutter packages pub run build_runner build&lt;/code&gt;) 出現了類似以下錯誤：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[INFO] Generating build script completed, took 569ms
-[INFO] Reading cached asset graph completed, took 77ms
-[INFO] Checking for updates since last build completed, took 640ms
-[SEVERE] json_serializable on lib/models/plustwo.dart:
-
-Expecting a `fromJson` constructor with exactly one positional parameter. The only extra parameters allowed are functions of the form `T Function(Object?) fromJsonT` where `T` is a type parameter of the target type.
-package:client/proto/calculator.pb.dart:40:28
-   ╷
-40 │   factory PlusTwoIntResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =&amp;gt; create()..mergeFromJson(i, r);
-   │                            ^^^^^^^^
-   ╵
-[INFO] Running build completed, took 5.1s
-[INFO] Caching finalized dependency graph completed, took 48ms
-[SEVERE] Failed after 5.2s
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;最近開始將 flutter app 的後端由 restful api 逐步轉成 grpc，轉換的過程中為了同時兼容舊的 api，在原本的 json 結構中替換並嵌入了 protobuf 結構。結果在 json 序列化時 (&lt;code&gt;flutter packages pub run build_runner build&lt;/code&gt;) 出現了類似以下錯誤：&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[INFO] Generating build script completed, took 569ms&#xA;[INFO] Reading cached asset graph completed, took 77ms&#xA;[INFO] Checking for updates since last build completed, took 640ms&#xA;[SEVERE] json_serializable on lib/models/plustwo.dart:&#xA;&#xA;Expecting a `fromJson` constructor with exactly one positional parameter. The only extra parameters allowed are functions of the form `T Function(Object?) fromJsonT` where `T` is a type parameter of the target type.&#xA;package:client/proto/calculator.pb.dart:40:28&#xA;   ╷&#xA;40 │   factory PlusTwoIntResult.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =&amp;gt; create()..mergeFromJson(i, r);&#xA;   │                            ^^^^^^^^&#xA;   ╵&#xA;[INFO] Running build completed, took 5.1s&#xA;[INFO] Caching finalized dependency graph completed, took 48ms&#xA;[SEVERE] Failed after 5.2s&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>Compile OpenWRT With OpenClash</title>
       <link>https://maple52046.github.io/posts/compile-openwrt-with-openclash/</link>
       <pubDate>Mon, 26 Sep 2022 16:13:48 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/compile-openwrt-with-openclash/</guid>
-      <description>&lt;p&gt;最近朋友希望弄一台翻牆路由器放在辦公室用，於是買了一台 Netgear R6300 v2。刷了 DD-WRT 後才發現問題：安裝不了 &lt;a href=&#34;https://github.com/vernesong/OpenClash&#34;&gt;OpenClash&lt;/a&gt;，&lt;code&gt;ipkg&lt;/code&gt; 連 update 都不行了，就更不用說安裝。&lt;/p&gt;
-&lt;p&gt;參考 DD-WRT 官網 development 的 &lt;a href=&#34;https://wiki.dd-wrt.com/wiki/index.php/Development#Firmware_Modification_Kit&#34;&gt;Firmware Modification Kit&lt;/a&gt;，將 OpenClash 的 ipk 解壓縮後放進 firmware 一起重編。編譯完後的 fireware 貌似是含有 OpenClash，但是刷到 AP 後卻消失了，web 介面沒有相關的 UI、ssh 進去後也找不到。&lt;/p&gt;
-&lt;p&gt;重新拾回 OpenWRT，先刷了官網 for R6300v2 的 firmware，在 wifi 上遇到很大的問題：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;5G 完全不能用&lt;/li&gt;
-&lt;li&gt;2.4G 可以用，但是目前實測很不穩 (ping 掉封包、高延遲)&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;實在不想花太多時間在翻牆上，而且電腦可以插網路線，不影響工作，於是就選擇 OpenWRT。&lt;/p&gt;
-&lt;p&gt;但是安裝 OpenClash 時又遇到的問題，&lt;code&gt;luci-app-openclash_0.45.59-beta_all.ipk&lt;/code&gt; 的相依性 packages 包含了 &lt;code&gt;dnsmasq-full&lt;/code&gt;，而官網提供的 firmware 預設已經有了 &lt;code&gt;dnsmasq&lt;/code&gt;，這兩個是衝突的。如果 &lt;code&gt;opkg install&lt;/code&gt; 加上 &lt;code&gt;--nodeps&lt;/code&gt; 是可以解決，安裝完後的 OpenClash 也是可以使用的。不過對於系統潔癖/強迫症患者來說，這裡提供了重新編譯的解法。&lt;/p&gt;</description>
+      <description>&lt;p&gt;最近朋友希望弄一台翻牆路由器放在辦公室用，於是買了一台 Netgear R6300 v2。刷了 DD-WRT 後才發現問題：安裝不了 &lt;a href=&#34;https://github.com/vernesong/OpenClash&#34;&gt;OpenClash&lt;/a&gt;，&lt;code&gt;ipkg&lt;/code&gt; 連 update 都不行了，就更不用說安裝。&lt;/p&gt;&#xA;&lt;p&gt;參考 DD-WRT 官網 development 的 &lt;a href=&#34;https://wiki.dd-wrt.com/wiki/index.php/Development#Firmware_Modification_Kit&#34;&gt;Firmware Modification Kit&lt;/a&gt;，將 OpenClash 的 ipk 解壓縮後放進 firmware 一起重編。編譯完後的 fireware 貌似是含有 OpenClash，但是刷到 AP 後卻消失了，web 介面沒有相關的 UI、ssh 進去後也找不到。&lt;/p&gt;&#xA;&lt;p&gt;重新拾回 OpenWRT，先刷了官網 for R6300v2 的 firmware，在 wifi 上遇到很大的問題：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;5G 完全不能用&lt;/li&gt;&#xA;&lt;li&gt;2.4G 可以用，但是目前實測很不穩 (ping 掉封包、高延遲)&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;實在不想花太多時間在翻牆上，而且電腦可以插網路線，不影響工作，於是就選擇 OpenWRT。&lt;/p&gt;&#xA;&lt;p&gt;但是安裝 OpenClash 時又遇到的問題，&lt;code&gt;luci-app-openclash_0.45.59-beta_all.ipk&lt;/code&gt; 的相依性 packages 包含了 &lt;code&gt;dnsmasq-full&lt;/code&gt;，而官網提供的 firmware 預設已經有了 &lt;code&gt;dnsmasq&lt;/code&gt;，這兩個是衝突的。如果 &lt;code&gt;opkg install&lt;/code&gt; 加上 &lt;code&gt;--nodeps&lt;/code&gt; 是可以解決，安裝完後的 OpenClash 也是可以使用的。不過對於系統潔癖/強迫症患者來說，這裡提供了重新編譯的解法。&lt;/p&gt;</description>
     </item>
     <item>
       <title>在 Flutter 中使用 NestedScrollView 與 CustomScrollView</title>
       <link>https://maple52046.github.io/posts/using-nestedscrollview-in-flutter/</link>
       <pubDate>Fri, 01 Jul 2022 19:30:23 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/using-nestedscrollview-in-flutter/</guid>
-      <description>&lt;p&gt;最近在修改 app 的個人頁，遇到的需求：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Tab bar 切出圓角&lt;/li&gt;
-&lt;li&gt;Tab bar 可以滑動，滑到 app bar 的時候固定住&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;用文字說不太清楚，下面直接看圖：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/CxZ6jxL.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;
-&lt;p&gt;頁面的 components 有：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;App bar&lt;/li&gt;
-&lt;li&gt;個人資訊區&lt;/li&gt;
-&lt;li&gt;Tab bar&lt;/li&gt;
-&lt;li&gt;Tab view&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Tab view 裡是可滾動的內容, 這裡放了兩種類型：grid 與 list。
-當用戶向上滑動時，app bar 固定不動，tab bar 往上滑動到 tab bar 時固定不動，下方 tab view 保持可滑動。如下圖：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/o63DCh9.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;最近在修改 app 的個人頁，遇到的需求：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Tab bar 切出圓角&lt;/li&gt;&#xA;&lt;li&gt;Tab bar 可以滑動，滑到 app bar 的時候固定住&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;用文字說不太清楚，下面直接看圖：&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/CxZ6jxL.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;頁面的 components 有：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;App bar&lt;/li&gt;&#xA;&lt;li&gt;個人資訊區&lt;/li&gt;&#xA;&lt;li&gt;Tab bar&lt;/li&gt;&#xA;&lt;li&gt;Tab view&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Tab view 裡是可滾動的內容, 這裡放了兩種類型：grid 與 list。&#xA;當用戶向上滑動時，app bar 固定不動，tab bar 往上滑動到 tab bar 時固定不動，下方 tab view 保持可滑動。如下圖：&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/o63DCh9.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>編譯 Flutter APK</title>
       <link>https://maple52046.github.io/posts/compile-flutter-apk/</link>
       <pubDate>Fri, 10 Jun 2022 10:12:20 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/compile-flutter-apk/</guid>
-      <description>&lt;p&gt;本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。&lt;/p&gt;
-&lt;p&gt;版本資訊:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;#&lt;/th&gt;
-&lt;th style=&#34;text-align:left&#34;&gt;Version&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Flutter&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;3.0.1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Host OS&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;MacOS Big Sur (11.3.1)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android Studio&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;2020.3 (AI-203.7717.56.2031.7678000)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android Platform Tool&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;r33.0.2&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;OpenJDK&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;18.0.1.1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;Android (phone)&lt;/td&gt;
-&lt;td style=&#34;text-align:left&#34;&gt;11&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;</description>
+      <description>&lt;p&gt;本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。&lt;/p&gt;&#xA;&lt;p&gt;版本資訊:&lt;/p&gt;&#xA;&lt;table&gt;&#xA;&lt;thead&gt;&#xA;&lt;tr&gt;&#xA;&lt;th style=&#34;text-align:left&#34;&gt;#&lt;/th&gt;&#xA;&lt;th style=&#34;text-align:left&#34;&gt;Version&lt;/th&gt;&#xA;&lt;/tr&gt;&#xA;&lt;/thead&gt;&#xA;&lt;tbody&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Flutter&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;3.0.1&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Host OS&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;MacOS Big Sur (11.3.1)&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Android Studio&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;2020.3 (AI-203.7717.56.2031.7678000)&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Android Platform Tool&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;r33.0.2&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;OpenJDK&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;18.0.1.1&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;Android (phone)&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:left&#34;&gt;11&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;/tbody&gt;&#xA;&lt;/table&gt;</description>
     </item>
     <item>
       <title>客製化 Flutter Image Provider</title>
       <link>https://maple52046.github.io/posts/customize-flutter-image-provider/</link>
       <pubDate>Fri, 27 May 2022 17:57:53 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/customize-flutter-image-provider/</guid>
-      <description>&lt;p&gt;之前在 flutter app 中使用 &lt;a href=&#34;https://pub.dev/packages/optimized_cached_image&#34;&gt;Optimized Cached Image&lt;/a&gt; 來展示圖片，選擇他的原因也很簡單，因為當時剛學 flutter 沒多久就要直接上陣了。先選一個看起來簡單好用的再說；而且他還可以設置 cache key，避免重複抓取，感覺起來就不錯。&lt;/p&gt;
-&lt;p&gt;然而後來圖片一多起來之後，就發現問題了，往往 app 打開滑沒幾下就 crash。看 log 是 OOM 問題，上網查了一下，有人說是 memory leak。大致上就是 image disposed 之後，沒有正確的釋放 ram，app 佔用的 ram 越來越多，就直接觸發 OOM killer。測試了一下原生的 NetworkImage 沒有這個問題。所以應該就是 Optimized Cached Image 的問題了。&lt;/p&gt;
-&lt;p&gt;另外就是在我的程式裡，widget 只拿到 media id，需要先到後端去查 media 的 presigned url 返回給 app，app 再用 presigned url 抓圖片資料。也就是原來的程式碼裡一直都是 future builder + image，這造成的問題就是頁面一刷新就要重新抓 presigned url，大大降低了效率，也大大提升了後端的負載。&lt;/p&gt;
-&lt;p&gt;因此決定客製化一個業務專用的 image provider。&lt;/p&gt;</description>
+      <description>&lt;p&gt;之前在 flutter app 中使用 &lt;a href=&#34;https://pub.dev/packages/optimized_cached_image&#34;&gt;Optimized Cached Image&lt;/a&gt; 來展示圖片，選擇他的原因也很簡單，因為當時剛學 flutter 沒多久就要直接上陣了。先選一個看起來簡單好用的再說；而且他還可以設置 cache key，避免重複抓取，感覺起來就不錯。&lt;/p&gt;&#xA;&lt;p&gt;然而後來圖片一多起來之後，就發現問題了，往往 app 打開滑沒幾下就 crash。看 log 是 OOM 問題，上網查了一下，有人說是 memory leak。大致上就是 image disposed 之後，沒有正確的釋放 ram，app 佔用的 ram 越來越多，就直接觸發 OOM killer。測試了一下原生的 NetworkImage 沒有這個問題。所以應該就是 Optimized Cached Image 的問題了。&lt;/p&gt;&#xA;&lt;p&gt;另外就是在我的程式裡，widget 只拿到 media id，需要先到後端去查 media 的 presigned url 返回給 app，app 再用 presigned url 抓圖片資料。也就是原來的程式碼裡一直都是 future builder + image，這造成的問題就是頁面一刷新就要重新抓 presigned url，大大降低了效率，也大大提升了後端的負載。&lt;/p&gt;&#xA;&lt;p&gt;因此決定客製化一個業務專用的 image provider。&lt;/p&gt;</description>
     </item>
     <item>
       <title>OpenIM 整合(踩坑)筆記 01</title>
       <link>https://maple52046.github.io/posts/openim-integration-notes-01/</link>
       <pubDate>Wed, 25 May 2022 18:40:10 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/openim-integration-notes-01/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://doc.rentsoft.cn/#/introduce/production_introduce&#34;&gt;OpenIM&lt;/a&gt; 號稱是由一群前微信等技術專家一起出來打造的開源 IM 系統。撇開政治不談，個人覺得微信在 IM 領域確實是佼佼者，因此決定整合 OpenIM 到現有的產品中，以減少浪費時間重複造輪子。&lt;/p&gt;
-&lt;p&gt;本篇目標是串連原有的帳號系統與 OpenIM 的帳號系統，完成 &lt;strong&gt;自動註冊用戶到 OpenIM&lt;/strong&gt; (下圖中的第 3 ~ 4 步驟)。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://doc.rentsoft.cn/images/server-register.png&#34; alt=&#34;Open-IM用户注册&#34;&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://doc.rentsoft.cn/#/introduce/production_introduce&#34;&gt;OpenIM&lt;/a&gt; 號稱是由一群前微信等技術專家一起出來打造的開源 IM 系統。撇開政治不談，個人覺得微信在 IM 領域確實是佼佼者，因此決定整合 OpenIM 到現有的產品中，以減少浪費時間重複造輪子。&lt;/p&gt;&#xA;&lt;p&gt;本篇目標是串連原有的帳號系統與 OpenIM 的帳號系統，完成 &lt;strong&gt;自動註冊用戶到 OpenIM&lt;/strong&gt; (下圖中的第 3 ~ 4 步驟)。&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://doc.rentsoft.cn/images/server-register.png&#34; alt=&#34;Open-IM用户注册&#34;&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>在 Flutter MaterialApp 中使用指定顏色</title>
       <link>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</link>
       <pubDate>Thu, 28 Oct 2021 20:36:27 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/use-specific-color-on-the-flutter-material-app/</guid>
-      <description>&lt;p&gt;使用 Flutter MaterialApp 時，如果直接使用 &lt;code&gt;Color.fromRGBO&lt;/code&gt; 指定 ThemeData 的 &lt;code&gt;primarySwatch&lt;/code&gt; 會出現類型錯誤。這是因為 &lt;code&gt;primarySwatch&lt;/code&gt; 接收的類型是 &lt;code&gt;MaterialColor&lt;/code&gt; 而不是 &lt;code&gt;Color&lt;/code&gt;：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/8oO6cvG.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;使用 Flutter MaterialApp 時，如果直接使用 &lt;code&gt;Color.fromRGBO&lt;/code&gt; 指定 ThemeData 的 &lt;code&gt;primarySwatch&lt;/code&gt; 會出現類型錯誤。這是因為 &lt;code&gt;primarySwatch&lt;/code&gt; 接收的類型是 &lt;code&gt;MaterialColor&lt;/code&gt; 而不是 &lt;code&gt;Color&lt;/code&gt;：&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/8oO6cvG.png&#34; alt=&#34;Imgur&#34;&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>MuJoco and mujoco_py Installation</title>
@@ -230,8 +83,7 @@ package:client/proto/calculator.pb.dart:40:28
       <link>https://maple52046.github.io/posts/enable-pxe-boot-on-intel-nic-under-rhel/</link>
       <pubDate>Sun, 22 Apr 2018 14:45:10 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/enable-pxe-boot-on-intel-nic-under-rhel/</guid>
-      <description>&lt;p&gt;最近遇到一個奇怪的問題：在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡;
-但是進入到 OS 之後，網卡就出現了並且能正常運作。&lt;/p&gt;</description>
+      <description>&lt;p&gt;最近遇到一個奇怪的問題：在 BIOS 中的 Boot order 中, 沒有網卡開機的選項, 甚至是找不到網卡;&#xA;但是進入到 OS 之後，網卡就出現了並且能正常運作。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Install Ubuntu in UEFI mode with debootstrap</title>
@@ -245,11 +97,7 @@ package:client/proto/calculator.pb.dart:40:28
       <link>https://maple52046.github.io/posts/fix-the-oracle-java-installation-on-ubuntu-16-04/</link>
       <pubDate>Thu, 19 Oct 2017 08:38:53 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/fix-the-oracle-java-installation-on-ubuntu-16-04/</guid>
-      <description>&lt;p&gt;在 Ubuntu 透過 &lt;a href=&#34;https://launchpad.net/~webupd8team/+archive/ubuntu/java&#34;&gt;WebUpd8 team ppa&lt;/a&gt; 安裝 Java：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo add-apt-repository ppa:webupd8team/java
-sudo apt update
-sudo apt install oracle-java9-installer
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;安裝的過程中遇到 404 Not found 問題。&lt;/p&gt;</description>
+      <description>&lt;p&gt;在 Ubuntu 透過 &lt;a href=&#34;https://launchpad.net/~webupd8team/+archive/ubuntu/java&#34;&gt;WebUpd8 team ppa&lt;/a&gt; 安裝 Java：&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;sudo add-apt-repository ppa:webupd8team/java&#xA;sudo apt update&#xA;sudo apt install oracle-java9-installer&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;安裝的過程中遇到 404 Not found 問題。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Build OpenCV 3.2 with CUDA 8.0 and Matlab on Ubuntu 16.04/14.04</title>
@@ -263,10 +111,7 @@ sudo apt install oracle-java9-installer
       <link>https://maple52046.github.io/posts/notes-openstack-heat-usage/</link>
       <pubDate>Thu, 30 Jun 2016 15:48:16 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/notes-openstack-heat-usage/</guid>
-      <description>&lt;p&gt;Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。&lt;/p&gt;
-&lt;p&gt;Heat 用 &lt;strong&gt;resource&lt;/strong&gt; 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 &lt;code&gt;default&lt;/code&gt;。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 &lt;code&gt;default&lt;/code&gt; 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。&lt;/p&gt;
-&lt;p&gt;Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 &lt;code&gt;block_device_mapping&lt;/code&gt; 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。&lt;/p&gt;
-&lt;p&gt;這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 &lt;strong&gt;resource&lt;/strong&gt;，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 &lt;strong&gt;state&lt;/strong&gt; 來配置 Linux。&lt;/p&gt;</description>
+      <description>&lt;p&gt;Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。&lt;/p&gt;&#xA;&lt;p&gt;Heat 用 &lt;strong&gt;resource&lt;/strong&gt; 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 &lt;code&gt;default&lt;/code&gt;。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 &lt;code&gt;default&lt;/code&gt; 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。&lt;/p&gt;&#xA;&lt;p&gt;Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 &lt;code&gt;block_device_mapping&lt;/code&gt; 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。&lt;/p&gt;&#xA;&lt;p&gt;這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 &lt;strong&gt;resource&lt;/strong&gt;，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 &lt;strong&gt;state&lt;/strong&gt; 來配置 Linux。&lt;/p&gt;</description>
     </item>
     <item>
       <title>調整 vim 註解顏色</title>
@@ -280,12 +125,7 @@ sudo apt install oracle-java9-installer
       <link>https://maple52046.github.io/posts/convert-dvd-to-mp4-with-ffmpeg-on-ubuntu/</link>
       <pubDate>Sat, 23 Jan 2016 00:14:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/convert-dvd-to-mp4-with-ffmpeg-on-ubuntu/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://www.ffmpeg.org/&#34;&gt;FFmpeg&lt;/a&gt; 是一套跨平臺開發原始碼的影音轉換軟體。
-利用 FFmpeg 我們可以在 Linux 上將 DVD 轉換成 mp4 或是其他格式。&lt;/p&gt;
-&lt;p&gt;Ubuntu 15.04 以上可以直接以 apt-get 安裝。不過我的平臺是 Ubuntu 14.04。
-因此只能通過兩種方式安裝: ppa、手動編譯。&lt;/p&gt;
-&lt;p&gt;如果要從 PPA 安裝，請參考： &lt;a href=&#34;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&#34;&gt;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;不過我是採用編譯的方式：https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.ffmpeg.org/&#34;&gt;FFmpeg&lt;/a&gt; 是一套跨平臺開發原始碼的影音轉換軟體。&#xA;利用 FFmpeg 我們可以在 Linux 上將 DVD 轉換成 mp4 或是其他格式。&lt;/p&gt;&#xA;&lt;p&gt;Ubuntu 15.04 以上可以直接以 apt-get 安裝。不過我的平臺是 Ubuntu 14.04。&#xA;因此只能通過兩種方式安裝: ppa、手動編譯。&lt;/p&gt;&#xA;&lt;p&gt;如果要從 PPA 安裝，請參考： &lt;a href=&#34;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&#34;&gt;https://launchpad.net/~mc3man/+archive/ubuntu/trusty-media&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;不過我是採用編譯的方式：https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu&lt;/p&gt;</description>
     </item>
     <item>
       <title>解决 Ceph PG stuck in degraded &#43; undersized</title>
@@ -299,123 +139,56 @@ sudo apt install oracle-java9-installer
       <link>https://maple52046.github.io/posts/setup-squid-transparent-proxy-with-docker/</link>
       <pubDate>Thu, 19 Nov 2015 17:09:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/setup-squid-transparent-proxy-with-docker/</guid>
-      <description>&lt;p&gt;Squid 作為 Transparent proxy 時，不但可以加快區域網絡內的速度、降低網路流量
-還可以控管區網內是否要開放/封鎖網站~~(監看區網內誰在玩FB或是看色情網站XD)~~&lt;/p&gt;</description>
+      <description>&lt;p&gt;Squid 作為 Transparent proxy 時，不但可以加快區域網絡內的速度、降低網路流量&#xA;還可以控管區網內是否要開放/封鎖網站~~(監看區網內誰在玩FB或是看色情網站XD)~~&lt;/p&gt;</description>
     </item>
     <item>
       <title>Debugging Saltstack States</title>
       <link>https://maple52046.github.io/posts/debugging-saltstack-states/</link>
       <pubDate>Fri, 16 Oct 2015 12:54:13 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/debugging-saltstack-states/</guid>
-      <description>&lt;p&gt;利用 Saltstack 安裝 OpenStack Keystone。按照 &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html&#34;&gt;OpenStack 官方安裝手冊&lt;/a&gt;，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。&lt;/p&gt;
-&lt;p&gt;這一個步驟，我把他寫成 Saltstack states 如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;waiting-keystone-startup&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;cmd.run&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;sleep 1&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-service&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.service_present&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;service_type&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;identity&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;description&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;OpenStack Identity&amp;#34;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#f92672&#34;&gt;cmd&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;waiting-keystone-startup&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-endpoint&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.endpoint_present&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;publicurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;internalurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;adminurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:35357/v2.0&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;region&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;regionOne&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#f92672&#34;&gt;keystone&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;registry-keystone-service&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;結果執行時發生 KeyError:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;user@host-01:/srv/salt/openstack/keystone$ salt &amp;#39;*&amp;#39; state.sls openstack.keystone.registry
-host-01:
-    The minion function caused an exception: Traceback (most recent call last):
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/minion.py&amp;#34;, line 1161, in _thread_return
-        return_data = func(*args, **kwargs)
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/modules/state.py&amp;#34;, line 681, in sls
-        ret = st_.state.call_high(high_)
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 2067, in call_high
-        ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 1623, in call_chunks
-        running = self.call_chunk(low, running, chunks)
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 1769, in call_chunk
-        self._mod_init(low)
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 612, in _mod_init
-        self.states[&amp;#39;{0}.{1}&amp;#39;.format(low[&amp;#39;state&amp;#39;], low[&amp;#39;fun&amp;#39;])]  # pylint: disable=W0106
-      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&amp;#34;, line 90, in __getitem__
-        raise KeyError(key)
-    KeyError: &amp;#39;keystone.service_present&amp;#39;
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;利用 Saltstack 安裝 OpenStack Keystone。按照 &lt;a href=&#34;http://docs.openstack.org/kilo/install-guide/install/apt/content/keystone-services.html&#34;&gt;OpenStack 官方安裝手冊&lt;/a&gt;，裝完 Keystone 之後，必須要為 Keystone 自己註冊 service 與 endpoint。&lt;/p&gt;&#xA;&lt;p&gt;這一個步驟，我把他寫成 Saltstack states 如下：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;waiting-keystone-startup&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;cmd.run&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;sleep 1&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-service&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.service_present&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;service_type&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;identity&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;description&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;OpenStack Identity&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#f92672&#34;&gt;cmd&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;waiting-keystone-startup&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;registry-keystone-endpoint&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;keystone.endpoint_present&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;keystone&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;publicurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;internalurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:5000/v2.0&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;adminurl&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://host-01:35357/v2.0&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;region&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;regionOne&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;require&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      - &lt;span style=&#34;color:#f92672&#34;&gt;keystone&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;registry-keystone-service&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;結果執行時發生 KeyError:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;user@host-01:/srv/salt/openstack/keystone$ salt &amp;#39;*&amp;#39; state.sls openstack.keystone.registry&#xA;host-01:&#xA;    The minion function caused an exception: Traceback (most recent call last):&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/minion.py&amp;#34;, line 1161, in _thread_return&#xA;        return_data = func(*args, **kwargs)&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/modules/state.py&amp;#34;, line 681, in sls&#xA;        ret = st_.state.call_high(high_)&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 2067, in call_high&#xA;        ret = dict(list(disabled.items()) + list(self.call_chunks(chunks).items()))&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 1623, in call_chunks&#xA;        running = self.call_chunk(low, running, chunks)&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 1769, in call_chunk&#xA;        self._mod_init(low)&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/state.py&amp;#34;, line 612, in _mod_init&#xA;        self.states[&amp;#39;{0}.{1}&amp;#39;.format(low[&amp;#39;state&amp;#39;], low[&amp;#39;fun&amp;#39;])]  # pylint: disable=W0106&#xA;      File &amp;#34;/usr/lib/python2.7/dist-packages/salt/utils/lazy.py&amp;#34;, line 90, in __getitem__&#xA;        raise KeyError(key)&#xA;    KeyError: &amp;#39;keystone.service_present&amp;#39;&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>解決 qcow2 image : Could not read snapshots. File too large</title>
       <link>https://maple52046.github.io/posts/solve-qcow2-file-too-large-could-not-read-snapshots/</link>
       <pubDate>Wed, 22 Jul 2015 11:54:40 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/solve-qcow2-file-too-large-could-not-read-snapshots/</guid>
-      <description>&lt;p&gt;在 KVM VM running 的中，執行了 &lt;code&gt;qemu-img snapshot -c ....&lt;/code&gt;，可能是沒有算好 image 的剩餘空間，也可能是某種 bug，總之，當 VM 關機後，就再也開不起來了。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;qemu-img info&lt;/code&gt; 會產生錯誤：&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Host1 # qemu-img info portal.img
-qemu-img: Could not open &amp;#39;portal.img&amp;#39;: Could not read snapshots: File too large
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;在 KVM VM running 的中，執行了 &lt;code&gt;qemu-img snapshot -c ....&lt;/code&gt;，可能是沒有算好 image 的剩餘空間，也可能是某種 bug，總之，當 VM 關機後，就再也開不起來了。&lt;/p&gt;&#xA;&lt;p&gt;&lt;code&gt;qemu-img info&lt;/code&gt; 會產生錯誤：&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Host1 # qemu-img info portal.img&#xA;qemu-img: Could not open &amp;#39;portal.img&amp;#39;: Could not read snapshots: File too large&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>Cross-compile for OpenWRT</title>
       <link>https://maple52046.github.io/posts/cross-compile-for-openwrt/</link>
       <pubDate>Thu, 14 May 2015 09:55:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/cross-compile-for-openwrt/</guid>
-      <description>&lt;p&gt;這是一個實驗，在 Ubuntu 上編譯可以在 OpenWRT 上運行的程式。
-參考並修改別人的方式，完成了幾個簡單的範例。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;編譯環境：
-&lt;ul&gt;
-&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;
-&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;</description>
+      <description>&lt;p&gt;這是一個實驗，在 Ubuntu 上編譯可以在 OpenWRT 上運行的程式。&#xA;參考並修改別人的方式，完成了幾個簡單的範例。&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;編譯環境：&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;&#xA;&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Compile OpenWRT x86 (KVM guest, VirtualBox)</title>
       <link>https://maple52046.github.io/posts/compile-openwrt-x86-kvm-guest/</link>
       <pubDate>Thu, 07 May 2015 11:45:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/compile-openwrt-x86-kvm-guest/</guid>
-      <description>&lt;p&gt;編譯 x86 版的 OpenWRT 與之前的方式雷同，基本上差別的就在於 &lt;code&gt;make menuconfig&lt;/code&gt; 的時候要作一些額外的修改。&lt;/p&gt;
-&lt;p&gt;詳細的 OpenWRT 編譯流程請參考：&lt;a href=&#34;http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch&#34;&gt;Compile OpenWRT with Open vSwitch&lt;/a&gt;，本篇不再贅述。&lt;/p&gt;</description>
+      <description>&lt;p&gt;編譯 x86 版的 OpenWRT 與之前的方式雷同，基本上差別的就在於 &lt;code&gt;make menuconfig&lt;/code&gt; 的時候要作一些額外的修改。&lt;/p&gt;&#xA;&lt;p&gt;詳細的 OpenWRT 編譯流程請參考：&lt;a href=&#34;http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch&#34;&gt;Compile OpenWRT with Open vSwitch&lt;/a&gt;，本篇不再贅述。&lt;/p&gt;</description>
     </item>
     <item>
       <title>IPv6 Neighbour table overflow</title>
       <link>https://maple52046.github.io/posts/ipv6-neighbour-table-overflow/</link>
       <pubDate>Fri, 01 May 2015 12:07:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/ipv6-neighbour-table-overflow/</guid>
-      <description>&lt;p&gt;這兩天一直在 syslog 上看到 &lt;code&gt;Neighbour table overflow&lt;/code&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-syslog&#34; data-lang=&#34;syslog&#34;&gt;Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressed
-Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;每兩分鐘就出現6~7筆,數量非常的多
-如果不處理它，放任它繼續增長，過一兩天後系統就會 kernel panic。&lt;/p&gt;</description>
+      <description>&lt;p&gt;這兩天一直在 syslog 上看到 &lt;code&gt;Neighbour table overflow&lt;/code&gt;&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-syslog&#34; data-lang=&#34;syslog&#34;&gt;Apr 30 06:27:03 host-42 kernel: [72924.290265] net_ratelimit: 1739 callbacks suppressed&#xA;Apr 30 06:27:03 host-42 kernel: [72924.290269] IPv6: Neighbour table overflow&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;每兩分鐘就出現6~7筆,數量非常的多&#xA;如果不處理它，放任它繼續增長，過一兩天後系統就會 kernel panic。&lt;/p&gt;</description>
     </item>
     <item>
       <title>OpenStack Glance Image-list 401</title>
       <link>https://maple52046.github.io/posts/openstack-glance-image-list-401/</link>
       <pubDate>Wed, 08 Apr 2015 16:12:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/openstack-glance-image-list-401/</guid>
-      <description>&lt;p&gt;架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;root@localhost:~# glance --debug image-list
-curl -i -X GET -H &amp;#39;User-Agent: python-glanceclient&amp;#39; -H &amp;#39;Content-Type: application/octet-stream&amp;#39; -H &amp;#39;Accept-Encoding: gzip, deflate, compress&amp;#39; -H &amp;#39;Accept: */*&amp;#39; -H &amp;#39;X-Auth-Token: ***&amp;#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;amp;sort_dir=asc&amp;amp;limit=20
-Request returned failure status 401.
-Invalid OpenStack Identity credentials.
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;root@localhost:~# glance --debug image-list&#xA;curl -i -X GET -H &amp;#39;User-Agent: python-glanceclient&amp;#39; -H &amp;#39;Content-Type: application/octet-stream&amp;#39; -H &amp;#39;Accept-Encoding: gzip, deflate, compress&amp;#39; -H &amp;#39;Accept: */*&amp;#39; -H &amp;#39;X-Auth-Token: ***&amp;#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;amp;sort_dir=asc&amp;amp;limit=20&#xA;Request returned failure status 401.&#xA;Invalid OpenStack Identity credentials.&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>暴力啟用 gitlab user</title>
       <link>https://maple52046.github.io/posts/force-confirm-gitlab-user/</link>
       <pubDate>Fri, 27 Mar 2015 15:38:23 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/force-confirm-gitlab-user/</guid>
-      <description>&lt;p&gt;下這個標題不知道是不是很奇怪XD&lt;/p&gt;
-&lt;p&gt;最近在為自己的 team 開發一個 management 系統，於是決定在 gitlab 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&amp;hellip;不小心找了個旁門左道 XD&lt;/p&gt;</description>
+      <description>&lt;p&gt;下這個標題不知道是不是很奇怪XD&lt;/p&gt;&#xA;&lt;p&gt;最近在為自己的 team 開發一個 management 系統，於是決定在 gitlab 上開 project。用了 team 的 email 註冊，但是不知道為什麼總是收不到驗證信。於是&amp;hellip;不小心找了個旁門左道 XD&lt;/p&gt;</description>
     </item>
     <item>
       <title>Configure Open vSwitch in OpenWRT</title>
@@ -429,24 +202,7 @@ Invalid OpenStack Identity credentials.
       <link>https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/</link>
       <pubDate>Thu, 05 Mar 2015 17:05:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/compile-openwrt-with-open-vswitch/</guid>
-      <description>&lt;p&gt;雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 &lt;a href=&#34;https://github.com/openwrt/packages/tree/master/net/openvswitch&#34;&gt;Open vSwitch&lt;/a&gt; 的身影。但是實際上，在官方的 &lt;a href=&#34;https://downloads.openwrt.org/barrier_breaker/14.07/&#34;&gt;repository&lt;/a&gt; 中並沒有 Open vSwitch。因此決定自行編譯。&lt;/p&gt;
-&lt;h1 id=&#34;實驗環境&#34;&gt;&lt;strong&gt;實驗環境&lt;/strong&gt;&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;編譯環境&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;
-&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;
-&lt;li&gt;Open vSwitch version: 2.3.1&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;路由器&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.tp-link.tw/products/details/?model=TL-WR1043ND&#34;&gt;TP-Link TL-WR1043ND&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;</description>
+      <description>&lt;p&gt;雖然說在 google 上很多資料都說，Open vSwitch 已經加入到 OpenWRT 的 packages repository，而且在 GitHub 上也有看到 &lt;a href=&#34;https://github.com/openwrt/packages/tree/master/net/openvswitch&#34;&gt;Open vSwitch&lt;/a&gt; 的身影。但是實際上，在官方的 &lt;a href=&#34;https://downloads.openwrt.org/barrier_breaker/14.07/&#34;&gt;repository&lt;/a&gt; 中並沒有 Open vSwitch。因此決定自行編譯。&lt;/p&gt;&#xA;&lt;h1 id=&#34;實驗環境&#34;&gt;&lt;strong&gt;實驗環境&lt;/strong&gt;&lt;/h1&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;編譯環境&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Operating System: Ubuntu 14.04 x64&lt;/li&gt;&#xA;&lt;li&gt;OpenWRT version: 14.07&lt;/li&gt;&#xA;&lt;li&gt;Open vSwitch version: 2.3.1&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;路由器&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;http://www.tp-link.tw/products/details/?model=TL-WR1043ND&#34;&gt;TP-Link TL-WR1043ND&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>Install Rally 筆記 (OpenStack benchmark)</title>
@@ -467,27 +223,14 @@ Invalid OpenStack Identity credentials.
       <link>https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/</link>
       <pubDate>Wed, 11 Feb 2015 16:36:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/openstack-nova-cannot-reboot-instance-unable-to-create-tap-device/</guid>
-      <description>&lt;p&gt;早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 &lt;code&gt;nova reboot --hard &amp;lt;server&amp;gt;&lt;/code&gt; 的方式，想要開啟instance 卻失敗，在 &lt;code&gt;/var/log/nova/nova-compute.log&lt;/code&gt; 中看到以下錯誤訊息:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;早上因為某種因素，將 nova compute 強制重開機。當開機完成之後，使用 &lt;code&gt;nova reboot --hard &amp;lt;server&amp;gt;&lt;/code&gt; 的方式，想要開啟instance 卻失敗，在 &lt;code&gt;/var/log/nova/nova-compute.log&lt;/code&gt; 中看到以下錯誤訊息:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2015-02-11 16:10:54.110 ERROR nova.compute.manager [req-a3d9cf35-82ee-4857-b69d-99ef0c8ca753 b6a90e8c63ad4612917655fb9b04ad92 ecb687200c6a4574bdaf3ea3633c6b3f] [instance: 7bdad622-dd70-49d7-89ca-827d2e86367f] Cannot reboot instance: Unable to create tap device tape10b9639-d8: Device or resource busy&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>OpenStack Nova error: libVirt cannot get CPU affinity of process 30619</title>
       <link>https://maple52046.github.io/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/</link>
       <pubDate>Wed, 11 Feb 2015 15:55:00 +0000</pubDate>
       <guid>https://maple52046.github.io/posts/openstack-nova-error-libvirt-cannot-get-cpu-affinity-of-process/</guid>
-      <description>&lt;p&gt;Nova-compute 無法運行，在 log 中發現:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&amp;#34;, line 187, in doit
-2015-02-11 15:34:05.511 30827 TRACE nova     result = proxy_call(self._autowrap, f, *args, **kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&amp;#34;, line 147, in proxy_call
-2015-02-11 15:34:05.511 30827 TRACE nova     rv = execute(f,*args,**kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&amp;#34;, line 76, in tworker
-2015-02-11 15:34:05.511 30827 TRACE nova     rv = meth(*args,**kwargs)
-2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;#34;/usr/lib/python2.7/dist-packages/libvirt.py&amp;#34;, line 2096, in vcpus
-2015-02-11 15:34:05.511 30827 TRACE nova     if ret == -1: raise libvirtError (&amp;#39;virDomainGetVcpus() failed&amp;#39;, dom=self)
-2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process
-2015-02-11 15:34:05.511 30827 TRACE nova
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;Nova-compute 無法運行，在 log 中發現:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&amp;#34;, line 187, in doit&#xA;2015-02-11 15:34:05.511 30827 TRACE nova     result = proxy_call(self._autowrap, f, *args, **kwargs)&#xA;2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&amp;#34;, line 147, in proxy_call&#xA;2015-02-11 15:34:05.511 30827 TRACE nova     rv = execute(f,*args,**kwargs)&#xA;2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&amp;#34;, line 76, in tworker&#xA;2015-02-11 15:34:05.511 30827 TRACE nova     rv = meth(*args,**kwargs)&#xA;2015-02-11 15:34:05.511 30827 TRACE nova   File &amp;#34;/usr/lib/python2.7/dist-packages/libvirt.py&amp;#34;, line 2096, in vcpus&#xA;2015-02-11 15:34:05.511 30827 TRACE nova     if ret == -1: raise libvirtError (&amp;#39;virDomainGetVcpus() failed&amp;#39;, dom=self)&#xA;2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process&#xA;2015-02-11 15:34:05.511 30827 TRACE nova&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>Ceph OSD stuck in an existing executable needed to interrupt.</title>
@@ -501,75 +244,35 @@ Invalid OpenStack Identity credentials.
       <link>https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/</link>
       <pubDate>Thu, 25 Dec 2014 17:26:57 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/</guid>
-      <description>&lt;p&gt;最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;回應:	500 OOPS: priv_sock_get_cmd
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在 server 端，&lt;code&gt;/var/log/syslog&lt;/code&gt; 裡面看到:&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&amp;#34;vsftpd&amp;#34; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
-&lt;/code&gt;&lt;/pre&gt;</description>
+      <description>&lt;p&gt;最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;回應:&#x9;500 OOPS: priv_sock_get_cmd&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在 server 端，&lt;code&gt;/var/log/syslog&lt;/code&gt; 裡面看到:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&amp;#34;vsftpd&amp;#34; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0&#xA;&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     <item>
       <title>Install Instiki on Ubuntu 12.04</title>
       <link>https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/</link>
       <pubDate>Thu, 25 Sep 2014 01:10:00 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/install-instiki-on-ubuntu-precise/</guid>
-      <description>&lt;p&gt;Instiki 是一個用 Ruby 開發的 wiki 系統，特色是非常的 light weight、可以使用 &lt;strong&gt;Markdown&lt;/strong&gt; 語法等。詳細介紹就暫時略過。&lt;/p&gt;
-&lt;p&gt;本次安裝的環境如下:&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th style=&#34;text-align:center&#34;&gt;Operating system&lt;/th&gt;
-&lt;th style=&#34;text-align:center&#34;&gt;Ruby version&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;Ubuntu 12.04&lt;/td&gt;
-&lt;td style=&#34;text-align:center&#34;&gt;1.9.1 (install by RVM)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;h1 id=&#34;安裝步驟&#34;&gt;安裝步驟&lt;/h1&gt;
-&lt;h2 id=&#34;configure-ruby-environment&#34;&gt;Configure Ruby environment&lt;/h2&gt;
-&lt;p&gt;Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻煩，因此決定採用跟官網一樣的版本。
-不過 Ubuntu 預設的版本已經是 1.9.3 (?) 以上了，況且根據之前搞 CloudFoundry 的經驗，Ruby 的版本最好還是用 RVM 來進行管理。&lt;/p&gt;</description>
+      <description>&lt;p&gt;Instiki 是一個用 Ruby 開發的 wiki 系統，特色是非常的 light weight、可以使用 &lt;strong&gt;Markdown&lt;/strong&gt; 語法等。詳細介紹就暫時略過。&lt;/p&gt;&#xA;&lt;p&gt;本次安裝的環境如下:&lt;/p&gt;&#xA;&lt;table&gt;&#xA;&lt;thead&gt;&#xA;&lt;tr&gt;&#xA;&lt;th style=&#34;text-align:center&#34;&gt;Operating system&lt;/th&gt;&#xA;&lt;th style=&#34;text-align:center&#34;&gt;Ruby version&lt;/th&gt;&#xA;&lt;/tr&gt;&#xA;&lt;/thead&gt;&#xA;&lt;tbody&gt;&#xA;&lt;tr&gt;&#xA;&lt;td style=&#34;text-align:center&#34;&gt;Ubuntu 12.04&lt;/td&gt;&#xA;&lt;td style=&#34;text-align:center&#34;&gt;1.9.1 (install by RVM)&lt;/td&gt;&#xA;&lt;/tr&gt;&#xA;&lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h1 id=&#34;安裝步驟&#34;&gt;安裝步驟&lt;/h1&gt;&#xA;&lt;h2 id=&#34;configure-ruby-environment&#34;&gt;Configure Ruby environment&lt;/h2&gt;&#xA;&lt;p&gt;Instiki 官網 Installation 是使用 Ruby 1.9.1 作為範例，為了避免麻煩，因此決定採用跟官網一樣的版本。&#xA;不過 Ubuntu 預設的版本已經是 1.9.3 (?) 以上了，況且根據之前搞 CloudFoundry 的經驗，Ruby 的版本最好還是用 RVM 來進行管理。&lt;/p&gt;</description>
     </item>
     <item>
       <title>設定 Libvirt 使用 Open vSwitch</title>
       <link>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</link>
       <pubDate>Tue, 12 Aug 2014 03:22:59 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/use-openvswitch-in-libvirt/</guid>
-      <description>&lt;p&gt;最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 &lt;code&gt;virsh define&lt;/code&gt; 之後才能使用。&lt;/p&gt;
-&lt;p&gt;每個 VM 都要手動設定真的很麻煩&lt;/p&gt;
-&lt;p&gt;幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]&lt;/p&gt;</description>
+      <description>&lt;p&gt;最近經常需要將 VM (KVM) 開在 Open vSwitch 的 bridge 上。雖然 libvirt 有 Open vSwitch driver，但是 virt-manager 並無法辨別與設定 Open vSwitch。在這之前，都是要先建立好 VM ，然後手動修改 XML 檔，重新 &lt;code&gt;virsh define&lt;/code&gt; 之後才能使用。&lt;/p&gt;&#xA;&lt;p&gt;每個 VM 都要手動設定真的很麻煩&lt;/p&gt;&#xA;&lt;p&gt;幸好找到了一個很棒解決方案: [Setting up Libvirt to use Open vSwitch][1]&lt;/p&gt;</description>
     </item>
     <item>
       <title>Hadoop SecondaryNameNode 、CheckpointNode 與 Backup Node 觀念整理</title>
       <link>https://maple52046.github.io/posts/concepts-of-hadoop-nodes/</link>
       <pubDate>Mon, 18 Nov 2013 12:10:07 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/concepts-of-hadoop-nodes/</guid>
-      <description>&lt;p&gt;為了要管理 lab 裡的 Hadoop cluster，針對 Hadoop 的 NameNode、SecondaryNameNode、CheckpointNode 與 BackupNode 做個了survay。&lt;/p&gt;
-&lt;h1 id=&#34;namenode&#34;&gt;NameNode&lt;/h1&gt;
-&lt;p&gt;Hadoop 的 metadata 是存放在運行 Namenode 的 server 的 memory 裡面，而 Namenode 的工作就是將 clients 對 metadata 的讀寫修改紀錄在&lt;strong&gt;edits&lt;/strong&gt;裡。&lt;/p&gt;
-&lt;p&gt;當 Namenode 被啟動的時候，會先合併 HDFS 上的 fsimage 與 edits，取得完整的 metadata。此時，原本的 fsimage 會被更新。&lt;/p&gt;
-&lt;p&gt;之後，在 NameNode 運作的期間，client 對 metadata 的 access 還是只會記錄在新的 edits 裡，直到下一次 NameNode restart 的時候，周而復始的更新 fsimage、產生新的 edits。&lt;/p&gt;</description>
+      <description>&lt;p&gt;為了要管理 lab 裡的 Hadoop cluster，針對 Hadoop 的 NameNode、SecondaryNameNode、CheckpointNode 與 BackupNode 做個了survay。&lt;/p&gt;&#xA;&lt;h1 id=&#34;namenode&#34;&gt;NameNode&lt;/h1&gt;&#xA;&lt;p&gt;Hadoop 的 metadata 是存放在運行 Namenode 的 server 的 memory 裡面，而 Namenode 的工作就是將 clients 對 metadata 的讀寫修改紀錄在&lt;strong&gt;edits&lt;/strong&gt;裡。&lt;/p&gt;&#xA;&lt;p&gt;當 Namenode 被啟動的時候，會先合併 HDFS 上的 fsimage 與 edits，取得完整的 metadata。此時，原本的 fsimage 會被更新。&lt;/p&gt;&#xA;&lt;p&gt;之後，在 NameNode 運作的期間，client 對 metadata 的 access 還是只會記錄在新的 edits 裡，直到下一次 NameNode restart 的時候，周而復始的更新 fsimage、產生新的 edits。&lt;/p&gt;</description>
     </item>
     <item>
       <title>復原 OpenStack 中被刪除的 instance</title>
       <link>https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/</link>
       <pubDate>Mon, 21 Oct 2013 21:25:11 +0800</pubDate>
       <guid>https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/</guid>
-      <description>&lt;p&gt;上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。&lt;/p&gt;
-&lt;p&gt;Unstall 時已經很習慣用 apt-get &lt;strong&gt;&amp;ndash;purge&lt;/strong&gt; install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 &lt;code&gt;/var/lib/nova/instance&lt;/code&gt; 用 ceph 分享給所有 compute。&lt;/p&gt;
-&lt;p&gt;所以&amp;hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。&lt;/p&gt;
-&lt;p&gt;所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。
-這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。&lt;/p&gt;
-&lt;p&gt;回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)&lt;/li&gt;
-&lt;li&gt;VM 一旦關機，instance 就會被刪掉 =&amp;gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =&lt;/p&gt;
-&lt;p&gt;萬幸的是我終於找到方法了&lt;/p&gt;</description>
+      <description>&lt;p&gt;上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。&lt;/p&gt;&#xA;&lt;p&gt;Unstall 時已經很習慣用 apt-get &lt;strong&gt;&amp;ndash;purge&lt;/strong&gt; install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 &lt;code&gt;/var/lib/nova/instance&lt;/code&gt; 用 ceph 分享給所有 compute。&lt;/p&gt;&#xA;&lt;p&gt;所以&amp;hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。&lt;/p&gt;&#xA;&lt;p&gt;所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。&#xA;這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。&lt;/p&gt;&#xA;&lt;p&gt;回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)&lt;/li&gt;&#xA;&lt;li&gt;VM 一旦關機，instance 就會被刪掉 =&amp;gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =&lt;/p&gt;&#xA;&lt;p&gt;萬幸的是我終於找到方法了&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
