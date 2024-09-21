@@ -179,20 +179,21 @@ if (!doNotTrack) {
             </h2>
             <div>
                 <p><h1 id="使用-reorderablelist-解決-bloc-在-listview-中頻繁的關閉與創建問題">使用 ReorderableList 解決 Bloc 在 ListView 中頻繁的關閉與創建問題</h1>
-<p>最近在開發 Flutter app 時遇到了一個問題：當 <code>ListView</code> 中，每個 child 都使用 <code>BlocProvider</code> ，例如:</p>
+<p>最近在開發 Flutter app 時遇到了一個問題：當 <code>ListView</code> 中，每個 child 都使用 <code>BlocProvider</code>，例如:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyListView</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
 </span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
 </span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> BlocBuilder<span style="color:#f92672">&lt;</span>MyCubit, MyState<span style="color:#f92672">&gt;</span>(
-</span></span><span style="display:flex;"><span>      builder: (_, state) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> BlocSelector<span style="color:#f92672">&lt;</span>RootCubit, RootState, List<span style="color:#f92672">&lt;</span>SomeObj<span style="color:#f92672">&gt;&gt;</span>(
+</span></span><span style="display:flex;"><span>      selector: (state) <span style="color:#f92672">=&gt;</span> state.items,
+</span></span><span style="display:flex;"><span>      builder: (_, items) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ListView.builder(
-</span></span><span style="display:flex;"><span>          itemCount: state.length,
-</span></span><span style="display:flex;"><span>          itemBuilder: (context, index) {
+</span></span><span style="display:flex;"><span>          itemCount: items.length,
+</span></span><span style="display:flex;"><span>          itemBuilder: (_, index) {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> BlocProvider(
 </span></span><span style="display:flex;"><span>              create: (_) <span style="color:#f92672">=&gt;</span> MyCubit(),
 </span></span><span style="display:flex;"><span>              child: ListTile(
-</span></span><span style="display:flex;"><span>                key: ValueKey(state[index]),
-</span></span><span style="display:flex;"><span>                title: Text(state[index].title),
+</span></span><span style="display:flex;"><span>                key: ValueKey(items[index]),
+</span></span><span style="display:flex;"><span>                title: Text(items[index].title),
 </span></span><span style="display:flex;"><span>              ),
 </span></span><span style="display:flex;"><span>            );
 </span></span><span style="display:flex;"><span>          },
@@ -201,7 +202,7 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>    );
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>如果列表的順序變更，child bloc 會將頻繁地被關閉與重新創建。此時會導致所有的 child 發生 <code>emit error</code>：</p>
+</span></span></code></pre></div><p>如果列表的順序變更，child cubit 將會頻繁地被關閉與重新創建。此時會導致所有的 child 都不能再 emit state，否則會發生錯誤：</p>
 <pre tabindex="0"><code>[ERROR: flutter/runtime/dart_vm_initializer.cc(41)] Unhandled Exception: Bad state: Cannot emit new states after calling close
 #0  BlocBase.emit (package:bloc/src/bloc_base.dart:97:9)
 #1  MyCubit.fetchData.&lt;anonymous closure&gt; (package: myapp/features/hello/presentation/blocs/cubit.dart:203:13)
@@ -209,7 +210,7 @@ if (!doNotTrack) {
 ‹asynchronous suspension&gt;
 #3  GreetingRepository.fetch.&lt;anonymous closure (package:myapp/features/hello/infrastructure/repositories.dart:60:9)
 &lt;asynchronous suspension&gt;
-</code></pre><p>即便在每個 <code>child</code> 上增加了唯一的 <code>key</code>，也無法避免這個問題。</p></p>
+</code></pre><p>即便在每個 child 上增加了唯一的 <code>key</code>，也無法解決這個問題。</p></p>
                 
                 <p><a href="/posts/flutter-reorderablelistview/">Read more...</a></p>
                 
