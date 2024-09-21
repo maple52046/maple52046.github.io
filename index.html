@@ -174,12 +174,11 @@ if (!doNotTrack) {
         <article>
             <h2>
                 <a href="https://maple52046.github.io/posts/flutter-reorderablelistview/">
-                    Flutter ReorderableListView
+                    使用 ReorderableList 解決 Bloc 在 ListView 中頻繁的關閉與創建問題
                 </a>
             </h2>
             <div>
-                <p><h1 id="使用-reorderablelist-解決-bloc-在-listview-中頻繁的關閉與創建問題">使用 ReorderableList 解決 Bloc 在 ListView 中頻繁的關閉與創建問題</h1>
-<p>最近在開發 Flutter app 時遇到了一個問題：當 <code>ListView</code> 中，每個 child 都使用 <code>BlocProvider</code>，例如:</p>
+                <p><p>最近在開發 Flutter app 時遇到了一個問題：當 <code>ListView</code> 中，每個 child 都使用 <code>BlocProvider</code>，例如:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyListView</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
 </span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
 </span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {

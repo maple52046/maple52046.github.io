@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no"/>
 
-    <title>Flutter ReorderableListView | 世界的盡頭</title>
+    <title>使用 ReorderableList 解決 Bloc 在 ListView 中頻繁的關閉與創建問題 | 世界的盡頭</title>
     
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -40,9 +40,8 @@ if (!doNotTrack) {
 }
 </script>
 
-      <meta property="og:title" content="Flutter ReorderableListView" />
-<meta property="og:description" content="使用 ReorderableList 解決 Bloc 在 ListView 中頻繁的關閉與創建問題
-最近在開發 Flutter app 時遇到了一個問題：當 ListView 中，每個 child 都使用 BlocProvider，例如:
+      <meta property="og:title" content="使用 ReorderableList 解決 Bloc 在 ListView 中頻繁的關閉與創建問題" />
+<meta property="og:description" content="最近在開發 Flutter app 時遇到了一個問題：當 ListView 中，每個 child 都使用 BlocProvider，例如:
 class MyListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -194,14 +193,13 @@ class MyListView extends StatelessWidget {
         <div id="content" class="content-container">
         
 
-<h1 class="post-title">Flutter ReorderableListView</h1>
+<h1 class="post-title">使用 ReorderableList 解決 Bloc 在 ListView 中頻繁的關閉與創建問題</h1>
     
     <time>September 21, 2024</time>
     
     <div>
         <p>
-        <h1 id="使用-reorderablelist-解決-bloc-在-listview-中頻繁的關閉與創建問題">使用 ReorderableList 解決 Bloc 在 ListView 中頻繁的關閉與創建問題</h1>
-<p>最近在開發 Flutter app 時遇到了一個問題：當 <code>ListView</code> 中，每個 child 都使用 <code>BlocProvider</code>，例如:</p>
+        <p>最近在開發 Flutter app 時遇到了一個問題：當 <code>ListView</code> 中，每個 child 都使用 <code>BlocProvider</code>，例如:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyListView</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
 </span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
 </span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
