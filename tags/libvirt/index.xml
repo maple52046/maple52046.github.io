@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>libvirt on 世界的盡頭</title>
+    <title>Libvirt on 世界的盡頭</title>
     <link>https://maple52046.github.io/tags/libvirt/</link>
-    <description>Recent content in libvirt on 世界的盡頭</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Libvirt on 世界的盡頭</description>
+    <generator>Hugo</generator>
     <language>zh-hant</language>
     <lastBuildDate>Tue, 12 Aug 2014 03:22:59 +0800</lastBuildDate>
     <atom:link href="https://maple52046.github.io/tags/libvirt/index.xml" rel="self" type="application/rss+xml" />

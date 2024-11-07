@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>qemu on 世界的盡頭</title>
+    <title>Qemu on 世界的盡頭</title>
     <link>https://maple52046.github.io/tags/qemu/</link>
-    <description>Recent content in qemu on 世界的盡頭</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Qemu on 世界的盡頭</description>
+    <generator>Hugo</generator>
     <language>zh-hant</language>
     <lastBuildDate>Wed, 22 Jul 2015 11:54:40 +0800</lastBuildDate>
     <atom:link href="https://maple52046.github.io/tags/qemu/index.xml" rel="self" type="application/rss+xml" />

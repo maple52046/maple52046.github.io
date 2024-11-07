@@ -27,45 +27,52 @@
 
     
     
- 
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-GC1G5TJVGY', { 'anonymize_ip': false });
-}
-</script>
 
-      <meta property="og:title" content="OpenStack Heat 使用筆記" />
-<meta property="og:description" content="Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-GC1G5TJVGY');
+        }
+      </script>
+      <meta property="og:url" content="https://maple52046.github.io/posts/notes-openstack-heat-usage/">
+  <meta property="og:site_name" content="世界的盡頭">
+  <meta property="og:title" content="OpenStack Heat 使用筆記">
+  <meta property="og:description" content="Heat 是 OpenStack 中，負責提供 Orchestration 服務的 component。
 Heat 用 resource 來描述 OpenStack 的狀態。例如你設定一個 network resource，在這個 resource 中，設定名稱為 default。接下來 Heat 將會在你的 project 中，檢查是否有一個名稱為 default 的 network；如果沒有，則 Heat 將會在 project 建立 network。除了 network 之外，image、volume、port、instance 等都可以是 Heat 的 resource。
 Resource 之間可以建立關連性，例如你可以先建立一個 volume resource。接下來再設定一個 instance resource ，並且在 instance resource 的 block_device_mapping 的屬性中，設定與 volume resource 建立關連性。這樣 Heat 就會先檢查 volume 是否存在，然後檢查 instance 是否存在並且 volume 是否已掛載到 instance 中。
-這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 resource，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 state 來配置 Linux。" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://maple52046.github.io/posts/notes-openstack-heat-usage/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2016-06-30T15:48:16+00:00" />
-<meta property="article:modified_time" content="2016-06-30T15:48:16+00:00" />
-
+這個想法與許多 deployment 軟體相同，例如 Puppet 是讓使用者設定 resource，然後 Puppet 根據 resource 的描述去配置 Linux；而 Saltstack 則是根據 user 設定的 state 來配置 Linux。">
+  <meta property="og:locale" content="zh_hant">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2016-06-30T15:48:16+00:00">
+    <meta property="article:modified_time" content="2016-06-30T15:48:16+00:00">
+    <meta property="article:tag" content="Heat">
+    <meta property="article:tag" content="Openstack">
+    <meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png">
 </head>
 
     <body>
         
 <nav>
-  <header>
+    <header>
     <div class="site-title">
         <a href="/">世界的盡頭</a>
     </div>  
 </header>
 
-  <div class="nav-menu">
-  
-  <a class="color-link nav-link" href="https://maple52046.github.io/index.xml" target="_blank" rel="noopener" type="application/rss+xml">RSS</a>
-</div>
-<footer class="footer">
+    <div class="nav-menu">
+         
+    </div>
+    <footer class="footer">
 	<div class="social-icons">
         
     <a class="social-icon" href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="Email">

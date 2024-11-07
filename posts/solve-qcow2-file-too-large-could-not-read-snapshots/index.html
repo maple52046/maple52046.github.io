@@ -27,46 +27,50 @@
 
     
     
- 
+
     
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-GC1G5TJVGY', { 'anonymize_ip': false });
-}
-</script>
-
-      <meta property="og:title" content="解決 qcow2 image : Could not read snapshots. File too large" />
-<meta property="og:description" content="在 KVM VM running 的中，執行了 qemu-img snapshot -c ....，可能是沒有算好 image 的剩餘空間，也可能是某種 bug，總之，當 VM 關機後，就再也開不起來了。
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-GC1G5TJVGY');
+        }
+      </script>
+      <meta property="og:url" content="https://maple52046.github.io/posts/solve-qcow2-file-too-large-could-not-read-snapshots/">
+  <meta property="og:site_name" content="世界的盡頭">
+  <meta property="og:title" content="解決 qcow2 image : Could not read snapshots. File too large">
+  <meta property="og:description" content="在 KVM VM running 的中，執行了 qemu-img snapshot -c ....，可能是沒有算好 image 的剩餘空間，也可能是某種 bug，總之，當 VM 關機後，就再也開不起來了。
 qemu-img info 會產生錯誤：
-Host1 # qemu-img info portal.img
-qemu-img: Could not open &#39;portal.img&#39;: Could not read snapshots: File too large
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://maple52046.github.io/posts/solve-qcow2-file-too-large-could-not-read-snapshots/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2015-07-22T11:54:40+08:00" />
-<meta property="article:modified_time" content="2015-07-22T11:54:40+08:00" />
-
+Host1 # qemu-img info portal.img qemu-img: Could not open &#39;portal.img&#39;: Could not read snapshots: File too large ">
+  <meta property="og:locale" content="zh_hant">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2015-07-22T11:54:40+08:00">
+    <meta property="article:modified_time" content="2015-07-22T11:54:40+08:00">
+    <meta property="article:tag" content="Qemu">
+    <meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png">
 </head>
 
     <body>
         
 <nav>
-  <header>
+    <header>
     <div class="site-title">
         <a href="/">世界的盡頭</a>
     </div>  
 </header>
 
-  <div class="nav-menu">
-  
-  <a class="color-link nav-link" href="https://maple52046.github.io/index.xml" target="_blank" rel="noopener" type="application/rss+xml">RSS</a>
-</div>
-<footer class="footer">
+    <div class="nav-menu">
+         
+    </div>
+    <footer class="footer">
 	<div class="social-icons">
         
     <a class="social-icon" href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="Email">

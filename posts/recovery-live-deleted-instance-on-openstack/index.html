@@ -27,53 +27,55 @@
 
     
     
- 
+
     
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-GC1G5TJVGY', { 'anonymize_ip': false });
-}
-</script>
-
-      <meta property="og:title" content="復原 OpenStack 中被刪除的 instance" />
-<meta property="og:description" content="上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。
-Unstall 時已經很習慣用 apt-get &ndash;purge install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 /var/lib/nova/instance 用 ceph 分享給所有 compute。
-所以&hellip;悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。
-所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。
-這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-GC1G5TJVGY');
+        }
+      </script>
+      <meta property="og:url" content="https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/">
+  <meta property="og:site_name" content="世界的盡頭">
+  <meta property="og:title" content="復原 OpenStack 中被刪除的 instance">
+  <meta property="og:description" content="上週五在測試 puppet 全自動安裝 Openstack compute，大概是 class dependency 沒有設好的原因，總之 puppet 在安裝 compute 時總是會漏掉許多設定值。因此，我不斷地做 install/uninstall 來做測試。
+Unstall 時已經很習慣用 apt-get –purge install nova-* quantum-* 。原本這行指令並沒有甚麼問題，但在於實驗的cloud環境，將 /var/lib/nova/instance 用 ceph 分享給所有 compute。
+所以…悲劇發生了，所有 running 中 VM 的 instance 都被我刪除了。這個問題整個周末都沒有發現，是昨天上班時，我問效維新安裝的伺服器是否有發生狀況，這時我們才發現了這個大問題。
+所幸，Linux 有個保護機制，當一個 file 被某些 process 佔用時，如果將該檔案刪除，此時系統只會將檔案 mark 為 (deleted)。 這樣一來其他 process、user 是讀取不到該檔案，但是該檔案還是繼續存在於 file system 中，直到那些所佔用 process 都結束了，這些 file 才會消失。
 回到正題，cloud 上的 VM instance 被刪除會發生甚麼狀況呢?
-
-VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能)
-VM 一旦關機，instance 就會被刪掉 =&gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來)
-
-萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =
-萬幸的是我終於找到方法了" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://maple52046.github.io/posts/recovery-live-deleted-instance-on-openstack/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2013-10-21T21:25:11+08:00" />
-<meta property="article:modified_time" content="2013-10-21T21:25:11+08:00" />
-
+VM 沒有關機，但是他也不能做 clone (在 Openstack Dashbard 上是 snaphost 功能) VM 一旦關機，instance 就會被刪掉 =&gt; user 的資料消失(除非 user 放在 volume 裡面，而我們系統將 volume 獨立開來) 萬一整個 cloud 上所有 user 的資料都消失了，那我想我應該會被罵到死吧= =
+萬幸的是我終於找到方法了">
+  <meta property="og:locale" content="zh_hant">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2013-10-21T21:25:11+08:00">
+    <meta property="article:modified_time" content="2013-10-21T21:25:11+08:00">
+    <meta property="article:tag" content="Openstack">
+    <meta property="article:tag" content="Libvirt">
+    <meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png">
 </head>
 
     <body>
         
 <nav>
-  <header>
+    <header>
     <div class="site-title">
         <a href="/">世界的盡頭</a>
     </div>  
 </header>
 
-  <div class="nav-menu">
-  
-  <a class="color-link nav-link" href="https://maple52046.github.io/index.xml" target="_blank" rel="noopener" type="application/rss+xml">RSS</a>
-</div>
-<footer class="footer">
+    <div class="nav-menu">
+         
+    </div>
+    <footer class="footer">
 	<div class="social-icons">
         
     <a class="social-icon" href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="Email">

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>gitlab on 世界的盡頭</title>
+    <title>Gitlab on 世界的盡頭</title>
     <link>https://maple52046.github.io/tags/gitlab/</link>
-    <description>Recent content in gitlab on 世界的盡頭</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Gitlab on 世界的盡頭</description>
+    <generator>Hugo</generator>
     <language>zh-hant</language>
     <lastBuildDate>Fri, 27 Mar 2015 15:38:23 +0800</lastBuildDate>
     <atom:link href="https://maple52046.github.io/tags/gitlab/index.xml" rel="self" type="application/rss+xml" />

@@ -27,46 +27,50 @@
 
     
     
- 
+
     
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-GC1G5TJVGY', { 'anonymize_ip': false });
-}
-</script>
-
-      <meta property="og:title" content="解決 vsftpd: &#34;500 OOPS: priv_sock_get_cmd&#34;" />
-<meta property="og:description" content="最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:
-回應:	500 OOPS: priv_sock_get_cmd
-在 server 端，/var/log/syslog 裡面看到:
-Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&#34;vsftpd&#34; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0
-" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/" /><meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2014-12-25T17:26:57+08:00" />
-<meta property="article:modified_time" content="2014-12-25T17:26:57+08:00" />
-
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-GC1G5TJVGY"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-GC1G5TJVGY');
+        }
+      </script>
+      <meta property="og:url" content="https://maple52046.github.io/posts/solve-vsftpd-500-oopspriv-sock-get-cmd/">
+  <meta property="og:site_name" content="世界的盡頭">
+  <meta property="og:title" content="解決 vsftpd: &#34;500 OOPS: priv_sock_get_cmd&#34;">
+  <meta property="og:description" content="最近結案了，開啟之前架好的 FTP server，準備上傳文件，卻發現不能登入 FTP server。在 FileZilla 上看到 client 的錯誤訊息是:
+回應:	500 OOPS: priv_sock_get_cmd 在 server 端，/var/log/syslog 裡面看到:
+Dec 25 16:46:21 portal kernel: [3212645.906540] type=1326 audit(1419497181.480:11): auid=4294967295 uid=65534 gid=65534 ses=4294967295 pid=22778 comm=&#34;vsftpd&#34; sig=31 syscall=96 compat=0 ip=0x7fff19ffec9e code=0x0 ">
+  <meta property="og:locale" content="zh_hant">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2014-12-25T17:26:57+08:00">
+    <meta property="article:modified_time" content="2014-12-25T17:26:57+08:00">
+    <meta property="article:tag" content="Vsftpd">
+    <meta property="og:image" content="https://maple52046.github.io/site-thumbnail.png">
 </head>
 
     <body>
         
 <nav>
-  <header>
+    <header>
     <div class="site-title">
         <a href="/">世界的盡頭</a>
     </div>  
 </header>
 
-  <div class="nav-menu">
-  
-  <a class="color-link nav-link" href="https://maple52046.github.io/index.xml" target="_blank" rel="noopener" type="application/rss+xml">RSS</a>
-</div>
-<footer class="footer">
+    <div class="nav-menu">
+         
+    </div>
+    <footer class="footer">
 	<div class="social-icons">
         
     <a class="social-icon" href="mailto:maple52046@gmail.com" target="_blank" rel="noopener" title="Email">
