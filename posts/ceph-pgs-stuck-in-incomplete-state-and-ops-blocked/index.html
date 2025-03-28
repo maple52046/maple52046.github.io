@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <link rel="stylesheet" href="/css/custom.css">
     <meta name="theme-color" content="#ffffff">
 
     
@@ -243,8 +244,7 @@ ceph osd lost 3 --yes-i-really-mean-it
 <pre tabindex="0"><code>pg 0.1f is stuck inactive since forever, current state incomplete, last acting []
 </code></pre><p>差別在於原本是 <strong>last acting[3]</strong>，代表最後一次是在 OSD 3 上面動作；而現在 pg 0.1f 並沒有在任何一個 OSD 上有動作。</p>
 <blockquote>
-<p><strong>PS: 此狀態是憑印象寫的，不是非常確定。但是<code>ceph osd lost</code>勢必一定要執行</strong></p>
-</blockquote>
+<p><strong>PS: 此狀態是憑印象寫的，不是非常確定。但是<code>ceph osd lost</code>勢必一定要執行</strong></p></blockquote>
 <p><strong>第三步就是執行 <code>ceph pg force_create_pg 0.1f</code></strong></p>
 <p>然後，神奇的事情來了，過沒幾分鐘後再次執行 <code>ceph health detail</code>，就沒有再看到任何 pg 0.1f 的錯誤訊息</p>
 <p><strong>第四步啟動原先四個 OSD</strong></p>

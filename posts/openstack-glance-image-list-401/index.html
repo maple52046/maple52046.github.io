@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <link rel="stylesheet" href="/css/custom.css">
     <meta name="theme-color" content="#ffffff">
 
     
@@ -47,7 +48,7 @@
   <meta property="og:site_name" content="世界的盡頭">
   <meta property="og:title" content="OpenStack Glance Image-list 401">
   <meta property="og:description" content="架設 OpenStack Juno ，安裝完 Glance 後進行測試時，glance 指令會一直出現 401 錯誤。
-root@localhost:~# glance --debug image-list curl -i -X GET -H &#39;User-Agent: python-glanceclient&#39; -H &#39;Content-Type: application/octet-stream&#39; -H &#39;Accept-Encoding: gzip, deflate, compress&#39; -H &#39;Accept: */*&#39; -H &#39;X-Auth-Token: ***&#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;sort_dir=asc&amp;limit=20 Request returned failure status 401. Invalid OpenStack Identity credentials. ">
+root@localhost:~# glance --debug image-list curl -i -X GET -H &#39;User-Agent: python-glanceclient&#39; -H &#39;Content-Type: application/octet-stream&#39; -H &#39;Accept-Encoding: gzip, deflate, compress&#39; -H &#39;Accept: */*&#39; -H &#39;X-Auth-Token: ***&#39; http://140.114.91.220:9292/v1/images/detail?sort_key=name&amp;sort_dir=asc&amp;limit=20 Request returned failure status 401. Invalid OpenStack Identity credentials.">
   <meta property="og:locale" content="zh_hant">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -210,8 +211,7 @@ DEBUG:urllib3.connectionpool:&#34;POST /v2.0/tokens HTTP/1.1&#34; 200 1084
 <blockquote>
 <p>Most of the services create the service user with the admin permission.
 This is unnecessary for token validation and they should be restricted
-to only having the service role.</p>
-</blockquote>
+to only having the service role.</p></blockquote>
 <h2 id="solution">Solution</h2>
 <p>Glance 的 user role 我本來設定是 <code>Member</code>，解決方法就是改成 <code>admin</code> role 問題就解決了</p>
         </p>

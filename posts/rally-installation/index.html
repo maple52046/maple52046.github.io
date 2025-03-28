@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <link rel="stylesheet" href="/css/custom.css">
     <meta name="theme-color" content="#ffffff">
 
     
@@ -180,22 +181,22 @@
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">Item</th>
-          <th style="text-align: left">Value</th>
+          <th>Item</th>
+          <th>Value</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">Operating System</td>
-          <td style="text-align: left">Ubuntu 12.04 x64</td>
+          <td>Operating System</td>
+          <td>Ubuntu 12.04 x64</td>
       </tr>
       <tr>
-          <td style="text-align: left">Python version</td>
-          <td style="text-align: left">Python 2.7</td>
+          <td>Python version</td>
+          <td>Python 2.7</td>
       </tr>
       <tr>
-          <td style="text-align: left">OpenStack version</td>
-          <td style="text-align: left">Grizzly (2013)</td>
+          <td>OpenStack version</td>
+          <td>Grizzly (2013)</td>
       </tr>
   </tbody>
 </table>
@@ -203,8 +204,7 @@
 <p>一開始是想要安裝在 OpenStack controller node 上，但是一直裝不起來，看起來似乎是 python module 的版本問題，不過我沒有仔細研究到底是哪個 module 的哪個版本卡住。</p>
 <p>直接在 OpenStack 上開了一個新的 VM，一樣是選擇 Ubuntu 12.04，就可以直接安裝。<em>(不過現在回想起來，應該要用 virtualenv 來裝就可以解決，也不會影響原本的系統。)</em></p>
 <blockquote>
-<p>PS: Rally 可以跟 DevStack 一起部署。參考: <a href="https://wiki.openstack.org/wiki/Rally/installation#Rally_with_DevStack_all_in_one_installation">Rally with DevStack all in one installation</a></p>
-</blockquote>
+<p>PS: Rally 可以跟 DevStack 一起部署。參考: <a href="https://wiki.openstack.org/wiki/Rally/installation#Rally_with_DevStack_all_in_one_installation">Rally with DevStack all in one installation</a></p></blockquote>
 <p><strong>Step</strong>:</p>
 <ol>
 <li>下載 source code</li>

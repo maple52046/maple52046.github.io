@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <link rel="stylesheet" href="/css/custom.css">
     <meta name="theme-color" content="#ffffff">
 
     
@@ -200,12 +201,10 @@ App bar 個人資訊區 Tab bar Tab view Tab view 裡是可滾動的內容, 這�
 <p>但是實作的過程中發現，這個方法非常的不好用。原因在於 <code>flexibleSpace</code> 還需要搭配設定 <code>expandedHeight</code> 去指定高度。而我的個人資訊中包含了非固定長度的自介，因此就需要提前計算自介區的高度然後調整 <code>expandedHeight</code>。</p>
 <p>為了省麻煩，我決定將自介包裝成 sliver 放到 appbar 底下。</p>
 <blockquote>
-<p>謎之音: 如果 <code>flexibleSpace</code> 只放頭像跟統計，那為何不乾脆放棄 <code>flexibleSpace</code>，全部都弄成 sliver，這樣連 <code>expandedHeight</code> 都可以省略了？</p>
-</blockquote>
+<p>謎之音: 如果 <code>flexibleSpace</code> 只放頭像跟統計，那為何不乾脆放棄 <code>flexibleSpace</code>，全部都弄成 sliver，這樣連 <code>expandedHeight</code> 都可以省略了？</p></blockquote>
 <p>既然 app bar 與 tab bar 之間有 widgets，那麼 tab bar 就不能放到 app bar 的 <code>bottom</code>，它必須也是獨立的 sliver。</p>
 <blockquote>
-<p>謎之音：既然 app bar 需要一直固定在上方，那現在還有需要使用 SliverAppBar 嗎？</p>
-</blockquote>
+<p>謎之音：既然 app bar 需要一直固定在上方，那現在還有需要使用 SliverAppBar 嗎？</p></blockquote>
 <h1 id="sliver-tab-bar">Sliver Tab bar</h1>
 <p>Flutter 的 <a href="https://api.flutter.dev/flutter/material/TabBar-class.html">TabBar</a> 並不是一個 sliver widget，再加上我需要讓 tab bar 在滑動的過程中可以固定到上方，因此就需要搭配使用 <code>SliverPersistentHeader</code>。</p>
 <p><code>SliverPersistentHeader</code> 需要帶入 <code>SliverPersistentHeaderDelegate</code> 類型的 <code>delegate</code>。這裡我參考網路上的範例，做了一份自己的：</p>
@@ -419,8 +418,7 @@ App bar 個人資訊區 Tab bar Tab view Tab view 裡是可滾動的內容, 這�
 <p><img src="https://i.imgur.com/uKzlCwN.gif" alt="Imgur"></p>
 <p>實際上是 body 觸及頂部的時候，<code>innerBoxScrolled</code> 才變更為 <code>true</code>。於是就變成這樣瞬間切圓角的搞笑畫面。</p>
 <blockquote>
-<p>這個是慢動作，滑快一點的話就看不出來了?! XD</p>
-</blockquote>
+<p>這個是慢動作，滑快一點的話就看不出來了?! XD</p></blockquote>
 <h1 id="nestedscrollview--customscrollview">NestedScrollView + CustomScrollView</h1>
 <p>在經過一番思考與嘗試之後，我將架構調整如下：</p>
 <p><img src="https://i.imgur.com/HU3Au11.png" alt="Imgur"></p>

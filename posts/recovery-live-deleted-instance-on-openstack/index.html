@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <link rel="stylesheet" href="/css/custom.css">
     <meta name="theme-color" content="#ffffff">
 
     
@@ -262,8 +263,7 @@ root@local# cp 4 ~/backup/19664c67-5831-4ebe-a1e5-1cb808ec2d81/console.log
 root@local# cp 14 ~/backup/_base/05a559eb870ea8c8e3142a7269f2c1dd8bd69321
 </code></pre><p>重複以上的步驟直到所有 VM 的 instances、base image 都備份完成</p>
 <blockquote>
-<p>一般來說，一個 base image 會開出很多的 VM instance。因此相同的 base image 只要 copy 一份即可</p>
-</blockquote>
+<p>一般來說，一個 base image 會開出很多的 VM instance。因此相同的 base image 只要 copy 一份即可</p></blockquote>
 <h2 id="第四步">第四步</h2>
 <p>完成備份之後，將所有的 VM 關機 <strong>(這個步驟一定要用 virsh 指令，不可以使用 openstack dashboard)</strong>:</p>
 <pre tabindex="0"><code>root@local# virsh list --all

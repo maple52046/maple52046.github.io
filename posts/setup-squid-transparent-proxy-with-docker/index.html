@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <link rel="stylesheet" href="/css/custom.css">
     <meta name="theme-color" content="#ffffff">
 
     
@@ -216,8 +217,7 @@ $ echo &#34;tmpfs /var/spool/squid3/ tmpfs defaults,size=256m,mode=1777 0 0&#34;
 $ sudo mount /var/spool/squid3
 </code></pre><p>ps: <strong><code>tee</code> 這個指令千萬別忘了加上 <code>-a</code>，免得 <code>/etc/fstab</code> 的內容會被覆蓋。</strong></p>
 <blockquote>
-<p>手動掛載 <code>sudo mount -t tmpfs -o size=256M,mode=1777 tmpfs /var/spool/squid3</code></p>
-</blockquote>
+<p>手動掛載 <code>sudo mount -t tmpfs -o size=256M,mode=1777 tmpfs /var/spool/squid3</code></p></blockquote>
 <h2 id="3-運行-container">3. 運行 Container</h2>
 <p>裝好 Docker 之後，接下來我們要運行 container。在網路上已經有安裝好的 docker image，可以直接從 docker.io 上下載。在這裡我選的是 <a href="https://github.com/sameersbn/docker-squid">sameersbn/squid:3.3.8-4</a> 。</p>
 <p>執行 <code>docker run</code> 指令，下載 docker image 並運行 Squid container：</p>
@@ -307,8 +307,7 @@ ssl_bump none all
 <p>首先必需先安裝 OpenSSL。在 Gentoo 上應該是 <code>dev-libs/openssl</code>;而 Ubuntu 上則只需要 <code>apt-get install openssl</code> 即可。</p>
 <blockquote>
 <p>產生出來的 certificate 必須要 Squid 能讀取到。因此，如果你有安裝我之前的步驟，將實體機上的某個資料夾掛載到 container，例如： <code>/etc/squid3</code> 之類，你就可以利用這些資料夾來傳檔案；
-若否，則建議直接在 container 中執行這個步驟。（例如可以 <code>docker exec -it squid3 openssl ......</code> 但是這樣路徑必須要是絕對路徑，例如 <code>/etc/squid3/squid-server.key</code>)</p>
-</blockquote>
+若否，則建議直接在 container 中執行這個步驟。（例如可以 <code>docker exec -it squid3 openssl ......</code> 但是這樣路徑必須要是絕對路徑，例如 <code>/etc/squid3/squid-server.key</code>)</p></blockquote>
 <p>安裝好之後，接下來安裝以下指令步驟：</p>
 <pre tabindex="0"><code>$ openssl genrsa -des3 -out squid-server.key 1024
 Generating RSA private key, 1024 bit long modulus

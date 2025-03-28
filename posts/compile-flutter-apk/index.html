@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <link rel="stylesheet" href="/css/custom.css">
     <meta name="theme-color" content="#ffffff">
 
     
@@ -48,7 +49,7 @@
   <meta property="og:title" content="編譯 Flutter APK">
   <meta property="og:description" content="本文主要紀錄使用 flutter 編譯 app apk 時遇到的問題與解法。
 版本資訊:
-# Version Flutter 3.0.1 Host OS MacOS Big Sur (11.3.1) Android Studio 2020.3 (AI-203.7717.56.2031.7678000) Android Platform Tool r33.0.2 OpenJDK 18.0.1.1 Android (phone) 11 ">
+# Version Flutter 3.0.1 Host OS MacOS Big Sur (11.3.1) Android Studio 2020.3 (AI-203.7717.56.2031.7678000) Android Platform Tool r33.0.2 OpenJDK 18.0.1.1 Android (phone) 11">
   <meta property="og:locale" content="zh_hant">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -290,8 +291,7 @@
 <li>安裝完 OpenJDK 之後，接下來就是更換 jdk。這裡提供我的(有點暴力)作法:</li>
 </ol>
 <blockquote>
-<p>注意: <!-- raw HTML omitted --><strong>替換掉 OpenJDK 版本可能會讓 Android Studio 無法使用</strong><!-- raw HTML omitted -->，因此如果習慣用 Android Studio 開發的朋友請謹慎。另外最好也做一個備份。</p>
-</blockquote>
+<p>注意: <!-- raw HTML omitted --><strong>替換掉 OpenJDK 版本可能會讓 Android Studio 無法使用</strong><!-- raw HTML omitted -->，因此如果習慣用 Android Studio 開發的朋友請謹慎。另外最好也做一個備份。</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /Applications/Android Studio.app/Contents/jre
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># tar jcf ~/Downloads/AndroidStudioJDK_backup.tar.bz2 Contents/</span>
 </span></span><span style="display:flex;"><span>rm -rf Contents

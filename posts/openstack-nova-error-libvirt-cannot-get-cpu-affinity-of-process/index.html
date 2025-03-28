@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <link rel="stylesheet" href="/css/custom.css">
     <meta name="theme-color" content="#ffffff">
 
     
@@ -47,7 +48,7 @@
   <meta property="og:site_name" content="世界的盡頭">
   <meta property="og:title" content="OpenStack Nova error: libVirt cannot get CPU affinity of process 30619">
   <meta property="og:description" content="Nova-compute 無法運行，在 log 中發現:
-2015-02-11 15:34:05.511 30827 TRACE nova File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 187, in doit 2015-02-11 15:34:05.511 30827 TRACE nova result = proxy_call(self._autowrap, f, *args, **kwargs) 2015-02-11 15:34:05.511 30827 TRACE nova File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 147, in proxy_call 2015-02-11 15:34:05.511 30827 TRACE nova rv = execute(f,*args,**kwargs) 2015-02-11 15:34:05.511 30827 TRACE nova File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 76, in tworker 2015-02-11 15:34:05.511 30827 TRACE nova rv = meth(*args,**kwargs) 2015-02-11 15:34:05.511 30827 TRACE nova File &#34;/usr/lib/python2.7/dist-packages/libvirt.py&#34;, line 2096, in vcpus 2015-02-11 15:34:05.511 30827 TRACE nova if ret == -1: raise libvirtError (&#39;virDomainGetVcpus() failed&#39;, dom=self) 2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process 2015-02-11 15:34:05.511 30827 TRACE nova ">
+2015-02-11 15:34:05.511 30827 TRACE nova File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 187, in doit 2015-02-11 15:34:05.511 30827 TRACE nova result = proxy_call(self._autowrap, f, *args, **kwargs) 2015-02-11 15:34:05.511 30827 TRACE nova File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 147, in proxy_call 2015-02-11 15:34:05.511 30827 TRACE nova rv = execute(f,*args,**kwargs) 2015-02-11 15:34:05.511 30827 TRACE nova File &#34;/usr/lib/python2.7/dist-packages/eventlet/tpool.py&#34;, line 76, in tworker 2015-02-11 15:34:05.511 30827 TRACE nova rv = meth(*args,**kwargs) 2015-02-11 15:34:05.511 30827 TRACE nova File &#34;/usr/lib/python2.7/dist-packages/libvirt.py&#34;, line 2096, in vcpus 2015-02-11 15:34:05.511 30827 TRACE nova if ret == -1: raise libvirtError (&#39;virDomainGetVcpus() failed&#39;, dom=self) 2015-02-11 15:34:05.511 30827 TRACE nova libvirtError: cannot get CPU affinity of process 30619: No such process 2015-02-11 15:34:05.511 30827 TRACE nova">
   <meta property="og:locale" content="zh_hant">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">

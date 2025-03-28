@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <link rel="stylesheet" href="/css/custom.css">
     <meta name="theme-color" content="#ffffff">
 
     
@@ -189,8 +190,7 @@
 前置步驟與<a href="http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch">上一篇</a>一模一樣，包含如果要順便編譯 openvswitch。</li>
 </ol>
 <blockquote>
-<p>注意：如果先前已經有編譯過了，想要使用原本的 source code。則會需要清除先前編譯產生的檔案，否則無法順利編譯。請參考<a href="#appendix">附錄</a>說明</p>
-</blockquote>
+<p>注意：如果先前已經有編譯過了，想要使用原本的 source code。則會需要清除先前編譯產生的檔案，否則無法順利編譯。請參考<a href="#appendix">附錄</a>說明</p></blockquote>
 <ol start="2">
 <li><!-- raw HTML omitted -->執行 <code>make menuconfig</code> 開始進行選擇編譯選項</li>
 </ol>
@@ -206,7 +206,7 @@
 <li><code>make V=s</code> 進行編譯</li>
 </ol>
 <p>其餘的步驟皆與<a href="http://worldend.logdown.com/posts/256561-compile-openwrt-with-open-vswitch">前一篇</a>雷同</p>
-<h1 id="a-nameappendix-附錄"><!-- raw HTML omitted -->附錄</h1>
+<h1 id="附錄"><!-- raw HTML omitted -->附錄</h1>
 <p>如果先前已經有編譯過了，想要使用原本的 source code，必須要額外作一些工作</p>
 <ol>
 <li>在 source code 目錄下執行 <code>make distclean</code></li>

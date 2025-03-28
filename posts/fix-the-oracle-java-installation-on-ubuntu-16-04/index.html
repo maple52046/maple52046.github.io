@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#FF3DB4">
+    <link rel="stylesheet" href="/css/custom.css">
     <meta name="theme-color" content="#ffffff">
 
     
@@ -206,7 +207,6 @@ dpkg: error processing package oracle-java9-installer (--configure):
  subprocess installed post-installation script returned error exit status 1
 E: Sub-process /usr/bin/dpkg returned an error code (1)
 </code></pre><p>在等待官方之餘，嘗試先自己修改 deb 來解決這個問題。</p>
-<!-- raw HTML omitted -->
 <hr>
 <h1 id="solution">Solution</h1>
 <h2 id="install-tools">Install tools</h2>
@@ -229,8 +229,7 @@ sudo apt-src install oracle-java9-installer
 <p>先到 <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk9-downloads-3848520.html">Oracle 官網</a> 去確認安裝檔的路徑：</p>
 <p><img src="https://i.imgur.com/YN0S4mp.png" alt=""></p>
 <blockquote>
-<p>安裝檔 <code>jdk-9.0.1_linux-x64_bin.tar.gz</code> 的下載位址為：http://download.oracle.com/otn-pub/java/jdk/9.0.1+11/jdk-9.0.1_linux-x64_bin.tar.gz</p>
-</blockquote>
+<p>安裝檔 <code>jdk-9.0.1_linux-x64_bin.tar.gz</code> 的下載位址為：http://download.oracle.com/otn-pub/java/jdk/9.0.1+11/jdk-9.0.1_linux-x64_bin.tar.gz</p></blockquote>
 <p>編輯 <code>~/oracle-java/oracle-java9-installer-9b181/debian/oracle-java9-installer.postinst</code>:</p>
 <ul>
 <li>將 <code>JAVA_VERSION_MAJOR</code> (line 68) 修改成 <strong><code>9.0.1</code></strong></li>
